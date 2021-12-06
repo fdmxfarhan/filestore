@@ -20,7 +20,7 @@ var dashboardRoute = require('./routes/dashboard');
 
 
 // Mongo DB connect
-mongoose.connect('mongodb://localhost/sibche', {useNewUrlParser: true, useUnifiedTopology: true}, (err) =>{
+mongoose.connect('mongodb://localhost/filestore', {useNewUrlParser: true, useUnifiedTopology: true}, (err) =>{
     if(err) throw err;
     else console.log('Database connected :)');
 });
@@ -129,7 +129,7 @@ httpsServer.listen(443);
 console.log('server is started :)')
 
 // app.listen(port, () => {
-//   console.log(`Juniorcup is started at port ${port}`);
+//   console.log(`filestore is started at port ${port}`);
 // });
 
 
@@ -143,13 +143,13 @@ seo.setConfig({
 // Set the default tags
 seo.setDefaults({
     // html: "<a href='https://www.instagram.com/junior_cup/'>Follow me on instagram</a>" // Special property to insert html in the body (interesting to insert links)
-    title: "جونیورکاپ", // Page title
+    title: "فایل استور", // Page title
     // All the other properties will be inserted as a meta property
     description: {
-        en: "juniorcup",
-        fa: "جونیور کاپ"
+        en: "filestore",
+        fa: "فایل استور"
     },
-    image: "https://juniorcup.ir/images/landing/Juniorcup2021b-min.jpg"
+    image: "/img/logo.png"
 });
  
 // Create an seo route
@@ -162,7 +162,7 @@ seo.add("/contact", function(req, opts, next) {
     }
     */
     next({
-        description: "برگزاری سیزدهمین دوره برگزاری مسابقات رباتیک جوینورکاپ"
+        description: "فایل استور. سامانه مدیریت فایل."
     });
 });
 
