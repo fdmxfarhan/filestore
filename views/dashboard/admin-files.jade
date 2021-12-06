@@ -1,0 +1,54 @@
+extends layout
+
+block styles
+    link(rel="stylesheet", href="/css/dashboard/files.css")
+
+block content
+    .title-view 
+        h1 فایل ها
+        h2 
+    .content-view 
+        .users-view 
+            table 
+                tr 
+                    th کاربر
+                    th نقش
+                    th حساب ها
+                    th 
+                    th 
+                //- -for(var i=0; i<users.length; i++){
+                //-     tr 
+                //-         td.user 
+                //-             h1= users[i].fullname
+                //-             h2
+                //-                 a(href="tel:#{users[i].phone}")= users[i].phone
+                //-         td.role 
+                //-             -if(users[i].role == 'user'){
+                //-                 -if(users[i].chahvand)
+                //-                     a.role-chah(href="/dashboard/make-admin?userID=#{users[i]._id}") چاه‌وند
+                //-                 -else
+                //-                     a.role-user(href="/dashboard/make-admin?userID=#{users[i]._id}") آب‌وند
+                //-             -}if(users[i].role == 'admin')
+                //-                 a.role-admin(href="/dashboard/make-user?userID=#{users[i]._id}") میراب 
+                            
+                //-         td.acounts 
+                //-             h1 منطقه #{11}
+                //-             h2 دسترسی به #{20} فایل
+                //-         td
+                //-             a.edit(href="/dashboard/user-view?userID=#{users[i]._id}") 
+                //-                 i.fa.fa-eye 
+                //-         td
+                //-             a.trash(href="/dashboard/delete-user?userID=#{users[i]._id}") 
+                //-                 i.fa.fa-trash 
+                //- -}
+        .user-control 
+            .control 
+                .search-view
+                    input(type="text" placeholder="جستجو")
+                    button
+                        i.fa.fa-search
+                a.add-user#add-user-btn
+                    i.fa.fa-plus 
+                    | افزودن فایل
+    include ../components/file-popup
+    script(src="/js/files.js") 

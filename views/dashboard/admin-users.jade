@@ -1,0 +1,51 @@
+extends layout
+
+block styles
+    link(rel="stylesheet", href="/css/dashboard/users-view.css")
+
+block content
+    .title-view 
+        h1 کاربران
+        h2 #{users.filter(e => e.role == 'user').length} user, #{users.filter(e => e.role == 'admin').length} admin
+    .content-view 
+        .users-view 
+            table 
+                tr 
+                    th کاربر
+                    th نقش
+                    th حساب ها
+                    th 
+                    th 
+                -for(var i=0; i<users.length; i++){
+                    tr 
+                        td.user 
+                            h1= users[i].fullname
+                            h2
+                                a(href="tel:#{users[i].phone}")= users[i].phone
+                        td.role 
+                            -if(users[i].role == 'user'){
+                                a.role-user(href="/dashboard/make-admin?userID=#{users[i]._id}") user
+                            -}if(users[i].role == 'admin')
+                                a.role-admin(href="/dashboard/make-user?userID=#{users[i]._id}") admin
+                            
+                        td.acounts 
+                            h1 منطقه #{11}
+                            h2 دسترسی به #{0} فایل
+                        td
+                            a.edit(href="/dashboard/user-view?userID=#{users[i]._id}") 
+                                i.fa.fa-eye 
+                        td
+                            a.trash(href="/dashboard/delete-user?userID=#{users[i]._id}") 
+                                i.fa.fa-trash 
+                -}
+        .user-control 
+            .control 
+                .search-view
+                    input(type="text" placeholder="جستجو")
+                    button
+                        i.fa.fa-search
+                a.add-user#add-user-btn
+                    i.fa.fa-plus 
+                    | افزودن کاربر
+    include ../components/register-popup
+    script(src="/js/users-view.js") 

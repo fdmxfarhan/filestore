@@ -1,7 +1,7 @@
 /* --------- Declarations ----------- */
 @font-face{
     font-family: 'iransans';
-    src: url('iransans.ttf');
+    src: url('../iransans.ttf');
 }
 
 @keyframes fade {
@@ -17,17 +17,22 @@
     to {margin-top: 0.5vw;}
 }
 :root {
-    /* --purple: #8305be; */
-    --background: #ececec;
-    --brown: #3e2917;
-    --blue: #1971e4;
-    --sibche: #3eade0;
-    --hover: #8305be;
-    --dark: #050507;
-    --light: white;
-    --kerem: #eec278;
-    --red: #ff0000;
-    --textcolor: rgb(29, 29, 29);
+    --dark-background: #324054;
+    --light-background: #ebf3f2;
+    --dark: #2b3546;
+    --text: #6a6f75;
+    --darkblue: #2781aa;
+    --blue: #28A5DC;
+    --lightgray: #CACFD6;
+    --orange: #FF8A47;
+    --hover: #FF8A47;
+    --purple: #AA0080;
+    --green: #00DB68;
+    --lightblue: #cbdde7;
+    --lightergray: #EAF2F6;
+    --grayblue: #e0e7ee;
+    --gray: #848C98;
+    --red: #FF785A;
 }
 body{
     margin: 0;
@@ -38,7 +43,11 @@ body{
     direction: rtl;
     background-color: white;
 }
-
+body::-webkit-scrollbar {width: 0.5vw;}
+body::-webkit-scrollbar-track {background: var(--gray);}
+body::-webkit-scrollbar-thumb {background: var(--dark);}
+body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
+.hidden{display: none;}
 .black-modal{
     display: none;
     position: fixed;
@@ -66,22 +75,22 @@ body{
 
 @media only screen and (min-width: 800px) {
     .dashboard .side-bar{
-        background-color: var(--sibche);
+        background-color: var(--dark-background);
         position: fixed;
         height: 100%;
         margin: 0;
-        width: 20%;
+        width: 15%;
     }
     .dashboard .content-area{
-        background-color: var(--background);
+        background-color: var(--light-background);
         margin: 0;
         overflow: hidden;
-        width: 80%;
-        margin-right: 20%;
+        width: 85%;
+        margin-right: 15%;
         min-height: 100vh;
     }
     .dashboard .side-bar .avatar{
-        width: 60%;
+        width: 30%;
         margin: auto;
         margin-top: 2vw;
     }
@@ -91,7 +100,7 @@ body{
         font-family: 'iransans';
         font-size: 1.5vw;
         text-align: center;
-        color: var(--brown);
+        color: var(--light-background);
     }
     .dashboard .side-bar .nav-links{
         margin: 3vw 0;
@@ -101,16 +110,21 @@ body{
         text-decoration: none;
         font-family: 'iransans';
         padding: 0.4vw 2vw;
-        font-size: 1.4vw;
+        font-size: 1.2vw;
         display: block;
     }
     .dashboard .side-bar .nav-links a.sidebar-nav-link:hover{
         color: white;
-        background-color: #aee5ff;
+        background-color: var(--dark);
     }
+    .dashboard .side-bar .nav-links a.sidebar-nav-link.active{
+        color: white;
+        background-color: var(--dark);
+    }
+    
     .dashboard .side-bar i{
         padding-left: 1vw;
-        font-size: 2vw;
+        font-size: 1.5vw;
     }
     .dashboard .side-bar .nav-links .break{
         background-color: var(--background);
@@ -124,7 +138,7 @@ body{
         text-decoration: none;
         font-family: 'iransans';
         padding: 0.4vw 2vw;
-        font-size: 1.5vw;
+        font-size: 1.2vw;
         font-weight: bold;
         text-align: center;
         position: absolute;
@@ -160,45 +174,592 @@ body{
     .dashboard .content-area .message-area i.close-success-msg:hover, .dashboard .content-area .message-area i.close-notif-msg:hover{
         color: var(--red);
     }
-    .popup-area{
+    .popup{
+        display: none;
         position: fixed;
         top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        left: 14%;
         z-index: 11;
-    }
-    .popup-area .popup{
         background-color: white;
-        width: 75%;
+        width: 70%;
         margin: 5vw auto;
-        border-radius: 1vw;
-        position: relative;
+        border-radius: 0.3vw;
         padding: 2vw;
     }
-    .popup-area .popup .close-popup{
+    .popup.w40p{
+        width: 40%;
+        left: 26%;
+    }
+    .popup .close-popup{
         position: absolute;
-        top: 1.5vw;
+        top: 1.2vw;
         left: 2vw;
         font-size: 1.3vw;
         cursor: pointer;
+        color: var(--lightgray);
     }
-    .popup-area .popup .close-popup:hover{
+    .popup .close-popup:hover{
         color: var(--red);
     }
-    .popup-area .popup h1.popup-title{
+    .popup .title-line{
+        width: 90%;
+        margin: 1.5vw auto;
+        background-color: var(--lightgray);
+        height: 0.1vw;
+        position: relative;
+    }
+    .popup .popup-title{
+        position: absolute;
+        top: -1.2vw;
+        width: 100%;
+    }
+    .popup .popup-title h1{
         margin: 0;
         font-family: 'iransans';
         font-size: 1.3vw;
-        color: var(--blue);
-        border-bottom: var(--blue) 0.1vw solid;
-        width: 50%;
+        color: var(--gray);
+        width: fit-content;
         margin: auto;
         text-align: center;
         margin-bottom: 1vw;
+        background-color: white;
+        text-align: center;        
+        padding: 0 1vw;
     }
+    .popup .description{
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--gray);
+        margin: auto;
+        text-align: center;
+        margin-top: 2vw;
+        margin-bottom: 1vw;
+    }
+    .popup .two-side-form{
+        overflow: hidden;
+    }
+    .popup .one-side-form{
+        overflow: hidden;
+    }
+    .popup .one-side-form .text-input-area{
+        width: 90%;
+        margin: auto;
+        margin-bottom: 1vw;
+    }
+    .popup .one-side-form .text-input-area label{
+        display: block;
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--dark-background);
+    }
+    .popup .one-side-form .text-input-area input{
+        border: none;
+        border-radius: 0.3vw;
+        background-color: var(--grayblue);
+        padding: 0.5vw 1vw;
+        display: block;
+        width: 95%;
+        font-family: 'iransans';
+        font-size: 1vw;
+        margin: 0;
+    }
+    .popup .one-side-form .text-input-area input:focus{
+        outline: none;
+    }
+    .popup .one-side-form .text-input-area label i{
+        color: var(--dark-background);
+        padding-left: 0.5vw;
+    }
+    .popup .one-side-form button.submit{
+        background-color: var(--blue);
+        color: white;
+        display: block;
+        font-family: 'iransans';
+        font-size: 1vw;
+        border-radius: 0.3vw;
+        border: none;
+        padding: 0.5vw 0;
+        cursor: pointer;
+        width: 90%;
+        margin: auto;
+        margin-top: 2vw;
+    }
+    .popup .two-side-form .part{
+        float: right;
+        width: 50%;
+        text-align: center;
+    }
+    .popup .two-side-form .part .text-input-area{
+        width: 90%;
+        padding: 0.7vw 1vw;
+        direction: rtl;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .popup .two-side-form .part .text-input-area input{
+        display: block;
+        width: 70%;
+        box-shadow: 0 0 0.5vw 0.1vw rgba(0, 0, 0, 0.2);
+        border-radius: 2vw;
+        border: white 0.1vw solid;
+        font-family: 'iransans';
+        font-size: 1vw;
+        padding: 0.3vw 4vw;
+    }   
+    .popup .two-side-form .part .text-input-area.required input{
+        border: var(--blue) 0.1vw dashed;
+    }
+    .popup .two-side-form .part .text-input-area input:focus{
+        border: var(--blue) 0.1vw solid;
+        outline: none;
+    }
+    .popup .two-side-form .part .text-input-area i{
+        position: absolute;
+        color: var(--blue);
+        font-size: 1.3vw;
+        top: 1.2vw;
+        right: 2vw;
+    }
+    .popup .two-side-form .part .text-input-area button.submit{
+        background-color: var(--blue);
+        color: white;
+        display: block;
+        font-family: 'iransans';
+        font-size: 1.2vw;
+        border-radius: 2vw;
+        border: none;
+        padding: 0.3vw 2vw;
+        float: left;
+        margin-left: 2vw;
+        cursor: pointer;
+    }
+    .popup .two-side-form .part .text-input-area button.submit:hover{
+        background-color: var(--hover);
+    }
+    .popup .two-side-form .part .date-input-area{
+        width: 90%;
+        padding: 0.5vw 1vw;
+        direction: rtl;
+        text-align: right;
+        position: relative;
+        overflow: hidden;
+    }
+    .popup .two-side-form .part .date-input-area label{
+        font-family: 'iransans';
+        font-size: 1vw;
+    }
+    .popup .two-side-form .part .date-input-area input{
+        display: inline;
+        width: 15%;
+        box-shadow: 0 0 0.5vw 0.1vw rgba(0, 0, 0, 0.2);
+        border-radius: 2vw;
+        border: white 0.1vw solid;
+        font-family: 'iransans';
+        font-size: 1vw;
+        padding: 0.3vw 1vw;
+    }
+    .popup .two-side-form .part .select-input-area{
+        width: 90%;
+        padding: 0.5vw 1vw;
+        direction: rtl;
+        text-align: right;
+        position: relative;
+        overflow: hidden;
+    }
+    .popup .two-side-form .part .select-input-area label{
+        font-family: 'iransans';
+        font-size: 1vw;
+    }
+    .popup .two-side-form .part .select-input-area select{
+        display: inline;
+        width: 50%;
+        box-shadow: 0 0 0.5vw 0.1vw rgba(0, 0, 0, 0.2);
+        border-radius: 2vw;
+        border: white 0.1vw solid;
+        font-family: 'iransans';
+        font-size: 1vw;
+        padding: 0.3vw 1vw;
+    }
+    
+    .errors-area{
+        /* background-color: coral; */
+        position: fixed;
+        width: 40vw;
+        bottom: 0;
+        left: 2vw;
+        z-index: 100;
+    }
+    .errors-area .error{
+        background-color: rgba(220, 20, 20, 0.842);
+        position: relative;
+        margin: 1vw;
+        border-radius: 1vw;
+        color: white;
+        padding: 0.7vw 1vw;
+        padding-bottom: 0;
+    }
+    .errors-area .error.green-error{
+        background-color: rgba(1, 170, 9, 0.842);
+        position: relative;
+        margin: 1vw;
+        border-radius: 1vw;
+        color: white;
+        padding: 0.7vw 1vw;
+        padding-bottom: 0;
+    }
+    
+    .errors-area .error h1{
+        display: inline-block;
+        padding-right: 0;
+        margin: 0;
+        font-family: 'iransans';
+        font-size: 1.2vw;
+    }
+    .errors-area .error i{
+        display: inline-block;
+        padding-left: 1vw;
+    }
+    .errors-area .error i.close-error{
+        position: absolute;
+        top: 1vw;
+        left: 0;
+        cursor: pointer;
+    }
+    .errors-area .error .time-interval{
+        background-color: rgba(255, 255, 255, 0.664);
+        /* position: absolute;
+        bottom: 0; */
+        width: 0;
+        height: 0.3vw;
+        margin-top: 0.5vw;
+    }
+    .popup .middle-col {
+        width: 50%;
+        margin: auto;
+    }
+    .popup .middle-col .text-input{
+        width: 100%;
+        padding: 0.7vw 1vw;
+        direction: rtl;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 2vw;
+    }
+    .popup .middle-col .text-input input{
+        display: block;
+        width: 70%;
+        box-shadow: 0 0 0.5vw 0.1vw rgba(0, 0, 0, 0.2);
+        border-radius: 2vw;
+        border: white 0.1vw solid;
+        font-family: 'iransans';
+        font-size: 1vw;
+        padding: 0.3vw 4vw;
+    }   
+    .popup .middle-col .text-input input:focus{
+        border: var(--blue) 0.1vw solid;
+        outline: none;
+    }
+    .popup .middle-col .text-input i{
+        position: absolute;
+        color: var(--blue);
+        font-size: 1.3vw;
+        top: 1.2vw;
+        right: 2vw;
+    }
+    .upload-area {
+        border: lightblue 2px dashed;
+        position: relative;
+        cursor: pointer;
+        padding: 2vw 0;
+        text-align: center;
+        color: #798AAF;
+        font-family: 'iransans';
+        font-size: 1.3vw;
+        width: 98%;
+        border-radius: 1vw;
+        margin-bottom: 1vw;
+    }
+    .upload-area i{
+        padding: 0 0.5vw;
+    }
+    input.file {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+    .title-view {
+        background-color: white;
+        overflow: hidden;
+        width: 90%;
+        margin: 2vw auto;
+        box-shadow: 0 0 0.3vw 0.1vw rgba(0, 0, 0, 0.1);
+        border-radius: 0.3vw;
+    }
+    .title-view h1{
+        margin: 0;
+        padding: 1vw 2vw;
+        float: right;
+        font-family: 'iransans';
+        font-size: 1.4vw;
+        color: var(--text);
+    }
+    .title-view h2{
+        margin: 0;
+        padding: 1.5vw 2vw;
+        float: left;
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--lightgray);
+        direction: ltr;
+    }
+    .content-view {
+        overflow: hidden;
+        width: 90%;
+        margin: auto;
+        padding: 0 2%;
+    }
+    .content-view .users-view {
+        float: right;
+        width: 74%;
+        margin-left: 2%;
+        margin-top: 1vw;
+        margin-bottom: 1vw;
+        background-color: white;
+        box-shadow: 0 0 0.3vw 0.1vw rgba(0, 0, 0, 0.1);
+        border-radius: 0.3vw;
+    }
+    .content-view .user-control {
+        float: right;
+        width: 24%;
+    }
+    .content-view .users-view table{
+        width: 90%;
+        margin: 1vw auto;
+        text-align: right;
+    }
+    .content-view .users-view table tr:hover td{background-color: rgb(241, 241, 241);}
+    .content-view .users-view table th{
+        color: var(--lightgray);
+        font-size: 1vw;
+    }
+    .content-view .users-view table td{
+        overflow: hidden;
+        border-top: rgb(233, 233, 233) 0.2vw solid;
+        margin: 0;
+        padding: 0;
+    }
+    .content-view .users-view table td.user h1{
+        margin: 0;
+        font-family: 'iransans';
+        font-size: 1.1vw;
+        color: var(--text);
+        padding: 0 0.5vw;
+    }
+    .content-view .users-view table td.user h2{
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        color: var(--lightgray);
+        margin: 0;
+        padding: 0 0.5vw;
+    }
+    .content-view .users-view table td.user h2 a{
+        text-decoration: none;
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        color: var(--lightgray);
+        direction: ltr;
+    }
+    .content-view .users-view table td.user h2 a:hover{color: var(--blue);}
+    .content-view .users-view table td.role .role-user{
+        background-color: var(--green);
+        color: white;
+        font-size: 0.9vw;
+        padding: 0.2vw 0.7vw;
+        border-radius: 0.5vw;
+        width: fit-content;
+        text-decoration: none;
+        display: block;
+    }
+    .content-view .users-view table td.role .role-admin{
+        background-color: var(--orange);
+        color: white;
+        font-size: 0.9vw;
+        padding: 0.2vw 0.7vw;
+        border-radius: 0.5vw;
+        width: fit-content;
+        text-decoration: none;
+        display: block;
+    }
+    .content-view .users-view table td.role .role-chah{
+        background-color: var(--blue);
+        color: white;
+        font-size: 0.9vw;
+        padding: 0.2vw 0.7vw;
+        border-radius: 0.5vw;
+        width: fit-content;
+        text-decoration: none;
+        display: block;
+    }
+    .content-view .users-view table td.acounts h1{
+        margin: 0;
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--text);
+        padding: 0 0.5vw;
+    }
+    .content-view .users-view table td.acounts h2{
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        color: var(--gray);
+        margin: 0;
+        padding: 0 0.5vw;
+    }
+    .content-area .users-view table td.address{
+        max-width: 6vw;
+        font-size: 0.9vw;
+
+    }
+    .content-view .users-view table td a.edit{
+        padding: 0 0.5vw;
+        font-size: 1.5vw;
+        color: var(--green);
+    }
+    .content-view .users-view table td a.edit:hover{
+        color: var(--blue);
+    }
+    .content-view .users-view table td a.trash{
+        padding: 0 0.5vw;
+        font-size: 1.5vw;
+        color: var(--orange);
+    }
+    .content-view .users-view table td a.trash:hover{
+        color: var(--blue);
+    }
+
+    .content-view .user-control .control {
+        background-color: white;
+        box-shadow: 0 0 0.3vw 0.1vw rgba(0, 0, 0, 0.1);
+        border-radius: 0.3vw;
+        margin-top: 1vw;
+        margin-bottom: 1vw;
+        padding-bottom: 1vw;
+    }
+    .content-view .user-control .control .search-view{
+        overflow: hidden;
+        padding: 1vw 1vw;
+    }
+    .content-view .user-control .control .check-boxes{
+        padding: 1vw;
+    }
+    .content-view .user-control .control .check-boxes label{
+        font-family: 'iransans';
+        font-size: 1.1vw;
+    }
+    .content-view .user-control .control .search-view input{
+        border: var(--lightgray) 0.1vw solid;
+        font-size: 1vw;
+        font-family: 'iransans';
+        float: right;
+        width: 65%;
+        padding: 0.3vw 1vw;
+    }
+    .content-view .user-control .control .search-view input:focus{
+        outline: none;
+        border: var(--blue) 0.1vw solid;
+    }
+    .content-view .user-control .control .search-view button{
+        color: white;
+        border: none;
+        font-size: 1.3vw;
+        background-color: var(--blue);
+        float: right;
+        width: 20%;
+        text-align: center;
+        padding: 0.47vw 0;
+        cursor: pointer;
+    }
+    .content-view .user-control .control .search-view button:hover{
+        background-color: var(--orange);
+    }
+    .content-view .user-control .control a.add-user{
+        display: block;
+        background-color: var(--blue);
+        color: white;
+        text-align: center;
+        width: 89%;
+        margin: 1vw auto;
+        text-decoration: none;
+        padding: 0.5vw 0;
+        font-family: 'iransans';
+        font-size: 1vw;
+        cursor: pointer;
+    }
+    .content-view .user-control .control a.add-user:hover{
+        background-color: var(--orange);
+    }
+    .content-view .user-control .control a.add-user i{
+        padding: 0 0.5vw;
+    }
+    .content-view .user-control .statistics {
+        background-color: white;
+        box-shadow: 0 0 0.3vw 0.1vw rgba(0, 0, 0, 0.1);
+        border-radius: 0.3vw;
+        margin-top: 1vw;
+        margin-bottom: 1vw;
+        padding-bottom: 1vw;
+    }
+    .content-view .user-control .statistics h1.title{
+        color: var(--gray);
+        font-family: 'iransans';
+        font-size: 1.2vw;
+        padding: 1vw 2vw;
+        border-bottom: var(--lightgray) 0.1vw solid;
+
+    }
+    .content-view .user-control .statistics .acount {
+        overflow: hidden;
+        border-bottom: var(--lightergray) 0.1vw solid;
+        margin-top: 1vw;
+    }
+    .content-view .user-control .statistics .acount .info{
+        float: right;
+        width: 60%;
+        margin-right: 1vw;
+    }
+    .content-view .user-control .statistics .acount .info h1{
+        margin: 0;
+        font-family: 'iransans';
+        font-size: 1.1vw;
+        color: var(--blue);
+    }
+    .content-view .user-control .statistics .acount .info h2{
+        margin: 0;
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        color: var(--lightgray);
+    }
+    .content-view .user-control .statistics .acount .cap{
+        color: var(--green);
+        direction: ltr;
+        float: right;
+        font-size: 1.3vw;
+        font-weight: bold;
+    }
+    .content-view .user-control .statistics .acount .cap span{
+        /* font-weight: normal; */
+        font-size: 1vw;
+        color: var(--lightgray);
+    }    
 }
 
 @media only screen and (max-width: 800px) {
     
 }
+.invisible{display: none;}
+.visible{display: block;}

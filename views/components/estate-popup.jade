@@ -1,0 +1,36 @@
+.popup.w40p#add-estate-popup
+    i.fa.fa-times.close-popup
+    .title-line
+        .popup-title
+            h1 افزودن مشاور املاک جدید
+    .description مشاور املاک جدد می‌تواند 30 روز به صورت رایگان از امکانات فایل استور استفاده نماید.
+    form(action="/dashboard/add-estate" method="POST")
+        .one-side-form
+            .text-input-area
+                label(for="name") 
+                    i.fa.fa-user
+                    | نام مشاور املاک:
+                input.textinput(type="text" placeholder="نام مشاور املاک" name="name" value= "#{ typeof name != 'undefined' ? name: '' }")
+            .text-input-area
+                label(for="address") 
+                    i.fa.fa-map-marker
+                    | آدرس:
+                input.textinput(type="text" placeholder="آدرس" name="address" value= "#{ typeof address != 'undefined' ? address: '' }")
+            .text-input-area
+                label(for="phone") 
+                    i.fa.fa-phone
+                    | تلفن:
+                input.textinput(type="text" placeholder="تلفن" name="phone" value= "#{ typeof phone != 'undefined' ? phone: '' }")
+            .text-input-area
+                label(for="area") 
+                    i.fa.fa-pencil
+                    | شماره منطقه:
+                input.textinput(type="text" placeholder="شماره منطقه" name="area" value= "#{ typeof area != 'undefined' ? area: '' }")
+            
+            button.submit(type="submit") ثبت
+-if(errors){
+    script.
+        $('#add-estate-popup').show();
+        $('.black-modal').show();
+-}
+

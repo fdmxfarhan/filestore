@@ -1,0 +1,44 @@
+extends layout
+
+block styles
+    //- link(rel="stylesheet", href="/css/dashboard/users-view.css")
+
+block content
+    .title-view 
+        h1 مشاورین املاک
+        h2 
+    .content-view 
+        .users-view 
+            table 
+                tr 
+                    th مالک
+                    th منطقه
+                    th آدرس
+                    th کد املاک
+                    th 
+                -for(var i=0; i<estates.length; i++){
+                    tr 
+                        td.user 
+                            h1= estates[i].name
+                            h2
+                                a(href="tel:#{estates[i].phone}")= estates[i].phone
+                        td.role= estates[i].area
+                        td.address= estates[i].address
+                        td.acounts 
+                            h1 کد املاک: #{estates[i].code}
+                            h2 کلمه عبور: #{estates[i].password}
+                        td
+                            a.trash(href="/dashboard/delete-estate?estateID=#{estates[i]._id}") 
+                                i.fa.fa-trash 
+                -}
+        .user-control 
+            .control 
+                .search-view
+                    input(type="text" placeholder="جستجو")
+                    button
+                        i.fa.fa-search
+                a.add-user#add-user-btn
+                    i.fa.fa-plus 
+                    | افزودن مشاور املاک
+    include ../components/estate-popup
+    script(src="/js/estates.js") 
