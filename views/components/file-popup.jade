@@ -1,33 +1,116 @@
-.popup.file#add-estate-popup
+.popup.file#add-file-popup
     i.fa.fa-times.close-popup
     .title-line
         .popup-title
             h1 افزودن فایل جدید
     //- .description مشاور املاک جدد می‌تواند 30 روز به صورت رایگان از امکانات فایل استور استفاده نماید.
-    form(action="/dashboard/add-estate" method="POST")
-        .one-side-form
-            .text-input-area
-                label(for="name") 
-                    i.fa.fa-user
-                    | نام مشاور املاک:
-                input.textinput(type="text" placeholder="نام مشاور املاک" name="name" value= "#{ typeof name != 'undefined' ? name: '' }")
-            .text-input-area
-                label(for="address") 
-                    i.fa.fa-map-marker
-                    | آدرس:
-                input.textinput(type="text" placeholder="آدرس" name="address" value= "#{ typeof address != 'undefined' ? address: '' }")
-            .text-input-area
-                label(for="phone") 
-                    i.fa.fa-phone
-                    | تلفن:
-                input.textinput(type="text" placeholder="تلفن" name="phone" value= "#{ typeof phone != 'undefined' ? phone: '' }")
-            .text-input-area
-                label(for="area") 
-                    i.fa.fa-pencil
-                    | شماره منطقه:
-                input.textinput(type="text" placeholder="شماره منطقه" name="area" value= "#{ typeof area != 'undefined' ? area: '' }")
-            
-            button.submit(type="submit") ثبت
+    form(action="/dashboard/add-file" method="POST")
+        .multi-column-form
+            .col50
+                .double-text-input
+                    label(for="ownerName") نام مالک
+                    input.textinput(type="text" placeholder="" name="ownerName" value= "#{ typeof ownerName != 'undefined' ? ownerName: '' }")
+                    label(for="constPhone") تلفن
+                    input.textinput(type="text" placeholder="" name="constPhone" value= "#{ typeof constPhone != 'undefined' ? constPhone: '' }")
+                .text-area-input 
+                    label(for="address") آدرس
+                    textarea(name="address")
+            .col50
+                .double-text-input
+                    label(for="ownerName") همراه
+                    input.textinput(type="text" placeholder="" name="ownerName" value= "#{ typeof ownerName != 'undefined' ? ownerName: '' }")
+                    label(for="constPhone") تاریخ
+                    input.textinput(type="text" placeholder="" name="constPhone" value= "#{ typeof constPhone != 'undefined' ? constPhone: '' }")
+                .double-text-input
+                    label(for="ownerName") نوع
+                    input.textinput(type="text" placeholder="" name="ownerName" value= "#{ typeof ownerName != 'undefined' ? ownerName: '' }")
+                    label(for="constPhone") شماره
+                    input.textinput(type="text" placeholder="" name="constPhone" value= "#{ typeof constPhone != 'undefined' ? constPhone: '' }")
+                .double-text-input
+                    label(for="ownerName") وضعیت
+                    input.textinput(type="text" placeholder="" name="ownerName" value= "#{ typeof ownerName != 'undefined' ? ownerName: '' }")
+                    label(for="constPhone") سمت
+                    input.textinput(type="text" placeholder="" name="constPhone" value= "#{ typeof constPhone != 'undefined' ? constPhone: '' }")
+        .table-form 
+            table 
+                tr 
+                    th متراژ
+                    th خواب
+                    th طبقه
+                    th طبقات
+                    th واحد
+                    th سن بنا
+                    th پارکینگ
+                    th انباری
+                    th آسانسور
+                    th آشپزخانه
+                    th نما
+                    th کف
+                    th سرویس
+                    th سرمایش و گرمایش
+                tr 
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+        .long-atext-input 
+            label(for="address") امکانات
+            input(name="address")
+        .two-text-input
+            label(for="price") قیمت متری/رهن
+            input(type="text" placeholder="" name="price" value="")
+            label.marg(for="price") کل / اجاره
+            input(type="text" placeholder="" name="price" value="")
+        .table-form.small
+            table 
+                tr 
+                    th وام
+                    th قابلیت تبدیل
+                    th تخفیف
+                    th وضعیت سند
+                    th تحویل
+                    th اگهی دهنده
+                tr 
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+                    td
+                        input(type="text" placeholder="" name="" value="")
+            button.submit(type="submit")
+                i.fa.fa-save
+                | ثبت
+                    
 -if(errors){
     script.
         $('#add-estate-popup').show();

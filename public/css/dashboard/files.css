@@ -1,14 +1,180 @@
 @media only screen and (min-width: 800px) {
-    .popup.file{
+    .multi-column-form{
+        overflow: hidden;
+        margin-top: 2vw;
+    }
+    .multi-column-form .col50{
+        float: right;
+        width: 50%;
+    }
+    .multi-column-form .double-text-input{
+        overflow: hidden;
+        margin-bottom: 0.5vw;
+    }
+    .multi-column-form .double-text-input label, .multi-column-form .text-area-input label{
+        width: 14%;
         display: block;
+        float: right;
+        text-align: left;
+        padding: 0.3vw;
+        font-size: 1vw;
+    }
+    .multi-column-form .double-text-input input{
+        width: 25%;
+        display: block;
+        float: right;
+        font-family: 'iransans';
+        font-size: 1vw;
+        border: none;
+        border-radius: 0.3vw;
+        background-color: var(--grayblue);
+        padding: 0.3vw 1vw;
+    }
+    .multi-column-form .double-text-input input:focus{
+        outline: none;
+    }
+    .multi-column-form .text-area-input textarea{
+        width: 71.5%;
+        height: 4.5vw;
+        display: block;
+        float: right;
+        font-family: 'iransans';
+        font-size: 1vw;
+        border: none;
+        border-radius: 0.3vw;
+        background-color: var(--grayblue);
+        padding: 0.3vw 1vw;
+        resize: none;
+    }
+    .multi-column-form .text-area-input textarea:focus{
+        outline: none;
+    }
+    .table-form {
+        width: 95%;
+        margin: auto;
+        text-align: center;
+        margin-top: 1vw;
+        margin-bottom: 1vw;
+    }
+    .table-form table{
+        width: 100%;
+    }
+    .table-form th{
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        /* color: var(--text); */
+        font-weight: normal;
+        line-height: 1vw;
+    }
+    .table-form input{
+        width: 3.5vw;
+        display: inline;
+        float: right;
+        font-family: 'iransans';
+        font-size: 0.8vw;
+        border: none;
+        border-radius: 0.3vw;
+        background-color: var(--grayblue);
+        padding: 0.5vw;
+        resize: none;
+        text-align: center;
+    }
+    .table-form input:focus{
+        outline: var(--lightgray) 0.1vw solid;
+    }
+    .long-atext-input{
+        /* margin-bottom: 1vw; */
+        overflow: hidden;
+        display: block;
+        width: 100%;
+    }
+    .long-atext-input input{
+        width: 86.3%;
+        display: block;
+        float: right;
+        font-family: 'iransans';
+        font-size: 1vw;
+        border: none;
+        border-radius: 0.3vw;
+        background-color: var(--grayblue);
+        padding: 0.3vw 1vw;
+        resize: none;
+    }
+    .long-atext-input input:focus{
+        outline: none;
+    }
+    
+    .long-atext-input label{
+        width: 7%;
+        display: block;
+        float: right;
+        text-align: left;
+        padding: 0.3vw;
+        font-size: 1vw;
+    }
+    .two-text-input{
+        margin-bottom: 1vw;
+        overflow: hidden;
+    }
+    .two-text-input label{
+        width: 7%;
+        display: block;
+        float: right;
+        text-align: left;
+        padding: 0.3vw;
+        font-size: 1vw;
+    }
+    .two-text-input input{
+        width: 37.9%;
+        display: block;
+        float: right;
+        font-family: 'iransans';
+        font-size: 1vw;
+        border: none;
+        border-radius: 0.3vw;
+        background-color: var(--grayblue);
+        padding: 0.3vw 1vw;
+        resize: none;
+        margin-top: 1vw;
+    }
+    .two-text-input input:focus{
+        outline: none;
+    }
+    button.submit{
+        display: block;
+        width: fit-content;
+        color: white;
+        background-color: var(--green);
+        border: none;
+        float: left;
+        font-family: 'iransans';
+        font-size: 1.1vw;
+        padding: 0.3vw 3vw;
+        margin-top: 1.3vw;
+        margin-left: 0.2vw;
+        border-radius: 0.4vw;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    button.submit:hover{
+        background-color: var(--blue);
+    }
+    button.submit i{
+        padding-left: 1vw;
+    }
+    label.marg{padding-top: 1.2vw;}
+    .table-form.small{
+        overflow: hidden;
+        margin-top: 0;
+    }
+    .table-form.small input{
+        width: 6vw;
+    }
+    .table-form.small table{
+        width: 60%;
+        float: right;
     }
 }
 @media only screen and (max-width: 800px) {
     
 }
-
-
-
-
-
-
