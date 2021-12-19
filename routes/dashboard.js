@@ -120,5 +120,21 @@ router.get('/delete-estate', ensureAuthenticated, (req, res, next) => {
         });
     }
 });
-
+router.post('/add-file', ensureAuthenticated, (req, res, next) => {
+    if(req.user.role == 'admin'){
+        var newFile = new File(req.body);
+        newFile.save().then(doc => {
+            res.redirect('/dashboard/files');
+        }).catch(err => console.log(err));
+    }
+});
+router.get('/delete-file', ensureAuthenticated, (req, res, next) => {
+    if(req.user.role == 'admin'){
+        File.deleteOne({_id: req.query.fileID}, (err) => {
+            if(err) console.log(err);
+            req.flash('success_msg', 'فایل با موفقیت حذف شد');
+            res.redirect('/dashboard/files');
+        });
+    }
+});
 module.exports = router;

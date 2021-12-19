@@ -17,20 +17,20 @@
                     textarea(name="address")
             .col50
                 .double-text-input
-                    label(for="ownerName") همراه
-                    input.textinput(type="text" placeholder="" name="ownerName" value= "#{ typeof ownerName != 'undefined' ? ownerName: '' }")
-                    label(for="constPhone") تاریخ
-                    input.textinput(type="text" placeholder="" name="constPhone" value= "#{ typeof constPhone != 'undefined' ? constPhone: '' }")
+                    label(for="phone") همراه
+                    input.textinput(type="text" placeholder="" name="phone" value= "#{ typeof phone != 'undefined' ? phone: '' }")
+                    label(for="date") تاریخ
+                    input.textinput(type="text" placeholder="" name="date" value= "#{ typeof date != 'undefined' ? date: '' }")
                 .double-text-input
-                    label(for="ownerName") نوع
-                    input.textinput(type="text" placeholder="" name="ownerName" value= "#{ typeof ownerName != 'undefined' ? ownerName: '' }")
-                    label(for="constPhone") شماره
-                    input.textinput(type="text" placeholder="" name="constPhone" value= "#{ typeof constPhone != 'undefined' ? constPhone: '' }")
+                    label(for="type") نوع
+                    input.textinput(type="text" placeholder="" name="type" value= "#{ typeof type != 'undefined' ? type: '' }")
+                    label(for="fileNumber") شماره
+                    input.textinput(type="text" placeholder="" name="fileNumber" value= "#{ typeof fileNumber != 'undefined' ? fileNumber: '' }")
                 .double-text-input
-                    label(for="ownerName") وضعیت
-                    input.textinput(type="text" placeholder="" name="ownerName" value= "#{ typeof ownerName != 'undefined' ? ownerName: '' }")
-                    label(for="constPhone") سمت
-                    input.textinput(type="text" placeholder="" name="constPhone" value= "#{ typeof constPhone != 'undefined' ? constPhone: '' }")
+                    label(for="state") وضعیت
+                    input.textinput(type="text" placeholder="" name="state" value= "#{ typeof state != 'undefined' ? state: '' }")
+                    label(for="role") سمت
+                    input.textinput(type="text" placeholder="" name="role" value= "#{ typeof role != 'undefined' ? role: '' }")
         .table-form 
             table 
                 tr 
@@ -50,44 +50,45 @@
                     th سرمایش و گرمایش
                 tr 
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="meterage" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="bedroom" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="floor" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="numOfFloors" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="unit" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="buildAge" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="parking" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="warehouse" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="elevator" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="kitchen" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="view" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="floortype" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="service" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="heatingAndCoolingSystem" value="")
         .long-atext-input 
-            label(for="address") امکانات
-            input(name="address")
+            label(for="options") امکانات
+            input(name="options")
         .two-text-input
             label(for="price") قیمت متری/رهن
             input(type="text" placeholder="" name="price" value="")
-            label.marg(for="price") کل / اجاره
-            input(type="text" placeholder="" name="price" value="")
+            label.marg(for="fullPrice") کل / اجاره
+            input(type="text" placeholder="" name="fullPrice" value="")
         .table-form.small
             table 
                 tr 
+                    th منطقه
                     th وام
                     th قابلیت تبدیل
                     th تخفیف
@@ -96,17 +97,19 @@
                     th اگهی دهنده
                 tr 
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="number" placeholder="" name="area" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="lone" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="changable" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="discount" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="documentState" value="")
                     td
-                        input(type="text" placeholder="" name="" value="")
+                        input(type="text" placeholder="" name="transfer" value="")
+                    td
+                        input(type="text" placeholder="" name="advertiser" value="")
             button.submit(type="submit")
                 i.fa.fa-save
                 | ثبت

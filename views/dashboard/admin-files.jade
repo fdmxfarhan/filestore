@@ -11,36 +11,29 @@ block content
         .users-view 
             table 
                 tr 
-                    th کاربر
-                    th نقش
-                    th حساب ها
+                    th نام مالک
+                    th منطقه
+                    th متراژ
                     th 
                     th 
-                //- -for(var i=0; i<users.length; i++){
-                //-     tr 
-                //-         td.user 
-                //-             h1= users[i].fullname
-                //-             h2
-                //-                 a(href="tel:#{users[i].phone}")= users[i].phone
-                //-         td.role 
-                //-             -if(users[i].role == 'user'){
-                //-                 -if(users[i].chahvand)
-                //-                     a.role-chah(href="/dashboard/make-admin?userID=#{users[i]._id}") چاه‌وند
-                //-                 -else
-                //-                     a.role-user(href="/dashboard/make-admin?userID=#{users[i]._id}") آب‌وند
-                //-             -}if(users[i].role == 'admin')
-                //-                 a.role-admin(href="/dashboard/make-user?userID=#{users[i]._id}") میراب 
+                -for(var i=0; i<files.length; i++){
+                    tr 
+                        td.user 
+                            h1= files[i].ownerName
+                            h2
+                                a(href="tel:#{files[i].phone}")= files[i].phone
+                        td.role= files[i].area
                             
-                //-         td.acounts 
-                //-             h1 منطقه #{11}
-                //-             h2 دسترسی به #{20} فایل
-                //-         td
-                //-             a.edit(href="/dashboard/user-view?userID=#{users[i]._id}") 
-                //-                 i.fa.fa-eye 
-                //-         td
-                //-             a.trash(href="/dashboard/delete-user?userID=#{users[i]._id}") 
-                //-                 i.fa.fa-trash 
-                //- -}
+                        td.acounts 
+                            h1= files[i].meterage
+                            h2= files[i].address
+                        td
+                            a.edit(href="/dashboard/file-view?fileID=#{files[i]._id}") 
+                                i.fa.fa-eye 
+                        td
+                            a.trash(href="/dashboard/delete-file?fileID=#{files[i]._id}") 
+                                i.fa.fa-trash 
+                -}
         .user-control 
             .control 
                 .search-view

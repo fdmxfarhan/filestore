@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 
 var FileSchema = new mongoose.Schema({
     area: String,
-
     ownerName: String,
     constPhone: String,
     phone: String,
@@ -29,13 +28,13 @@ var FileSchema = new mongoose.Schema({
     heatingAndCoolingSystem: String, // systeme garmayesh va sarmayesh
     options: String, 
     price: String, 
+    fullPrice: String, 
     lone: String,
     changable: String,
     discount: String,
     documentState: String,
     transfer: String,
     advertiser: String,
-
 });
 
 var File = mongoose.model('File', FileSchema);
