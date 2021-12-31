@@ -18,6 +18,7 @@ var homeRoute = require('./routes/home');
 var usersRoute = require('./routes/users');
 var dashboardRoute = require('./routes/dashboard');
 var apiRoute = require('./routes/api');
+var paymentRoute = require('./routes/payment');
 
 
 // Mongo DB connect
@@ -92,6 +93,7 @@ app.use('/', homeRoute);
 app.use('/users', usersRoute);
 app.use('/dashboard', dashboardRoute);
 app.use('/api', apiRoute);
+app.use('/payment', paymentRoute);
 
 
 

@@ -28,7 +28,8 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "request": "^2.88.2",
-    "socket.io": "^4.0.1"
+    "socket.io": "^4.0.1",
+    "zarinpal-checkout": "^0.2.7"
   },
   "devDependencies": {
     "mongoose": "^5.11.16",
