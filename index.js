@@ -17,6 +17,7 @@ const passport = require('passport');
 var homeRoute = require('./routes/home');
 var usersRoute = require('./routes/users');
 var dashboardRoute = require('./routes/dashboard');
+var apiRoute = require('./routes/api');
 
 
 // Mongo DB connect
@@ -90,6 +91,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', homeRoute);
 app.use('/users', usersRoute);
 app.use('/dashboard', dashboardRoute);
+app.use('/api', apiRoute);
 
 
 

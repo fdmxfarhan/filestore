@@ -7,7 +7,6 @@ var Estate = require('../models/Estate');
 var File = require('../models/File');
 const mail = require('../config/mail');
 const generateCode = require('../config/generateCode');
-const { now } = require('mongoose');
 
 
 router.get('/', ensureAuthenticated, (req, res, next) => {
