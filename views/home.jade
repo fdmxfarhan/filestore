@@ -2,14 +2,64 @@ doctype html
 
 html
     head
-        title Register
+        title آکادمی فناورانه 
         link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
         link(rel="shortcut icon", href="/img/logo.png", type="image/x-icon")
         script(src="/js/jquery-3.5.1.min.js")
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
-        //- meta(name="theme-color" content="#050507")
-        //- script(src="/js/index.js")
         link(rel='stylesheet', href='/css/home.css')
-    
+        link(rel='stylesheet', href='/css/components/footer.css')
     body
-        h1 This is home page
+        header 
+            img.background(src="/img/img-04.jpg")
+            .overlay
+            .info 
+                .contact 
+                    i.fa.fa-phone 
+                    a(href="tel:09123456789") 09123456789
+                .contact 
+                    i.fa.fa-envelope 
+                    | info@gmail.com
+                -if(user){
+                    a.link(href="/users/login")= user.fullname == ''? 'پنل کاربری' : user.fullname
+                        i.fa.fa-user
+                -}else{
+                    a.link(href="/users/login") ثبت نام
+                        i.fa.fa-user
+                    a.link(href="/users/login") ورود
+                        i.fa.fa-sign-in
+                -}
+            nav 
+                a.logo(href="/") 
+                    img(src="/img/logo.png")
+                a.link(href="/") خانه
+                a.link(href="#") خدمات
+                a.link(href="#") اخبار
+                a.link(href="#") تماس با ما
+                a.link(href="#") درباره ما
+                //- a.icon(href="#") 
+                //-     i.fa.fa-moon-o
+                a.icon(href="search") 
+                    i.fa.fa-search
+                a.icon(href="/dashboard/cart") 
+                    i.fa.fa-shopping-cart
+                    //- -if(user && user.cart.length > 0)
+                    //-     .notif-num= user.cart.length
+            .title-view 
+                h2 سامانه مدیریت فالینگ
+                h1 فایل استور
+                h2.border خدمات فایلینگ
+            img.top-logo(src="/img/logo.png")
+        seciont
+            .mockup 
+                .image 
+                    img(src="/img/mockup.png")
+                .info 
+                    h1 آشنایی با فایل استور
+                    p در این قسمت در قالب یک پاراگراف در مورد مجموعه فایل استور توضیح داده می‌شود. این متن صرفا جهت تست قرار داده شده و هیچ محتوای خاصی ندارد. این متن صرفا جهت تست قرار داده شده و هیچ محتوای خاصی ندارد. این متن صرفا جهت تست قرار داده شده و هیچ محتوای خاصی ندارد. این متن صرفا جهت تست قرار داده شده و هیچ محتوای خاصی ندارد. 
+    
+        include ./components/footer
+        script.
+            document.getElementById('vid').play();
+
+

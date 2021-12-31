@@ -5,9 +5,10 @@
         width: 45%;
         padding: 2vw 3vw;
         margin: 3vw auto;
+        /* background-color: white; */
     }
     .register h1.title{
-        color: var(--purple);
+        color: var(--blue);
         font-family: 'iransans';
         font-size: 1.7vw;
         text-align: center;
@@ -41,13 +42,13 @@
     }
     .register input.textinput:focus{
         outline: none;
-        border: purple 0.1vw solid;
+        border: blue 0.1vw solid;
     }
     .register .text-input-area i{
         position: absolute;
         right: 1vw;
         top: 1vw;
-        color: var(--purple);
+        color: var(--blue);
         font-size: 1.3vw;
     }
     .register button.submit{
@@ -55,7 +56,7 @@
         width: 100%;
         display: block;
         color: white;
-        background-color: var(--purple);
+        background-color: var(--blue);
         border: none;
         border-radius: 2vw;
         padding: 0.6vw 1vw;
@@ -146,7 +147,7 @@
         margin: 6vw auto;
     }
     .register h1.title{
-        color: var(--purple);
+        color: var(--blue);
         font-family: 'iransans';
         font-size: 3.7vw;
         text-align: center;
@@ -180,13 +181,13 @@
     }
     .register input.textinput:focus{
         outline: none;
-        border: purple 0.1vw solid;
+        border: blue 0.1vw solid;
     }
     .register .text-input-area i{
         position: absolute;
         right: 3vw;
         top: 2vw;
-        color: var(--purple);
+        color: var(--blue);
         font-size: 3.2vw;
     }
     .register button.submit{
@@ -194,7 +195,7 @@
         width: 100%;
         display: block;
         color: white;
-        background-color: var(--purple);
+        background-color: var(--blue);
         border: none;
         border-radius: 3vw;
         padding: 1vw 1vw;

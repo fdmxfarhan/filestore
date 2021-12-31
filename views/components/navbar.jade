@@ -1,0 +1,44 @@
+header 
+    img.video(src="/img/img-02.jpg", alt="img")
+    .overlay
+    .info 
+        .contact 
+            i.fa.fa-phone 
+            a(href="tel:09123456789")  09123456789
+        .contact 
+            i.fa.fa-envelope 
+            | info@example.com
+        -if(user){
+            a.link(href="/users/login")= user.fullname == ''? 'پنل کاربری' : user.fullname
+                i.fa.fa-user
+            a.link(href="/users/logout") خروج
+                i.fa.fa-sign-out
+        -}else{
+            a.link(href="/users/login") ثبت نام
+                i.fa.fa-user
+            a.link(href="/users/login") ورود
+                i.fa.fa-sign-in
+        -}
+    nav 
+        a.logo(href="/") 
+            img(src="/img/logo.png")
+        a.link(href="/") خانه
+        a.link(href="#") خدمات
+        a.link(href="#") اخبار
+        a.link(href="#") تماس با ما
+        a.link(href="#") درباره ما
+        //- a.icon(href="#") 
+        //-     i.fa.fa-moon-o
+        a.icon(href="/search") 
+            i.fa.fa-search
+        a.icon(href="/dashboard/cart") 
+            i.fa.fa-shopping-cart
+            -if(user && user.cart.length > 0)
+                .notif-num= user.cart.length
+    //- .title-view 
+    //-     h2 دوره های آموزشی بورس و بازار های مالی
+    //-     h1 با ما همیشه در 
+    //-         .orange سود 
+    //-         | باشید
+    //-     h2.border تیم آموزشی مهندس علیرضا محرابی
+    //- img.top-logo(src="/img/logo.png")
