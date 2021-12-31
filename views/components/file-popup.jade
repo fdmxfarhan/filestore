@@ -23,12 +23,30 @@
                     input.textinput(type="text" placeholder="" name="date" value= "#{ typeof date != 'undefined' ? date: '' }")
                 .double-text-input
                     label(for="type") نوع
-                    input.textinput(type="text" placeholder="" name="type" value= "#{ typeof type != 'undefined' ? type: '' }")
+                    select#state(name="type") 
+                        //- option(value="undefined") انتخاب کنید
+                        option(value="آپارتمان") آپارتمان
+                        option(value="ویلایی") ویلایی
+                        option(value="کلنگی") کلنگی
+                        option(value="تجاری") تجاری
+                        option(value="اداری") اداری
+                        option(value="موقعیت اداری") موقعیت اداری
+                        option(value="زمین") زمین
+                        option(value="مستغلات") مستغلات
+                    //- input.textinput(type="text" placeholder="" name="type" value= "#{ typeof type != 'undefined' ? type: '' }")
                     label(for="fileNumber") شماره
                     input.textinput(type="text" placeholder="" name="fileNumber" value= "#{ typeof fileNumber != 'undefined' ? fileNumber: '' }")
                 .double-text-input
                     label(for="state") وضعیت
-                    input.textinput(type="text" placeholder="" name="state" value= "#{ typeof state != 'undefined' ? state: '' }")
+                    select#state(name="state") 
+                        //- option(value="undefined") انتخاب کنید
+                        option(value="فروش") فروش
+                        option(value="پیش‌فروش") پیش‌فروش
+                        option(value="معاوضه") معاوضه
+                        option(value="مشارکت") مشارکت
+                        option(value="رهن و اجاره") رهن و اجاره
+                        option(value="رهن کامل") رهن کامل
+                    //- input.textinput(type="text" placeholder="" name="state" value= "#{ typeof state != 'undefined' ? state: '' }")
                     label(for="role") سمت
                     input.textinput(type="text" placeholder="" name="role" value= "#{ typeof role != 'undefined' ? role: '' }")
         .table-form 
@@ -77,14 +95,72 @@
                         input(type="text" placeholder="" name="service" value="")
                     td
                         input(type="text" placeholder="" name="heatingAndCoolingSystem" value="")
+                tr 
+                    td
+                        input(type="text" placeholder="" name="meterage2" value="")
+                    td
+                        input(type="text" placeholder="" name="bedroom2" value="")
+                    td
+                        input(type="text" placeholder="" name="floor2" value="")
+                    td
+                        input(type="text" placeholder="" name="numOfFloors2" value="")
+                    td
+                        input(type="text" placeholder="" name="unit2" value="")
+                    td
+                        input(type="text" placeholder="" name="buildAge2" value="")
+                    td
+                        input(type="text" placeholder="" name="parking2" value="")
+                    td
+                        input(type="text" placeholder="" name="warehouse2" value="")
+                    td
+                        input(type="text" placeholder="" name="elevator2" value="")
+                    td
+                        input(type="text" placeholder="" name="kitchen2" value="")
+                    td
+                        input(type="text" placeholder="" name="view2" value="")
+                    td
+                        input(type="text" placeholder="" name="floortype2" value="")
+                    td
+                        input(type="text" placeholder="" name="service2" value="")
+                    td
+                        input(type="text" placeholder="" name="heatingAndCoolingSystem2" value="")
+                tr 
+                    td
+                        input(type="text" placeholder="" name="meterage3" value="")
+                    td
+                        input(type="text" placeholder="" name="bedroom3" value="")
+                    td
+                        input(type="text" placeholder="" name="floor3" value="")
+                    td
+                        input(type="text" placeholder="" name="numOfFloors3" value="")
+                    td
+                        input(type="text" placeholder="" name="unit3" value="")
+                    td
+                        input(type="text" placeholder="" name="buildAge3" value="")
+                    td
+                        input(type="text" placeholder="" name="parking3" value="")
+                    td
+                        input(type="text" placeholder="" name="warehouse3" value="")
+                    td
+                        input(type="text" placeholder="" name="elevator3" value="")
+                    td
+                        input(type="text" placeholder="" name="kitchen3" value="")
+                    td
+                        input(type="text" placeholder="" name="view3" value="")
+                    td
+                        input(type="text" placeholder="" name="floortype3" value="")
+                    td
+                        input(type="text" placeholder="" name="service3" value="")
+                    td
+                        input(type="text" placeholder="" name="heatingAndCoolingSystem3" value="")
         .long-atext-input 
             label(for="options") امکانات
             input(name="options")
         .two-text-input
             label(for="price") قیمت متری/رهن
-            input(type="text" placeholder="" name="price" value="")
+            input(type="number" placeholder="xx تومان" name="price" value="")
             label.marg(for="fullPrice") کل / اجاره
-            input(type="text" placeholder="" name="fullPrice" value="")
+            input(type="number" placeholder="xx تومان" name="fullPrice" value="")
         .table-form.small
             table 
                 tr 

@@ -30,6 +30,21 @@
         background-color: var(--grayblue);
         padding: 0.3vw 1vw;
     }
+    .multi-column-form .double-text-input select{
+        width: 30.7%;
+        display: block;
+        float: right;
+        font-family: 'iransans';
+        font-size: 1vw;
+        border: none;
+        border-radius: 0.3vw;
+        background-color: var(--grayblue);
+        padding: 0.3vw 1vw;
+        /* -moz-appearance:none;
+        -webkit-appearance:none;
+        appearance:none; */
+    }
+    .multi-column-form .double-text-input select:focus,
     .multi-column-form .double-text-input input:focus{
         outline: none;
     }
@@ -75,7 +90,7 @@
         border: none;
         border-radius: 0.3vw;
         background-color: var(--grayblue);
-        padding: 0.5vw;
+        padding: 0.2vw 0.5vw;
         resize: none;
         text-align: center;
     }
@@ -169,6 +184,7 @@
     }
     .table-form.small input{
         width: 6vw;
+        padding: 0.5vw;
     }
     .table-form.small table{
         width: 60%;

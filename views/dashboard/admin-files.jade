@@ -4,6 +4,7 @@ block styles
     link(rel="stylesheet", href="/css/dashboard/files.css")
 
 block content
+    #file-length= files.length
     .title-view 
         h1 فایل ها
         h2 
@@ -28,8 +29,8 @@ block content
                             h1= files[i].meterage
                             h2= files[i].address
                         td
-                            a.edit(href="/dashboard/file-view?fileID=#{files[i]._id}") 
-                                i.fa.fa-eye 
+                            a.edit(id="edit-file-btn#{i}")
+                                i.fa.fa-edit
                         td
                             a.trash(href="/dashboard/delete-file?fileID=#{files[i]._id}") 
                                 i.fa.fa-trash 
@@ -44,4 +45,5 @@ block content
                     i.fa.fa-plus 
                     | افزودن فایل
     include ../components/file-popup
+    include ../components/files-popups
     script(src="/js/files.js") 

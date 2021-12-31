@@ -629,6 +629,7 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         padding: 0 0.5vw;
         font-size: 1.5vw;
         color: var(--green);
+        cursor: pointer;
     }
     .content-view .users-view table td a.edit:hover{
         color: var(--blue);
@@ -756,6 +757,9 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         font-size: 1vw;
         color: var(--lightgray);
     }    
+    #add-file-popup{
+        margin-top: 3vw;
+    }
 }
 
 @media only screen and (max-width: 800px) {
