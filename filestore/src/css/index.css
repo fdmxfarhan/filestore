@@ -1,0 +1,65 @@
+@font-face{
+  font-family: 'iransans';
+  src: url('iransans.ttf');
+}
+@font-face{
+  font-family: 'btitr';
+  src: url('btitr.ttf');
+}
+:root {
+  --light-background: #e4e4e4;
+  --dark-background: #364152;
+  --dark: #232A3A;
+  --text: #4B4040;
+  --hover: #FF8A47;
+  --orange: #FF8A47;
+  --yellow: #EEAB34;
+  --green: #1ddd3d;
+  --red: #f1683f;
+  --button: #3FAEE0;
+  --blue: #3FAEE0;
+  --darkblue: #050547;
+  --gray: rgb(156, 156, 156);
+  --lightgray: rgb(201, 201, 201);
+}
+body {
+  font-family: 'iransans';
+  margin: 0;
+  padding: 0;
+  direction: rtl;
+  text-align: right;
+}
+.hidden{
+  display: none;
+}
+
+.success-msg{
+  position: fixed;
+  top: 1vw;
+  right: 30%;
+  width: 40%;
+  background-color: var(--green);
+  font-family: 'iransans';
+  font-size: 2vw;
+  color: white;
+  padding: 0.6vw 0;
+  text-align: center;
+  border-radius: 0.7vw;
+  opacity: 0.7;
+  transition-duration: 500;
+}
+.error-msg{
+  position: fixed;
+  top: 1vw;
+  right: 30%;
+  width: 40%;
+  background-color: var(--red);
+  font-family: 'iransans';
+  font-size: 2vw;
+  color: white;
+  padding: 0.6vw 0;
+  text-align: center;
+  border-radius: 0.7vw;
+  opacity: 0.7;
+  transition-duration: 500;
+}

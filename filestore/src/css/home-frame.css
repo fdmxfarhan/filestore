@@ -1,0 +1,125 @@
+@media only screen and (max-width: 800px) {
+    .home-frame .search-view{
+        border-radius: 0.7vw;
+        box-shadow: 0 0 0.5vw 0.1vw rgba(0, 0, 0, 0.2);
+        width: 95%;
+        margin: 0.5vw auto;
+        padding-bottom: 1vw;
+    }
+    .home-frame .content-view{
+        border-radius: 0.7vw;
+        box-shadow: 0 0 0.5vw 0.1vw rgba(0, 0, 0, 0.2);
+        width: 95%;
+        margin: 0.5vw auto;
+        padding-bottom: 1vw;
+        margin-top: 2vw;
+    }
+    .home-frame .search-view .title{
+        overflow: hidden;
+        padding: 0.7vw 2vw;
+    }
+    .home-frame .search-view .title h1{
+        float: right;
+        font-family: 'iransans';
+        font-size: 1.5vw;
+        color: var(--text);
+    }
+    .home-frame .search-view .title h2{
+        float: left;
+        font-family: 'iransans';
+        font-size: 1.5vw;
+        color: var(--text);
+    }
+    .search-parameters{
+        padding: 0 2vw;
+        overflow: hidden; 
+
+    }
+    .parameter {
+        width: 15vw;
+        margin-left: 2vw;
+        float: right;
+    }
+    .pl2 {
+        padding-left: 10px;
+    }
+    .AgeNum {
+        position: relative;
+        display: block;
+        text-align: center;
+        font-family: 'iransans';
+        font-size: 1.5vw;
+        color: var(--text);
+    }
+    .parameterLabel {
+        color: var(--text);
+        font-family: 'iransans';
+        font-size: 1.4vw;
+        text-align: center;
+    }
+    .ranges-container {
+        overflow: hidden;
+    }
+    .ranges-container .range {
+        width: 50%;
+        float: left;
+    }
+    .ranges-container .range input[type="range"] {
+        width: 100%;
+    }
+    
+    input[type="range"] {
+        /* overflow: hidden; */
+        margin: auto;
+        -webkit-appearance: none;
+        position: relative;
+        height: 1vw;
+        width: 5vw;
+        cursor: pointer;
+        background-color: var(--lightgray);
+    }
+    input[type="range"].left {
+        border-top-left-radius: 0.5vw;
+        border-bottom-left-radius: 0.5vw;
+    }
+    input[type="range"].right {
+        border-top-right-radius: 0.5vw;
+        border-bottom-right-radius: 0.5vw;
+    }
+    
+
+    
+    input[type="range"]:focus {
+        outline: none;
+    }
+    
+    .left::-webkit-slider-thumb {
+        /* box-shadow: 100vw 0 0 100vw lightblue; */
+        -webkit-appearance: none;
+        width: 2vw; 
+        height: 2vw;
+        background: var(--blue);
+        border: none;
+        border-radius: 50%;
+    }
+    .right::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 2vw; 
+        height: 2vw;
+        background: var(--blue);
+        /* box-shadow: -100vw 0 0 100vw lightblue; */
+        border: none;
+        border-radius: 50%;
+    }
+    input[type="range"]::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        background: #04AA6D;
+        cursor: pointer;
+      }
+}
+
+@media only screen and (min-width: 800px) {
+    
+}
+

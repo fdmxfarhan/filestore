@@ -127,6 +127,14 @@ router.post('/add-file', ensureAuthenticated, (req, res, next) => {
         }).catch(err => console.log(err));
     }
 });
+router.post('/edit-file', ensureAuthenticated, (req, res, next) => {
+    var {fileID} = req.body;
+    if(req.user.role == 'admin'){
+        File.updateMany({_id: fileID}, {$set: req.body}, (err, doc) => {
+            res.redirect('/dashboard/files');
+        });
+    }
+});
 router.get('/delete-file', ensureAuthenticated, (req, res, next) => {
     if(req.user.role == 'admin'){
         File.deleteOne({_id: req.query.fileID}, (err) => {

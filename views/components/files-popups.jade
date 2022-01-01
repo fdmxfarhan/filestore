@@ -5,6 +5,7 @@
             .popup-title
                 h1 ویرایش فایل
         form(action="/dashboard/edit-file" method="POST")
+            input.hidden(type="text" name="fileID" value="#{files[i]._id}")
             .multi-column-form
                 .col50
                     .double-text-input
