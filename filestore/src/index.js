@@ -7,8 +7,8 @@ if (require('electron-squirrel-startup')) {
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 800,
     icon: __dirname + '/img/logo.png',
     webPreferences: {
       nodeIntegration: true,
@@ -17,6 +17,7 @@ const createWindow = () => {
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
+  mainWindow.maximize();
   mainWindow.setMenu(null);
   // mainWindow.webContents.openDevTools();
 };

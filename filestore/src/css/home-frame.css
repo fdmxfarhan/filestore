@@ -1,5 +1,5 @@
 @media only screen and (max-width: 800px) {
-    .home-frame .search-view{
+    .home-frame .title-view{
         border-radius: 0.7vw;
         box-shadow: 0 0 0.5vw 0.1vw rgba(0, 0, 0, 0.2);
         width: 95%;
@@ -14,17 +14,17 @@
         padding-bottom: 1vw;
         margin-top: 2vw;
     }
-    .home-frame .search-view .title{
+    .home-frame .title-view .title{
         overflow: hidden;
         padding: 0.7vw 2vw;
     }
-    .home-frame .search-view .title h1{
+    .home-frame .title-view .title h1{
         float: right;
         font-family: 'iransans';
         font-size: 1.5vw;
         color: var(--text);
     }
-    .home-frame .search-view .title h2{
+    .home-frame .title-view .title h2{
         float: left;
         font-family: 'iransans';
         font-size: 1.5vw;
@@ -116,10 +116,110 @@
         height: 25px;
         background: #04AA6D;
         cursor: pointer;
-      }
+    }
 }
 
 @media only screen and (min-width: 800px) {
+    .home-frame .title-view{
+        border-radius: 0.3vw;
+        background-color: white;
+        box-shadow: 0 0 0.2vw 0.05vw rgba(0, 0, 0, 0.2);
+        width: 98%;
+        margin: 0.5vw auto;
+        padding-bottom: 1vw;
+    }
+    .home-frame .title-view .title{
+        overflow: hidden;
+        padding: 0 2vw;
+    }
+    .home-frame .title-view .title h1{
+        float: right;
+        font-family: 'iransans';
+        font-size: 1.1vw;
+        color: var(--text);
+    }
+    .home-frame .title-view .title h1 i{
+        padding-left: 1vw;
+    }
+    .home-frame .title-view .title h2{
+        float: left;
+        font-family: 'iransans';
+        font-size: 1.1vw;
+        color: var(--text);
+    }
+    .home-frame .main-container{
+        overflow: hidden;
+        padding: 0.5vw 0;
+        margin-top: 1vw;
+    }
+    .home-frame .main-container .sidebar{
+        border-radius: 0.3vw;
+        box-shadow: 0 0 0.2vw 0.05vw rgba(0, 0, 0, 0.2);
+        width: 25%;
+        float: right;
+        padding-bottom: 1vw;
+        margin-right: 1%;
+        background-color: white;
+    }
+    .home-frame .main-container .content-view{
+        border-radius: 0.3vw;
+        box-shadow: 0 0 0.2vw 0.05vw rgba(0, 0, 0, 0.2);
+        width: 72%;
+        float: right;
+        padding-bottom: 1vw;
+        background-color: white;
+        margin-right: 1%;
+    }
+    .file-list{
+        padding: 0.5vw 0;
+    }
+    .file-list .item{
+        width: 90%;
+        margin: 1vw auto;
+    }
+    .file-list .item .info1{
+        overflow: hidden;
+    }
+    .file-list .item .col20{width: 18%; float: right;}
+    .file-list .item .col25{width: 23%; float: right;}
+    .file-list .item .col30{width: 28%; float: right;}
+    .file-list .item .col35{width: 33%; float: right;}
+    .file-list .item .col40{width: 38%; float: right;}
+    .file-list .item .col50{width: 48%; float: right;}
+    .file-list .item .col60{width: 58%; float: right;}
+    .file-list .item .col70{width: 68%; float: right;}
+    .file-list .item .column{
+        border: var(--lightgray) 0.1vw solid;
+        height: 5vw;
+        padding: 0.3vw 0.5vw;
+    }
+    .file-list .item .name{
+        font-family: 'iransans';
+        font-size: 1vw;
+        font-weight: bold;
+        display: inline;
+    }
+    .file-list .item .value{
+        font-family: 'iransans';
+        font-size: 1vw;
+        display: inline;
+    }
+    .file-list .item .label{
+        float: right;
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        color: white;
+        padding: 0.2vw 1vw;
+        border-radius: 0.5vw;
+        margin-right: 0.5vw;
+    }
+    .file-list .item .label.green{
+        background-color: var(--green);
+    }
+    .file-list .item .label.blue{
+        background-color: var(--blue);
+    }
     
 }
 
+.overflow-hidden{overflow: hidden;}

@@ -7,7 +7,7 @@
   src: url('btitr.ttf');
 }
 :root {
-  --light-background: #e4e4e4;
+  --light-background: #ebf3f2;
   --dark-background: #364152;
   --dark: #232A3A;
   --text: #4B4040;
@@ -28,6 +28,7 @@ body {
   padding: 0;
   direction: rtl;
   text-align: right;
+  background-color: var(--light-background);
 }
 .hidden{
   display: none;
@@ -40,7 +41,7 @@ body {
   width: 40%;
   background-color: var(--green);
   font-family: 'iransans';
-  font-size: 2vw;
+  font-size: 1.3vw;
   color: white;
   padding: 0.6vw 0;
   text-align: center;
@@ -55,7 +56,7 @@ body {
   width: 40%;
   background-color: var(--red);
   font-family: 'iransans';
-  font-size: 2vw;
+  font-size: 1.3vw;
   color: white;
   padding: 0.6vw 0;
   text-align: center;

@@ -27,7 +27,7 @@
         font-size: 1.6vw;
         border: var(--gray) 0.2vw solid;
         display: block;
-        width: 95%;
+        width: 93%;
         border-radius: 0.5vw;
         padding: 0.5vw 1vw;
     }
@@ -54,7 +54,8 @@
     .login-frame img{
         display: block;
         margin: auto;
-        width: 10%;
+        width: 15%;
+        margin-top: 5vw;
     }
     .login-frame h1{
         color: var(--dark);
@@ -79,7 +80,7 @@
         font-size: 1vw;
         border: var(--gray) 0.2vw solid;
         display: block;
-        width: 94%;
+        width: 92%;
         border-radius: 0.5vw;
         padding: 0.3vw 1vw;
     }
