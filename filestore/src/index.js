@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+const ejse = require('ejs-electron')
 
 if (require('electron-squirrel-startup')) { 
   app.quit();
@@ -16,10 +17,10 @@ const createWindow = () => {
     }
   });
 
-  mainWindow.loadFile(path.join(__dirname, 'index.html'));
+  mainWindow.loadURL(path.join(path.join('file://', __dirname), 'index.ejs'));
   mainWindow.maximize();
   mainWindow.setMenu(null);
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 };
 
 app.on('ready', createWindow);

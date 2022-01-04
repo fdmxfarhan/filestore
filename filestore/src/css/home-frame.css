@@ -1,225 +1,229 @@
-@media only screen and (max-width: 800px) {
-    .home-frame .title-view{
-        border-radius: 0.7vw;
-        box-shadow: 0 0 0.5vw 0.1vw rgba(0, 0, 0, 0.2);
-        width: 95%;
-        margin: 0.5vw auto;
-        padding-bottom: 1vw;
-    }
-    .home-frame .content-view{
-        border-radius: 0.7vw;
-        box-shadow: 0 0 0.5vw 0.1vw rgba(0, 0, 0, 0.2);
-        width: 95%;
-        margin: 0.5vw auto;
-        padding-bottom: 1vw;
-        margin-top: 2vw;
-    }
-    .home-frame .title-view .title{
-        overflow: hidden;
-        padding: 0.7vw 2vw;
-    }
-    .home-frame .title-view .title h1{
-        float: right;
-        font-family: 'iransans';
-        font-size: 1.5vw;
-        color: var(--text);
-    }
-    .home-frame .title-view .title h2{
-        float: left;
-        font-family: 'iransans';
-        font-size: 1.5vw;
-        color: var(--text);
-    }
-    .search-parameters{
-        padding: 0 2vw;
-        overflow: hidden; 
 
-    }
-    .parameter {
-        width: 15vw;
-        margin-left: 2vw;
-        float: right;
-    }
-    .pl2 {
-        padding-left: 10px;
-    }
-    .AgeNum {
-        position: relative;
-        display: block;
-        text-align: center;
-        font-family: 'iransans';
-        font-size: 1.5vw;
-        color: var(--text);
-    }
-    .parameterLabel {
-        color: var(--text);
-        font-family: 'iransans';
-        font-size: 1.4vw;
-        text-align: center;
-    }
-    .ranges-container {
-        overflow: hidden;
-    }
-    .ranges-container .range {
-        width: 50%;
-        float: left;
-    }
-    .ranges-container .range input[type="range"] {
-        width: 100%;
-    }
-    
-    input[type="range"] {
-        /* overflow: hidden; */
-        margin: auto;
-        -webkit-appearance: none;
-        position: relative;
-        height: 1vw;
-        width: 5vw;
-        cursor: pointer;
-        background-color: var(--lightgray);
-    }
-    input[type="range"].left {
-        border-top-left-radius: 0.5vw;
-        border-bottom-left-radius: 0.5vw;
-    }
-    input[type="range"].right {
-        border-top-right-radius: 0.5vw;
-        border-bottom-right-radius: 0.5vw;
-    }
-    
-
-    
-    input[type="range"]:focus {
-        outline: none;
-    }
-    
-    .left::-webkit-slider-thumb {
-        /* box-shadow: 100vw 0 0 100vw lightblue; */
-        -webkit-appearance: none;
-        width: 2vw; 
-        height: 2vw;
-        background: var(--blue);
-        border: none;
-        border-radius: 50%;
-    }
-    .right::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        width: 2vw; 
-        height: 2vw;
-        background: var(--blue);
-        /* box-shadow: -100vw 0 0 100vw lightblue; */
-        border: none;
-        border-radius: 50%;
-    }
-    input[type="range"]::-moz-range-thumb {
-        width: 25px;
-        height: 25px;
-        background: #04AA6D;
-        cursor: pointer;
-    }
+.home-frame .title-view{
+    border-radius: 0.3vw;
+    background-color: white;
+    box-shadow: 0 0 0.2vw 0.05vw rgba(0, 0, 0, 0.2);
+    width: 98%;
+    margin: 0.5vw auto;
+    padding-bottom: 1vw;
+}
+.home-frame .title-view .title{
+    overflow: hidden;
+    padding: 0 2vw;
+}
+.home-frame .title-view .title h1{
+    float: right;
+    font-family: 'iransans';
+    font-size: 1.1vw;
+    color: var(--text);
+}
+.home-frame .title-view .title h1 i{
+    padding-left: 1vw;
+}
+.home-frame .title-view .title h2{
+    float: left;
+    font-family: 'iransans';
+    font-size: 1.1vw;
+    color: var(--text);
+}
+.home-frame .main-container{
+    overflow: hidden;
+    padding: 0.5vw 0;
+    margin-top: 1vw;
+}
+.home-frame .main-container .sidebar{
+    border-radius: 0.3vw;
+    box-shadow: 0 0 0.2vw 0.05vw rgba(0, 0, 0, 0.2);
+    width: 25%;
+    float: right;
+    padding-bottom: 1vw;
+    margin-right: 1%;
+    background-color: white;
+}
+.home-frame .main-container .content-view{
+    border-radius: 0.3vw;
+    box-shadow: 0 0 0.2vw 0.05vw rgba(0, 0, 0, 0.2);
+    width: 72%;
+    float: right;
+    padding-bottom: 1vw;
+    background-color: white;
+    margin-right: 1%;
+}
+.file-list{
+    padding: 0.5vw 0;
+}
+.file-list .item{
+    width: 90%;
+    margin: 1vw auto;
+    padding-bottom: 2vw;
+}
+.file-list .item .info1{
+    /* border-collapse: collapse; */
+    overflow: hidden;
+    width: 100%;
+}
+.file-list .item .info2{
+    /* border-collapse: collapse; */
+    width: 100%;
+    text-align: center;
+}
+.file-list .item .info3{
+    /* border-collapse: collapse; */
+    width: 100%;
+    /* text-align: center; */
+}
+.file-list .item .info2 td{
+    border: var(--lightgray) 0.1vw solid;
+    padding: 0.1vw 0.2vw;
+    height: 1vw;
+}
+.file-list .item .col20{width: 18%; margin: 0;}
+.file-list .item .col25{width: 23%; margin: 0;}
+.file-list .item .col30{width: 28%; margin: 0;}
+.file-list .item .col35{width: 33%; margin: 0;}
+.file-list .item .col40{width: 38%; margin: 0;}
+.file-list .item .col50{width: 48%; margin: 0;}
+.file-list .item .col60{width: 58%; margin: 0;}
+.file-list .item .col70{width: 68%; margin: 0;}
+.file-list .item .column{
+    border: var(--lightgray) 0.1vw solid;
+    /* height: 5vw; */
+    padding: 0.3vw 0.5vw;
+    border-radius: 0.2vw;
+}
+.file-list .item .name{
+    font-family: 'iransans';
+    font-size: 1vw;
+    font-weight: bold;
+    display: inline;
+}
+.file-list .item .value{
+    font-family: 'iransans';
+    font-size: 1vw;
+    display: inline;
+}
+.file-list .item .info3 .value{
+    color: green;
+}
+.file-list .item .table-title{
+    font-family: 'iransans';
+    font-size: 0.8vw;
+    font-weight: bold;
+}
+.file-list .item .table-value{
+    font-family: 'iransans';
+    font-size: 0.9vw;
+}
+.file-list .item .label{
+    float: right;
+    font-family: 'iransans';
+    font-size: 0.9vw;
+    color: white;
+    padding: 0.2vw 1vw;
+    border-radius: 0.5vw;
+    margin-right: 0.5vw;
+}
+.file-list .item .label.green{
+    background-color: var(--green);
+}
+.file-list .item .label.blue{
+    background-color: var(--blue);
+}
+.file-list .item .info3 .more{
+    font-family: 'iransans';
+    font-size: 0.9vw;
+    color: white;
+    background-color: var(--darkblue);
+    border-radius: 0.5vw;
+    padding: 0.2vw 1.2vw;
+    width: fit-content;
+    float: left;
+    cursor: pointer;
+}    
+.file-list .item .info3 .more:hover{
+    background-color: var(--green);
 }
 
-@media only screen and (min-width: 800px) {
-    .home-frame .title-view{
-        border-radius: 0.3vw;
-        background-color: white;
-        box-shadow: 0 0 0.2vw 0.05vw rgba(0, 0, 0, 0.2);
-        width: 98%;
-        margin: 0.5vw auto;
-        padding-bottom: 1vw;
-    }
-    .home-frame .title-view .title{
-        overflow: hidden;
-        padding: 0 2vw;
-    }
-    .home-frame .title-view .title h1{
-        float: right;
-        font-family: 'iransans';
-        font-size: 1.1vw;
-        color: var(--text);
-    }
-    .home-frame .title-view .title h1 i{
-        padding-left: 1vw;
-    }
-    .home-frame .title-view .title h2{
-        float: left;
-        font-family: 'iransans';
-        font-size: 1.1vw;
-        color: var(--text);
-    }
-    .home-frame .main-container{
-        overflow: hidden;
-        padding: 0.5vw 0;
-        margin-top: 1vw;
-    }
-    .home-frame .main-container .sidebar{
-        border-radius: 0.3vw;
-        box-shadow: 0 0 0.2vw 0.05vw rgba(0, 0, 0, 0.2);
-        width: 25%;
-        float: right;
-        padding-bottom: 1vw;
-        margin-right: 1%;
-        background-color: white;
-    }
-    .home-frame .main-container .content-view{
-        border-radius: 0.3vw;
-        box-shadow: 0 0 0.2vw 0.05vw rgba(0, 0, 0, 0.2);
-        width: 72%;
-        float: right;
-        padding-bottom: 1vw;
-        background-color: white;
-        margin-right: 1%;
-    }
-    .file-list{
-        padding: 0.5vw 0;
-    }
-    .file-list .item{
-        width: 90%;
-        margin: 1vw auto;
-    }
-    .file-list .item .info1{
-        overflow: hidden;
-    }
-    .file-list .item .col20{width: 18%; float: right;}
-    .file-list .item .col25{width: 23%; float: right;}
-    .file-list .item .col30{width: 28%; float: right;}
-    .file-list .item .col35{width: 33%; float: right;}
-    .file-list .item .col40{width: 38%; float: right;}
-    .file-list .item .col50{width: 48%; float: right;}
-    .file-list .item .col60{width: 58%; float: right;}
-    .file-list .item .col70{width: 68%; float: right;}
-    .file-list .item .column{
-        border: var(--lightgray) 0.1vw solid;
-        height: 5vw;
-        padding: 0.3vw 0.5vw;
-    }
-    .file-list .item .name{
-        font-family: 'iransans';
-        font-size: 1vw;
-        font-weight: bold;
-        display: inline;
-    }
-    .file-list .item .value{
-        font-family: 'iransans';
-        font-size: 1vw;
-        display: inline;
-    }
-    .file-list .item .label{
-        float: right;
-        font-family: 'iransans';
-        font-size: 0.9vw;
-        color: white;
-        padding: 0.2vw 1vw;
-        border-radius: 0.5vw;
-        margin-right: 0.5vw;
-    }
-    .file-list .item .label.green{
-        background-color: var(--green);
-    }
-    .file-list .item .label.blue{
-        background-color: var(--blue);
-    }
-    
+.main-container .sidebar .title{
+    padding: 0.5vw 1vw;
 }
+.main-container .sidebar .search-parameters .range-input{
+    overflow: hidden;
+    padding: 0.5vw 0;
+    margin-bottom: 0.5vw;
+}
+.main-container .sidebar .search-parameters .range-input .title{
+    float: right;
+    width: 55%;
+    margin: 0;
+    padding: 0;
+    font-family: 'iransans';
+    font-size: 1vw;
+    padding-right: 1vw;
+
+}
+.main-container .sidebar .search-parameters .range-input .slider{
+    /* transform: rotate(180deg); */
+    width: 35%;
+    float: right;
+    margin-top: 0.5vw;
+}
+
+.main-container .sidebar .search-parameters .check-input{
+    padding: 0.5vw 1vw;
+}
+.main-container .sidebar .search-parameters .check-input .title{
+    font-family: 'iransans';
+    font-size: 1vw;
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+.main-container .sidebar .search-parameters .check-input .item{
+    display: inline;
+    border: var(--blue) 0.1vw solid;
+    padding: 0.1vw 0.8vw;
+    color: var(--blue);
+    font-family: 'iransans';
+    font-size: 0.9vw;
+    border-radius: 0.5vw;
+    line-height: 2.5vw;
+    cursor: pointer;
+}
+.main-container .sidebar .search-parameters .check-input .item.active{
+    background-color: var(--blue);
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.slider-slider{
+    border-radius: 0.3vw;
+    padding: 0;
+    background-color: lightblue;
+}
+.slider-handle{
+    background: lightblue;
+    border-radius: 1vw;
+}
+.slider-range{
+    background-color: var(--blue);
+
+}
+
+
 
 .overflow-hidden{overflow: hidden;}
