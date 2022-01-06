@@ -3,7 +3,7 @@ $(document).ready(() => {
         range: true,
         min: 0,
         max: 500,
-        values: [ 0, 300 ],
+        values: [ 200, 500 ],
         isRTL: true,
         classes: {
             "ui-slider": "slider-slider",
@@ -11,15 +11,18 @@ $(document).ready(() => {
             "ui-slider-range": "slider-range"
         },
         slide: function( event, ui ) {
-            $("#metrage-min").html(ui.values[0]);
-            $("#metrage-max").html(ui.values[1]);
+            $("#metrage-min").html(500 - ui.values[1]);
+            if(500 - ui.values[0] == 500)
+                $("#metrage-max").html((500 - ui.values[0]).toString() + '+');
+            else
+                $("#metrage-max").html(500 - ui.values[0]);
         }
     });
     $("#price1-slider").slider({
         range: true,
-        min: 1,
-        max: 1000,
-        values: [ 0, 300 ],
+        min: 0,
+        max: 1900,
+        values: [ 1500, 1900 ],
         isRTL: true,
         classes: {
             "ui-slider": "slider-slider",
@@ -27,15 +30,24 @@ $(document).ready(() => {
             "ui-slider-range": "slider-range"
         },
         slide: function( event, ui ) {
-            $("#price1-min").html(ui.values[0]);
-            $("#price1-max").html(ui.values[1]);
+            // $("#price1-min").html(1000 - ui.values[1]);
+            if(2000 - ui.values[0] < 1000)
+                $("#price1-min").html((2000 - ui.values[1]).toString());
+            else
+               $("#price1-min").html((Math.floor((2000 - ui.values[1])/100)/10).toString());
+            if(2000 - ui.values[0] == 2000)
+                $("#price1-max").html('2+ میلیارد');
+            else if(2000 - ui.values[0] < 1000)
+                $("#price1-max").html((2000 - ui.values[0]).toString() + ' میلیون');
+            else
+               $("#price1-max").html((Math.floor((2000 - ui.values[0])/100)/10).toString() + ' میلیارد');
         }
     });
     $("#price2-slider").slider({
         range: true,
         min: 0,
-        max: 500,
-        values: [ 0, 300 ],
+        max: 99,
+        values: [ 50, 99 ],
         isRTL: true,
         classes: {
             "ui-slider": "slider-slider",
@@ -43,15 +55,18 @@ $(document).ready(() => {
             "ui-slider-range": "slider-range"
         },
         slide: function( event, ui ) {
-            $("#price2-min").html(ui.values[0]);
-            $("#price2-max").html(ui.values[1]);
+            $("#price2-min").html(100 - ui.values[1]);
+            if(100 - ui.values[0] == 100)
+                $("#price2-max").html((100 - ui.values[0]).toString() + '+ میلیون');
+            else
+                $("#price2-max").html((100 - ui.values[0]).toString() + ' میلیون');
         }
     });
     $("#age-slider").slider({
         range: true,
         min: 0,
-        max: 500,
-        values: [ 0, 300 ],
+        max: 99,
+        values: [ 70, 99 ],
         isRTL: true,
         classes: {
             "ui-slider": "slider-slider",
@@ -59,8 +74,11 @@ $(document).ready(() => {
             "ui-slider-range": "slider-range"
         },
         slide: function( event, ui ) {
-            $("#age-min").html(ui.values[0]);
-            $("#age-max").html(ui.values[1]);
+            $("#age-min").html(100 - ui.values[1]);
+            if(100 - ui.values[0] == 100)
+                $("#age-max").html((100 - ui.values[0]).toString() + '+');
+            else
+                $("#age-max").html(100 - ui.values[0]);
         }
     });
 

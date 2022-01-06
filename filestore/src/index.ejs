@@ -34,8 +34,14 @@
       </div>
       
       <div class="main-container">
-        <div class="sidebar">
-          <%- include('./components/sidebar.ejs') %>
+        <div class="sidebar-view">
+          <div class="sidebar">
+            <%- include('./components/sidebar.ejs') %>
+          </div>
+          <div class="refresh-link" id="refresh-btn">
+            <i class="fa fa-refresh"></i>
+            بارگیری اطلاعات
+          </div>
         </div>
         <div class="content-view">
           <%- include('./components/file-list.ejs') %>
@@ -46,6 +52,8 @@
 
     <script>
       require('./js/login.js');
+      require('./js/file-list.js')
+
     </script>
   </body>
 </html>

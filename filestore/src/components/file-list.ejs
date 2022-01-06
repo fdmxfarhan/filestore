@@ -1,104 +1,102 @@
-<div class="file-list">
-    <% for(var i=0; i<100; i++) {%>
-    <div class="item">
-      <table class="info1">
-        <td class="column col20 overflow-hidden">
-          <div class="label green">فروش</div>
-          <div class="label blue">آپارتمان</div>
-        </td>
-        <td class="column">
-          <div class="name">نام مالک: </div>
-          <div class="value">فرحان دائمی مژدهی</div>
-        </td>
-        <td class="column">
-          <div class="name">تلفن: </div>
-          <div class="value">فرحان دائمی مژدهی</div>
-        </td>
-        <td class="column">
-          <div class="name">آدرس: </div>
-          <div class="value">تهران، خیابان کارگر جنوبی، خیابان غفاری، کوچه موسیوند، پلاک 25، واحد 1</div>
-        </td>
-      </table>
-      <table class="info2">
-        <tr>
-          <td class="table-title">متراژ</td>
-          <td class="table-title">خواب</td>
-          <td class="table-title">طبقه</td>
-          <td class="table-title">طبقات</td>
-          <td class="table-title">واحد</td>
-          <td class="table-title">سن بنا</td>
-          <td class="table-title">پارکینگ</td>
-          <td class="table-title">انباری</td>
-          <td class="table-title">آسانسور</td>
-          <td class="table-title">آشپزخانه</td>
-          <td class="table-title">نما</td>
-          <td class="table-title">کف</td>
-          <td class="table-title">سرویس</td>
-          <td class="table-title">سرمایش و گرمایش</td>
-        </tr>
-        <tr>
-          <td class="table-value">100</td>
-          <td class="table-value">4</td>
-          <td class="table-value">1</td>
-          <td class="table-value">5</td>
-          <td class="table-value">1</td>
-          <td class="table-value">5</td>
-          <td class="table-value">دارد</td>
-          <td class="table-value">دارد</td>
-          <td class="table-value">دارد</td>
-          <td class="table-value">دارد</td>
-          <td class="table-value">سنگ</td>
-          <td class="table-value">موزاییک</td>
-          <td class="table-value">دارد</td>
-          <td class="table-value">دارد</td>
-        </tr>
-        <tr>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-        </tr>
-        <tr>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-          <td class="table-value"></td>
-        </tr>
-      </table>
-      <table class="info3">
-        <td>
-          <div class="name">قیمت متری: </div>
-          <div class="value">20.000.000 تومان</div>
-        </td>
-        <td>
-          <div class="name">قیمت کل: </div>
-          <div class="value">1.000.000.000 تومان</div>
-        </td>
-        <td>
-          <div class="more" id="more-btn<%= i %>">مشاهده فایل</div>
-        </td>
-      </table>
+<div class="file-list" id="file-list-container">
+  <div class="item">
+    <table class="info1">
+      <td class="column col20 overflow-hidden">
+        <div class="label green">فروش</div>
+        <div class="label blue">آپارتمان</div>
+      </td>
+      <td class="column">
+        <div class="name">نام مالک: </div>
+        <div class="value">فرحان دائمی مژدهی</div>
+      </td>
+      <td class="column">
+        <div class="name">تلفن: </div>
+        <div class="value">فرحان دائمی مژدهی</div>
+      </td>
+      <td class="column">
+        <div class="name">آدرس: </div>
+        <div class="value">تهران، خیابان کارگر جنوبی، خیابان غفاری، کوچه موسیوند، پلاک 25، واحد 1</div>
+      </td>
+    </table>
+    <table class="info2">
+      <tr>
+        <td class="table-title">متراژ</td>
+        <td class="table-title">خواب</td>
+        <td class="table-title">طبقه</td>
+        <td class="table-title">طبقات</td>
+        <td class="table-title">واحد</td>
+        <td class="table-title">سن بنا</td>
+        <td class="table-title">پارکینگ</td>
+        <td class="table-title">انباری</td>
+        <td class="table-title">آسانسور</td>
+        <td class="table-title">آشپزخانه</td>
+        <td class="table-title">نما</td>
+        <td class="table-title">کف</td>
+        <td class="table-title">سرویس</td>
+        <td class="table-title">سرمایش و گرمایش</td>
+      </tr>
+      <tr>
+        <td class="table-value">100</td>
+        <td class="table-value">4</td>
+        <td class="table-value">1</td>
+        <td class="table-value">5</td>
+        <td class="table-value">1</td>
+        <td class="table-value">5</td>
+        <td class="table-value">دارد</td>
+        <td class="table-value">دارد</td>
+        <td class="table-value">دارد</td>
+        <td class="table-value">دارد</td>
+        <td class="table-value">سنگ</td>
+        <td class="table-value">موزاییک</td>
+        <td class="table-value">دارد</td>
+        <td class="table-value">دارد</td>
+      </tr>
+      <tr>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+      </tr>
+      <tr>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+        <td class="table-value"></td>
+      </tr>
+    </table>
+    <table class="info3">
+      <td>
+        <div class="name">قیمت متری: </div>
+        <div class="value">20.000.000 تومان</div>
+      </td>
+      <td>
+        <div class="name">قیمت کل: </div>
+        <div class="value">1.000.000.000 تومان</div>
+      </td>
+      <td>
+        <div class="more" id="more-btn-i">مشاهده فایل</div>
+      </td>
+    </table>
 
-    </div>
-    <% } %>
+  </div>
 </div>
