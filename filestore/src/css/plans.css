@@ -18,12 +18,22 @@
 .plan-links .plan h1{
     text-align: center;
     font-family: 'iransans';
-    font-size: 1.1vw;
+    font-size: 1.3vw;
     color: var(--dark);
     margin: 0;
     padding: 0;
     padding-top: 1vw;
-    padding-bottom: 0.5vw;
+    padding-bottom: 0;
+}
+.plan-links .plan h2{
+    text-align: center;
+    font-family: 'iransans';
+    font-size: 1vw;
+    color: var(--green);
+    margin: 0;
+    padding: 0;
+    padding-top: 0vw;
+    padding-bottom: 1vw;
 }
 .plan-links .plan .item{
     margin-bottom: 0.2vw;
