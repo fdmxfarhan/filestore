@@ -766,9 +766,11 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     }
     .content-view .users-view table td.plan i.check{
         color: var(--green);
+        padding-left: 0.5vw;
     }
     .content-view .users-view table td.plan i.times{
         color: var(--red);
+        padding-left: 0.5vw;
     }
 }
 

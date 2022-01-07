@@ -204,12 +204,18 @@ var refresh = () => {
                 .then(res => res.json())
                 .then(data => {
                     console.log(data);
-                    saveEstate(estate.username, estate.password, estate.estate, data.files);
-                    removeAllChildNodes(filesContainer);
-                    for(var i=0; i<data.files.length; i++){
-                        addFile(data.files[i], i);
+                    if(data.status == 'ok'){
+                        saveEstate(estate.username, estate.password, estate.estate, data.files);
+                        removeAllChildNodes(filesContainer);
+                        for(var i=0; i<data.files.length; i++){
+                            addFile(data.files[i], i);
+                        }
+                        showSuccess('بارگیری با موفقیت انجام شد');
                     }
-                    showSuccess('بارگیری با موفقیت انجام شد');
+                    else if(data.status == 'not payed'){
+                        $('#plans-popup').fadeIn(500);
+                        $('.black-modal').fadeIn(500);
+                    }
                 }).catch(err => {showError('خطای اتصال به اینترنت')});
         }
         else console.log('file not found');
@@ -226,9 +232,34 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
     }
     else console.log('file not found or does not contain Files data');
 });
+
+var payPlan = (plan) => {
+    fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+        if(rawdata){
+            var data = JSON.parse(rawdata);
+            var url = api + `pay-estate?username=${data.username}&password=${data.password}&plan=${plan}`;
+            window.open(url, '_blank').focus();
+        }
+        else console.log('file not found');
+    });
+}
+
 $(document).ready(() => {
+    var closeAll = () => {
+        $('#plans-popup').fadeOut(500);
+        $('.black-modal').fadeOut(500);
+    }
     $('#refresh-btn').click(() => {
         refresh();
     });
-
+    $('.close-popup').click(() =>{
+        closeAll();
+    });
+    $('.black-modal').click(() =>{
+        closeAll();
+    });
+    $('#plan0-btn').click(() => {payPlan(0);closeAll();});
+    $('#plan1-btn').click(() => {payPlan(1);closeAll();});
+    $('#plan2-btn').click(() => {payPlan(2);closeAll();});
+    $('#plan3-btn').click(() => {payPlan(3);closeAll();});
 })

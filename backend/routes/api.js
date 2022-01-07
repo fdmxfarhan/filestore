@@ -26,9 +26,12 @@ router.get('/get-files', (req, res, next) => {
     var {username, password} = req.query;
     Estate.findOne({code: username, password: password}, (err, estate) => {
         if(estate){
-            File.find({area: estate.area}, (err, files) => {
-                res.send({status: 'ok', files});
-            })
+            if(estate.payed && estate.planType != 'trial'){
+                File.find({area: estate.area}, (err, files) => {
+                    res.send({status: 'ok', files});
+                })
+            }
+            else res.send({status: 'not payed'})
         }
         else res.send({status: 'error'})
     })

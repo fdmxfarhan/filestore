@@ -144,4 +144,17 @@ router.get('/delete-file', ensureAuthenticated, (req, res, next) => {
         });
     }
 });
+router.get('/make-payed', ensureAuthenticated, (req, res, next) => {
+    var {username} = req.query;
+    Estate.updateMany({code: username}, {$set: {payed: true, payDate: new Date(), authority: '', planType: '1 ماهه'}}, (err, doc) => {
+        res.redirect('/dashboard')
+    });
+});
+router.get('/make-not-payed', ensureAuthenticated, (req, res, next) => {
+    var {username} = req.query;
+    Estate.updateMany({code: username}, {$set: {payed: false, planType: 'trial'}}, (err, doc) => {
+        res.redirect('/dashboard')
+    });
+});
+
 module.exports = router;

@@ -5,6 +5,7 @@
     <title>FileStore</title>
     <script>window.$ = window.jQuery = require('jquery');</script>
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/plans.css">
     <link rel="stylesheet" href="css/login-frame.css">
     <link rel="stylesheet" href="css/home-frame.css">
     <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
@@ -19,6 +20,7 @@
 
     <div class="success-msg hidden" id="success-msg">خوش آمدید</div>
     <div class="error-msg hidden" id="error-msg">خطا</div>
+    <div class="black-modal"></div>
 
     <%- include('./components/login.ejs') %>
 
@@ -48,7 +50,8 @@
         </div>
       </div>
     </div>
-    <a href="http://google.com" target="_blank" rel="noopener noreferrer">go to google</a>
+    <!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer">go to google</a> -->
+    <%- include('./components/plans.ejs') %>
 
     <script>
       require('./js/login.js');
