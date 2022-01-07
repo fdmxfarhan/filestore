@@ -66,7 +66,7 @@ router.get('/pay-estate', (req, res, next) => {
 
 router.get('/payment-call-back', (req, res, next) => {
     var {Authority, Status} = req.query;
-    if(status == 'OK'){
+    if(Status == 'OK'){
         Estate.findOne({authority: Authority}, (err, estate) => {
             Estate.updateMany({authority: Authority}, {$set: {payed: true, payDate: new Date(), authority: ''}}, (err, doc) => {
                 console.log(response);
