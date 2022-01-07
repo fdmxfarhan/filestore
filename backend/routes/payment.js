@@ -29,6 +29,6 @@ router.get('/', (req, res, next) => {
 router.get('/payment-call-back', (req, res, next) => {
   console.log(req.query);
   res.send(req.query);
-})
+});
 
 module.exports = router;

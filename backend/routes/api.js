@@ -4,6 +4,9 @@ const { ensureAuthenticated } = require('../config/auth');
 var User = require('../models/User');
 var Estate = require('../models/Estate');
 var File = require('../models/File');
+const ZarinpalCheckout = require('zarinpal-checkout');
+const zarinpal = ZarinpalCheckout.create('18286cd3-6065-4a7a-ad43-05eaf70f01a6', false);
+
 
 router.get('/', (req, res, next) => {
     res.send('API called successfully');
@@ -31,4 +34,46 @@ router.get('/get-files', (req, res, next) => {
     })
 });
 
+router.get('/Estate', (req, res, next) => {
+    var {username, password, plan} = req.query;
+    amounts = [1000, 1000, 1000, 1000];
+    names = ['1 ماهه', '3 ماهه', '6 ماهه', '1 ساله'];
+    Estate.findOne({code: username, password: password}, (err, estate) => {
+        if(estate){
+            zarinpal.PaymentRequest({
+                Amount: amounts[parseInt(plan)].toString(), // In Tomans
+                CallbackURL: 'http://185.81.99.34:3000/api/payment-call-back',
+                Description: `خرید اشتراک ${names[parseInt(plan)]} توسط ${estate.name}`,
+                Email: '',
+                Mobile: estate.phone
+              }).then(response => {
+                if (response.status === 100) {
+                    Estate.updateMany({code: username, password: password}, {$set: {
+                        authority: response.authority, 
+                        planType: names[parseInt(plan)]
+                    }}, (err, doc) => {
+                        console.log(response);
+                        res.redirect(response.url);
+                    });
+                }
+              }).catch(err => {
+                console.error(err);
+              });
+        }
+        else res.send({status: 'error'});
+    });
+});
+
+router.get('/payment-call-back', (req, res, next) => {
+    var {Authority, Status} = req.query;
+    if(status == 'OK'){
+        Estate.findOne({authority: Authority}, (err, estate) => {
+            Estate.updateMany({authority: Authority}, {$set: {payed: true, payDate: new Date(), authority: ''}}, (err, doc) => {
+                console.log(response);
+                res.render('./api/success-payment', {estate});
+            });
+        });
+    }
+});
+  
 module.exports = router;

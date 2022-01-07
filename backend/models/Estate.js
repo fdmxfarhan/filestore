@@ -10,7 +10,7 @@ var EstateSchema = new mongoose.Schema({
     type: String,
     default: 'trial', // 1month, 3month, 6month, 1year
   },
-  payDate: Date,
+  payDate: String,
   payed: {
     type: Boolean,
     default: false,
@@ -23,6 +23,7 @@ var EstateSchema = new mongoose.Schema({
   },
   code: Number,
   password: String,
+  authority: String,
 });
 
 var Estate = mongoose.model('Estate', EstateSchema);
