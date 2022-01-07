@@ -8,7 +8,7 @@ var EstateSchema = new mongoose.Schema({
   creationDate: Date,
   planType: {
     type: String,
-    default: 'trial'
+    default: 'trial', // 1month, 3month, 6month, 1year
   },
   payDate: Date,
   payed: {

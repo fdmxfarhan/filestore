@@ -20,7 +20,7 @@ const createWindow = () => {
   mainWindow.loadURL(path.join(path.join('file://', __dirname), 'index.ejs'));
   mainWindow.maximize();
   mainWindow.setMenu(null);
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 };
 
 app.on('ready', createWindow);

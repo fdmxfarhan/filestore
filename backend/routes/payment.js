@@ -10,20 +10,23 @@ const zarinpal = ZarinpalCheckout.create('18286cd3-6065-4a7a-ad43-05eaf70f01a6',
 // Docs: https://www.npmjs.com/package/zarinpal-checkout
 
 router.get('/', (req, res, next) => {
-    zarinpal.PaymentRequest({
-        Amount: '1000', // In Tomans
-        CallbackURL: 'https://filestore.ir/payment-call-back',
-        Description: 'A Payment from Node.JS',
-        Email: 'hi@siamak.work',
-        Mobile: '09120000000'
-      }).then(response => {
-        if (response.status === 100) {
-          res.redirect(response.url);
-        }
-      }).catch(err => {
-        console.error(err);
-      });
+  zarinpal.PaymentRequest({
+      Amount: '1000', // In Tomans
+      CallbackURL: 'http://185.81.99.34:3000/payment/payment-call-back',
+      Description: 'A Payment from Node.JS',
+      Email: 'hi@siamak.work',
+      Mobile: '09120000000'
+    }).then(response => {
+      if (response.status === 100) {
+        res.redirect(response.url);
+      }
+    }).catch(err => {
+      console.error(err);
+    });
 });
-
+router.get('/payment-call-back', (req, res, next) => {
+  console.log(req.body);
+  res.send(req.body);
+})
 
 module.exports = router;

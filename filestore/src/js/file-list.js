@@ -4,6 +4,7 @@ var api = require('./api');
 var pathName = path.join(__dirname, '../files');
 var filesContainer = document.getElementById('file-list-container');
 var errorMsg = document.getElementById('error-msg');
+var successMsg = document.getElementById('success-msg');
 
 var saveEstate = (username, password, estate, files) => {
     var file = path.join(pathName, 'estate.json');
@@ -17,6 +18,13 @@ var showError = (text) => {
     errorMsg.textContent = text;
     setTimeout(() => {
         errorMsg.classList.add('hidden');
+    }, 3000);
+}
+var showSuccess = (text) => {
+    successMsg.classList.remove('hidden');
+    successMsg.textContent = text;
+    setTimeout(() => {
+        successMsg.classList.add('hidden');
     }, 3000);
 }
 function removeAllChildNodes(parent) {
@@ -159,10 +167,20 @@ var addFile = (data, index) => {
     var info3 = document.createElement('table');
     info3.classList.add('info3');
     var info3td1 = document.createElement('td');
-    var info3name1 = document.createElement('div');info3name1.classList.add('name');info3name1.appendChild(document.createTextNode('قیمت متری: '));info3td1.appendChild(info3name1);
+    var info3name1;
+    if(data.state == 'رهن و اجاره' || data.state == 'رهن کامل'){
+        info3name1 = document.createElement('div');info3name1.classList.add('name');info3name1.appendChild(document.createTextNode('قیمت رهن: '));info3td1.appendChild(info3name1);
+    }else{
+        info3name1 = document.createElement('div');info3name1.classList.add('name');info3name1.appendChild(document.createTextNode('قیمت متری: '));info3td1.appendChild(info3name1);
+    }
     var info3value1 = document.createElement('div');info3value1.classList.add('value');info3value1.appendChild(document.createTextNode(data.price));info3td1.appendChild(info3value1);
     var info3td2 = document.createElement('td');
-    var info3name2 = document.createElement('div');info3name2.classList.add('name');info3name2.appendChild(document.createTextNode('قیمت کل: '));info3td2.appendChild(info3name2);
+    var info3name2;
+    if(data.state == 'رهن و اجاره' || data.state == 'رهن کامل'){
+        info3name2 = document.createElement('div');info3name2.classList.add('name');info3name2.appendChild(document.createTextNode('قیمت اجاره: '));info3td2.appendChild(info3name2);
+    }else{
+        info3name2 = document.createElement('div');info3name2.classList.add('name');info3name2.appendChild(document.createTextNode('قیمت کل: '));info3td2.appendChild(info3name2);
+    }
     var info3value2 = document.createElement('div');info3value2.classList.add('value');info3value2.appendChild(document.createTextNode(data.fullPrice));info3td2.appendChild(info3value2);
     var info3td3 = document.createElement('td');
     var moreButton = document.createElement('div');moreButton.classList.add('more');moreButton.id='more-btn-'+index.toString();moreButton.appendChild(document.createTextNode('مشاهده فایل'));info3td3.appendChild(moreButton);
@@ -185,22 +203,23 @@ var refresh = () => {
             fetch(api + `get-files?username=${estate.username}&password=${estate.password}`)
                 .then(res => res.json())
                 .then(data => {
-                    // console.log(data);
+                    console.log(data);
                     saveEstate(estate.username, estate.password, estate.estate, data.files);
                     removeAllChildNodes(filesContainer);
                     for(var i=0; i<data.files.length; i++){
                         addFile(data.files[i], i);
                     }
+                    showSuccess('بارگیری با موفقیت انجام شد');
                 }).catch(err => {showError('خطای اتصال به اینترنت')});
         }
         else console.log('file not found');
     });
 }
 fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+    removeAllChildNodes(filesContainer);
     if(rawdata && JSON.parse(rawdata).files){
         var data = JSON.parse(rawdata);
         console.log(data);
-        removeAllChildNodes(filesContainer);
         for(var i=0; i<data.files.length; i++){
             addFile(data.files[i], i);
         }
