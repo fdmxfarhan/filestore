@@ -16,8 +16,10 @@ router.get('/', (req, res, next) => {
       Description: 'A Payment from Node.JS',
       Email: 'hi@siamak.work',
       Mobile: '09120000000'
+
     }).then(response => {
       if (response.status === 100) {
+        console.log(response);
         res.redirect(response.url);
       }
     }).catch(err => {
@@ -25,8 +27,8 @@ router.get('/', (req, res, next) => {
     });
 });
 router.get('/payment-call-back', (req, res, next) => {
-  console.log(req.body);
-  res.send(req.body);
+  console.log(req.query);
+  res.send(req.query);
 })
 
 module.exports = router;
