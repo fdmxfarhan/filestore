@@ -15,6 +15,7 @@ block content
                     th منطقه
                     th آدرس
                     th کد املاک
+                    th اشتراک
                     th 
                 -for(var i=0; i<estates.length; i++){
                     tr 
@@ -27,6 +28,13 @@ block content
                         td.acounts 
                             h1 کد املاک: #{estates[i].code}
                             h2 کلمه عبور: #{estates[i].password}
+                        td.plan 
+                            -if(estates[i].payed == true)
+                                i.fa.fa-check.check 
+                            -if(estates[i].planType == 'trial')
+                                i.fa.fa-times.times
+                            -else
+                                | #{estates[i].planType}
                         td
                             a.trash(href="/dashboard/delete-estate?estateID=#{estates[i]._id}") 
                                 i.fa.fa-trash 
