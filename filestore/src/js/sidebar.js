@@ -1,3 +1,41 @@
+var minMetrage = 0, maxMetrage = 300;
+var minPrice1 = 100, maxPrice1 = 500;
+var minPrice2 = 1, maxPrice2 = 50;
+var minAge = 1, maxAge = 30;
+
+var filter = () => {
+    var filesContainer = document.getElementById('file-list-container');
+    items = filesContainer.childNodes;
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        var metrage = parseInt(item.childNodes[1].childNodes[1].childNodes[0].textContent);
+        if((maxMetrage != 500 && metrage > maxMetrage) || metrage < minMetrage)
+            item.style.display = 'none';
+        else {
+            item.style.display = 'block';
+            var price1 = parseInt(item.childNodes[2].childNodes[1].childNodes[1].textContent)/1000000;
+            if((maxPrice1 != 2000 && price1 > maxPrice1) || price1 < minPrice1)
+                item.style.display = 'none';
+            else {
+                item.style.display = 'block';
+                var price2 = parseInt(item.childNodes[2].childNodes[0].childNodes[1].textContent)/1000000;
+                if((maxPrice2 != 100 && price2 > maxPrice2) || price2 < minPrice2)
+                    item.style.display = 'none';
+                else {
+                    item.style.display = 'block';
+                    var age = parseInt(item.childNodes[1].childNodes[1].childNodes[5].textContent);
+                    if((maxAge != 100 && age > maxAge) || age < minAge)
+                        item.style.display = 'none';
+                    else {
+                        item.style.display = 'block';
+                        
+                    }
+                }
+            }
+        }
+    }
+}
+
 $(document).ready(() => {
     $("#metrage-slider").slider({
         range: true,
@@ -16,6 +54,9 @@ $(document).ready(() => {
                 $("#metrage-max").html((500 - ui.values[0]).toString() + '+');
             else
                 $("#metrage-max").html(500 - ui.values[0]);
+            minMetrage = 500 - ui.values[1];
+            maxMetrage = 500 - ui.values[0];
+            filter();
         }
     });
     $("#price1-slider").slider({
@@ -41,6 +82,9 @@ $(document).ready(() => {
                 $("#price1-max").html((2000 - ui.values[0]).toString() + ' میلیون');
             else
                $("#price1-max").html((Math.floor((2000 - ui.values[0])/100)/10).toString() + ' میلیارد');
+            minPrice1 = 2000 - ui.values[1];
+            maxPrice1 = 2000 - ui.values[0];
+            filter();
         }
     });
     $("#price2-slider").slider({
@@ -60,6 +104,9 @@ $(document).ready(() => {
                 $("#price2-max").html((100 - ui.values[0]).toString() + '+ میلیون');
             else
                 $("#price2-max").html((100 - ui.values[0]).toString() + ' میلیون');
+            minPrice2 = 100 - ui.values[1];
+            maxPrice2 = 100 - ui.values[0];
+            filter();    
         }
     });
     $("#age-slider").slider({
@@ -79,6 +126,9 @@ $(document).ready(() => {
                 $("#age-max").html((100 - ui.values[0]).toString() + '+');
             else
                 $("#age-max").html(100 - ui.values[0]);
+            minAge = 100 - ui.values[1];
+            maxAge = 100 - ui.values[0];
+            filter();    
         }
     });
 
@@ -174,5 +224,8 @@ $(document).ready(() => {
             $('#rent2-btn').removeClass('active');
         else
             $('#rent2-btn').addClass('active');
-    })
+    });
+    $('#refresh-btn').click(() => {
+        setTimeout(filter, 1000);
+    });
 });
