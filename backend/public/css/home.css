@@ -464,9 +464,5 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         width: 100%;
         border: none;
     }
-    section.dark{
-        background-color: var(--dark-background);
-
-    }
 }
 @media only screen and (max-width: 800px) {}
