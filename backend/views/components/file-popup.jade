@@ -4,7 +4,7 @@
         .popup-title
             h1 افزودن فایل جدید
     //- .description مشاور املاک جدد می‌تواند 30 روز به صورت رایگان از امکانات فایل استور استفاده نماید.
-    form(action="/dashboard/add-file" method="POST")
+    form(action="/dashboard/add-file" enctype="multipart/form-data" method="POST")
         .multi-column-form
             .col50
                 .double-text-input
@@ -189,6 +189,9 @@
             button.submit(type="submit")
                 i.fa.fa-save
                 | ثبت
+        .images-view 
+            label(for="myFile") آپلود عکس: 
+            input.file-input(type="file" name="myFile")
                     
 -if(errors){
     script.

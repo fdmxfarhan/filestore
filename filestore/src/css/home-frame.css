@@ -60,64 +60,69 @@
     margin: 1vw auto;
     padding-bottom: 2vw;
 }
-.file-list .item .info1{
+.info1{
     /* border-collapse: collapse; */
     overflow: hidden;
     width: 100%;
 }
-.file-list .item .info2{
+.info2{
     /* border-collapse: collapse; */
     width: 100%;
     text-align: center;
 }
-.file-list .item .info3{
+.info3{
     /* border-collapse: collapse; */
     width: 100%;
     /* text-align: center; */
 }
-.file-list .item .info2 td{
+.info5{
+    /* border-collapse: collapse; */
+    width: 70%;
+    /* text-align: center; */
+}
+.info2 td, .info5 td{
     border: var(--lightgray) 0.1vw solid;
     padding: 0.1vw 0.2vw;
     height: 1vw;
 }
-.file-list .item .col20{width: 18%; margin: 0;}
-.file-list .item .col25{width: 23%; margin: 0;}
-.file-list .item .col30{width: 28%; margin: 0;}
-.file-list .item .col35{width: 33%; margin: 0;}
-.file-list .item .col40{width: 38%; margin: 0;}
-.file-list .item .col50{width: 48%; margin: 0;}
-.file-list .item .col60{width: 58%; margin: 0;}
-.file-list .item .col70{width: 68%; margin: 0;}
-.file-list .item .column{
+.col20{width: 18%; margin: 0;}
+.col25{width: 23%; margin: 0;}
+.col30{width: 28%; margin: 0;}
+.col35{width: 33%; margin: 0;}
+.col40{width: 38%; margin: 0;}
+.col50{width: 48%; margin: 0;}
+.col60{width: 58%; margin: 0;}
+.col70{width: 68%; margin: 0;}
+.column{
     border: var(--lightgray) 0.1vw solid;
     /* height: 5vw; */
     padding: 0.3vw 0.5vw;
     border-radius: 0.2vw;
 }
-.file-list .item .name{
+.name{
     font-family: 'iransans';
     font-size: 1vw;
     font-weight: bold;
     display: inline;
 }
-.file-list .item .value{
+.value{
     font-family: 'iransans';
     font-size: 1vw;
     display: inline;
 }
-.file-list .item .info3 .value{
+.info3 .value{
     color: green;
 }
-.file-list .item .table-title{
+.table-title{
     font-family: 'iransans';
     font-size: 0.8vw;
     font-weight: bold;
 }
-.file-list .item .table-value{
+.table-value{
     font-family: 'iransans';
     font-size: 0.9vw;
 }
-.file-list .item .label{
+.label{
     /* float: right; */
     display: inline;
     font-family: 'iransans';
@@ -129,13 +134,13 @@
     line-height: 1vw;
     white-space: nowrap;
 }
-.file-list .item .label.green{
+.label.green{
     background-color: var(--green);
 }
-.file-list .item .label.blue{
+.label.blue{
     background-color: var(--blue);
 }
-.file-list .item .info3 .more{
+.info3 .more{
     font-family: 'iransans';
     font-size: 0.9vw;
     color: white;
@@ -146,7 +151,7 @@
     float: left;
     cursor: pointer;
 }    
-.file-list .item .info3 .more:hover{
+.info3 .more:hover{
     background-color: var(--green);
 }
 
@@ -219,16 +224,24 @@
     padding-left: 0.5vw;
 }
 
-
-
-
-
-
-
-
-
-
-
+.images-view{
+    overflow: hidden;
+    width: 95%;
+    margin: auto;
+    margin-top: 0.5vw;
+}
+.images-view a{
+    height: 5vw;
+    border-radius: 0.3vw;
+    display: block;
+    float: right;
+    margin-left: 0.5vw;
+    overflow: hidden;
+}
+.images-view a img{
+    display: block;
+    height: 5vw;
+}
 
 
 
@@ -245,7 +258,6 @@
     background-color: var(--blue);
 
 }
-
 
 
 .overflow-hidden{overflow: hidden;}

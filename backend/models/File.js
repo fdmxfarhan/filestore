@@ -64,6 +64,7 @@ var FileSchema = new mongoose.Schema({
     transfer: String,
     advertiser: String,
     fileID: String,
+    images: {type:[Object], default: []},
 });
 
 var File = mongoose.model('File', FileSchema);

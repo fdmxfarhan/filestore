@@ -39,7 +39,7 @@ router.get('/get-files', (req, res, next) => {
 
 router.get('/pay-estate', (req, res, next) => {
     var {username, password, plan} = req.query;
-    amounts = [1000, 1000, 1000, 1000];
+    amounts = [170000, 470000, 680000, 1469000];
     names = ['1 ماهه', '3 ماهه', '6 ماهه', '1 ساله'];
     Estate.findOne({code: username, password: password}, (err, estate) => {
         if(estate){

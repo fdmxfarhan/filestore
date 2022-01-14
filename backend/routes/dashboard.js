@@ -7,6 +7,21 @@ var Estate = require('../models/Estate');
 var File = require('../models/File');
 const mail = require('../config/mail');
 const generateCode = require('../config/generateCode');
+var bodyparser = require('body-parser');
+const multer = require('multer');
+const mkdirp = require('mkdirp');
+
+router.use(bodyparser.urlencoded({ extended: true }));
+var storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        const dir = 'public/files/' + Date.now().toString();
+        mkdirp(dir, err => cb(err, dir));
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname)
+    }
+});
+var upload = multer({ storage: storage });
 
 
 router.get('/', ensureAuthenticated, (req, res, next) => {
@@ -119,20 +134,30 @@ router.get('/delete-estate', ensureAuthenticated, (req, res, next) => {
         });
     }
 });
-router.post('/add-file', ensureAuthenticated, (req, res, next) => {
+router.post('/add-file', ensureAuthenticated, upload.single(`myFile`), (req, res, next) => {
+    var body = req.body;
+    var file = req.file;
     if(req.user.role == 'admin'){
-        var newFile = new File(req.body);
+        body.images = [];
+        if(file) body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
+        var newFile = new File(body);
         newFile.save().then(doc => {
             res.redirect('/dashboard/files');
         }).catch(err => console.log(err));
     }
 });
-router.post('/edit-file', ensureAuthenticated, (req, res, next) => {
+router.post('/edit-file', ensureAuthenticated, upload.single(`myFile`), (req, res, next) => {
     var {fileID} = req.body;
+    var body = req.body;
+    var file = req.file;
     if(req.user.role == 'admin'){
-        File.updateMany({_id: fileID}, {$set: req.body}, (err, doc) => {
-            res.redirect('/dashboard/files');
-        });
+        File.findById(fileID, (err, f) => {
+            body.images = f.images;
+            if(file) body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
+            File.updateMany({_id: fileID}, {$set: body}, (err, doc) => {
+                res.redirect('/dashboard/files');
+            });
+        })
     }
 });
 router.get('/delete-file', ensureAuthenticated, (req, res, next) => {

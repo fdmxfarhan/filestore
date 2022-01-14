@@ -2,6 +2,21 @@ var minMetrage = 0, maxMetrage = 300;
 var minPrice1 = 100, maxPrice1 = 500;
 var minPrice2 = 1, maxPrice2 = 50;
 var minAge = 1, maxAge = 30;
+var apartment = true;
+var vilage = true;
+var old = true;
+var business = true;
+var office = true;
+var officeEstate = true;
+var land = true;
+var mostaghelat = true;
+var sell = true;
+var presell = true;
+var exchange = true;
+var cooperate = true;
+var rent = true;
+var rent2 = true;
+var refresh = true;
 
 var filter = () => {
     var filesContainer = document.getElementById('file-list-container');
@@ -28,7 +43,23 @@ var filter = () => {
                         item.style.display = 'none';
                     else {
                         item.style.display = 'block';
-                        
+                        var type = item.childNodes[0].childNodes[0].childNodes[1].textContent;
+                        var state = item.childNodes[0].childNodes[0].childNodes[0].textContent;
+                        if(!apartment         && type == 'آپارتمان ') item.style.display = 'none';
+                        else if(!vilage       && type == 'ویلایی ')    item.style.display = 'none';
+                        else if(!old          && type == 'کلنگی ')    item.style.display = 'none';
+                        else if(!business     && type == 'تجاری ')    item.style.display = 'none';
+                        else if(!office       && type == 'اداری ')    item.style.display = 'none';
+                        else if(!officeEstate && type == 'موقعیت اداری ') item.style.display = 'none';
+                        else if(!land         && type == 'زمین ') item.style.display = 'none';
+                        else if(!mostaghelat  && type == 'مستغلات ') item.style.display = 'none';
+                        else if(!sell         && state == 'فروش ') item.style.display = 'none';
+                        else if(!presell      && state == 'پیش‌فروش ') item.style.display = 'none';
+                        else if(!exchange     && state == 'معاوضه ') item.style.display = 'none';
+                        else if(!cooperate    && state == 'مشارکت ') item.style.display = 'none';
+                        else if(!rent         && state == 'رهن و اجاره ') item.style.display = 'none';
+                        else if(!rent2        && state == 'رهن کامل ') item.style.display = 'none';
+                        else item.style.display = 'block';
                     }
                 }
             }
@@ -135,97 +166,153 @@ $(document).ready(() => {
 
 
     $('#apartment-btn').click(() => {
-        if(document.getElementById('apartment-btn').className.split(/\s+/)[1] == 'active')
+        if(document.getElementById('apartment-btn').className.split(/\s+/)[1] == 'active'){
             $('#apartment-btn').removeClass('active');
-        else
+            apartment = false;
+        }else{
             $('#apartment-btn').addClass('active');
+            apartment = true;
+        }
+        filter();
     })
 
     $('#vilage-btn').click(() => {
-        if(document.getElementById('vilage-btn').className.split(/\s+/)[1] == 'active')
+        if(document.getElementById('vilage-btn').className.split(/\s+/)[1] == 'active'){
             $('#vilage-btn').removeClass('active');
-        else
+            vilage = false;
+        }else{
             $('#vilage-btn').addClass('active');
+            vilage = true;
+        }
+        filter();
     })
 
     $('#old-btn').click(() => {
-        if(document.getElementById('old-btn').className.split(/\s+/)[1] == 'active')
+        if(document.getElementById('old-btn').className.split(/\s+/)[1] == 'active'){
             $('#old-btn').removeClass('active');
-        else
+            old = false;
+        }else{
             $('#old-btn').addClass('active');
+            old = true;
+        }
+        filter();
     })
 
     $('#business-btn').click(() => {
-        if(document.getElementById('business-btn').className.split(/\s+/)[1] == 'active')
+        if(document.getElementById('business-btn').className.split(/\s+/)[1] == 'active'){
             $('#business-btn').removeClass('active');
-        else
+            business = false;
+        }else{
             $('#business-btn').addClass('active');
+            business = true;
+        }
+        filter();
     })
 
     $('#office-btn').click(() => {
-        if(document.getElementById('office-btn').className.split(/\s+/)[1] == 'active')
+        if(document.getElementById('office-btn').className.split(/\s+/)[1] == 'active'){
             $('#office-btn').removeClass('active');
-        else
+            office = false;
+        }else{
             $('#office-btn').addClass('active');
+            office = true;
+        }
+        filter();
     })
 
     $('#office-estate-btn').click(() => {
-        if(document.getElementById('office-estate-btn').className.split(/\s+/)[1] == 'active')
+        if(document.getElementById('office-estate-btn').className.split(/\s+/)[1] == 'active'){
             $('#office-estate-btn').removeClass('active');
-        else
+            officeEstate = false;
+        }else{
             $('#office-estate-btn').addClass('active');
+            officeEstate = true;
+        }
+        filter();
     })
 
     $('#land-btn').click(() => {
-        if(document.getElementById('land-btn').className.split(/\s+/)[1] == 'active')
+        if(document.getElementById('land-btn').className.split(/\s+/)[1] == 'active'){
             $('#land-btn').removeClass('active');
-        else
+            land = false;
+        }else{
             $('#land-btn').addClass('active');
+            land = true;
+        }
+        filter();
     })
 
     $('#mostaghelat-btn').click(() => {
-        if(document.getElementById('mostaghelat-btn').className.split(/\s+/)[1] == 'active')
+        if(document.getElementById('mostaghelat-btn').className.split(/\s+/)[1] == 'active'){
             $('#mostaghelat-btn').removeClass('active');
-        else
+            mostaghelat = false;
+        }else{
             $('#mostaghelat-btn').addClass('active');
+            mostaghelat = true;
+        }
+        filter();
     })
     $('#sell-btn').click(() => {
-        if(document.getElementById('sell-btn').className.split(/\s+/)[1] == 'active')
+        if(document.getElementById('sell-btn').className.split(/\s+/)[1] == 'active'){
             $('#sell-btn').removeClass('active');
-        else
+            sell = false;
+        }else{
             $('#sell-btn').addClass('active');
+            sell = true;
+        }
+        filter();
     })
     $('#presell-btn').click(() => {
-        if(document.getElementById('presell-btn').className.split(/\s+/)[1] == 'active')
+        if(document.getElementById('presell-btn').className.split(/\s+/)[1] == 'active'){
             $('#presell-btn').removeClass('active');
-        else
+            presell = false;
+        }else{
             $('#presell-btn').addClass('active');
+            presell = true;
+        }
+        filter();
     })
     $('#exchange-btn').click(() => {
-        if(document.getElementById('exchange-btn').className.split(/\s+/)[1] == 'active')
+        if(document.getElementById('exchange-btn').className.split(/\s+/)[1] == 'active'){
             $('#exchange-btn').removeClass('active');
-        else
+            exchange = false;
+        }else{
             $('#exchange-btn').addClass('active');
+            exchange = true;
+        }
+        filter();
     })
     $('#cooperate-btn').click(() => {
-        if(document.getElementById('cooperate-btn').className.split(/\s+/)[1] == 'active')
+        if(document.getElementById('cooperate-btn').className.split(/\s+/)[1] == 'active'){
             $('#cooperate-btn').removeClass('active');
-        else
+            cooperate = false;
+        }else{
             $('#cooperate-btn').addClass('active');
+            cooperate = true;
+        }
+        filter();
     })
     $('#rent-btn').click(() => {
-        if(document.getElementById('rent-btn').className.split(/\s+/)[1] == 'active')
+        if(document.getElementById('rent-btn').className.split(/\s+/)[1] == 'active'){
             $('#rent-btn').removeClass('active');
-        else
+            rent = false;
+        }else{
             $('#rent-btn').addClass('active');
+            rent = true;
+        }
+        filter();
     })
     $('#rent2-btn').click(() => {
-        if(document.getElementById('rent2-btn').className.split(/\s+/)[1] == 'active')
+        if(document.getElementById('rent2-btn').className.split(/\s+/)[1] == 'active'){
             $('#rent2-btn').removeClass('active');
-        else
+            rent2 = false;
+        }else{
             $('#rent2-btn').addClass('active');
+            rent2 = true;
+        }
+        filter();
     });
     $('#refresh-btn').click(() => {
         setTimeout(filter, 1000);
     });
-});
+})

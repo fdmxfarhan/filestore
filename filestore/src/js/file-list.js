@@ -195,6 +195,84 @@ var addFile = (data, index) => {
     item.appendChild(info3);
     filesContainer.appendChild(item);
 }
+var updateHandlers = (data) => {
+    var moreButtons = [];
+    for (let i = 0; i < data.files.length; i++) moreButtons.push({btn: $(`#more-btn-${i}`),id: i,data: data.files[i]});
+    moreButtons.forEach(more => {
+        more.btn.click(() => {
+            $('#file-popup').fadeIn(500);
+            $('.black-modal').fadeIn(500);
+            $('#file-type').text(more.data.type)
+            $('#file-state').text(more.data.state)
+            $('#file-owner').text(more.data.ownerName)
+            $('#file-phone').text(more.data.phone)
+            $('#file-address').text(more.data.address)
+            $('#file-meterage').text(more.data.meterage)
+            $('#file-bedroom').text(more.data.bedroom)
+            $('#file-floor').text(more.data.floor)
+            $('#file-numOfFloors').text(more.data.numOfFloors)
+            $('#file-unit').text(more.data.unit)
+            $('#file-buildAge').text(more.data.buildAge)
+            $('#file-parking').text(more.data.parking)
+            $('#file-warehouse').text(more.data.warehouse)
+            $('#file-elevator').text(more.data.elevator)
+            $('#file-kitchen').text(more.data.kitchen)
+            $('#file-view').text(more.data.view)
+            $('#file-floortype').text(more.data.floortype)
+            $('#file-service').text(more.data.service)
+            $('#file-heatingAndCoolingSystem').text(more.data.heatingAndCoolingSystem)
+            $('#file-meterage2').text(more.data.meterage2)
+            $('#file-bedroom2').text(more.data.bedroom2)
+            $('#file-floor2').text(more.data.floor2)
+            $('#file-numOfFloors2').text(more.data.numOfFloors2)
+            $('#file-unit2').text(more.data.unit2)
+            $('#file-buildAge2').text(more.data.buildAge2)
+            $('#file-parking2').text(more.data.parking2)
+            $('#file-warehouse2').text(more.data.warehouse2)
+            $('#file-elevator2').text(more.data.elevator2)
+            $('#file-kitchen2').text(more.data.kitchen2)
+            $('#file-view2').text(more.data.view2)
+            $('#file-floortype2').text(more.data.floortype2)
+            $('#file-service2').text(more.data.service2)
+            $('#file-heatingAndCoolingSystem2').text(more.data.heatingAndCoolingSystem2)
+            $('#file-meterage3').text(more.data.meterage3)
+            $('#file-bedroom3').text(more.data.bedroom3)
+            $('#file-floor3').text(more.data.floor3)
+            $('#file-numOfFloors3').text(more.data.numOfFloors3)
+            $('#file-unit3').text(more.data.unit3)
+            $('#file-buildAge3').text(more.data.buildAge3)
+            $('#file-parking3').text(more.data.parking3)
+            $('#file-warehouse3').text(more.data.warehouse3)
+            $('#file-elevator3').text(more.data.elevator3)
+            $('#file-kitchen3').text(more.data.kitchen3)
+            $('#file-view3').text(more.data.view3)
+            $('#file-floortype3').text(more.data.floortype3)
+            $('#file-service3').text(more.data.service3)
+            $('#file-heatingAndCoolingSystem3').text(more.data.heatingAndCoolingSystem3)
+            $('#file-options').text(more.data.options)
+            $('#file-area').text(more.data.area)
+            $('#file-lone').text(more.data.lone)
+            $('#file-changable').text(more.data.changable)
+            $('#file-discount').text(more.data.discount)
+            $('#file-documentState').text(more.data.documentState)
+            $('#file-transfer').text(more.data.transfer)
+            $('#file-advertiser').text(more.data.advertiser)
+            $('#file-price').text(more.data.price)
+            $('#file-fullPrice').text(more.data.fullPrice)
+            var imagesView = document.getElementById('file-images-view');
+            removeAllChildNodes(imagesView);
+            for (let j = 0; j < more.data.images.length; j++) {
+                var link = document.createElement('a');
+                link.href = api.slice(0, -4) + more.data.images[j].link;
+                link.target = '_blank';
+                var img = document.createElement('img');
+                img.src = api.slice(0, -4) + more.data.images[j].link;
+                link.appendChild(img);
+                imagesView.appendChild(link);
+            }
+        })
+    });
+}
 var refresh = () => {
     fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
         if(rawdata){
@@ -210,6 +288,7 @@ var refresh = () => {
                         for(var i=0; i<data.files.length; i++){
                             addFile(data.files[i], i);
                         }
+                        updateHandlers(data);
                         showSuccess('بارگیری با موفقیت انجام شد');
                     }
                     else if(data.status == 'not payed'){
@@ -229,6 +308,7 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
         for(var i=0; i<data.files.length; i++){
             addFile(data.files[i], i);
         }
+        updateHandlers(data);
     }
     else console.log('file not found or does not contain Files data');
 });
@@ -248,6 +328,7 @@ $(document).ready(() => {
     var closeAll = () => {
         $('#plans-popup').fadeOut(500);
         $('.black-modal').fadeOut(500);
+        $('#file-popup').fadeOut(500);
     }
     $('#refresh-btn').click(() => {
         refresh();
@@ -262,4 +343,6 @@ $(document).ready(() => {
     $('#plan1-btn').click(() => {payPlan(1);closeAll();});
     $('#plan2-btn').click(() => {payPlan(2);closeAll();});
     $('#plan3-btn').click(() => {payPlan(3);closeAll();});
+    
+    
 })

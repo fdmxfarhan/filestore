@@ -74,6 +74,7 @@ const port = 3000
 
 // Upload
 // app.use('/upload', uploadHandler);
+app.use('/dashboard', dashboardRoute);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -91,7 +92,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes Handlers
 app.use('/', homeRoute);
 app.use('/users', usersRoute);
-app.use('/dashboard', dashboardRoute);
 app.use('/api', apiRoute);
 app.use('/payment', paymentRoute);
 
