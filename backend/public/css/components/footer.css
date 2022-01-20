@@ -84,5 +84,92 @@
     }
 }
 @media only screen and (max-width: 800px) {
-
+    footer{
+        background-color: var(--dark);
+        overflow: hidden;
+        color: white;
+        padding-bottom: 3vw;
+        position: relative;
+    }
+    footer .hidden-overflow{
+        width: 90%;
+        margin: 3vw auto;
+    }
+    footer h1.title{
+        font-family: 'iransans';
+        font-size: 3.3vw;
+        margin: 0;
+        border: none;
+        padding: 0;
+        color: white;
+        margin-bottom: 1vw;
+    }
+    footer .contact{
+        float: right;
+        width: 50%;
+        margin-bottom: 2vw;
+        text-align: justify;
+    }
+    footer .quick-links {
+        float: right;
+        width: 25%;
+        margin-bottom: 2vw;
+    }
+    footer .news-letter {
+        float: right;
+        width: 100%;
+        margin-bottom: 2vw;
+    }
+    footer .text{
+        color: var(--lightgray);
+        font-size: 3vw;
+    }
+    footer input.text{
+        background-color: transparent;
+        border: var(--gray) 0.1vw solid;
+        font-size: 3.1vw;
+        font-family: 'iransans';
+        padding: 2vw 3vw;
+        display: block;
+        width: 85.5%;
+        border-radius: 1vw;
+        margin: 1vw 0;
+        text-align: justify;
+    }
+    footer input.submit{
+        background-color: var(--yellow);
+        color: white;
+        border: none;
+        font-size: 3.1vw;
+        font-family: 'iransans';
+        padding: 2vw 3vw;
+        display: block;
+        width: 93%;
+        border-radius: 1vw;
+        margin: 1vw 0;
+        text-align: center;
+    }
+    footer a{
+        font-family: 'iransans';
+        font-size: 3vw;
+        text-decoration: none;
+        color: var(--lightgray);
+        display: block;
+        width: fit-content;
+        max-width: 80%;
+        margin-bottom: 1vw;
+    }
+    footer a i{
+        padding-left: 0.5vw;
+    }
+    footer a:hover{color: var(--yellow);}
+    footer h1.copy-right{
+        position: absolute;
+        bottom: 0;
+        text-align: center;
+        width: 100%;
+        right: 0;
+        font-size: 1vw;
+        color: var(--lightgray);
+    }
 }

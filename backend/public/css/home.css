@@ -433,7 +433,7 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     }
     .mockup .image{
         width: 35%;
-        float: left;
+        float: right;
     }
     .mockup .image img{
         width: 100%;
@@ -442,7 +442,7 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     .mockup .info{
         width: 60%;
         margin-left: 5%;
-        float: left;
+        float: right;
     }
     .mockup .info h1{
         color: var(--dark);
@@ -469,7 +469,7 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     header{
         position: relative;
         overflow: hidden;
-        height: 43vw;
+        height: 80vw;
     }
     header video{
         position: absolute;
@@ -481,7 +481,7 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         position: absolute;
         top: -5vw;
         right: 0;
-        width: 100%;
+        height: 85vw;
         display: block;
     }
     header .overlay{
@@ -513,34 +513,34 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     header .info .contact{
         float: right;
         color: white;
-        padding: 0.5vw 1vw;
+        padding: 1.5vw 3vw;
         font-family: 'iransans';
-        font-size: 1vw;
+        font-size: 2vw;
     }
     header .info .contact a{
         color: white;
         text-decoration: none;
         font-family: 'iransans';
-        font-size: 1vw;
+        font-size: 2.5vw;
     }
     header .info .contact a:hover{
         color: var(--yellow);
     }
     header .info .contact i{
         color: var(--yellow);
-        font-size: 2vw;
-        padding: 0 0.5vw;
+        font-size: 3vw;
+        padding-left: 2vw;
     }
     header .info a.link{
         float: left;
         color: white;
         text-decoration: none;
         margin: 1vw 1vw;
-        padding: 0.2vw 1vw;
+        padding: 0.2vw 3vw;
         border: white 0.1vw solid;
-        border-radius: 0.5vw;
+        border-radius: 1vw;
         font-family: 'iransans';
-        font-size: 1vw;
+        font-size: 3vw;
     }
     header .info a.link:hover{
         background-color: var(--yellow);
@@ -552,33 +552,33 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     }
     header nav{
         position: absolute;
-        top: 4vw;
+        top: 9vw;
         right: 6%;
         width: 82%;
         background-color: white;
         overflow: hidden;
         z-index: 10;
-        border-radius: 0.5vw;
+        border-radius: 1vw;
         padding: 0 3%;
         padding-right: 0.5vw;
     }
     header nav a.logo{
         display: block;
         float: right;
-        padding: 0.2vw 3%;
+        padding: 0.6vw 3%;
         padding-left: 5vw;
     }
     header nav a.logo img{
-        width: 2.8vw;
+        width: 4vw;
     }
     header nav a.link{
         float: right;
         text-decoration: none;
         font-family: 'iransans';
-        font-size: 1.1vw;
+        font-size: 3vw;
         display: block;
         color: var(--text);
-        padding: 0.5vw 1vw;
+        padding: 0.5vw 2vw;
         padding-top: 1.3vw;
         padding-bottom: 0;
         font-weight: bold;
@@ -588,7 +588,7 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         float: left;
         text-decoration: none;
         font-family: 'iransans';
-        font-size: 1.8vw;
+        font-size: 3.3vw;
         display: block;
         color: var(--gray);
         padding-left: 0.7vw;
@@ -597,13 +597,13 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     header nav a.icon:hover{color: var(--hover);}
     header .title-view {
         position: absolute;
-        top: 17vw;
+        top: 24vw;
         right: 6%;
         z-index: 10;
         color: white;
     }
     header .title-view h2{
-        font-size: 1.5vw;
+        font-size: 3.5vw;
         font-weight: normal;
         margin: 0;
         padding: 0;
@@ -612,7 +612,7 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         font-weight: normal;
         margin: 0;
         padding: 0;
-        font-size: 2vw;
+        font-size: 5vw;
     }
     header .title-view input{
         border: none;
@@ -626,7 +626,7 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         outline: none;
     }
     header .title-view h1{
-        font-size: 6vw;
+        font-size: 15vw;
         margin: 0;
     }
     header .title-view h1 input{
@@ -643,7 +643,7 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     }
     header img.top-logo{
         position: absolute;
-        top: 12vw;
+        top: 50vw;
         left: 6%;
         z-index: 10;
         width: 22vw;
@@ -827,40 +827,42 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         display: inline;
     }
     .mockup{
-        width: 80%;
+        width: 90%;
         margin: 6vw auto;
         overflow: hidden;
     }
     .mockup .image{
-        width: 35%;
-        float: left;
+        width: 100%;
+        float: right;
     }
     .mockup .image img{
-        width: 100%;
+        width: 70%;
+        margin: auto;
         display: block;
+        margin-top: 2vw;
     }
     .mockup .info{
-        width: 60%;
+        width: 100%;
         margin-left: 5%;
-        float: left;
+        float: right;
     }
     .mockup .info h1{
         color: var(--dark);
         font-family: 'iransans';
-        font-size: 1.6vw;
+        font-size: 3.6vw;
     }
     .mockup .info p{
         color: var(--text);
         font-family: 'iransans';
-        font-size: 1.2vw;
+        font-size: 3.2vw;
         text-align: justify;
     }
     section .map{
-        width: 90%;
-        margin: 1vw auto;
+        width: 100%;
+        margin: 3vw auto;
     }
     section .map iframe{
-        height: 50vw;
+        height: 100vh;
         width: 100%;
         border: none;
     }
