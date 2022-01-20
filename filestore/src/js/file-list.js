@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var api = require('./api');
+var {convertDate} = require('./dateConvert');
 var pathName = path.join(__dirname, '../files');
 var filesContainer = document.getElementById('file-list-container');
 var errorMsg = document.getElementById('error-msg');
@@ -30,6 +31,17 @@ var showSuccess = (text) => {
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
+    }
+}
+var getPrice = (price) => {
+    if(price > 1000000000){
+        return Math.floor(price/100000000)/10 + ' میلیارد تومان';
+    }
+    else if(price > 1000000){
+        return Math.floor(price/100000)/10 + ' میلیون تومان';
+    }
+    else{
+        return price/100000 + ' میلیون';
     }
 }
 var addFile = (data, index) => {
@@ -68,10 +80,13 @@ var addFile = (data, index) => {
     td3.classList.add('column');
     var name2 = document.createElement('div');
     name2.classList.add('name');
-    name2.appendChild(document.createTextNode('تلفن: '));
+    if(data.state == 'رهن و اجاره' || data.state == 'رهن کامل')
+        name2.appendChild(document.createTextNode('قیمت رهن: '));
+    else
+        name2.appendChild(document.createTextNode('قیمت متری: ')); 
     var value2 = document.createElement('div');
     value2.classList.add('value');
-    value2.appendChild(document.createTextNode(data.phone));
+    value2.appendChild(document.createTextNode(getPrice(data.price)));
     td3.appendChild(name2);
     td3.appendChild(value2);
     
@@ -79,10 +94,14 @@ var addFile = (data, index) => {
     td4.classList.add('column');
     var name3 = document.createElement('div');
     name3.classList.add('name');
-    name3.appendChild(document.createTextNode('آدرس: '));
+    if(data.state == 'رهن و اجاره' || data.state == 'رهن کامل')
+        name3.appendChild(document.createTextNode('قیمت اجاره: '));
+    else
+        name3.appendChild(document.createTextNode('قیمت کل: '));
+
     var value3 = document.createElement('div');
     value3.classList.add('value');
-    value3.appendChild(document.createTextNode(data.address));
+    value3.appendChild(document.createTextNode(getPrice(data.fullPrice)));
     td4.appendChild(name3);
     td4.appendChild(value3);
     
@@ -127,42 +146,42 @@ var addFile = (data, index) => {
     var table1Value13= document.createElement('td');table1Value13.classList.add('table-value');table1Value13.appendChild(document.createTextNode(data.service));tr2.appendChild(table1Value13);
     var table1Value14= document.createElement('td');table1Value14.classList.add('table-value');table1Value14.appendChild(document.createTextNode(data.heatingAndCoolingSystem));tr2.appendChild(table1Value14);
     
-    var tr3 = document.createElement('tr');
-    var table2Value1 = document.createElement('td'); table2Value1.classList.add('table-value'); table2Value1.appendChild(document.createTextNode(data.meterage2));tr3.appendChild(table2Value1);
-    var table2Value2 = document.createElement('td'); table2Value2.classList.add('table-value'); table2Value2.appendChild(document.createTextNode(data.bedroom2));tr3.appendChild(table2Value2);
-    var table2Value3 = document.createElement('td'); table2Value3.classList.add('table-value'); table2Value3.appendChild(document.createTextNode(data.floor2));tr3.appendChild(table2Value3);
-    var table2Value4 = document.createElement('td'); table2Value4.classList.add('table-value'); table2Value4.appendChild(document.createTextNode(data.numOfFloors2));tr3.appendChild(table2Value4);
-    var table2Value5 = document.createElement('td'); table2Value5.classList.add('table-value'); table2Value5.appendChild(document.createTextNode(data.unit2));tr3.appendChild(table2Value5);
-    var table2Value6 = document.createElement('td'); table2Value6.classList.add('table-value'); table2Value6.appendChild(document.createTextNode(data.buildAge2));tr3.appendChild(table2Value6);
-    var table2Value7 = document.createElement('td'); table2Value7.classList.add('table-value'); table2Value7.appendChild(document.createTextNode(data.parking2));tr3.appendChild(table2Value7);
-    var table2Value8 = document.createElement('td'); table2Value8.classList.add('table-value'); table2Value8.appendChild(document.createTextNode(data.warehouse2));tr3.appendChild(table2Value8);
-    var table2Value9 = document.createElement('td'); table2Value9.classList.add('table-value'); table2Value9.appendChild(document.createTextNode(data.elevator2));tr3.appendChild(table2Value9);
-    var table2Value10= document.createElement('td');table2Value10.classList.add('table-value');table2Value10.appendChild(document.createTextNode(data.kitchen2));tr3.appendChild(table2Value10);
-    var table2Value11= document.createElement('td');table2Value11.classList.add('table-value');table2Value11.appendChild(document.createTextNode(data.view2));tr3.appendChild(table2Value11);
-    var table2Value12= document.createElement('td');table2Value12.classList.add('table-value');table2Value12.appendChild(document.createTextNode(data.floortype2));tr3.appendChild(table2Value12);
-    var table2Value13= document.createElement('td');table2Value13.classList.add('table-value');table2Value13.appendChild(document.createTextNode(data.service2));tr3.appendChild(table2Value13);
-    var table2Value14= document.createElement('td');table2Value14.classList.add('table-value');table2Value14.appendChild(document.createTextNode(data.heatingAndCoolingSystem2));tr3.appendChild(table2Value14);
+    // var tr3 = document.createElement('tr');
+    // var table2Value1 = document.createElement('td'); table2Value1.classList.add('table-value'); table2Value1.appendChild(document.createTextNode(data.meterage2));tr3.appendChild(table2Value1);
+    // var table2Value2 = document.createElement('td'); table2Value2.classList.add('table-value'); table2Value2.appendChild(document.createTextNode(data.bedroom2));tr3.appendChild(table2Value2);
+    // var table2Value3 = document.createElement('td'); table2Value3.classList.add('table-value'); table2Value3.appendChild(document.createTextNode(data.floor2));tr3.appendChild(table2Value3);
+    // var table2Value4 = document.createElement('td'); table2Value4.classList.add('table-value'); table2Value4.appendChild(document.createTextNode(data.numOfFloors2));tr3.appendChild(table2Value4);
+    // var table2Value5 = document.createElement('td'); table2Value5.classList.add('table-value'); table2Value5.appendChild(document.createTextNode(data.unit2));tr3.appendChild(table2Value5);
+    // var table2Value6 = document.createElement('td'); table2Value6.classList.add('table-value'); table2Value6.appendChild(document.createTextNode(data.buildAge2));tr3.appendChild(table2Value6);
+    // var table2Value7 = document.createElement('td'); table2Value7.classList.add('table-value'); table2Value7.appendChild(document.createTextNode(data.parking2));tr3.appendChild(table2Value7);
+    // var table2Value8 = document.createElement('td'); table2Value8.classList.add('table-value'); table2Value8.appendChild(document.createTextNode(data.warehouse2));tr3.appendChild(table2Value8);
+    // var table2Value9 = document.createElement('td'); table2Value9.classList.add('table-value'); table2Value9.appendChild(document.createTextNode(data.elevator2));tr3.appendChild(table2Value9);
+    // var table2Value10= document.createElement('td');table2Value10.classList.add('table-value');table2Value10.appendChild(document.createTextNode(data.kitchen2));tr3.appendChild(table2Value10);
+    // var table2Value11= document.createElement('td');table2Value11.classList.add('table-value');table2Value11.appendChild(document.createTextNode(data.view2));tr3.appendChild(table2Value11);
+    // var table2Value12= document.createElement('td');table2Value12.classList.add('table-value');table2Value12.appendChild(document.createTextNode(data.floortype2));tr3.appendChild(table2Value12);
+    // var table2Value13= document.createElement('td');table2Value13.classList.add('table-value');table2Value13.appendChild(document.createTextNode(data.service2));tr3.appendChild(table2Value13);
+    // var table2Value14= document.createElement('td');table2Value14.classList.add('table-value');table2Value14.appendChild(document.createTextNode(data.heatingAndCoolingSystem2));tr3.appendChild(table2Value14);
     
-    var tr4 = document.createElement('tr');
-    var table3Value1 = document.createElement('td'); table3Value1.classList.add('table-value'); table3Value1.appendChild(document.createTextNode(data.meterage3));tr4.appendChild(table3Value1);
-    var table3Value2 = document.createElement('td'); table3Value2.classList.add('table-value'); table3Value2.appendChild(document.createTextNode(data.bedroom3));tr4.appendChild(table3Value2);
-    var table3Value3 = document.createElement('td'); table3Value3.classList.add('table-value'); table3Value3.appendChild(document.createTextNode(data.floor3));tr4.appendChild(table3Value3);
-    var table3Value4 = document.createElement('td'); table3Value4.classList.add('table-value'); table3Value4.appendChild(document.createTextNode(data.numOfFloors3));tr4.appendChild(table3Value4);
-    var table3Value5 = document.createElement('td'); table3Value5.classList.add('table-value'); table3Value5.appendChild(document.createTextNode(data.unit3));tr4.appendChild(table3Value5);
-    var table3Value6 = document.createElement('td'); table3Value6.classList.add('table-value'); table3Value6.appendChild(document.createTextNode(data.buildAge3));tr4.appendChild(table3Value6);
-    var table3Value7 = document.createElement('td'); table3Value7.classList.add('table-value'); table3Value7.appendChild(document.createTextNode(data.parking3));tr4.appendChild(table3Value7);
-    var table3Value8 = document.createElement('td'); table3Value8.classList.add('table-value'); table3Value8.appendChild(document.createTextNode(data.warehouse3));tr4.appendChild(table3Value8);
-    var table3Value9 = document.createElement('td'); table3Value9.classList.add('table-value'); table3Value9.appendChild(document.createTextNode(data.elevator3));tr4.appendChild(table3Value9);
-    var table3Value10= document.createElement('td');table3Value10.classList.add('table-value');table3Value10.appendChild(document.createTextNode(data.kitchen3));tr4.appendChild(table3Value10);
-    var table3Value11= document.createElement('td');table3Value11.classList.add('table-value');table3Value11.appendChild(document.createTextNode(data.view3));tr4.appendChild(table3Value11);
-    var table3Value12= document.createElement('td');table3Value12.classList.add('table-value');table3Value12.appendChild(document.createTextNode(data.floortype3));tr4.appendChild(table3Value12);
-    var table3Value13= document.createElement('td');table3Value13.classList.add('table-value');table3Value13.appendChild(document.createTextNode(data.service3));tr4.appendChild(table3Value13);
-    var table3Value14= document.createElement('td');table3Value14.classList.add('table-value');table3Value14.appendChild(document.createTextNode(data.heatingAndCoolingSystem3));tr4.appendChild(table3Value14);
+    // var tr4 = document.createElement('tr');
+    // var table3Value1 = document.createElement('td'); table3Value1.classList.add('table-value'); table3Value1.appendChild(document.createTextNode(data.meterage3));tr4.appendChild(table3Value1);
+    // var table3Value2 = document.createElement('td'); table3Value2.classList.add('table-value'); table3Value2.appendChild(document.createTextNode(data.bedroom3));tr4.appendChild(table3Value2);
+    // var table3Value3 = document.createElement('td'); table3Value3.classList.add('table-value'); table3Value3.appendChild(document.createTextNode(data.floor3));tr4.appendChild(table3Value3);
+    // var table3Value4 = document.createElement('td'); table3Value4.classList.add('table-value'); table3Value4.appendChild(document.createTextNode(data.numOfFloors3));tr4.appendChild(table3Value4);
+    // var table3Value5 = document.createElement('td'); table3Value5.classList.add('table-value'); table3Value5.appendChild(document.createTextNode(data.unit3));tr4.appendChild(table3Value5);
+    // var table3Value6 = document.createElement('td'); table3Value6.classList.add('table-value'); table3Value6.appendChild(document.createTextNode(data.buildAge3));tr4.appendChild(table3Value6);
+    // var table3Value7 = document.createElement('td'); table3Value7.classList.add('table-value'); table3Value7.appendChild(document.createTextNode(data.parking3));tr4.appendChild(table3Value7);
+    // var table3Value8 = document.createElement('td'); table3Value8.classList.add('table-value'); table3Value8.appendChild(document.createTextNode(data.warehouse3));tr4.appendChild(table3Value8);
+    // var table3Value9 = document.createElement('td'); table3Value9.classList.add('table-value'); table3Value9.appendChild(document.createTextNode(data.elevator3));tr4.appendChild(table3Value9);
+    // var table3Value10= document.createElement('td');table3Value10.classList.add('table-value');table3Value10.appendChild(document.createTextNode(data.kitchen3));tr4.appendChild(table3Value10);
+    // var table3Value11= document.createElement('td');table3Value11.classList.add('table-value');table3Value11.appendChild(document.createTextNode(data.view3));tr4.appendChild(table3Value11);
+    // var table3Value12= document.createElement('td');table3Value12.classList.add('table-value');table3Value12.appendChild(document.createTextNode(data.floortype3));tr4.appendChild(table3Value12);
+    // var table3Value13= document.createElement('td');table3Value13.classList.add('table-value');table3Value13.appendChild(document.createTextNode(data.service3));tr4.appendChild(table3Value13);
+    // var table3Value14= document.createElement('td');table3Value14.classList.add('table-value');table3Value14.appendChild(document.createTextNode(data.heatingAndCoolingSystem3));tr4.appendChild(table3Value14);
     
     info2.appendChild(tr1);
     info2.appendChild(tr2);
-    info2.appendChild(tr3);
-    info2.appendChild(tr4);
+    // info2.appendChild(tr3);
+    // info2.appendChild(tr4);
 
     var info3 = document.createElement('table');
     info3.classList.add('info3');
@@ -183,16 +202,17 @@ var addFile = (data, index) => {
     }
     var info3value2 = document.createElement('div');info3value2.classList.add('value');info3value2.appendChild(document.createTextNode(data.fullPrice));info3td2.appendChild(info3value2);
     var info3td3 = document.createElement('td');
-    var moreButton = document.createElement('div');moreButton.classList.add('more');moreButton.id='more-btn-'+index.toString();moreButton.appendChild(document.createTextNode('مشاهده فایل'));info3td3.appendChild(moreButton);
+    // var moreButton = document.createElement('div');moreButton.classList.add('more');moreButton.id='more-btn-'+index.toString();moreButton.appendChild(document.createTextNode('مشاهده فایل'));info3td3.appendChild(moreButton);
 
 
     info3.appendChild(info3td1);
     info3.appendChild(info3td2);
     info3.appendChild(info3td3);
-
+    info3.classList.add('hidden');
     item.appendChild(info1);
     item.appendChild(info2);
     item.appendChild(info3);
+    item.id='more-btn-'+index.toString();
     filesContainer.appendChild(item);
 }
 var updateHandlers = (data) => {
@@ -308,6 +328,18 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
         for(var i=0; i<data.files.length; i++){
             addFile(data.files[i], i);
         }
+        document.getElementById('fullname').textContent = data.estate.name;
+        document.getElementById('address').textContent = data.estate.address;
+        document.getElementById('estate-code').textContent = data.estate.code;
+        var payDate = (new Date(data.estate.payDate)).getTime();
+        var now = (new Date()).getTime();
+        var endDate = 0;
+        if(data.estate.planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
+        if(data.estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
+        if(data.estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
+        if(data.estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
+        document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
+        
         updateHandlers(data);
     }
     else console.log('file not found or does not contain Files data');
@@ -343,6 +375,8 @@ $(document).ready(() => {
     $('#plan1-btn').click(() => {payPlan(1);closeAll();});
     $('#plan2-btn').click(() => {payPlan(2);closeAll();});
     $('#plan3-btn').click(() => {payPlan(3);closeAll();});
-    
+    $('#pro-search-btn').click(() => {
+        $('#pro-search-view').slideToggle(500);
+    })
     
 })

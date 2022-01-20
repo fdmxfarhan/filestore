@@ -38,12 +38,15 @@
       <div class="main-container">
         <div class="sidebar-view">
           <div class="sidebar">
+            <%- include('./components/user-info.ejs') %>
+          </div>
+          <div class="sidebar">
             <%- include('./components/sidebar.ejs') %>
           </div>
-          <div class="refresh-link" id="refresh-btn">
+          <!-- <div class="refresh-link" id="refresh-btn">
             <i class="fa fa-refresh"></i>
             بارگیری اطلاعات
-          </div>
+          </div> -->
         </div>
         <div class="content-view">
           <%- include('./components/file-list.ejs') %>

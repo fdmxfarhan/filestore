@@ -58,7 +58,11 @@
 .file-list .item{
     width: 90%;
     margin: 1vw auto;
-    padding-bottom: 2vw;
+    padding-bottom: 0.7vw;
+    cursor: pointer;
+}
+.file-list .item:hover{
+    background-color: rgb(236, 241, 243);
 }
 .info1{
     /* border-collapse: collapse; */
@@ -157,6 +161,10 @@
 
 .main-container .sidebar .title{
     padding: 0.5vw 1vw;
+    cursor: pointer;
+}
+.main-container .sidebar .title:hover{
+    color: var(--blue);
 }
 .main-container .sidebar .search-parameters .range-input{
     overflow: hidden;
@@ -207,7 +215,8 @@
 }
 
 .refresh-link{
-    width: 100%;
+    width: 90%;
+    margin: auto;
     background-color: var(--darkblue);
     font-family: 'iransans';
     font-size: 1vw;
@@ -243,8 +252,39 @@
     height: 5vw;
 }
 
-
-
+.sidebar .user-avatar {
+    padding-top: 1.3vw;
+}
+.sidebar .user-avatar i{
+    color: var(--gray);
+    font-size: 4vw;
+    display: block;
+    width: fit-content;
+    margin: auto;
+    /* padding-top: 1vw; */
+    /* padding-bottom: 0.3vw; */
+    padding: 0.5vw 1vw 0.3vw 1vw;
+    border-radius: 50%;
+    border: var(--lightgray) 0.1vw solid;
+}
+.sidebar .info{
+    padding: 0.4vw 2vw;
+    font-family: 'iransans';
+    font-size: 1.2vw;
+}
+.sidebar .info i{
+    font-size: 1.5vw;
+    color: var(--blue);
+    padding-left: 0.5vw;
+}
+.sidebar .info.plan{
+    font-size: 1.2vw;
+    color: green;
+}
+.sidebar .code{
+    text-align: center;
+    color: var(--blue);
+}
 .slider-slider{
     border-radius: 0.3vw;
     padding: 0;
@@ -258,6 +298,23 @@
     background-color: var(--blue);
 
 }
+.sidebar .filter-btn{
+    background-color: var(--darkblue);
+    color: white;
+    border-radius: 0.5vw;
+    padding: 0.5vw 0;
+    text-align: center;
+    cursor: pointer;
+    width: 90%;
+    margin: auto;
+    margin-top: 1vw;
+    font-family: 'iransans';
+    font-size: 1.2vw;
+}
+.sidebar .filter-btn:hover{
+    background-color: var(--green);
+}
 
 
 .overflow-hidden{overflow: hidden;}
+.inline{display: inline;}
