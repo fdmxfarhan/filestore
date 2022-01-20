@@ -465,4 +465,404 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         border: none;
     }
 }
-@media only screen and (max-width: 800px) {}
+@media only screen and (max-width: 800px) {
+    header{
+        position: relative;
+        overflow: hidden;
+        height: 43vw;
+    }
+    header video{
+        position: absolute;
+        top: -5vw;
+        right: 0;
+        width: 100%;
+    }
+    header img.background{
+        position: absolute;
+        top: -5vw;
+        right: 0;
+        width: 100%;
+        display: block;
+    }
+    header .overlay{
+        background-image: linear-gradient(90deg, rgba(38, 31, 48, 0.555), rgba(61, 61, 99, 0.116), rgba(50, 30, 68, 0.74));
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1;
+    }
+    header .info{
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        right: 0;
+        width: 87.5%;
+        z-index: 10;
+        padding: 0 5%;
+    }
+    header .info .contact input{
+        background-color: transparent;
+        font-family: 'iransans';
+        font-size: 1vw;
+        border: none;
+        color: white;
+        padding: 0.5vw 1vw;
+    }
+    header .info .contact{
+        float: right;
+        color: white;
+        padding: 0.5vw 1vw;
+        font-family: 'iransans';
+        font-size: 1vw;
+    }
+    header .info .contact a{
+        color: white;
+        text-decoration: none;
+        font-family: 'iransans';
+        font-size: 1vw;
+    }
+    header .info .contact a:hover{
+        color: var(--yellow);
+    }
+    header .info .contact i{
+        color: var(--yellow);
+        font-size: 2vw;
+        padding: 0 0.5vw;
+    }
+    header .info a.link{
+        float: left;
+        color: white;
+        text-decoration: none;
+        margin: 1vw 1vw;
+        padding: 0.2vw 1vw;
+        border: white 0.1vw solid;
+        border-radius: 0.5vw;
+        font-family: 'iransans';
+        font-size: 1vw;
+    }
+    header .info a.link:hover{
+        background-color: var(--yellow);
+        border: var(--yellow) 0.1vw solid;
+
+    }
+    header .info a.link i{
+        padding: 0 0.5vw;
+    }
+    header nav{
+        position: absolute;
+        top: 4vw;
+        right: 6%;
+        width: 82%;
+        background-color: white;
+        overflow: hidden;
+        z-index: 10;
+        border-radius: 0.5vw;
+        padding: 0 3%;
+        padding-right: 0.5vw;
+    }
+    header nav a.logo{
+        display: block;
+        float: right;
+        padding: 0.2vw 3%;
+        padding-left: 5vw;
+    }
+    header nav a.logo img{
+        width: 2.8vw;
+    }
+    header nav a.link{
+        float: right;
+        text-decoration: none;
+        font-family: 'iransans';
+        font-size: 1.1vw;
+        display: block;
+        color: var(--text);
+        padding: 0.5vw 1vw;
+        padding-top: 1.3vw;
+        padding-bottom: 0;
+        font-weight: bold;
+    }
+    header nav a.link:hover{color: var(--orange);}
+    header nav a.icon{
+        float: left;
+        text-decoration: none;
+        font-family: 'iransans';
+        font-size: 1.8vw;
+        display: block;
+        color: var(--gray);
+        padding-left: 0.7vw;
+        padding-top: 1vw;
+    }
+    header nav a.icon:hover{color: var(--hover);}
+    header .title-view {
+        position: absolute;
+        top: 17vw;
+        right: 6%;
+        z-index: 10;
+        color: white;
+    }
+    header .title-view h2{
+        font-size: 1.5vw;
+        font-weight: normal;
+        margin: 0;
+        padding: 0;
+    }
+    header .title-view h2 input{
+        font-weight: normal;
+        margin: 0;
+        padding: 0;
+        font-size: 2vw;
+    }
+    header .title-view input{
+        border: none;
+        background-color: transparent;
+        font-family: 'iransans';
+        display: block;
+        width: 50vw;
+        color: white;
+    }
+    header input:focus{
+        outline: none;
+    }
+    header .title-view h1{
+        font-size: 6vw;
+        margin: 0;
+    }
+    header .title-view h1 input{
+        font-size: 6vw;
+        margin: 0;
+    }
+    header .title-view h1 .orange{
+        color: var(--yellow);
+        display: inline;
+    }
+    header .title-view h2.border{
+        border-right: var(--yellow) 0.3vw solid;
+        padding-right: 0.8vw;
+    }
+    header img.top-logo{
+        position: absolute;
+        top: 12vw;
+        left: 6%;
+        z-index: 10;
+        width: 22vw;
+    }
+    .square-links{
+        overflow: hidden;
+        width: 86%;
+        margin: auto;
+        margin-top: 3vw;
+    }
+    .square-links a{
+        display: block;
+        text-decoration: none;
+        background-color: white;
+        float: right;
+        width: 24%;
+        margin-right: 1%;
+        overflow: hidden;
+        transition-duration: 500ms;
+    }
+    .square-links a i{
+        font-size: 2vw;
+        padding: 1vw 1vw;
+    }
+    .square-links a .text{
+        float: left;
+        padding: 1.2vw;
+        color: var(--text);
+        font-size: 1vw;
+    }
+    .square-links a:hover .text{color: white;}
+    .square-links a.orange{border-top: var(--orange) 0.3vw solid;}
+    .square-links a.green{border-top: var(--green) 0.3vw solid;}
+    .square-links a.blue{border-top: var(--blue) 0.3vw solid;}
+    .square-links a.red{border-top: var(--red) 0.3vw solid;}
+    .square-links a.orange i{color: var(--orange);}
+    .square-links a.green i{color: var(--green);}
+    .square-links a.blue i{color: var(--blue);}
+    .square-links a.red i{color: var(--red);}
+    .square-links a.orange:hover {background-color: var(--orange);}
+    .square-links a.green:hover {background-color: var(--green);}
+    .square-links a.blue:hover {background-color: var(--blue);}
+    .square-links a.red:hover {background-color: var(--red);}
+    .square-links a:hover i{color: white;}
+    .click-links{
+        overflow: hidden;
+        width: 86%;
+        margin: 3vw auto;
+    }
+    .click-links a{
+        background-color: var(--darkblue);
+        float: right;
+        width: 49%;
+        margin-right: 1%;
+        overflow: hidden;
+    }
+    .click-links h2{
+        color: var(--orange);
+        float: right;
+        font-size: 0.9vw;
+        margin: 2vw 3.5vw;
+        font-weight: normal;
+    }
+    .click-links h2 i{
+        padding: 0 0.5vw;
+    }
+    .click-links h1{
+        float: right;
+        margin: 0;
+        font-size: 1.3vw;
+        color: white;
+        margin: 1.4vw 0;
+
+    }
+    .click-links h1 .orange{
+        color: var(--orange);
+        display: inline;
+    }
+    .cards-view {
+        overflow: hidden;
+        width: 86%;
+        margin: 3vw auto;
+    }
+    .cards-view a{
+        float: right;
+        width: 24%;
+        margin-right: 1%;
+        text-decoration: none;
+        color: var(--text);
+        background-color: white;
+        position: relative;
+        overflow: hidden;
+    }
+    .cards-view img{
+        /* width: 100%; */
+        height: 13vw;
+        display: block;
+        margin: auto;
+    }
+    .cards-view h1.title{
+        font-family: 'iransans';
+        margin: 0;
+        font-size: 1.2vw;
+        padding: 0 1vw;
+    }
+    .cards-view .stars{
+        padding: 0.5vw 1vw;
+        overflow: hidden;
+    }
+    .cards-view .stars i{
+        color: var(--yellow);
+        font-size: 1.5vw;
+    }
+    .cards-view .stars .star-text{
+        display: inline;
+        font-size: 0.9vw;
+    }
+    .cards-view .comments{
+        padding: 1vw;
+        color: var(--gray);
+        border-top: var(--light-background) 0.1vw solid;
+    }
+    .cards-view .comments i{
+        padding: 0 0.5vw;
+    }
+    .cards-view .price{
+        position: absolute;
+        bottom: 1vw;
+        left: 1vw;
+        color: var(--yellow);
+        font-weight: bold;
+        font-size: 1.1vw;
+    }
+    button.save{
+        border: none;
+        background-color: transparent;
+        font-size: 1.5vw;
+        color: white;
+        cursor: pointer;
+        display: block;
+        width: fit-content;
+        padding: 1vw;
+    }
+    button.save:hover{
+        color: var(--orange);
+    }
+    .float-right{
+        margin: 0;
+        float: right;
+    }
+    form.upload-logo{
+        position: absolute;
+        bottom: 1vw;
+        z-index: 100;
+        left: 5vw;
+        background-color: rgba(255, 255, 255, 0.26);
+        border-radius: 1vw;
+        padding: 0 0.5vw;
+    }
+    form.upload-logo input{
+        padding: 0;
+        margin: 0;
+    }
+    form.upload-logo button{
+        display: inline;
+    }
+    form.upload-background{
+        position: absolute;
+        bottom: 1vw;
+        z-index: 100;
+        right: 5vw;
+        background-color: rgba(255, 255, 255, 0.26);
+        border-radius: 1vw;
+        padding: 0 0.5vw;
+    }
+    form.upload-background input{
+        padding: 0;
+        margin: 0;
+    }
+    form.upload-background button{
+        display: inline;
+    }
+    .mockup{
+        width: 80%;
+        margin: 6vw auto;
+        overflow: hidden;
+    }
+    .mockup .image{
+        width: 35%;
+        float: left;
+    }
+    .mockup .image img{
+        width: 100%;
+        display: block;
+    }
+    .mockup .info{
+        width: 60%;
+        margin-left: 5%;
+        float: left;
+    }
+    .mockup .info h1{
+        color: var(--dark);
+        font-family: 'iransans';
+        font-size: 1.6vw;
+    }
+    .mockup .info p{
+        color: var(--text);
+        font-family: 'iransans';
+        font-size: 1.2vw;
+        text-align: justify;
+    }
+    section .map{
+        width: 90%;
+        margin: 1vw auto;
+    }
+    section .map iframe{
+        height: 50vw;
+        width: 100%;
+        border: none;
+    }
+
+}
