@@ -1,13 +1,13 @@
 header 
-    img.video(src="/img/img-02.jpg", alt="img")
+    img.video(src="/img/home.jpg", alt="img")
     .overlay
     .info 
         .contact 
             i.fa.fa-phone 
-            a(href="tel:09123456789")  09123456789
-        .contact 
-            i.fa.fa-envelope 
-            | info@example.com
+            a(href="tel:02146127919")  02146127919 - 02146127947
+        //- .contact 
+        //-     i.fa.fa-envelope 
+        //-     | info@example.com
         -if(user){
             a.link(href="/users/login")= user.fullname == ''? 'پنل کاربری' : user.fullname
                 i.fa.fa-user
@@ -23,8 +23,7 @@ header
         a.logo(href="/") 
             img(src="/img/logo.png")
         a.link(href="/") خانه
-        a.link(href="#") خدمات
-        a.link(href="#") اخبار
+        a.link(href="/privacy-policy") شرایط و قوانین
         a.link(href="#") تماس با ما
         a.link(href="#") درباره ما
         //- a.icon(href="#") 

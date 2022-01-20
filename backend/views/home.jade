@@ -11,15 +11,15 @@ html
         link(rel='stylesheet', href='/css/components/footer.css')
     body
         header 
-            img.background(src="/img/img-04.jpg")
+            img.background(src="/img/home.jpg")
             .overlay
             .info 
                 .contact 
                     i.fa.fa-phone 
-                    a(href="tel:09123456789") 09123456789
-                .contact 
-                    i.fa.fa-envelope 
-                    | info@gmail.com
+                    a(href="tel:02146127919") 02146127919 - 02146127947
+                //- .contact 
+                //-     i.fa.fa-envelope 
+                //-     | info@gmail.com
                 -if(user){
                     a.link(href="/users/login")= user.fullname == ''? 'پنل کاربری' : user.fullname
                         i.fa.fa-user
@@ -33,8 +33,7 @@ html
                 a.logo(href="/") 
                     img(src="/img/logo.png")
                 a.link(href="/") خانه
-                a.link(href="#") خدمات
-                a.link(href="#") اخبار
+                a.link(href="/privacy-policy") شرایط و قوانین
                 a.link(href="#") تماس با ما
                 a.link(href="#") درباره ما
                 //- a.icon(href="#") 
@@ -48,7 +47,7 @@ html
             .title-view 
                 h2 سامانه مدیریت فالینگ
                 h1 فایل استور
-                h2.border خدمات فایلینگ
+                h2.border فایلینگ تخصصی املاک در تهران
             img.top-logo(src="/img/logo.png")
         section
             .mockup 
@@ -56,7 +55,7 @@ html
                     img(src="/img/mockup.png")
                 .info 
                     h1 آشنایی با فایل استور
-                    p در این قسمت در قالب یک پاراگراف در مورد مجموعه فایل استور توضیح داده می‌شود. این متن صرفا جهت تست قرار داده شده و هیچ محتوای خاصی ندارد. این متن صرفا جهت تست قرار داده شده و هیچ محتوای خاصی ندارد. این متن صرفا جهت تست قرار داده شده و هیچ محتوای خاصی ندارد. این متن صرفا جهت تست قرار داده شده و هیچ محتوای خاصی ندارد. 
+                    p تیم فایل استور با سابقه  بیش از 10 ساله در صنف مشاورین املاک اقدام به راه اندازی فایلینگ جامع مناسب با نیاز روز مشاورین املاک نموده است. کلیه فایلها در کلیه رنج ها روزانه در دسترس شما عزیزان قرار میگیرد. فایل استور املاک نیست و هیچ کدام از اعضای تیم  در زمینه خرید و فروش املاک  فعالیتی ندارند. 
         section 
             .map
                 iframe(src="https://www.google.com/maps/d/embed?mid=1ZA6f8CNze8Xa1yUsLxO4hZFOm7zdTbyN&ehbc=2E312F" width="640" height="480")
