@@ -268,18 +268,19 @@
     border: var(--lightgray) 0.1vw solid;
 }
 .sidebar .info{
-    padding: 0.4vw 2vw;
+    padding: 0.2vw 2vw;
     font-family: 'iransans';
-    font-size: 1.2vw;
+    font-size: 1vw;
 }
 .sidebar .info i{
-    font-size: 1.5vw;
+    font-size: 1.3vw;
     color: var(--blue);
     padding-left: 0.5vw;
 }
 .sidebar .info.plan{
-    font-size: 1.2vw;
+    font-size: 1vw;
     color: green;
+    margin-bottom: 1vw;
 }
 .sidebar .code{
     text-align: center;
@@ -314,7 +315,38 @@
 .sidebar .filter-btn:hover{
     background-color: var(--green);
 }
-
-
+.sidebar .search-address{
+    overflow: hidden;
+    padding: 1vw 0;
+}
+.sidebar .search-address input{
+    display: block;
+    float: right;
+    font-family: 'iransans';
+    font-size: 0.9vw;
+    padding: 0.2vw 1vw;
+    margin-right: 1vw;
+    border: var(--gray) 0.1vw solid;
+    border-top-right-radius: 0.5vw;
+    border-bottom-right-radius: 0.5vw;
+    width: 70%;
+    border-left: none;
+}
+.sidebar .search-address button{
+    display: block;
+    float: right;
+    font-family: 'iransans';
+    font-size: 0.9vw;
+    padding: 0.2vw 1vw;
+    border: var(--darkblue) 0.1vw solid;
+    background-color: var(--darkblue);
+    color: white;
+    border-top-left-radius: 0.5vw;
+    border-bottom-left-radius: 0.5vw;
+    cursor: pointer;
+}
+.sidebar .search-address button:hover{
+    background-color: var(--green);
+}
 .overflow-hidden{overflow: hidden;}
 .inline{display: inline;}

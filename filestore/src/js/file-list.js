@@ -69,10 +69,10 @@ var addFile = (data, index) => {
     td2.classList.add('column');
     var name1 = document.createElement('div');
     name1.classList.add('name');
-    name1.appendChild(document.createTextNode('نام مالک: '));
+    name1.appendChild(document.createTextNode('آدرس: '));
     var value1 = document.createElement('div');
     value1.classList.add('value');
-    value1.appendChild(document.createTextNode(data.ownerName));
+    value1.appendChild(document.createTextNode(data.address));
     td2.appendChild(name1);
     td2.appendChild(value1);
     
