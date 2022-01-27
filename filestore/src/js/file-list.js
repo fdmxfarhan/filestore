@@ -1,7 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var api = require('./api');
-var {convertDate} = require('./dateConvert');
+var {convertDate, showPrice} = require('./dateConvert');
 var pathName = path.join(__dirname, '../files');
 var filesContainer = document.getElementById('file-list-container');
 var errorMsg = document.getElementById('error-msg');
@@ -105,10 +105,23 @@ var addFile = (data, index) => {
     td4.appendChild(name3);
     td4.appendChild(value3);
     
+    var td5 = document.createElement('td');
+    td5.classList.add('column');
+    td5.classList.add('hidden');
+    var name4 = document.createElement('div');
+    name4.classList.add('name');
+    name4.appendChild(document.createTextNode('نام مالک: '));
+    var value4 = document.createElement('div');
+    value4.classList.add('value');
+    value4.appendChild(document.createTextNode(data.ownerName));
+    td5.appendChild(name4);
+    td5.appendChild(value4);
+
     info1.appendChild(td1);
     info1.appendChild(td2);
     info1.appendChild(td3);
     info1.appendChild(td4);
+    info1.appendChild(td5);
 
     // Table 2
     var info2 = document.createElement('table');
@@ -215,82 +228,115 @@ var addFile = (data, index) => {
     item.id='more-btn-'+index.toString();
     filesContainer.appendChild(item);
 }
+var loadData = (more, len) => {
+    if(more.id == len-1) $('#next-file-btn').hide();
+    else $('#next-file-btn').show();
+    if(more.id == 0) $('#prev-file-btn').hide();
+    else $('#prev-file-btn').show();
+    $('#file-type').text(more.data.type)
+    $('#file-state').text(more.data.state)
+    $('#file-owner').text(more.data.ownerName)
+    $('#file-phone').text(more.data.phone)
+    $('#file-address').text(more.data.address)
+    $('#file-meterage').text(more.data.meterage)
+    $('#file-bedroom').text(more.data.bedroom)
+    $('#file-floor').text(more.data.floor)
+    $('#file-numOfFloors').text(more.data.numOfFloors)
+    $('#file-unit').text(more.data.unit)
+    $('#file-buildAge').text(more.data.buildAge)
+    $('#file-parking').text(more.data.parking)
+    $('#file-warehouse').text(more.data.warehouse)
+    $('#file-elevator').text(more.data.elevator)
+    $('#file-kitchen').text(more.data.kitchen)
+    $('#file-view').text(more.data.view)
+    $('#file-floortype').text(more.data.floortype)
+    $('#file-service').text(more.data.service)
+    $('#file-heatingAndCoolingSystem').text(more.data.heatingAndCoolingSystem)
+    $('#file-meterage2').text(more.data.meterage2)
+    $('#file-bedroom2').text(more.data.bedroom2)
+    $('#file-floor2').text(more.data.floor2)
+    $('#file-numOfFloors2').text(more.data.numOfFloors2)
+    $('#file-unit2').text(more.data.unit2)
+    $('#file-buildAge2').text(more.data.buildAge2)
+    $('#file-parking2').text(more.data.parking2)
+    $('#file-warehouse2').text(more.data.warehouse2)
+    $('#file-elevator2').text(more.data.elevator2)
+    $('#file-kitchen2').text(more.data.kitchen2)
+    $('#file-view2').text(more.data.view2)
+    $('#file-floortype2').text(more.data.floortype2)
+    $('#file-service2').text(more.data.service2)
+    $('#file-heatingAndCoolingSystem2').text(more.data.heatingAndCoolingSystem2)
+    $('#file-meterage3').text(more.data.meterage3)
+    $('#file-bedroom3').text(more.data.bedroom3)
+    $('#file-floor3').text(more.data.floor3)
+    $('#file-numOfFloors3').text(more.data.numOfFloors3)
+    $('#file-unit3').text(more.data.unit3)
+    $('#file-buildAge3').text(more.data.buildAge3)
+    $('#file-parking3').text(more.data.parking3)
+    $('#file-warehouse3').text(more.data.warehouse3)
+    $('#file-elevator3').text(more.data.elevator3)
+    $('#file-kitchen3').text(more.data.kitchen3)
+    $('#file-view3').text(more.data.view3)
+    $('#file-floortype3').text(more.data.floortype3)
+    $('#file-service3').text(more.data.service3)
+    $('#file-heatingAndCoolingSystem3').text(more.data.heatingAndCoolingSystem3)
+    $('#file-options').text(more.data.options)
+    $('#file-area').text(more.data.area)
+    $('#file-lone').text(more.data.lone)
+    $('#file-changable').text(more.data.changable)
+    $('#file-discount').text(more.data.discount)
+    $('#file-documentState').text(more.data.documentState)
+    $('#file-transfer').text(more.data.transfer)
+    $('#file-advertiser').text(more.data.advertiser)
+    $('#file-price').text(more.data.price)
+    $('#file-fullPrice').text(more.data.fullPrice)
+    $('#file-price2').text(showPrice(more.data.price))
+    $('#file-fullPrice2').text(showPrice(more.data.fullPrice))
+    $('#file-number').text(more.data.fileNumber)
+    $('#popup-index').text(more.id)
+    var imagesView = document.getElementById('file-images-view');
+    removeAllChildNodes(imagesView);
+    for (let j = 0; j < more.data.images.length; j++) {
+        var link = document.createElement('a');
+        link.href = api.slice(0, -4) + more.data.images[j].link;
+        link.target = '_blank';
+        var img = document.createElement('img');
+        img.src = api.slice(0, -4) + more.data.images[j].link;
+        link.appendChild(img);
+        imagesView.appendChild(link);
+    }
+}
 var updateHandlers = (data) => {
     var moreButtons = [];
     for (let i = 0; i < data.files.length; i++) moreButtons.push({btn: $(`#more-btn-${i}`),id: i,data: data.files[i]});
     moreButtons.forEach(more => {
-        more.btn.click(() => {
+        more.btn.click(() => {            
             $('#file-popup').fadeIn(500);
             $('.black-modal').fadeIn(500);
-            $('#file-type').text(more.data.type)
-            $('#file-state').text(more.data.state)
-            $('#file-owner').text(more.data.ownerName)
-            $('#file-phone').text(more.data.phone)
-            $('#file-address').text(more.data.address)
-            $('#file-meterage').text(more.data.meterage)
-            $('#file-bedroom').text(more.data.bedroom)
-            $('#file-floor').text(more.data.floor)
-            $('#file-numOfFloors').text(more.data.numOfFloors)
-            $('#file-unit').text(more.data.unit)
-            $('#file-buildAge').text(more.data.buildAge)
-            $('#file-parking').text(more.data.parking)
-            $('#file-warehouse').text(more.data.warehouse)
-            $('#file-elevator').text(more.data.elevator)
-            $('#file-kitchen').text(more.data.kitchen)
-            $('#file-view').text(more.data.view)
-            $('#file-floortype').text(more.data.floortype)
-            $('#file-service').text(more.data.service)
-            $('#file-heatingAndCoolingSystem').text(more.data.heatingAndCoolingSystem)
-            $('#file-meterage2').text(more.data.meterage2)
-            $('#file-bedroom2').text(more.data.bedroom2)
-            $('#file-floor2').text(more.data.floor2)
-            $('#file-numOfFloors2').text(more.data.numOfFloors2)
-            $('#file-unit2').text(more.data.unit2)
-            $('#file-buildAge2').text(more.data.buildAge2)
-            $('#file-parking2').text(more.data.parking2)
-            $('#file-warehouse2').text(more.data.warehouse2)
-            $('#file-elevator2').text(more.data.elevator2)
-            $('#file-kitchen2').text(more.data.kitchen2)
-            $('#file-view2').text(more.data.view2)
-            $('#file-floortype2').text(more.data.floortype2)
-            $('#file-service2').text(more.data.service2)
-            $('#file-heatingAndCoolingSystem2').text(more.data.heatingAndCoolingSystem2)
-            $('#file-meterage3').text(more.data.meterage3)
-            $('#file-bedroom3').text(more.data.bedroom3)
-            $('#file-floor3').text(more.data.floor3)
-            $('#file-numOfFloors3').text(more.data.numOfFloors3)
-            $('#file-unit3').text(more.data.unit3)
-            $('#file-buildAge3').text(more.data.buildAge3)
-            $('#file-parking3').text(more.data.parking3)
-            $('#file-warehouse3').text(more.data.warehouse3)
-            $('#file-elevator3').text(more.data.elevator3)
-            $('#file-kitchen3').text(more.data.kitchen3)
-            $('#file-view3').text(more.data.view3)
-            $('#file-floortype3').text(more.data.floortype3)
-            $('#file-service3').text(more.data.service3)
-            $('#file-heatingAndCoolingSystem3').text(more.data.heatingAndCoolingSystem3)
-            $('#file-options').text(more.data.options)
-            $('#file-area').text(more.data.area)
-            $('#file-lone').text(more.data.lone)
-            $('#file-changable').text(more.data.changable)
-            $('#file-discount').text(more.data.discount)
-            $('#file-documentState').text(more.data.documentState)
-            $('#file-transfer').text(more.data.transfer)
-            $('#file-advertiser').text(more.data.advertiser)
-            $('#file-price').text(more.data.price)
-            $('#file-fullPrice').text(more.data.fullPrice)
-            var imagesView = document.getElementById('file-images-view');
-            removeAllChildNodes(imagesView);
-            for (let j = 0; j < more.data.images.length; j++) {
-                var link = document.createElement('a');
-                link.href = api.slice(0, -4) + more.data.images[j].link;
-                link.target = '_blank';
-                var img = document.createElement('img');
-                img.src = api.slice(0, -4) + more.data.images[j].link;
-                link.appendChild(img);
-                imagesView.appendChild(link);
-            }
-        })
+            loadData(more, moreButtons.length);
+        });
+    });
+    $('#next-file-btn').click(() => {
+        var index = parseInt(document.getElementById('popup-index').textContent);
+        loadData(moreButtons[index+1], moreButtons.length);
+    });
+    $('#prev-file-btn').click(() => {
+        var index = parseInt(document.getElementById('popup-index').textContent);
+        loadData(moreButtons[index-1], moreButtons.length);
+    });
+    $(document).keyup(function(e) {
+        if (e.key === "Escape") {
+            $('#file-popup').fadeOut(500);
+            $('.black-modal').fadeOut(500);
+        }
+        if (e.keyCode  == 37) {
+            var index = parseInt(document.getElementById('popup-index').textContent);
+            if(index > 0) loadData(moreButtons[index-1], moreButtons.length);
+        }
+        if (e.keyCode  == 39) {
+            var index = parseInt(document.getElementById('popup-index').textContent);
+            if(index < moreButtons.length-1) loadData(moreButtons[index+1], moreButtons.length);
+        }
     });
 }
 var refresh = () => {
@@ -331,16 +377,36 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
         document.getElementById('fullname').textContent = data.estate.name;
         document.getElementById('address').textContent = data.estate.address;
         document.getElementById('estate-code').textContent = data.estate.code;
-        var payDate = (new Date(data.estate.payDate)).getTime();
-        var now = (new Date()).getTime();
-        var endDate = 0;
-        if(data.estate.planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
-        if(data.estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
-        if(data.estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
-        if(data.estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
-        document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
-        
+        document.getElementById('estate-number').textContent = data.estate.area;
+        if(data.estate.planType != 'free' && data.estate.payed){
+            var payDate = (new Date(data.estate.payDate)).getTime();
+            var now = (new Date()).getTime();
+            var endDate = 0;
+            if(data.estate.planType == 'trial')  endDate = payDate + 3 * 24 * 60 * 60 * 1000;
+            if(data.estate.planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
+            if(data.estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
+            if(data.estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
+            if(data.estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
+            document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
+        }
         updateHandlers(data);
+    }
+    else if(rawdata){
+        var data = JSON.parse(rawdata);
+        document.getElementById('fullname').textContent = data.estate.name;
+        document.getElementById('address').textContent = data.estate.address;
+        document.getElementById('estate-code').textContent = data.estate.code;
+        if(data.estate.planType != 'free' && data.estate.payed){
+            var payDate = (new Date(data.estate.payDate)).getTime();
+            var now = (new Date()).getTime();
+            var endDate = 0;
+            if(data.estate.planType == 'trial')  endDate = payDate + 3 * 24 * 60 * 60 * 1000;
+            if(data.estate.planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
+            if(data.estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
+            if(data.estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
+            if(data.estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
+            document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
+        }
     }
     else console.log('file not found or does not contain Files data');
 });

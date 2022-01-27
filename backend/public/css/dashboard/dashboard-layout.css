@@ -241,10 +241,15 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     .popup .one-side-form{
         overflow: hidden;
     }
-    .popup .one-side-form .text-input-area{
+    .popup .one-side-form .text-input-area,
+    .popup .one-side-form .check-input{
         width: 90%;
         margin: auto;
         margin-bottom: 1vw;
+    }
+    .popup .one-side-form .check-input{
+        margin-top: 1vw;
+        margin-bottom: 0;
     }
     .popup .one-side-form .text-input-area label{
         display: block;

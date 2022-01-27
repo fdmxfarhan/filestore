@@ -49,7 +49,34 @@ html
                 h1 فایل استور
                 h2.border فایلینگ تخصصی املاک در تهران
             img.top-logo(src="/img/logo.png")
-        section
+        section 
+            .register
+                .part 
+                    form(action="/register-estate" method="POST") 
+                        h1 عضویت در فایل استور
+                        p اگر مشاور املاک هستید و میخواهید از خدمات فایل استور استفاده نمایید مشخصات خود را در فرم زیر وارد نموده تا همکاران ما با شما تماس بگیرند.
+                        .text-input-view 
+                            label(for="name") نام و نام خانوادگی: 
+                            input(type="text" name="name" placeholder="نام و نام خانوادگی")
+                        .text-input-view 
+                            label(for="phone") شماره تلفن: 
+                            input(type="text" name="phone" placeholder="شماره تلفن")
+                        button.submit(type="submit") ارسال درخواست
+                .part 
+                    form(action="/register-file" method="POST") 
+                        h1 سپردن ملک به ما (رایگان)
+                        p اگر می‌خواهید ملک خود را در فایل استور ثبت کنید فرم زیر را تکمیل نمایید تا همکاران ما با شما تماس بگیرند.
+                        .text-input-view 
+                            label(for="name") نام و نام خانوادگی: 
+                            input(type="text" name="name" placeholder="نام و نام خانوادگی")
+                        .text-input-view 
+                            label(for="area") شماره منطقه: 
+                            input(type="text" name="area" placeholder="شماره منطقه")
+                        .text-input-view 
+                            label(for="phone") شماره تلفن: 
+                            input(type="text" name="phone" placeholder="شماره تلفن")
+                        button.submit(type="submit") ارسال درخواست
+        section.light
             .mockup 
                 .info 
                     h1 آشنایی با فایل استور

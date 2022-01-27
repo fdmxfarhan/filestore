@@ -20,7 +20,7 @@
                     label(for="phone") همراه
                     input.textinput(type="text" placeholder="" name="phone" value= "#{ typeof phone != 'undefined' ? phone: '' }")
                     label(for="date") تاریخ
-                    input.textinput(type="text" placeholder="" name="date" value= "#{ typeof date != 'undefined' ? date: '' }")
+                    input.textinput(type="text" placeholder="" name="date" value= "#{ typeof date != 'undefined' ? date: `${convertDate(new Date())}` }")
                 .double-text-input
                     label(for="type") نوع
                     select#state(name="type") 

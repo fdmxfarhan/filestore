@@ -3,7 +3,7 @@
     .title-line
         .popup-title
             h1 افزودن مشاور املاک جدید
-    .description مشاور املاک جدد می‌تواند 30 روز به صورت رایگان از امکانات فایل استور استفاده نماید.
+    .description در صورت فعال کردن گزینه 3 روز اشتراک رایگان، مشاور املاک به مدت سه روز رایگان از سرویس فایل استور استفاده می کند.
     form(action="/dashboard/add-estate" method="POST")
         .one-side-form
             .text-input-area
@@ -26,7 +26,9 @@
                     i.fa.fa-pencil
                     | شماره منطقه:
                 input.textinput(type="text" placeholder="شماره منطقه" name="area" value= "#{ typeof area != 'undefined' ? area: '' }")
-            
+            .check-input 
+                input(type="checkbox" name="trial" id="trial" value="true")
+                label(for="trial") 3 روز اشتراک رایگان
             button.submit(type="submit") ثبت
 -if(errors){
     script.

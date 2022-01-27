@@ -102,6 +102,7 @@
             <td class="table-title">وضعیت سند</td>
             <td class="table-title">تحویل</td>
             <td class="table-title">آگهی دهنده</td>
+            <td class="table-title">شماره فایل</td>
         </tr>
         <tr>
             <td class="table-value" id="file-area"></td>
@@ -111,9 +112,10 @@
             <td class="table-value" id="file-documentState"></td>
             <td class="table-value" id="file-transfer"></td>
             <td class="table-value" id="file-advertiser"></td>
+            <td class="table-value" id="file-number"></td>
         </tr>
     </table>
-    <table class="info3">
+    <table class="info3 hidden">
         <td>
           <div class="name">قیمت متری/رهن: </div>
           <div class="value" id="file-price"></div>
@@ -123,7 +125,22 @@
           <div class="value" id="file-fullPrice"></div>
         </td>
     </table>
-    <div class="images-view" id="file-images-view">
-
+    <table class="info3">
+        <td>
+          <div class="name">قیمت متری/رهن: </div>
+          <div class="value" id="file-price2"></div>
+        </td>
+        <td>
+          <div class="name">قیمت کل/اجاره: </div>
+          <div class="value" id="file-fullPrice2"></div>
+        </td>
+    </table>
+    <div class="images-view" id="file-images-view"></div>
+    <div class="next-file-btn" id="next-file-btn">
+      <i class="fa fa-chevron-right"></i>
     </div>
+    <div class="prev-file-btn" id="prev-file-btn">
+      <i class="fa fa-chevron-left"></i>
+    </div>
+    <div id="popup-index" class="hidden"></div>
 </div>

@@ -22,6 +22,7 @@
     --darkblue: #050547;
     --gray: rgb(156, 156, 156);
     --lightgray: rgb(201, 201, 201);
+    --lightergray: rgb(211, 221, 223);
 }
 body{
     margin: 0;
@@ -226,11 +227,11 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         outline: none;
     }
     header .title-view h1{
-        font-size: 6vw;
+        font-size: 5vw;
         margin: 0;
     }
     header .title-view h1 input{
-        font-size: 6vw;
+        font-size: 5vw;
         margin: 0;
     }
     header .title-view h1 .orange{
@@ -243,10 +244,10 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     }
     header img.top-logo{
         position: absolute;
-        top: 12vw;
+        top: 16vw;
         left: 6%;
         z-index: 10;
-        width: 22vw;
+        width: 15vw;
     }
     .square-links{
         overflow: hidden;
@@ -463,6 +464,82 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         height: 50vw;
         width: 100%;
         border: none;
+    }
+    /* -------------------------------flag------------------------------- */
+    section.light{
+        background-color: white;
+        overflow: hidden;
+    }
+    section .register{
+        width: 70%;
+        margin: 5vw auto;
+        overflow: hidden;
+    }
+    section .register .part{
+        width: 48%;
+        margin: 0 1%;
+        float: right;
+        background-color: white;
+        border-radius: 0.5vw;
+        height: 30vw;
+    }
+    section .register .part h1{
+        color: var(--darkblue);
+        margin: 0;
+        font-family: 'iransans';
+        font-size: 1.2vw;
+        padding: 0.5vw 1vw;
+        padding-top: 1vw;
+        padding-bottom: 0;
+    }
+    section .register .part p{
+        color: var(--gray);
+        margin: 0;
+        font-family: 'iransans';
+        font-size: 1vw;
+        padding: 0.5vw 1vw;
+        text-align: justify;
+    }
+    section .register .part .text-input-view{
+        margin-bottom: 1vw;
+    }
+    section .register .part .text-input-view label{
+        display: block;
+        font-family: 'iransans';
+        font-size: 1vw;
+        padding-right: 1vw;
+        color: var(--text);
+    }
+    section .register .part .text-input-view input{
+        display: block;
+        width: 85%;
+        font-family: 'iransans';
+        font-size: 1vw;
+        padding: 0.4vw 1vw;
+        margin-right: 1vw;
+        border: none;
+        border-radius: 0.5vw;
+        background-color: var(--lightergray);
+    }
+    section .register .part .text-input-view input:focus{
+        outline: none;
+    }
+    section .register .part button.submit{
+        display: block;
+        width: 91%;
+        font-family: 'iransans';
+        font-size: 1vw;
+        padding: 0.4vw 1vw;
+        margin-right: 1vw;
+        border: none;
+        border-radius: 0.5vw;
+        background-color: var(--darkblue);
+        color: white;
+        margin-bottom: 2vw;
+        cursor: pointer;
+    }
+    section .register .part button.submit:hover{
+        background-color: var(--green);
     }
 }
 @media only screen and (max-width: 800px) {

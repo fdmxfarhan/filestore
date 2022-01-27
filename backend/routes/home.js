@@ -18,4 +18,21 @@ router.post('/newsletter', (req, res, next) => {
     sms2('09129630587', `درخواست عضویت در فایل استور:\n${phone}`);
     res.redirect('/');
 });
+router.post('/register-estate', (req, res, next) => {
+    var {phone, name} = req.body;
+    sms2(phone, 'درخواست عضویت در فایل استور در حال بر رسی است.');
+    text = `درخواست عضویت در فایل استور:\nتلفن: ${phone}\nنام: ${name}`;
+    sms2('09336448037', text);
+    sms2('09129630587', text);
+    res.redirect('/');
+});
+router.post('/register-estate', (req, res, next) => {
+    var {phone, name, area} = req.body;
+    sms2(phone, 'درخواست سپردن ملک در فایل استور در حال بر رسی است.');
+    text = `درخواست سپردن ملک در فایل استور:\nتلفن: ${phone}\nنام: ${name}\nمنطقه: ${area}`;
+    sms2('09336448037', text);
+    sms2('09129630587', text);
+    res.redirect('/');
+});
+
 module.exports = router;

@@ -31,10 +31,10 @@ block content
                         td.plan 
                             -if(estates[i].payed == true)
                                 i.fa.fa-check.check 
-                            -if(estates[i].planType == 'trial')
+                            -if(estates[i].planType == 'free')
                                 i.fa.fa-times.times
                             -else
-                                | #{estates[i].planType}
+                                | #{estates[i].planType == 'trial' ? '3 روزه' : estates[i].planType}
                         td
                             a.trash(href="/dashboard/delete-estate?estateID=#{estates[i]._id}") 
                                 i.fa.fa-trash 

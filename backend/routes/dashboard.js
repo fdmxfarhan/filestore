@@ -10,6 +10,7 @@ const generateCode = require('../config/generateCode');
 var bodyparser = require('body-parser');
 const multer = require('multer');
 const mkdirp = require('mkdirp');
+var {convertDate} = require('../config/dateConvert');
 
 router.use(bodyparser.urlencoded({ extended: true }));
 var storage = multer.diskStorage({
@@ -23,6 +24,27 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 
+setInterval(() => {
+    Estate.find({}, (err, estates) => {
+        for (let i = 0; i < estates.length; i++) {
+            const estate = estates[i];
+            var payDate = (new Date(estate.payDate)).getTime();
+            var now = (new Date()).getTime();
+            var endDate = 0;
+            if(estate.planType == 'trial')  endDate = payDate + 3 * 24 * 60 * 60 * 1000;
+            if(estate.planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
+            if(estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
+            if(estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
+            if(estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
+            if(endDate - now < 0){
+                Estate.updateMany({_id: estate._id}, {$set: {
+                    payed: false,
+                    planType: 'free',
+                }})
+            }
+        }
+    })
+}, 1000 * 60 * 60);
 
 router.get('/', ensureAuthenticated, (req, res, next) => {
     if(req.user.role == 'user')
@@ -76,6 +98,7 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
             res.render('./dashboard/admin-files', {
                 user: req.user,
                 files,
+                convertDate,
             });
         })
     }
@@ -89,7 +112,12 @@ router.get('/settings', ensureAuthenticated, (req, res, next) => {
     }
 });
 router.post('/add-estate', ensureAuthenticated, (req, res, next) => {
-    var {name, address, phone, area} = req.body;
+    var {name, address, phone, area, trial} = req.body;
+    var planType = 'free', payed = false;
+    if(trial) {
+        planType = 'trial';
+        payed = true;
+    }
     if(req.user.role == 'admin'){
         Estate.find({}, (err, estates) => {
             if(!name || !address || !phone || !area){
@@ -117,6 +145,10 @@ router.post('/add-estate', ensureAuthenticated, (req, res, next) => {
                     creationDate: new Date(),
                     code: code+1,
                     password: generateCode(4),
+                    payAmount: 0,
+                    planType,
+                    payed,
+                    payDate: new Date(),
                 });
                 newEstate.save().then(doc => {
                     res.redirect('/dashboard/estates');
