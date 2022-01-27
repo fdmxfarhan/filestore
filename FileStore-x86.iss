@@ -5,7 +5,7 @@
 #define MyAppVersion "1.0.3"
 #define MyAppPublisher "Farhan Daemi"
 #define MyAppURL "https://fileestore.ir/"
-#define MyAppExeName "filestore.exe"
+#define MyAppExeName "filestore_original.exe"
 #define MyAppAssocName MyAppName + ""
 #define MyAppAssocExt ""
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
