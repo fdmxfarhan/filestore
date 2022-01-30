@@ -65,6 +65,7 @@ var FileSchema = new mongoose.Schema({
     advertiser: String,
     fileID: String,
     images: {type:[Object], default: []},
+    creationDate: {type: Date, default: new Date()},
 });
 
 var File = mongoose.model('File', FileSchema);

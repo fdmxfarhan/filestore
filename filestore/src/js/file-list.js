@@ -288,10 +288,22 @@ var loadData = (more, len) => {
     $('#file-documentState').text(more.data.documentState)
     $('#file-transfer').text(more.data.transfer)
     $('#file-advertiser').text(more.data.advertiser)
-    $('#file-price').text(more.data.price)
-    $('#file-fullPrice').text(more.data.fullPrice)
-    $('#file-price2').text(showPrice(more.data.price))
-    $('#file-fullPrice2').text(showPrice(more.data.fullPrice))
+    if(more.data.price)
+        $('#file-price').text(more.data.price)
+    else
+        $('#file-price').text(0)
+    if(more.data.fullPrice)
+        $('#file-fullPrice').text(more.data.fullPrice)
+    else
+        $('#file-fullPrice').text(0)
+    if(more.data.price)
+        $('#file-price2').text(showPrice(more.data.price))
+    else
+        $('#file-price2').text(0)
+    if(more.data.fullPrice)
+        $('#file-fullPrice2').text(showPrice(more.data.fullPrice))
+    else
+        $('#file-fullPrice2').text(0)
     $('#file-number').text(more.data.fileNumber)
     $('#popup-index').text(more.id)
     var imagesView = document.getElementById('file-images-view');

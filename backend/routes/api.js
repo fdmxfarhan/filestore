@@ -28,7 +28,9 @@ router.get('/get-files', (req, res, next) => {
         if(estate){
             if(estate.payed && estate.planType != 'free'){
                 File.find({area: estate.area}, (err, files) => {
+                    var now = new Date();
                     files.reverse();
+                    files.filter(e => now - e.getTime() < 48 * 60 * 60 * 1000);
                     res.send({status: 'ok', files});
                 })
             }
