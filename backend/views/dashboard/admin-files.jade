@@ -10,7 +10,7 @@ block content
         h2 
     .content-view 
         .users-view 
-            table 
+            table#myTable 
                 tr 
                     th نام مالک
                     th منطقه
@@ -24,6 +24,7 @@ block content
                             h2
                                 a(href="tel:#{files[i].phone}")= files[i].phone
                         td.role= files[i].area
+                        td.hidden= files[i].fileNumber
                             
                         td.acounts 
                             h1= files[i].meterage
@@ -38,7 +39,7 @@ block content
         .user-control 
             .control 
                 .search-view
-                    input(type="text" placeholder="جستجو")
+                    input(type="text" placeholder="جستجو" onkeyup="search()" id="searchInput")
                     button
                         i.fa.fa-search
                 a.add-user#add-user-btn
