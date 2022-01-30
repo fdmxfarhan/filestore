@@ -28,6 +28,7 @@ router.get('/get-files', (req, res, next) => {
         if(estate){
             if(estate.payed && estate.planType != 'free'){
                 File.find({area: estate.area}, (err, files) => {
+                    files.reverse();
                     res.send({status: 'ok', files});
                 })
             }
