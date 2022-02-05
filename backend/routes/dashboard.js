@@ -46,7 +46,7 @@ setInterval(() => {
             }
         }
     })
-}, 1000);// * 60 * 60);
+}, 1000 * 60);
 
 router.get('/', ensureAuthenticated, (req, res, next) => {
     if(req.user.role == 'user')

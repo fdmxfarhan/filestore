@@ -33,8 +33,21 @@ block content
                                 i.fa.fa-check.check 
                             -if(estates[i].planType == 'free')
                                 i.fa.fa-times.times
-                            -else
+                            -else if(estates[i].payed == true){
                                 | #{estates[i].planType == 'trial' ? '3 روزه' : estates[i].planType}
+                                -var payDate = (new Date(estates[i].payDate)).getTime();
+                                -var now = (new Date()).getTime();
+                                -var endDate = 0;
+                                -if(estates[i].planType == 'trial')  endDate = payDate + 3 * 24 * 60 * 60 * 1000;
+                                -if(estates[i].planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
+                                -if(estates[i].planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
+                                -if(estates[i].planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
+                                -if(estates[i].planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
+                                -if(endDate - now > 1000*60*60*24*30)
+                                    h2 #{Math.floor((endDate - now)/(1000*60*60*24*30))} ماه تا پایان اعتبار
+                                -else
+                                    h2 #{Math.floor((endDate - now)/(1000*60*60*24))} روز تا پایان اعتبار
+                            -}
                         td
                             a.trash(href="/dashboard/delete-estate?estateID=#{estates[i]._id}") 
                                 i.fa.fa-trash 
