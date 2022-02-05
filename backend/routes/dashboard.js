@@ -28,23 +28,25 @@ setInterval(() => {
     Estate.find({}, (err, estates) => {
         for (let i = 0; i < estates.length; i++) {
             const estate = estates[i];
-            var payDate = (new Date(estate.payDate)).getTime();
-            var now = (new Date()).getTime();
-            var endDate = 0;
-            if(estate.planType == 'trial')  endDate = payDate + 3 * 24 * 60 * 60 * 1000;
-            if(estate.planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
-            if(estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
-            if(estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
-            if(estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
-            if(endDate - now < 0){
-                Estate.updateMany({_id: estate._id}, {$set: {
-                    payed: false,
-                    planType: 'free',
-                }})
+            if(estate.payDate){
+                var payDate = (new Date(estate.payDate)).getTime();
+                var now = (new Date()).getTime();
+                var endDate = 0;
+                if(estate.planType == 'trial')  endDate = payDate + 3 * 24 * 60 * 60 * 1000;
+                if(estate.planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
+                if(estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
+                if(estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
+                if(estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
+                if(endDate - now < 0){
+                    Estate.updateMany({_id: estate._id}, {$set: {
+                        payed: false,
+                        planType: 'free',
+                    }}, (err) => {if(err) console.log(err)})
+                }
             }
         }
     })
-}, 1000 * 60 * 60);
+}, 1000);// * 60 * 60);
 
 router.get('/', ensureAuthenticated, (req, res, next) => {
     if(req.user.role == 'user')
