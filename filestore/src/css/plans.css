@@ -10,6 +10,14 @@
     border-radius: 0.5vw;
     transition-duration: 500ms;
     box-shadow: 0 0 0.4vw 0.1vw rgba(0, 0, 0, 0);
+    position: relative;
+}
+.plan-links .plan img.badge{
+    position: absolute;
+    display: block;
+    left: 0.5vw;
+    top: 0;
+    width: 1.5vw;
 }
 .plan-links .plan:hover{
     border: var(--blue) 0.1vw solid;
@@ -34,6 +42,15 @@
     padding: 0;
     padding-top: 0vw;
     padding-bottom: 1vw;
+    margin-top: 0;
+}
+.plan-links .plan h2.lined{
+    text-decoration: line-through;
+    color: var(--gray);
+    font-size: 0.8vw;
+    font-weight: normal;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 .plan-links .plan .item{
     margin-bottom: 0.2vw;

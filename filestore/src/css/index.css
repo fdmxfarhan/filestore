@@ -23,6 +23,10 @@
   --lightgray: rgb(233, 233, 233);
   --lightergray: rgb(201, 201, 201);
 }
+body::-webkit-scrollbar {width: 0.5vw;}
+body::-webkit-scrollbar-track {background: var(--gray);}
+body::-webkit-scrollbar-thumb {background: var(--dark);}
+body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
 body {
   font-family: 'iransans';
   margin: 0;

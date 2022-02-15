@@ -57,8 +57,8 @@
 }
 .file-list .item{
     width: 90%;
-    margin: 1vw auto;
-    padding-bottom: 0.7vw;
+    margin: 0 auto;
+    /* padding-bottom: 0.7vw; */
     cursor: pointer;
 }
 .file-list .item:hover{
@@ -66,6 +66,7 @@
 }
 .info1{
     /* border-collapse: collapse; */
+    margin-top: 1vw;
     overflow: hidden;
     width: 100%;
 }
@@ -89,6 +90,34 @@
     padding: 0.1vw 0.2vw;
     height: 1vw;
 }
+.info4 td, .info5 td{
+    border: var(--lightgray) 0.1vw solid;
+    padding: 0.1vw 0.2vw;
+    height: 1vw;
+}
+.info4{
+    /* border-collapse: collapse; */
+    width: 100%;
+    text-align: center;
+}
+.info4-header{
+    /* border-collapse: collapse; */
+    width: 90%;
+    margin: auto;
+    text-align: center;
+    font-family: 'iransans';
+    font-size: 0.9vw;
+    font-weight: bold;
+    padding: 0;
+    margin-top: 1vw;
+}
+.info4 td.metrage, .info4-header th.metrage{width: 10%;}
+.info4 td.bedroom, .info4-header th.bedroom{width: 10%;}
+.info4 td.floor, .info4-header th.floor{width: 10%;}
+.info4 td.build-age, .info4-header th.build-age{width: 10%;}
+.info4 td.address{text-align: right;}
+.info4 td.price{width: 20%; color: green; font-weight: bold; font-size: 1vw;}
+.info4-header th.price{width: 20%;}
 .col20{width: 18%; margin: 0;}
 .col25{width: 23%; margin: 0;}
 .col30{width: 28%; margin: 0;}
@@ -277,6 +306,13 @@
     color: var(--blue);
     padding-left: 0.5vw;
 }
+.sidebar .info.logout{
+    color: rgb(252, 45, 45);
+    cursor: pointer;
+}
+.sidebar .info.logout:hover{
+    color: orange;
+}
 .sidebar .info.plan{
     font-size: 1vw;
     color: green;
@@ -350,3 +386,23 @@
 }
 .overflow-hidden{overflow: hidden;}
 .inline{display: inline;}
+
+.view-controls{
+    overflow: hidden;
+    width: fit-content;
+    margin-top: 1vw;
+    margin-right: 3vw;
+}
+.view-controls i{
+    display: block;
+    float: right;
+    font-size: 1.4vw;
+    padding: 0.5vw 0.5vw 0.3vw 0.5vw;
+    color: var(--gray);
+    border-radius: 0.5vw;
+    cursor: pointer;
+}
+.view-controls i.active{
+    background-color: var(--lightgray);
+    color: var(--blue);
+}

@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var api = require('./api');
 var loginButton = document.getElementById('login-button');
+var logoutButton = document.getElementById('logout');
 var successMsg = document.getElementById('success-msg');
 var errorMsg = document.getElementById('error-msg');
 
@@ -50,5 +51,11 @@ var checkLogin = async() => {
             }
         }).catch(err => {showError('خطای اتصال به اینترنت')});
 }
-
 loginButton.addEventListener('click', checkLogin);
+logoutButton.addEventListener('click', () => {
+    var file = path.join(pathName, 'estate.json');
+    fs.unlink(file, () => {
+        document.getElementById('home-frame').classList.add('hidden');
+        document.getElementById('login-frame').classList.remove('hidden');
+    })
+});

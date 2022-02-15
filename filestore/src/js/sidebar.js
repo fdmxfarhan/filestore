@@ -24,7 +24,10 @@ var search = () => {
     for(var i=0; i<items.length; i++){
         var address = items[i].getElementsByClassName('info1')[0].getElementsByClassName('column')[1].getElementsByClassName('value')[0].textContent;
         var ownerName = items[i].getElementsByClassName('info1')[0].getElementsByClassName('column')[4].getElementsByClassName('value')[0].textContent;
-        if(address.indexOf(text) != -1 || ownerName.indexOf(text) != -1)
+        var phone = items[i].getElementsByClassName('info1')[0].getElementsByClassName('column')[5].textContent;
+        var fileNumber = items[i].getElementsByClassName('info1')[0].getElementsByClassName('column')[6].textContent;
+        var metrage = items[i].getElementsByClassName('info2')[0].getElementsByTagName('tr')[1].getElementsByClassName('table-value')[0].textContent;
+        if(address.indexOf(text) != -1 || ownerName.indexOf(text) != -1 || phone.indexOf(text) != -1 || fileNumber.indexOf(text) != -1 || metrage.indexOf(text) != -1)
             items[i].style.display = '';
         else
             items[i].style.display = 'none';

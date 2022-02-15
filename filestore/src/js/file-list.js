@@ -44,6 +44,13 @@ var getPrice = (price) => {
         return price/100000 + ' میلیون';
     }
 }
+var getAddress = (address) => {
+    var newAddress = '';
+    for(var i=0; i<address.length; i++){
+        if(i > 30) return newAddress + '...';
+        newAddress += address[i];
+    }
+}
 var addFile = (data, index) => {
     // console.log(index);
     var item = document.createElement('div');
@@ -117,11 +124,23 @@ var addFile = (data, index) => {
     td5.appendChild(name4);
     td5.appendChild(value4);
 
+    var td6 = document.createElement('td');
+    td6.classList.add('column');
+    td6.classList.add('hidden');
+    td6.appendChild(document.createTextNode(data.phone));
+    
+    var td7 = document.createElement('td');
+    td7.classList.add('column');
+    td7.classList.add('hidden');
+    td7.appendChild(document.createTextNode(data.fileNumber));
+    
     info1.appendChild(td1);
     info1.appendChild(td2);
     info1.appendChild(td3);
     info1.appendChild(td4);
     info1.appendChild(td5);
+    info1.appendChild(td6);
+    info1.appendChild(td7);
 
     // Table 2
     var info2 = document.createElement('table');
@@ -217,14 +236,33 @@ var addFile = (data, index) => {
     var info3td3 = document.createElement('td');
     // var moreButton = document.createElement('div');moreButton.classList.add('more');moreButton.id='more-btn-'+index.toString();moreButton.appendChild(document.createTextNode('مشاهده فایل'));info3td3.appendChild(moreButton);
 
-
     info3.appendChild(info3td1);
     info3.appendChild(info3td2);
     info3.appendChild(info3td3);
+    info1.classList.add('hidden');
+    info2.classList.add('hidden');
     info3.classList.add('hidden');
+    
+    var info4 = document.createElement('table');
+    info4.classList.add('info4');
+    var tr5 = document.createElement('tr');
+    var table4Value1 = document.createElement('td'); table4Value1.classList.add('metrage'); table4Value1.appendChild(document.createTextNode(data.meterage));tr5.appendChild(table4Value1);
+    var table4Value2 = document.createElement('td'); table4Value2.classList.add('bedroom'); table4Value2.appendChild(document.createTextNode(data.bedroom));tr5.appendChild(table4Value2);
+    var table4Value3 = document.createElement('td'); table4Value3.classList.add('floor'); table4Value3.appendChild(document.createTextNode(data.floor));tr5.appendChild(table4Value3);
+    var table4Value4 = document.createElement('td'); table4Value4.classList.add('build-age'); table4Value4.appendChild(document.createTextNode(data.buildAge));tr5.appendChild(table4Value4);
+    var table4Value5 = document.createElement('td'); table4Value5.classList.add('address'); table4Value5.appendChild(document.createTextNode(getAddress(data.address)));tr5.appendChild(table4Value5);
+    var table4Value6 = document.createElement('td'); table4Value6.classList.add('price'); table4Value6.appendChild(document.createTextNode(getPrice(data.fullPrice)));tr5.appendChild(table4Value6);
+    info4.appendChild(tr5);
+    
+    
+    info1.classList.add('info-1');
+    info2.classList.add('info-2');
+    info3.classList.add('info-3');
+    info4.classList.add('info-4');
     item.appendChild(info1);
     item.appendChild(info2);
     item.appendChild(info3);
+    item.appendChild(info4);
     item.id='more-btn-'+index.toString();
     filesContainer.appendChild(item);
 }
@@ -399,7 +437,15 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
             if(data.estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
             if(data.estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
             if(data.estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
-            document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
+            if(endDate - now < 0) {
+                document.getElementById('plan-info').classList.add('hidden');
+                document.getElementById('no-plan-info').classList.remove('hidden');
+            }
+            else document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
+        }
+        else{
+            document.getElementById('plan-info').classList.add('hidden');
+            document.getElementById('no-plan-info').classList.remove('hidden');
         }
         updateHandlers(data);
     }
@@ -417,7 +463,15 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
             if(data.estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
             if(data.estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
             if(data.estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
-            document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
+            if(endDate - now < 0) {
+                document.getElementById('plan-info').classList.add('hidden');
+                document.getElementById('no-plan-info').classList.remove('hidden');
+            }
+            else document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
+        }
+        else{
+            document.getElementById('plan-info').classList.add('hidden');
+            document.getElementById('no-plan-info').classList.remove('hidden');
         }
     }
     else console.log('file not found or does not contain Files data');
@@ -456,5 +510,20 @@ $(document).ready(() => {
     $('#pro-search-btn').click(() => {
         $('#pro-search-view').slideToggle(500);
     })
-    
-})
+    $('#view-table-btn').click(() => {
+        $('#view-table-btn').addClass('active');
+        $('#view-column-btn').removeClass('active');
+        $('.info4-header').show();
+        $('.info-4').removeClass('hidden');
+        $('.info-1').addClass('hidden');
+        $('.info-2').addClass('hidden');
+    });
+    $('#view-column-btn').click(() => {
+        $('#view-table-btn').removeClass('active');
+        $('#view-column-btn').addClass('active');
+        $('.info4-header').hide();
+        $('.info-4').addClass('hidden');
+        $('.info-1').removeClass('hidden');
+        $('.info-2').removeClass('hidden');
+    });
+});

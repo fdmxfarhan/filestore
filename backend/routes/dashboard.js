@@ -171,6 +171,7 @@ router.get('/delete-estate', ensureAuthenticated, (req, res, next) => {
 router.post('/add-file', ensureAuthenticated, upload.single(`myFile`), (req, res, next) => {
     var body = req.body;
     var file = req.file;
+    body.creationDate = new Date();
     if(req.user.role == 'admin'){
         body.images = [];
         if(file) body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
@@ -184,6 +185,7 @@ router.post('/edit-file', ensureAuthenticated, upload.single(`myFile`), (req, re
     var {fileID} = req.body;
     var body = req.body;
     var file = req.file;
+    body.creationDate = new Date();
     if(req.user.role == 'admin'){
         File.findById(fileID, (err, f) => {
             body.images = f.images;

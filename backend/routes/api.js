@@ -30,7 +30,7 @@ router.get('/get-files', (req, res, next) => {
                 File.find({area: estate.area}, (err, files) => {
                     var now = new Date();
                     files.reverse();
-                    files.filter(e => now - e.creationDate.getTime() < 48 * 60 * 60 * 1000);
+                    files.filter(e => now - e.creationDate.getTime() < 15 * 24 * 60 * 60 * 1000);
                     res.send({status: 'ok', files});
                 })
             }
