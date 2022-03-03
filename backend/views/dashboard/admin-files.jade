@@ -30,6 +30,9 @@ block content
                             h1= files[i].meterage
                             h2= files[i].address
                         td
+                            a.edit(href="/dashboard/pdf-file?fileID=#{files[i]._id}" target="_blank")
+                                i.fa.fa-file-pdf-o
+                        td
                             a.edit(id="edit-file-btn#{i}")
                                 i.fa.fa-edit
                         td

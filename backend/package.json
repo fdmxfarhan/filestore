@@ -27,6 +27,8 @@
     "nodemailer": "^6.4.17",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
+    "pdf-creator-node": "^2.3.4",
+    "phantomjs": "^2.1.7",
     "request": "^2.88.2",
     "socket.io": "^4.0.1",
     "zarinpal-checkout": "^0.2.7"

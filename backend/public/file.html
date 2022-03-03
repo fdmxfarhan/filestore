@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileStore</title>
+    <style>
+        @font-face{
+            font-family: 'iransans';
+            src: url('https://fileestore.ir/css/iransans.ttf');
+        }
+        body{
+            margin: 0;
+            padding: 0;
+            border: none;
+            outline: none;
+            font-family: 'iransans';
+            direction: rtl;
+            background-color: white;
+        }
+        header{
+            overflow: hidden;
+            width: 80%;
+            margin: auto;
+            border-bottom: #2b3546 2px solid;
+        }
+        header .part.right{
+            float: right;
+            width: 50%;
+            text-align: right;
+        }
+        header .part.left{
+            float: right;
+            width: 50%;
+            text-align: left;
+        }
+        header .part h1.title{
+            font-family: 'iransans';
+            font-size: 30px;
+            margin-top: 50px;
+            padding-bottom: 0;
+            margin-bottom: 10px;
+        }
+        header .part h2.title{
+            font-family: 'iransans';
+            font-size: 20px;
+            font-weight: normal;
+            padding-top: 0;
+            margin-top: 0;
+        }
+        header .part img{
+            margin-top: 40px;
+            width: 80px;
+        }
+        header .part p{
+            margin: 0;
+            padding: 0;
+            font-family: 'iransans';
+            font-size: 16px;
+            color: #848C98;
+        }
+        .multi-column-form{
+            width: 80%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        .multi-column-form .col50{
+            float: right;
+            width: 50%;
+        }
+        .multi-column-form .col50 .double-text-input,
+        .multi-column-form .col50 .text-area-input{
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .multi-column-form .col50 .double-text-input .label{
+            float: right;
+            width: 15%;
+            text-align: left;
+            margin-left: 2%;
+            padding: 1px 0;
+        }
+        .multi-column-form .col50 .double-text-input .value{
+            float: right;
+            width: 25%;
+            border: #324054 1px solid;
+            border-radius: 6px;
+            padding: 1px 20px;
+        }
+        .multi-column-form .col50 .text-area-input .label{
+            float: right;
+            width: 15%;
+            text-align: left;
+            margin-left: 2%;
+            padding: 1px 0;
+        }
+        .multi-column-form .col50 .text-area-input .value{
+            float: right;
+            width: 72.5%;
+            border: #324054 1px solid;
+            border-radius: 5px;
+            padding: 1px 20px;
+            min-height: 75px;
+        }
+        .table-form{
+            width: 80%;
+            margin: 20px auto;
+        }
+        .table-form table{
+            width: 100%;
+        }
+        .table-form th{
+            font-family: 'iransans';
+            font-size: 16px;
+            text-align: center;
+        }
+        .table-form td{
+            overflow: visible;
+        }
+        .table-form td .value{
+            border: #324054 1px solid;
+            border-radius: 4px;
+            font-size: 14px;
+            padding: 1px 0;
+            margin-bottom: 2px;
+            text-align: center;
+        }
+        .long-atext-input,
+        .two-text-input{
+            width: 80%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        .long-atext-input .label{
+            float: right;
+            width: 5%;
+            text-align: left;
+            margin-left: 2%;
+            padding: 1px 0;
+        }
+        .long-atext-input .value{
+            float: right;
+            width: 90%;
+            border: #324054 1px solid;
+            border-radius: 6px;
+            padding: 1px 18px;
+        }
+        .two-text-input .label{
+            float: right;
+            width: 5%;
+            text-align: left;
+            margin-left: 2%;
+            padding: 1px 0;
+        }
+        .two-text-input .value{
+            float: right;
+            width: 39.5%;
+            border: #324054 1px solid;
+            border-radius: 6px;
+            padding: 1px 17px;
+            margin-left: 17px;
+        }
+        .two-text-input .value.marg{margin-left: 0;}
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="part right">
+            <h1 class="title">فایل استور</h1>
+            <h2 class="title">فایلینگ تخصصی املاک در تهران (منطقه 22)</h2>
+        </div>
+        <div class="part left">
+            <img src="https://fileestore.ir/img/logo.png">
+            <p>www.fileestore.ir</p>
+        </div>
+    </header>
+    <div class="multi-column-form">
+        <div class="col50">
+          <div class="double-text-input">
+            <div class="label">نام مالک</div>
+            <div class="value textinput">{{ownerName}}</div>
+            <div class="label">تلفن</div>
+            <div class="value textinput">{{constPhone}}</div>
+          </div>
+          <div class="text-area-input"> 
+            <div class="label">آدرس</div>
+            <div class="value textinput">{{address}}</div>
+          </div>
+        </div>
+        <div class="col50">
+          <div class="double-text-input">
+            <div class="label">همراه</div>
+            <div class="value textinput">{{phone}}</div>
+            <div class="label">تاریخ</div>
+            <div class="value textinput">{{date}}</div>
+          </div>
+          <div class="double-text-input">
+            <div class="label">نوع</div>
+            <div class="value textinput">{{type}}</div>
+            <div class="label">شماره</div>
+            <div class="value textinput">{{fileNumber}}</div>
+          </div>
+          <div class="double-text-input">
+            <div class="label">وضعیت</div>
+            <div class="value textinput">{{state}}</div>
+            <div class="label">سمت</div>
+            <div class="value textinput">{{role}}</div>
+          </div>
+        </div>
+    </div>
+    <div class="table-form"> 
+        <table> 
+          <tr> 
+            <th>متراژ</th>
+            <th>خواب</th>
+            <th>طبقه</th>
+            <th>طبقات</th>
+            <th>واحد</th>
+            <th>سن بنا</th>
+            <th>پارکینگ</th>
+            <th>انباری</th>
+            <th>آسانسور</th>
+            <th>آشپزخانه</th>
+            <th>نما</th>
+            <th>کف</th>
+            <th>سرویس</th>
+            <th>سرمایش و گرمایش</th>
+          </tr>
+          <tr> 
+            <td><div class="value">{{meterage}}</div></td>
+            <td><div class="value">{{bedroom}}</div></td>
+            <td><div class="value">{{floor}}</div></td>
+            <td><div class="value">{{numOfFloors}}</div></td>
+            <td><div class="value">{{unit}}</div></td>
+            <td><div class="value">{{buildAge}}</div></td>
+            <td><div class="value">{{parking}}</div></td>
+            <td><div class="value">{{warehouse}}</div></td>
+            <td><div class="value">{{elevator}}</div></td>
+            <td><div class="value">{{kitchen}}</div></td>
+            <td><div class="value">{{view}}</div></td>
+            <td><div class="value">{{floortype}}</div></td>
+            <td><div class="value">{{service}}</div></td>
+            <td><div class="value">{{heatingAndCoolingSystem}}</div></td>
+          </tr>
+          <tr> 
+            <td><div class="value">{{meterage2}}</div></td>
+            <td><div class="value">{{bedroom2}}</div></td>
+            <td><div class="value">{{floor2}}</div></td>
+            <td><div class="value">{{numOfFloors2}}</div></td>
+            <td><div class="value">{{unit2}}</div></td>
+            <td><div class="value">{{buildAge2}}</div></td>
+            <td><div class="value">{{parking2}}</div></td>
+            <td><div class="value">{{warehouse2}}</div></td>
+            <td><div class="value">{{elevator2}}</div></td>
+            <td><div class="value">{{kitchen2}}</div></td>
+            <td><div class="value">{{view2}}</div></td>
+            <td><div class="value">{{floortype2}}</div></td>
+            <td><div class="value">{{service2}}</div></td>
+            <td><div class="value">{{heatingAndCoolingSystem2}}</div></td>
+          </tr>
+          <tr> 
+            <td><div class="value">{{meterage3}}</div></td>
+            <td><div class="value">{{bedroom3}}</div></td>
+            <td><div class="value">{{floor3}}</div></td>
+            <td><div class="value">{{numOfFloors3}}</div></td>
+            <td><div class="value">{{unit3}}</div></td>
+            <td><div class="value">{{buildAge3}}</div></td>
+            <td><div class="value">{{parking3}}</div></td>
+            <td><div class="value">{{warehouse3}}</div></td>
+            <td><div class="value">{{elevator3}}</div></td>
+            <td><div class="value">{{kitchen3}}</div></td>
+            <td><div class="value">{{view3}}</div></td>
+            <td><div class="value">{{floortype3}}</div></td>
+            <td><div class="value">{{service3}}</div></td>
+            <td><div class="value">{{heatingAndCoolingSystem3}}</div></td>
+          </tr>
+        </table>
+    </div>
+    <div class="long-atext-input"> 
+        <div class="label">امکانات</div>
+        <div class="value">{{options}}</div>
+    </div>
+    <div class="two-text-input">
+        <div class="label">قیمت متری/رهن</div>
+        <div class="value">{{price}}</div>
+        <div class="label">کل / اجاره</div>
+        <div class="value marg">{{fullPrice}}</div>
+    </div>
+    <div class="table-form small">
+        <table> 
+          <tr> 
+            <th>منطقه</th>
+            <th>وام</th>
+            <th>قابلیت تبدیل</th>
+            <th>تخفیف</th>
+            <th>وضعیت سند</th>
+            <th>تحویل</th>
+            <th>اگهی دهنده</th>
+          </tr>
+          <tr> 
+            <td><div class="value">{{area}}</div></td>
+            <td><div class="value">{{lone}}</div></td>
+            <td><div class="value">{{changable}}</div></td>
+            <td><div class="value">{{discount}}</div></td>
+            <td><div class="value">{{documentState}}</div></td>
+            <td><div class="value">{{transfer}}</div></td>
+            <td><div class="value">{{advertiser}}</div></td>
+          </tr>
+        </table>
+    </div>
+</body>
+</html>
