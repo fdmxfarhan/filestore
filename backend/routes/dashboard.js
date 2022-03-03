@@ -309,9 +309,10 @@ router.get('/pdf-file', ensureAuthenticated, (req, res, next) => {
                 type: "",
             };
             pdf.create(document1, options).then((r) => {
-                res.render('pdf-file', {
-                    user: req.user,
-                });
+                res.sendFile(path.join(__dirname, '../public/files/file.pdf'));
+                // res.render('pdf-file', {
+                //     user: req.user,
+                // });
             }).catch((error) => {console.error(error)});
         });
     });

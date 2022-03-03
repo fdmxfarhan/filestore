@@ -1,0 +1,16 @@
+a.download-link{
+    font-family: 'iransans';
+    font-size: 2vw;
+    display: block;
+    width: fit-content;
+    margin: 5vw auto;
+    color: darkblue;
+    text-decoration: none;
+    border-radius: 1vw;
+    border: darkblue 0.2vw solid;
+    padding: 0.1vw 3vw;
+}
+a.download-link:hover{
+    color: white;
+    background-color: darkblue;
+}
