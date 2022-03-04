@@ -1,56 +1,48 @@
-.popup#add-user-popup
+.popup.w40p#add-user-popup
     i.fa.fa-times.close-popup
-    h1.popup-title افزودن کاربر جدید
-    form(action="/dashboard/admin-register" method="POST")
-        .two-side-form
-            .part
-                .text-input-area
-                    input.textinput(type="text" placeholder="نام" name="firstName" value= "#{ typeof firstName != 'undefined' ? firstName: '' }")
-                    i.fa.fa-pencil
-                .text-input-area
-                    input.textinput(type="text" placeholder="نام خانوادگی" name="lastName" value= "#{ typeof lastName != 'undefined' ? lastName: '' }")
-                    i.fa.fa-pencil
-                .text-input-area.required
-                    input.textinput(type="text" placeholder="کد ملی" name="idNumber" value= "#{ typeof idNumber != 'undefined' ? idNumber: '' }" required)
+    .title-line
+        .popup-title
+            h1 افزودن کاربر جدید
+    form(action="/dashboard/add-user" method="POST")
+        .one-side-form
+            .text-input-area
+                label(for="fullname") 
                     i.fa.fa-user
-                .text-input-area
-                    input.textinput(type="text" placeholder="شماره شناسنامه" name="cardNumber" value= "#{ typeof cardNumber != 'undefined' ? cardNumber: '' }")
-                    i.fa.fa-credit-card
-                .date-input-area
-                    label(for="day") تاریخ تولد: 
-                    input(type="Number" name="birthDay" placeholder="روز" )
-                    label(for="month") / 
-                    input(type="Number" name="birthMonth" placeholder="ماه" )
-                    label(for="year") / 
-                    input(type="Number" name="birthYear" placeholder="سال" value="1380" )     
-                .select-input-area
-                    label(for="sex") جنسیت: 
-                    select(name="sex") 
-                        option(value="خانم") خانم
-                        option(value="آقای") آقا
-            .part
-                .text-input-area
-                    input.textinput(type="text" placeholder="نام پدر" name="fatherName" value= "#{ typeof fatherName != 'undefined' ? fatherName: '' }")
-                    i.fa.fa-user
-                .text-input-area
-                    input.textinput(type="text" placeholder="نشانی" name="address" value= "#{ typeof address != 'undefined' ? address: '' }")
-                    i.fa.fa-map-marker
-                .text-input-area
-                    input.textinput(type="text" placeholder="کد پستی" name="postCode" value= "#{ typeof postCode != 'undefined' ? postCode: '' }")
-                    i.fa.fa-inbox
-                .text-input-area.required
-                    input.textinput(type="text" placeholder="شماره تماس" name="phone" value= "#{ typeof phone != 'undefined' ? phone: '' }" required)
+                    | نام و نام خانوادگی:
+                input.textinput(type="text" placeholder="نام و نام خانوادگی" name="fullname" value= "#{ typeof fullname != 'undefined' ? fullname: '' }")
+            .text-input-area
+                label(for="idNumber") 
                     i.fa.fa-phone
-                .text-input-area.required
-                    input.textinput(type="password" placeholder="رمز عبور" name="password" value= "#{ typeof psw != 'undefined' ? psw: '' }" required)
+                    | شماره تلفن:
+                input.textinput(type="text" placeholder="شماره تلفن" name="idNumber" value= "#{ typeof idNumber != 'undefined' ? idNumber: '' }")
+            .text-input-area
+                label(for="password") 
                     i.fa.fa-key
-                .text-input-area.required
-                    input.textinput(type="password" placeholder="تایید رمز عبور" name="configpassword" value= "#{ typeof configpsw != 'undefined' ? configpsw: '' }" required)
-                    i.fa.fa-check
-                //- label(for="myFile") معرفی نامه: 
-                //- input.file(type="file" name="myFile" required)
-                .text-input-area
-                    button.submit(type="submit") ثبت نام
+                    | کلمه عبور:
+                input.textinput(type="password" placeholder="کلمه عبور" name="password" value= "#{ typeof password != 'undefined' ? password: '' }")
+            table.access 
+                tr
+                    th دسترسی
+                    th افزودن
+                    th حذف
+                    th ویرایش
+                tr 
+                    td فایل ها
+                    td 
+                        input(type="checkbox" name="addFilePermission" id="addFilePermission" value="true")
+                    td 
+                        input(type="checkbox" name="removeFilePermission" id="removeFilePermission" value="true")
+                    td 
+                        input(type="checkbox" name="editFilePermission" id="editFilePermission" value="true")
+                tr 
+                    td مشاور املاک
+                    td 
+                        input(type="checkbox" name="addEstatePermission" id="addEstatePermission" value="true")
+                    td 
+                        input(type="checkbox" name="removeEstatePermission" id="removeEstatePermission" value="true")
+                    td 
+                        input(type="checkbox" name="editEstatePermission" id="editEstatePermission" value="true")
+            button.submit(type="submit") ثبت
 -if(errors){
     script.
         $('#add-user-popup').show();

@@ -33,11 +33,15 @@ block content
                             a.edit(href="/dashboard/pdf-file?fileID=#{files[i]._id}" target="_blank")
                                 i.fa.fa-file-pdf-o
                         td
-                            a.edit(id="edit-file-btn#{i}")
-                                i.fa.fa-edit
+                            -if(user.editFilePermission){
+                                a.edit(id="edit-file-btn#{i}")
+                                    i.fa.fa-edit
+                            -}
                         td
-                            a.trash(href="/dashboard/delete-file?fileID=#{files[i]._id}") 
-                                i.fa.fa-trash 
+                            -if(user.removeFilePermission){
+                                a.trash(href="/dashboard/delete-file?fileID=#{files[i]._id}") 
+                                    i.fa.fa-trash 
+                            -}
                 -}
         .user-control 
             .control 
@@ -45,9 +49,11 @@ block content
                     input(type="text" placeholder="جستجو" onkeyup="search()" id="searchInput")
                     button
                         i.fa.fa-search
-                a.add-user#add-user-btn
-                    i.fa.fa-plus 
-                    | افزودن فایل
+                -if(user.addFilePermission){
+                    a.add-user#add-user-btn
+                        i.fa.fa-plus 
+                        | افزودن فایل
+                -}
     include ../components/file-popup
     include ../components/files-popups
     script(src="/js/files.js") 

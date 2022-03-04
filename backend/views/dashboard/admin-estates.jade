@@ -49,8 +49,10 @@ block content
                                     h2 #{Math.floor((endDate - now)/(1000*60*60*24))} روز تا پایان اعتبار
                             -}
                         td
-                            a.trash(href="/dashboard/delete-estate?estateID=#{estates[i]._id}") 
-                                i.fa.fa-trash 
+                            -if(user.removeEstatePermission){
+                                a.trash(href="/dashboard/delete-estate?estateID=#{estates[i]._id}") 
+                                    i.fa.fa-trash 
+                            -}
                 -}
         .user-control 
             .control 
@@ -58,8 +60,10 @@ block content
                     input(type="text" placeholder="جستجو")
                     button
                         i.fa.fa-search
-                a.add-user#add-user-btn
-                    i.fa.fa-plus 
-                    | افزودن مشاور املاک
+                -if(user.addEstatePermission){
+                    a.add-user#add-user-btn
+                        i.fa.fa-plus 
+                        | افزودن مشاور املاک
+                -}
     include ../components/estate-popup
     script(src="/js/estates.js") 

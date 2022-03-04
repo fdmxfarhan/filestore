@@ -22,6 +22,12 @@ var UserSchema = new mongoose.Schema({
   },
   avatar: Number,
   course: [Object],
+  addFilePermission: {type: Boolean, default: true},
+  removeFilePermission: {type: Boolean, default: true},
+  editFilePermission: {type: Boolean, default: true},
+  addEstatePermission: {type: Boolean, default: true},
+  removeEstatePermission: {type: Boolean, default: true},
+  editEstatePermission: {type: Boolean, default: true},
 });
 
 var User = mongoose.model('User', UserSchema);

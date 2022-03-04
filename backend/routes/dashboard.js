@@ -15,6 +15,7 @@ var phantomjs = require('phantomjs');
 var pdf = require("pdf-creator-node");
 var fs = require('fs');
 var path = require('path');
+const bcrypt = require('bcryptjs');
 
 router.use(bodyparser.urlencoded({ extended: true }));
 var storage = multer.diskStorage({
@@ -62,10 +63,11 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
     }
     else if(req.user.role = 'admin')
     {
-        res.render('./dashboard/admin-dashboard', {
-            user: req.user,
-            login: req.query.login,
-        });
+        res.redirect('/dashboard/files');
+        // res.render('./dashboard/admin-dashboard', {
+        //     user: req.user,
+        //     login: req.query.login,
+        // });
     }
 });
 router.get('/users', ensureAuthenticated, (req, res, next) => {
@@ -316,5 +318,47 @@ router.get('/pdf-file', ensureAuthenticated, (req, res, next) => {
             }).catch((error) => {console.error(error)});
         });
     });
+});
+router.post('/add-user', ensureAuthenticated, (req, res, next) => {
+    var {fullname, idNumber, password, addFilePermission, removeFilePermission, editFilePermission, addEstatePermission, removeEstatePermission, editEstatePermission} = req.body;
+    if(addFilePermission)      addFilePermission = true;
+    else                       addFilePermission = false;
+    if(removeFilePermission)   removeFilePermission = true;
+    else                       removeFilePermission = false;
+    if(editFilePermission)     editFilePermission = true;
+    else                       editFilePermission = false;
+    if(addEstatePermission)    addEstatePermission = true;
+    else                       addEstatePermission = false;
+    if(removeEstatePermission) removeEstatePermission = true;
+    else                       removeEstatePermission = false;
+    if(editEstatePermission)   editEstatePermission = true;
+    else                       editEstatePermission = false;
+    User.findOne({idNumber}, (err, user) => {
+        if(user){
+            req.flash('error_msg', 'شماره تلفن قبلا ثبت شده');
+            res.redirect('/dashboard/users');
+        }else{
+            var newUser = new User({
+                fullname, 
+                idNumber, 
+                password, 
+                addFilePermission, 
+                removeFilePermission, 
+                editFilePermission, 
+                addEstatePermission, 
+                removeEstatePermission, 
+                editEstatePermission,
+                role: 'admin',
+            });
+            bcrypt.genSalt(10, (err, salt) => bcrypt.hash(newUser.password, salt, (err, hash) => {
+                newUser.password = hash;
+                newUser.save().then(doc => {
+                    req.flash('success_msg', 'کاربر با موفقیت افزوده شد');
+                    res.redirect('/dashboard/users');
+                }).catch(err => console.log(err));
+            }));
+        }
+    })
+    
 });
 module.exports = router;

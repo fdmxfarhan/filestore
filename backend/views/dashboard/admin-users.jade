@@ -13,8 +13,8 @@ block content
                 tr 
                     th کاربر
                     th نقش
-                    th حساب ها
-                    th 
+                    th دسترسی ها
+                    //- th 
                     th 
                 -for(var i=0; i<users.length; i++){
                     tr 
@@ -29,11 +29,14 @@ block content
                                 a.role-admin(href="/dashboard/make-user?userID=#{users[i]._id}") admin
                             
                         td.acounts 
-                            h1 منطقه #{11}
-                            h2 دسترسی به #{0} فایل
-                        td
-                            a.edit(href="/dashboard/user-view?userID=#{users[i]._id}") 
-                                i.fa.fa-eye 
+                            -if(users[i].addFilePermission || users[i].removeFilePermission || users[i].editFilePermission)
+                                h2 #{users[i].addFilePermission == true? 'افزودن' : ''} #{users[i].removeFilePermission == true? 'حذف' : ''} #{users[i].editFilePermission == true? 'ویرایش' : ''} فایل ها
+                            -if(users[i].addEstatePermission || users[i].removeEstatePermission || users[i].editEstatePermission)
+                                h2 #{users[i].addEstatePermission == true? 'افزودن' : ''} #{users[i].removeEstatePermission == true? 'حذف' : ''} #{users[i].editEstatePermission == true? 'ویرایش' : ''} مشاور املاک
+                                                                            
+                        //- td
+                        //-     a.edit(href="/dashboard/user-view?userID=#{users[i]._id}") 
+                        //-         i.fa.fa-eye 
                         td
                             a.trash(href="/dashboard/delete-user?userID=#{users[i]._id}") 
                                 i.fa.fa-trash 
