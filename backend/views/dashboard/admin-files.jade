@@ -30,7 +30,8 @@ block content
                             h1= files[i].meterage
                             h2= files[i].address
                         td
-                            a.edit(href="/dashboard/pdf-file?fileID=#{files[i]._id}" target="_blank")
+                            //- a.edit(href="/dashboard/pdf-file?fileID=#{files[i]._id}" target="_blank")
+                            a.edit(href="/dashboard/file-view?fileID=#{files[i]._id}" target="_blank")
                                 i.fa.fa-file-pdf-o
                         td
                             -if(user.editFilePermission){

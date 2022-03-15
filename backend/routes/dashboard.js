@@ -414,4 +414,14 @@ router.post('/upload-excel', ensureAuthenticated, upload.single('excelFile'), (r
     }
     res.redirect('/dashboard/files');
 });
+router.get('/file-view', ensureAuthenticated, (req, res, next) => {
+    var {fileID} = req.query;
+    File.findById(fileID, (err, file) => {
+        res.render('./dashboard/admin-file-view', {
+            user: req.user,
+            file,
+        });
+    })
+});
+
 module.exports = router;

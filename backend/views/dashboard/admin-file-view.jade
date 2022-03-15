@@ -1,0 +1,337 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title FileStore
+    style.
+      @font-face{
+      font-family: 'iransans';
+      src: url('/css/iransans.ttf');
+      }
+      body{
+      margin: 0;
+      padding: 0;
+      border: none;
+      outline: none;
+      font-family: 'iransans';
+      direction: rtl;
+      background-color: white;
+      }
+      header{
+      overflow: hidden;
+      width: 80%;
+      margin: auto;
+      border-bottom: #2b3546 2px solid;
+      }
+      header .part.right{
+      float: right;
+      width: 50%;
+      text-align: right;
+      }
+      header .part.left{
+      float: right;
+      width: 50%;
+      text-align: left;
+      }
+      header .part h1.title{
+      font-family: 'iransans';
+      font-size: 30px;
+      margin-top: 50px;
+      padding-bottom: 0;
+      margin-bottom: 10px;
+      }
+      header .part h2.title{
+      font-family: 'iransans';
+      font-size: 20px;
+      font-weight: normal;
+      padding-top: 0;
+      margin-top: 0;
+      }
+      header .part img{
+      margin-top: 40px;
+      width: 80px;
+      }
+      header .part p{
+      margin: 0;
+      padding: 0;
+      font-family: 'iransans';
+      font-size: 16px;
+      color: #848C98;
+      }
+      .multi-column-form{
+      width: 80%;
+      margin: 20px auto;
+      overflow: hidden;
+      }
+      .multi-column-form .col50{
+      float: right;
+      width: 50%;
+      }
+      .multi-column-form .col50 .double-text-input,
+      .multi-column-form .col50 .text-area-input{
+      overflow: hidden;
+      margin-bottom: 20px;
+      }
+      .multi-column-form .col50 .double-text-input .label{
+      float: right;
+      width: 15%;
+      text-align: left;
+      margin-left: 2%;
+      padding: 1px 0;
+      }
+      .multi-column-form .col50 .double-text-input .value{
+      float: right;
+      width: 25%;
+      border: #324054 1px solid;
+      border-radius: 6px;
+      padding: 1px 20px;
+      }
+      .multi-column-form .col50 .text-area-input .label{
+      float: right;
+      width: 15%;
+      text-align: left;
+      margin-left: 2%;
+      padding: 1px 0;
+      }
+      .multi-column-form .col50 .text-area-input .value{
+      float: right;
+      width: 72.5%;
+      border: #324054 1px solid;
+      border-radius: 5px;
+      padding: 1px 20px;
+      min-height: 75px;
+      }
+      .table-form{
+      width: 80%;
+      margin: 20px auto;
+      }
+      .table-form table{
+      width: 100%;
+      }
+      .table-form th{
+      font-family: 'iransans';
+      font-size: 16px;
+      text-align: center;
+      }
+      .table-form td{
+      overflow: visible;
+      }
+      .table-form td .value{
+      border: #324054 1px solid;
+      border-radius: 4px;
+      font-size: 14px;
+      padding: 1px 0;
+      margin-bottom: 2px;
+      text-align: center;
+      }
+      .long-atext-input,
+      .two-text-input{
+      width: 80%;
+      margin: 20px auto;
+      overflow: hidden;
+      }
+      .long-atext-input .label{
+      float: right;
+      width: 5%;
+      text-align: left;
+      margin-left: 2%;
+      padding: 1px 0;
+      }
+      .long-atext-input .value{
+      float: right;
+      width: 90%;
+      border: #324054 1px solid;
+      border-radius: 6px;
+      padding: 1px 18px;
+      }
+      .two-text-input .label{
+      float: right;
+      width: 5%;
+      text-align: left;
+      margin-left: 2%;
+      padding: 1px 0;
+      }
+      .two-text-input .value{
+      float: right;
+      width: 39.5%;
+      border: #324054 1px solid;
+      border-radius: 6px;
+      padding: 1px 17px;
+      margin-left: 17px;
+      }
+      .two-text-input .value.marg{margin-left: 0;}
+  body
+    header
+      .part.right
+        h1.title فایل استور
+        h2.title فایلینگ تخصصی املاک در تهران (منطقه 22)
+      .part.left
+        img(src='http://185.81.99.34/img/logo.png')
+        p www.fileestore.ir
+    .multi-column-form
+      .col50
+        .double-text-input
+          .label نام مالک
+          .value.textinput= typeof(file.ownerName) == 'undefined' || file.ownerName == ''? '-' : file.ownerName
+          .label تلفن
+          .value.textinput= typeof(file.constPhone) == 'undefined' || file.constPhone == ''? '-' : file.constPhone
+        .text-area-input
+          .label آدرس
+          .value.textinput= typeof(file.address) == 'undefined' || file.address == ''? '-' : file.address
+      .col50
+        .double-text-input
+          .label همراه
+          .value.textinput= typeof(file.phone) == 'undefined' || file.phone == ''? '-' : file.phone
+          .label تاریخ
+          .value.textinput= typeof(file.date) == 'undefined' || file.date == ''? '-' : file.date
+        .double-text-input
+          .label نوع
+          .value.textinput= typeof(file.type) == 'undefined' || file.type == ''? '-' : file.type
+          .label شماره
+          .value.textinput= typeof(file.fileNumber) == 'undefined' || file.fileNumber == ''? '-' : file.fileNumber
+        .double-text-input
+          .label وضعیت
+          .value.textinput= typeof(file.state) == 'undefined' || file.state == ''? '-' : file.state
+          .label سمت
+          .value.textinput= typeof(file.role) == 'undefined' || file.role == ''? '-' : file.role
+    .table-form
+      table
+        tbody
+          tr
+            th متراژ
+            th خواب
+            th طبقه
+            th طبقات
+            th واحد
+            th سن بنا
+            th پارکینگ
+            th انباری
+            th آسانسور
+            th آشپزخانه
+            th نما
+            th کف
+            th سرویس
+            th سرمایش و گرمایش
+          tr
+            td
+              .value= typeof(file.meterage) == 'undefined' || file.meterage == ''? '-' : file.meterage
+            td
+              .value= typeof(file.bedroom) == 'undefined' || file.bedroom == ''? '-' : file.bedroom
+            td
+              .value= typeof(file.floor) == 'undefined' || file.floor == ''? '-' : file.floor
+            td
+              .value= typeof(file.numOfFloors) == 'undefined' || file.numOfFloors == ''? '-' : file.numOfFloors
+            td
+              .value= typeof(file.unit) == 'undefined' || file.unit == ''? '-' : file.unit
+            td
+              .value= typeof(file.buildAge) == 'undefined' || file.buildAge == ''? '-' : file.buildAge
+            td
+              .value= typeof(file.parking) == 'undefined' || file.parking == ''? '-' : file.parking
+            td
+              .value= typeof(file.warehouse) == 'undefined' || file.warehouse == ''? '-' : file.warehouse
+            td
+              .value= typeof(file.elevator) == 'undefined' || file.elevator == ''? '-' : file.elevator
+            td
+              .value= typeof(file.kitchen) == 'undefined' || file.kitchen == ''? '-' : file.kitchen
+            td
+              .value= typeof(file.view) == 'undefined' || file.view == ''? '-' : file.view
+            td
+              .value= typeof(file.floortype) == 'undefined' || file.floortype == ''? '-' : file.floortype
+            td
+              .value= typeof(file.service) == 'undefined' || file.service == ''? '-' : file.service
+            td
+              .value= typeof(file.heatingAndCoolingSystem) == 'undefined' || file.heatingAndCoolingSystem == ''? '-' : file.heatingAndCoolingSystem
+          tr
+            td
+              .value= typeof(file.meterage2) == 'undefined' || file.meterage2 == ''? '-' : file.meterage2
+            td
+              .value= typeof(file.bedroom2) == 'undefined' || file.bedroom2 == ''? '-' : file.bedroom2
+            td
+              .value= typeof(file.floor2) == 'undefined' || file.floor2 == ''? '-' : file.floor2
+            td
+              .value= typeof(file.numOfFloors2) == 'undefined' || file.numOfFloors2 == ''? '-' : file.numOfFloors2
+            td
+              .value= typeof(file.unit2) == 'undefined' || file.unit2 == ''? '-' : file.unit2
+            td
+              .value= typeof(file.buildAge2) == 'undefined' || file.buildAge2 == ''? '-' : file.buildAge2
+            td
+              .value= typeof(file.parking2) == 'undefined' || file.parking2 == ''? '-' : file.parking2
+            td
+              .value= typeof(file.warehouse2) == 'undefined' || file.warehouse2 == ''? '-' : file.warehouse2
+            td
+              .value= typeof(file.elevator2) == 'undefined' || file.elevator2 == ''? '-' : file.elevator2
+            td
+              .value= typeof(file.kitchen2) == 'undefined' || file.kitchen2 == ''? '-' : file.kitchen2
+            td
+              .value= typeof(file.view2) == 'undefined' || file.view2 == ''? '-' : file.view2
+            td
+              .value= typeof(file.floortype2) == 'undefined' || file.floortype2 == ''? '-' : file.floortype2
+            td
+              .value= typeof(file.service2) == 'undefined' || file.service2 == ''? '-' : file.service2
+            td
+              .value= typeof(file.heatingAndCoolingSystem2) == 'undefined' || file.heatingAndCoolingSystem2 == ''? '-' : file.heatingAndCoolingSystem2
+          tr
+            td
+              .value= typeof(file.meterage3) == 'undefined' || file.meterage3 == ''? '-' : file.meterage3
+            td
+              .value= typeof(file.bedroom3) == 'undefined' || file.bedroom3 == ''? '-' : file.bedroom3
+            td
+              .value= typeof(file.floor3) == 'undefined' || file.floor3 == ''? '-' : file.floor3
+            td
+              .value= typeof(file.numOfFloors3) == 'undefined' || file.numOfFloors3 == ''? '-' : file.numOfFloors3
+            td
+              .value= typeof(file.unit3) == 'undefined' || file.unit3 == ''? '-' : file.unit3
+            td
+              .value= typeof(file.buildAge3) == 'undefined' || file.buildAge3 == ''? '-' : file.buildAge3
+            td
+              .value= typeof(file.parking3) == 'undefined' || file.parking3 == ''? '-' : file.parking3
+            td
+              .value= typeof(file.warehouse3) == 'undefined' || file.warehouse3 == ''? '-' : file.warehouse3
+            td
+              .value= typeof(file.elevator3) == 'undefined' || file.elevator3 == ''? '-' : file.elevator3
+            td
+              .value= typeof(file.kitchen3) == 'undefined' || file.kitchen3 == ''? '-' : file.kitchen3
+            td
+              .value= typeof(file.view3) == 'undefined' || file.view3 == ''? '-' : file.view3
+            td
+              .value= typeof(file.floortype3) == 'undefined' || file.floortype3 == ''? '-' : file.floortype3
+            td
+              .value= typeof(file.service3) == 'undefined' || file.service3 == ''? '-' : file.service3
+            td
+              .value= typeof(file.heatingAndCoolingSystem3) == 'undefined' || file.heatingAndCoolingSystem3 == ''? '-' : file.heatingAndCoolingSystem3
+    .long-atext-input
+      .label امکانات
+      .value= typeof(file.options) == 'undefined' || file.options == ''? '-' : file.options
+    .two-text-input
+      .label قیمت متری/رهن
+      .value= typeof(file.price) == 'undefined' || file.price == ''? '-' : file.price
+      .label کل / اجاره
+      .value.marg= typeof(file.fullPrice) == 'undefined' || file.fullPrice == ''? '-' : file.fullPrice
+    .table-form.small
+      table
+        tbody
+          tr
+            th منطقه
+            th وام
+            th قابلیت تبدیل
+            th تخفیف
+            th وضعیت سند
+            th تحویل
+            th اگهی دهنده
+          tr
+            td
+              .value= typeof(file.area) == 'undefined' || file.area == ''? '-' : file.area
+            td
+              .value= typeof(file.lone) == 'undefined' || file.lone == ''? '-' : file.lone
+            td
+              .value= typeof(file.changable) == 'undefined' || file.changable == ''? '-' : file.changable
+            td
+              .value= typeof(file.discount) == 'undefined' || file.discount == ''? '-' : file.discount
+            td
+              .value= typeof(file.documentState) == 'undefined' || file.documentState == ''? '-' : file.documentState
+            td
+              .value= typeof(file.transfer) == 'undefined' || file.transfer == ''? '-' : file.transfer
+            td
+              .value= typeof(file.advertiser) == 'undefined' || file.advertiser == ''? '-' : file.advertiser
