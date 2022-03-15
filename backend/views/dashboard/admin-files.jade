@@ -17,7 +17,7 @@ block content
                     th متراژ
                     th 
                     th 
-                -for(var i=files.length-1; i>=0; i--){
+                -for(var i=files.length-1 - (page*numberOfFilesInPage); i>=files.length-1 - ((page+1)*numberOfFilesInPage) && i>=0; i--){
                     tr 
                         td.user 
                             h1= files[i].ownerName
@@ -43,6 +43,23 @@ block content
                                     i.fa.fa-trash 
                             -}
                 -}
+            .page-navigator 
+                -page = parseInt(page)
+                -if(page > 0)
+                    a(href="/dashboard/files?page=#{page-1}" disabled)
+                        i.fa.fa-chevron-right
+                        | صفحه قبلی 
+                -if((page+2)*numberOfFilesInPage < files.length-1)
+                    a(href="/dashboard/files?page=#{page+2}")= page+3
+                -if((page+1)*numberOfFilesInPage < files.length-1)
+                    a(href="/dashboard/files?page=#{page+1}")= page+2
+                -if((page)*numberOfFilesInPage < files.length-1)
+                    a.active(href="/dashboard/files?page=#{page}")= page+1
+                -if((page+1)*numberOfFilesInPage < files.length-1)
+                    a(href="/dashboard/files?page=#{page+1}") 
+                        | صفحه بعدی 
+                        i.fa.fa-chevron-left
+                
         .user-control 
             .control 
                 .search-view
@@ -54,6 +71,13 @@ block content
                         i.fa.fa-plus 
                         | افزودن فایل
                 -}
+            .control 
+                h1.title آپلود فایل اکسل
+                p فرمت فایل اکسل باید xlsx باشد
+                form.upload(action="/dashboard/upload-excel" enctype="multipart/form-data" method="POST")
+                    input(type="file" name="excelFile")
+                    button(type="submit") ارسال
+
     include ../components/file-popup
     include ../components/files-popups
     script(src="/js/files.js") 

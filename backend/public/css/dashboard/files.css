@@ -239,6 +239,62 @@
         opacity: 0;
         cursor: pointer;
     }
+    .page-navigator{
+        overflow: hidden;
+        text-align: center;
+        margin-bottom: 1vw;
+    }
+    .page-navigator a{
+        color: var(--blue);
+        text-decoration: none;
+        margin: 0 1vw;
+    }
+    .page-navigator a.active{
+        color: darkblue;
+        font-weight: bold;
+    }
+    .page-navigator a i{
+        padding: 0 0.5vw;
+        font-size: 0.7vw;
+    }
+    .page-navigator a:hover{
+        color: var(--hover);
+    }
+    .control h1.title{
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--blue);
+        padding: 0.5vw 1vw;
+        margin: 0;
+    }
+    .control p{
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--text);
+        padding: 0 1vw;
+        margin: 0;
+        margin-bottom: 1vw;
+    }
+    .control form.upload{
+        width: 90%;
+        margin: auto;
+    }
+    .control form.upload button{
+        background-color: var(--blue);
+        color: white;
+        border: none;
+        padding: 0.1vw 0;
+        width: 100%;
+        border-radius: 0.5vw;
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        display: block;
+        margin-top: 1vw;
+        cursor: pointer;
+    }
+    .control form.upload button:hover{
+        background-color: var(--hover);
+    }
 }
 @media only screen and (max-width: 800px) {
     

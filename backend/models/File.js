@@ -12,48 +12,48 @@ var FileSchema = new mongoose.Schema({
     state: String,
     fileNumber: Number,
     role: String,
-    meterage: String,
-    bedroom: String,
-    floor: String,
-    numOfFloors: String, // tabaghat
-    unit: String, // vahed
-    buildAge: String,
-    parking: String,
-    warehouse: String, // anbari
-    elevator: String,
-    kitchen: String,
-    view: String, // nama
-    floortype: String, // Kaf
-    service: String, 
-    heatingAndCoolingSystem: String, // systeme garmayesh va sarmayesh
-    meterage2: String,
-    bedroom2: String,
-    floor2: String,
-    numOfFloors2: String, // tabaghat
-    unit2: String, // vahed
-    buildAge2: String,
-    parking2: String,
-    warehouse2: String, // anbari
-    elevator2: String,
-    kitchen2: String,
-    view2: String, // nama
-    floortype2: String, // Kaf
-    service2: String, 
-    heatingAndCoolingSystem2: String, // systeme garmayesh va sarmayesh
-    meterage3: String,
-    bedroom3: String,
-    floor3: String,
-    numOfFloors3: String, // tabaghat
-    unit3: String, // vahed
-    buildAge3: String,
-    parking3: String,
-    warehouse3: String, // anbari
-    elevator3: String,
-    kitchen3: String,
-    view3: String, // nama
-    floortype3: String, // Kaf
-    service3: String, 
-    heatingAndCoolingSystem3: String, // systeme garmayesh va sarmayesh
+    meterage: {type: String, default: ''},
+    bedroom: {type: String, default: ''},
+    floor: {type: String, default: ''},
+    numOfFloors: {type: String, default: ''}, // tabaghat
+    unit: {type: String, default: ''}, // vahed
+    buildAge: {type: String, default: ''},
+    parking: {type: String, default: ''},
+    warehouse: {type: String, default: ''}, // anbari
+    elevator: {type: String, default: ''},
+    kitchen: {type: String, default: ''},
+    view: {type: String, default: ''}, // nama
+    floortype: {type: String, default: ''}, // Kaf
+    service: {type: String, default: ''}, 
+    heatingAndCoolingSystem: {type: String, default: ''}, // systeme garmayesh va sarmayesh
+    meterage2: {type: String, default: ''},
+    bedroom2: {type: String, default: ''},
+    floor2: {type: String, default: ''},
+    numOfFloors2: {type: String, default: ''}, // tabaghat
+    unit2: {type: String, default: ''}, // vahed
+    buildAge2: {type: String, default: ''},
+    parking2: {type: String, default: ''},
+    warehouse2: {type: String, default: ''}, // anbari
+    elevator2: {type: String, default: ''},
+    kitchen2: {type: String, default: ''},
+    view2: {type: String, default: ''}, // nama
+    floortype2: {type: String, default: ''}, // Kaf
+    service2: {type: String, default: ''}, 
+    heatingAndCoolingSystem2: {type: String, default: ''}, // systeme garmayesh va sarmayesh
+    meterage3: {type: String, default: ''},
+    bedroom3: {type: String, default: ''},
+    floor3: {type: String, default: ''},
+    numOfFloors3: {type: String, default: ''}, // tabaghat
+    unit3: {type: String, default: ''}, // vahed
+    buildAge3: {type: String, default: ''},
+    parking3: {type: String, default: ''},
+    warehouse3: {type: String, default: ''}, // anbari
+    elevator3: {type: String, default: ''},
+    kitchen3: {type: String, default: ''},
+    view3: {type: String, default: ''}, // nama
+    floortype3: {type: String, default: ''}, // Kaf
+    service3: {type: String, default: ''}, 
+    heatingAndCoolingSystem3: {type: String, default: ''}, // systeme garmayesh va sarmayesh
     options: String, 
     price: Number, 
     fullPrice: Number, 
