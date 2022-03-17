@@ -1,15 +1,28 @@
 var express = require('express');
 var router = express.Router();
 const { ensureAuthenticated } = require('../config/auth');
+var {convertDate} = require('../config/dateConvert');
+var File = require('../models/File');
+var Estate = require('../models/Estate');
+var User = require('../models/User');
 const sms2 = require('../config/sms2');
 const sms = require('../config/sms');
 
-
 router.get('/', (req, res, next) => {
-    // res.redirect('/users/login');
-    res.render('home');
+    File.find({}, (err, files) => {
+        now = new Date();
+        res.render('home', {
+            convertDate,
+            now,
+            numberOfFiles: files.length,
+            numberOfSellings: files.filter(e => e.state == 'فروش' || e.state == 'پیش‌فروش').length,
+            numberOfRents: files.filter(e => e.state == 'رهن و اجاره' || e.state == 'رهن کامل').length,
+            numberOfApartments: files.filter(e => e.type == 'آپارتمان').length,
+            numberOfOffices: files.filter(e => e.type == 'اداری' || e.type == 'تجاری').length,
+            numberOfOthers: files.filter(e => e.type == 'مستغلات' || e.type == 'کلنگی').length,
+        });
+    })
 });
-
 router.get('/privacy-policy', (req, res, next) => {
     res.render('privacy-policy');
 });

@@ -16,7 +16,10 @@ html
             .info 
                 .contact 
                     i.fa.fa-phone 
-                    a(href="tel:02146127919") 02146127919 - 02146127947
+                    a(href="tel:02146127919") 02146127919 
+                    | - 
+                    a(href="tel:02146127947") 02146127947 
+                    
                 //- .contact 
                 //-     i.fa.fa-envelope 
                 //-     | info@gmail.com
@@ -49,6 +52,50 @@ html
                 h1 فایل استور
                 h2.border فایلینگ تخصصی املاک در تهران
             img.top-logo(src="/img/logo.png")
+        section
+            .statistics-view
+                .card 
+                    .info 
+                        h1 کلیه فایل های ثبت شده
+                        .num= numberOfFiles
+                        .date= convertDate(now)
+                    .icon
+                        i.fa.fa-file
+                .card 
+                    .info 
+                        h1 فروش
+                        .num= numberOfSellings
+                        .date= convertDate(now)
+                    .icon
+                        i.fa.fa-dollar
+                .card 
+                    .info 
+                        h1 رهن / اجاره
+                        .num= numberOfRents
+                        .date= convertDate(now)
+                    .icon
+                        i.fa.fa-address-card-o
+                .card 
+                    .info 
+                        h1 آپارتمان
+                        .num= numberOfApartments
+                        .date= convertDate(now)
+                    .icon
+                        i.fa.fa-building
+                .card 
+                    .info 
+                        h1 اداری / تجاری
+                        .num= numberOfOffices
+                        .date= convertDate(now)
+                    .icon
+                        i.fa.fa-university
+                .card 
+                    .info 
+                        h1 مستقلات و کلنگی
+                        .num= numberOfOthers
+                        .date= convertDate(now)
+                    .icon
+                        i.fa.fa-wrench
         section 
             .register
                 .part 

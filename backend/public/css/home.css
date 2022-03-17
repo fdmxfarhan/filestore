@@ -465,7 +465,7 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         width: 100%;
         border: none;
     }
-    /* -------------------------------flag------------------------------- */
+    /* ----------------------------------------------flag-------------------------------------------- */
     section.light{
         background-color: white;
         overflow: hidden;
@@ -540,6 +540,52 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     }
     section .register .part button.submit:hover{
         background-color: var(--green);
+    }
+    section .statistics-view{
+        overflow: hidden;
+        width: 90%;
+        margin: auto;
+        padding: 2vw 0;
+        padding-bottom: 0;
+    }
+    section .statistics-view .card{
+        float: right;
+        width: 16%;
+        margin: 0 0.3333%;
+        background-color: white;
+        overflow: hidden;
+    }
+    section .statistics-view .card .info{
+        float: right;
+    }
+    section .statistics-view .card .info h1{
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--blue);
+        margin: 0;
+        padding: 0.5vw 1vw;
+    }
+    section .statistics-view .card .info .num{
+        font-family: 'iransans';
+        font-size: 1.5vw;
+        font-weight: bold;
+        padding: 0 1vw;
+    }
+    section .statistics-view .card .info .date{
+        font-family: 'iransans';
+        font-size: 0.7vw;
+        color: var(--lightgray);
+        font-weight: normal;
+        padding: 0 1vw;
+    }
+    section .statistics-view .card .icon{
+        float: left;
+    }
+    section .statistics-view .card .icon i{
+        color: var(--gray);
+        margin: 2vw 0.5vw;
+        margin-bottom: 0;
+        font-size: 2vw;
     }
 }
 @media only screen and (max-width: 800px) {
