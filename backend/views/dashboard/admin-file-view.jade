@@ -359,9 +359,9 @@ html(lang='en')
       .value= typeof(file.options) == 'undefined' || file.options == ''? '-' : file.options
     .two-text-input
       .label قیمت متری/رهن
-      .value.left= typeof(file.price) == 'undefined' || file.price == ''? '-' : showPrice(file.price)
+      .value.left= typeof(file.price) == 'undefined' || file.price == '' || file.price == null? '-' : showPrice(file.price)
       .label کل / اجاره
-      .value.left.marg= typeof(file.fullPrice) == 'undefined' || file.fullPrice == ''? '-' : showPrice(file.fullPrice)
+      .value.left.marg= typeof(file.fullPrice) == 'undefined' || file.fullPrice == '' || file.fullPrice == null? '-' : showPrice(file.fullPrice)
     .table-form.small
       table
         tbody

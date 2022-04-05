@@ -59,15 +59,16 @@ block content
                 -if((page)*numberOfFilesInPage < fileLength-1)
                     a.active(href="/dashboard/files?page=#{page}")= page+1
                 -if((page+1)*numberOfFilesInPage < fileLength-1)
-                    a(href="/dashboard/files?page=#{page+1}") 
+                    a(href="/dashboard/files?page=#{page+1}")
                         | صفحه بعدی 
                         i.fa.fa-chevron-left
                 
         .user-control 
             .control 
-                .search-view
-                    input(type="text" placeholder="جستجو" onkeyup="search()" id="searchInput")
-                    button
+                form.search-view(action="/dashboard/files") 
+                    input.hidden(type="text" name="page" value="#{page}")
+                    input(type="text" name="search" placeholder="جستجو" onkeyup="search()" id="searchInput")
+                    button(type="submit")
                         i.fa.fa-search
                 -if(user.addFilePermission){
                     a.add-user#add-user-btn
