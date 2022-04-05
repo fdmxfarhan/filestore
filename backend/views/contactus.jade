@@ -1,0 +1,31 @@
+extends layout
+block styles
+    link(rel="stylesheet", href="/css/contactus.css")
+
+block content
+    include ./components/messages
+    .reg-area
+        .image
+            img(src="/img/users/bg-2.jpg", alt="")
+        .register
+            h1 تماس با ما
+            .contact-options
+                .part 
+                    .item 
+                        i.fa.fa-map-marker 
+                        .text بلوار کوهک، انتهای نسیم هفتم، مجتمع تجاری چیتگر، واحد 16
+                .part 
+                    .item 
+                        i.fa.fa-phone
+                        .text 02146127919
+                    .item 
+                        i.fa.fa-envelope
+                        .text filestore@gmail.com
+                
+            form(action="/contactus" method="POST")
+                input.textinput(type="text" placeholder="نام و نام خانوادگی" name="fullname" required)
+                input.textinput(type="text" placeholder="شماره موبایل خود را وارد کنید" name="phone" required)
+                textarea(name="text" placeholder="سوال یا درخواست خود را بنویسید...")
+                button.submit(type="submit" ) ارسال پیام
+
+    script(src="/js/numberFixer.js") 

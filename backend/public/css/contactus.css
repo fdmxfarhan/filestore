@@ -1,0 +1,521 @@
+/* --------- Declarations ----------- */
+@font-face{
+    font-family: 'iransans';
+    src: url('iransans.ttf');
+}
+@font-face{
+    font-family: 'btitr';
+    src: url('btitr.ttf');
+}
+:root {
+    --light-background: #F0F0F0;
+    --dark-background: #364152;
+    --dark: #232A3A;
+    --text: #4B4040;
+    --hover: #FF8A47;
+    --orange: #ffbd2e;
+    --yellow: #EEAB34;
+    --green: #10b64f;
+    --red: #f1683f;
+    --button: #3FAEE0;
+    --blue: #3FAEE0;
+    --darkblue: #050547;
+    --gray: rgb(156, 156, 156);
+    --lightgray: rgb(201, 201, 201);
+}
+body{
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    font-family: 'iransans';
+    direction: rtl;
+    background-color: var(--light-background);
+}
+body::-webkit-scrollbar {width: 0.5vw;}
+body::-webkit-scrollbar-track {background: var(--gray);}
+body::-webkit-scrollbar-thumb {background: var(--dark);}
+body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
+.black-modal{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    z-index: 105;
+}
+.transparent-modal{
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 105;
+}
+.hidden {
+    display: none;
+}
+.visible{
+    display: block;
+}
+.center {
+    text-align: center;
+}
+.hidden-overflow{overflow: hidden;}
+@media only screen and (min-width: 800px) {
+    a.back-home{
+        position: absolute;
+        top: 1vw;
+        left: 1vw;
+        /* background-color: var(--orange); */
+        /* color: white; */
+        font-family: 'iransans';
+        font-size: 1.1vw;
+        font-weight: bold;
+        text-decoration: none;
+        color: var(--orange);
+        padding: 0.5vw 1vw;
+    }
+    a.back-home i{
+        padding: 0 0.5vw;
+        font-size: 2vw;
+    }
+    a.back-home:hover{color: var(--green);}
+    .reg-area{
+        direction: rtl;
+        overflow: hidden;
+        width: 80%;
+        margin: 1vw auto;
+        background-color: white;
+        border-radius: 0.5vw;
+    }
+    .reg-area .image{
+        float: right;
+        width: 50%;
+    }
+    .reg-area img{
+        height: 80vh;
+        width: 100%;
+        display: block;
+    }
+    .register{
+        float: right;
+        width: 50%;
+        /* background-color: var(--light-background); */
+    }
+    .register h1{
+        font-family: 'iransans';
+        font-size: 1.5vw;
+        margin-top: 1vw;
+        color: black;
+        text-align: right;
+        margin-right: 5%;
+        margin-bottom: 0;
+    }
+    .register h2{
+        font-family: 'iransans';
+        font-size: 1.2vw;
+        margin: 0;
+        color: var(--text);
+        text-align: center;
+        font-weight: normal;
+    }
+    .register form input.textinput{
+        display: block; 
+        border: none; 
+        width: 80%; 
+        margin-right: 5%;
+        font-family: 'iransans';
+        font-size: 1vw;
+        padding: 0.5vw 1vw;
+        margin-top: 1vw;
+        box-shadow: 0 0 1vw 0.1vw rgba(0, 0, 0, 0.03);
+        text-align: right;
+        border-radius: 0.5vw;
+        border: var(--lightgray) 0.1vw solid;
+    }
+    .register form textarea{
+        display: block; 
+        border: none; 
+        width: 80%; 
+        margin-right: 5%;
+        font-family: 'iransans';
+        font-size: 1vw;
+        padding: 0.5vw 1vw;
+        margin-top: 1vw;
+        box-shadow: 0 0 1vw 0.1vw rgba(0, 0, 0, 0.03);
+        text-align: right;
+        border-radius: 0.5vw;
+        border: var(--lightgray) 0.1vw solid;
+        height: 10vw;
+    }
+    /* .register form input.textinput:focus{
+        outline: none;
+    } */
+    .register .check{
+        width: 74%;
+        margin: 1.6vw auto;
+    }
+    .register .check label{
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--text);
+    }
+    .register .check label a{
+        text-decoration: none;
+        color: var(--orange);
+        font-weight: bold;
+    }
+    .register form button.submit{
+        display: block; 
+        border: none; 
+        width: 85.5%; 
+        margin-right: 5%;
+        font-family: 'iransans';
+        font-size: 1vw;
+        padding: 1vw;
+        box-shadow: 0 0 1vw 0.1vw rgba(0, 0, 0, 0.1);
+        color: white;
+        background-color: var(--orange);
+        border-radius: 0.4vw;
+        cursor: pointer;
+        margin-top: 1vw;
+    }
+    .register form button.submit:hover{
+        background-color: var(--green);
+    }
+    .register a.link{
+        display: block; 
+        border: none; 
+        width: 71%; 
+        margin: auto;
+        font-family: 'iransans';
+        font-size: 1.2vw;
+        padding: 0.6vw;
+        text-decoration: none;
+        text-align: center;
+        color: var(--green);
+        position: relative;
+        border-radius: 0.4vw;
+        border: var(--green) 0.1vw solid;
+        margin-top: 2vw;
+    }
+    .register a.link i{
+        position: absolute;
+        top: 0.9vw;
+        left: 1vw;
+    }
+    .register a.link:hover{
+        background-color: var(--green);
+        color: white;
+    }
+    .contact-options{
+        width: 90%;
+        margin: 1vw auto;
+    }
+    .contact-options .part{
+        width: 50%;
+        float: right;
+    }
+    .contact-options .part .item{
+        overflow: hidden;
+        margin-bottom: 1vw;
+    }
+    .contact-options .part .item .text{
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--text);
+        float: right;
+        width: 70%;
+    }
+    .contact-options .part .item i{
+        color: var(--orange);
+        font-size: 1.2vw;
+        padding-left: 1vw;
+        display: block;
+        float: right;
+    }
+    .errors-area{
+        /* background-color: coral; */
+        position: fixed;
+        width: 40vw;
+        bottom: 0;
+        left: 2vw;
+        z-index: 100;
+    }
+    .errors-area .error{
+        background-color: rgba(220, 20, 20, 0.842);
+        position: relative;
+        margin: 1vw;
+        border-radius: 1vw;
+        color: white;
+        padding: 0.7vw 1vw;
+        padding-bottom: 0;
+    }
+    .errors-area .error.green-error{
+        background-color: rgba(1, 170, 9, 0.842);
+        position: relative;
+        margin: 1vw;
+        border-radius: 1vw;
+        color: white;
+        padding: 0.7vw 1vw;
+        padding-bottom: 0;
+    }
+    
+    .errors-area .error h1{
+        display: inline-block;
+        padding-right: 0;
+        margin: 0;
+        font-family: 'iransans';
+        font-size: 1.2vw;
+    }
+    .errors-area .error i{
+        display: inline-block;
+        padding-left: 1vw;
+    }
+    .errors-area .error i.close-error{
+        position: absolute;
+        top: 1vw;
+        left: 0;
+        cursor: pointer;
+    }
+    .errors-area .error .time-interval{
+        background-color: rgba(255, 255, 255, 0.664);
+        /* position: absolute;
+        bottom: 0; */
+        width: 0;
+        height: 0.3vw;
+        margin-top: 0.5vw;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    a.back-home{
+        position: absolute;
+        top: 1vw;
+        left: 1vw;
+        /* background-color: var(--orange); */
+        /* color: white; */
+        font-family: 'iransans';
+        font-size: 1.1vw;
+        font-weight: bold;
+        text-decoration: none;
+        color: var(--orange);
+        padding: 0.5vw 1vw;
+    }
+    a.back-home i{
+        padding: 0 0.5vw;
+        font-size: 2vw;
+    }
+    a.back-home:hover{color: var(--green);}
+    .reg-area{
+        direction: rtl;
+        overflow: hidden;
+        width: 80%;
+        margin: 4vw auto;
+        background-color: white;
+        border-radius: 1.5vw;
+    }
+    .reg-area .image{
+        float: right;
+        width: 50%;
+        display: none;
+    }
+    .reg-area img{
+        /* height: 80vh; */
+        width: 100%;
+        display: block;
+    }
+    .register{
+        float: right;
+        width: 100%;
+        /* background-color: var(--light-background); */
+    }
+    .register h1{
+        font-family: 'iransans';
+        font-size: 3.5vw;
+        margin-top: 3vw;
+        color: black;
+        text-align: right;
+        margin-right: 5%;
+        margin-bottom: 0;
+    }
+    .register h2{
+        font-family: 'iransans';
+        font-size: 3.2vw;
+        margin: 0;
+        color: var(--text);
+        text-align: center;
+        font-weight: normal;
+    }
+    .register form input.textinput{
+        display: block; 
+        border: none; 
+        width: 80%; 
+        margin-right: 5%;
+        font-family: 'iransans';
+        font-size: 3vw;
+        padding: 1vw 3vw;
+        margin-top: 3vw;
+        box-shadow: 0 0 1vw 0.1vw rgba(0, 0, 0, 0.03);
+        text-align: right;
+        border-radius: 1vw;
+        border: var(--lightgray) 0.1vw solid;
+    }
+    .register form textarea{
+        display: block; 
+        border: none; 
+        width: 80%; 
+        margin-right: 5%;
+        font-family: 'iransans';
+        font-size: 3vw;
+        padding: 1vw 3vw;
+        margin-top: 3vw;
+        box-shadow: 0 0 1vw 0.1vw rgba(0, 0, 0, 0.03);
+        text-align: right;
+        border-radius: 1vw;
+        border: var(--lightgray) 0.1vw solid;
+        height: 30vw;
+    }
+    /* .register form input.textinput:focus{
+        outline: none;
+    } */
+    .register .check{
+        width: 74%;
+        margin: 1.6vw auto;
+    }
+    .register .check label{
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--text);
+    }
+    .register .check label a{
+        text-decoration: none;
+        color: var(--orange);
+        font-weight: bold;
+    }
+    .register form button.submit{
+        display: block; 
+        border: none; 
+        width: 88%; 
+        margin-right: 5%;
+        font-family: 'iransans';
+        font-size: 3vw;
+        padding: 3vw;
+        box-shadow: 0 0 1vw 0.1vw rgba(0, 0, 0, 0.1);
+        color: white;
+        background-color: var(--orange);
+        border-radius: 1.4vw;
+        cursor: pointer;
+        margin-top: 3vw;
+        margin-bottom: 3vw;
+        
+    }
+    .register form button.submit:hover{
+        background-color: var(--green);
+    }
+    .register a.link{
+        display: block; 
+        border: none; 
+        width: 71%; 
+        margin: auto;
+        font-family: 'iransans';
+        font-size: 1.2vw;
+        padding: 0.6vw;
+        text-decoration: none;
+        text-align: center;
+        color: var(--green);
+        position: relative;
+        border-radius: 0.4vw;
+        border: var(--green) 0.1vw solid;
+        margin-top: 2vw;
+    }
+    .register a.link i{
+        position: absolute;
+        top: 0.9vw;
+        left: 1vw;
+    }
+    .register a.link:hover{
+        background-color: var(--green);
+        color: white;
+    }
+    .contact-options{
+        width: 90%;
+        margin: 3vw auto;
+    }
+    .contact-options .part{
+        width: 50%;
+        float: right;
+    }
+    .contact-options .part .item{
+        overflow: hidden;
+        margin-bottom: 3vw;
+    }
+    .contact-options .part .item .text{
+        font-family: 'iransans';
+        font-size: 3vw;
+        color: var(--text);
+        float: right;
+        width: 70%;
+    }
+    .contact-options .part .item i{
+        color: var(--orange);
+        font-size: 3vw;
+        padding-left: 3vw;
+        display: block;
+        float: right;
+    }
+    .errors-area{
+        /* background-color: coral; */
+        position: fixed;
+        width: 90%;
+        bottom: 0;
+        left: 5%;
+        z-index: 100;
+    }
+    .errors-area .error{
+        background-color: rgba(220, 20, 20, 0.842);
+        position: relative;
+        margin: 1vw;
+        border-radius: 2vw;
+        color: white;
+        padding: 1vw 3vw;
+    }
+    .errors-area .error h1{
+        display: inline-block;
+        padding-right: 0;
+        margin: 0;
+        font-family: 'iransans';
+        font-size: 3.2vw;
+    }
+    .errors-area .error i{
+        display: inline-block;
+        padding-left: 3vw;
+    }
+    .errors-area .error i.close-error{
+        position: absolute;
+        top: 2vw;
+        left: 0;
+        cursor: pointer;
+    }
+    .errors-area .error .time-interval{
+        background-color: rgba(255, 255, 255, 0.664);
+        /* position: absolute;
+        bottom: 0; */
+        width: 0;
+        height: 1vw;
+        margin-top: 0.5vw;
+    }
+    .errors-area .error.green-error{
+        background-color: rgba(1, 170, 9, 0.842);
+    }
+}
+
+
+
+
+
+

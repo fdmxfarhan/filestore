@@ -57,5 +57,17 @@ router.post('/register-estate', (req, res, next) => {
     sms2('09351248932', text);
     res.redirect('/');
 });
-
+router.get('/contactus', (req, res, next) => {
+    res.render('contactus', {
+        
+    })
+});
+router.post('/contactus', (req, res, next) => {
+    text = `تماس با ما:\nنام: ${req.body.fullname}\nتلفن: ${req.body.phone}\n\n${req.body.text}`;
+    sms2('09336448037', text);
+    // sms2('09129630587', text);
+    // sms2('09351248932', text);
+    req.flash('success_msg', 'پیام شما با موفقیت ارسال شد.');
+    res.redirect('/contactus');
+});
 module.exports = router;
