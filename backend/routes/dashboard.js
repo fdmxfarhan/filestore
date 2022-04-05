@@ -115,10 +115,10 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
             var result = [];
             if(search){
                 for (let i = 0; i < files.length; i++) {
-                    if(files[i].ownerName.indexOf(search) != -1) result.push(files[i]);
-                    else if(files[i].phone.indexOf(search) != -1) result.push(files[i]);
-                    else if(files[i].fileNumber.toString().indexOf(search) != -1) result.push(files[i]);
-                    else if(files[i].address.indexOf(search) != -1) result.push(files[i]);
+                    if(files[i].ownerName && files[i].ownerName.indexOf(search) != -1) result.push(files[i]);
+                    else if(files[i].phone && files[i].phone.indexOf(search) != -1) result.push(files[i]);
+                    else if(files[i].fileNumber && files[i].fileNumber.toString().indexOf(search) != -1) result.push(files[i]);
+                    else if(files[i].address && files[i].address.indexOf(search) != -1) result.push(files[i]);
                 }
             }
             files = files.slice(fileLength-1 - ((page+1)*numberOfFilesInPage), fileLength-1 - (page*numberOfFilesInPage))
