@@ -42,8 +42,10 @@ $(document).ready(function(){
         files.forEach(file => file.view.fadeOut(300));
     });
     var fileLength = parseInt(document.getElementById('file-length').textContent);
+    var fileLengthMin = parseInt(document.getElementById('file-length-min').textContent);
+    var fileLengthMax = parseInt(document.getElementById('file-length-max').textContent);
     var files = [];
-    for(var i=0; i<fileLength; i++){
+    for(var i=fileLengthMin; i<=fileLengthMax; i++){
         files.push({btn: $(`#edit-file-btn${i}`), view: $(`#edit-file-popup${i}`)});
     }
     files.forEach(file => {

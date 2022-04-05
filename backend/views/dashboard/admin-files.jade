@@ -5,6 +5,8 @@ block styles
 
 block content
     #file-length.hidden= files.length
+    #file-length-max.hidden= files.length-1 - (page*numberOfFilesInPage)
+    #file-length-min.hidden= files.length-1 - ((page+1)*numberOfFilesInPage)
     .title-view 
         h1 فایل ها
         h2 
