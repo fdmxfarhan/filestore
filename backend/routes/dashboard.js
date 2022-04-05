@@ -112,6 +112,15 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
         var numberOfFilesInPage = 30;
         File.find({}, (err, files) => {
             var fileLength = files.length;
+            var result = [];
+            if(search){
+                for (let i = 0; i < files.length; i++) {
+                    if(files[i].ownerName.indexOf(search) != -1) result.push(files[i]);
+                    else if(files[i].phone.indexOf(search) != -1) result.push(files[i]);
+                    else if(files[i].fileNumber.toString().indexOf(search) != -1) result.push(files[i]);
+                    else if(files[i].address.indexOf(search) != -1) result.push(files[i]);
+                }
+            }
             files = files.slice(fileLength-1 - ((page+1)*numberOfFilesInPage), fileLength-1 - (page*numberOfFilesInPage))
             res.render('./dashboard/admin-files', {
                 user: req.user,
@@ -120,6 +129,8 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
                 page,
                 numberOfFilesInPage,
                 fileLength,
+                result,
+                search,
             });
         })
     }

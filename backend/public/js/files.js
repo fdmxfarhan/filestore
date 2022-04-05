@@ -1,4 +1,4 @@
-function search() {
+function searchFile() {
     // alert('hello');
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("searchInput");
