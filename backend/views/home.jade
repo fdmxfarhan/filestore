@@ -12,7 +12,7 @@ html
     body
         header 
             img.background(src="/img/home.jpg")
-            .overlay
+            //- .overlay
             .info 
                 .contact 
                     i.fa.fa-phone 
@@ -58,51 +58,79 @@ html
                     .info 
                         h1 کلیه ملک‌های ثبت شده
                         .num= numberOfFiles
-                        .date= convertDate(now)
-                    .icon
+                            .f فایل
+                        .date
+                            i.fa.fa-refresh
+                            | #{convertDate(now)}
+                    //- .icon
                         i.fa.fa-file
+                    img(src="/img/sale.png", alt="")
                 .card 
                     .info 
                         h1 فروش
                         .num= numberOfSellings
-                        .date= convertDate(now)
-                    .icon
+                            .f فایل
+                        .date
+                            i.fa.fa-refresh
+                            | #{convertDate(now)}
+                    //- .icon
                         i.fa.fa-dollar
+                    img(src="/img/sale.png", alt="")
                 .card 
                     .info 
                         h1 پیش فروش
                         .num= numberOfSellings2
-                        .date= convertDate(now)
-                    .icon
+                            .f فایل
+                        .date
+                            i.fa.fa-refresh
+                            | #{convertDate(now)}
+                    //- .icon
                         i.fa.fa-dollar
+                    img(src="/img/sale.png", alt="")
                 .card 
                     .info 
                         h1 رهن / اجاره
                         .num= numberOfRents
-                        .date= convertDate(now)
-                    .icon
+                            .f فایل
+                        .date
+                            i.fa.fa-refresh
+                            | #{convertDate(now)}
+                    //- .icon
                         i.fa.fa-address-card-o
+                    img.margin1(src="/img/rent.png", alt="")
                 .card 
                     .info 
                         h1 مسکونی
                         .num= numberOfApartments
-                        .date= convertDate(now)
-                    .icon
+                            .f فایل
+                        .date
+                            i.fa.fa-refresh
+                            | #{convertDate(now)}
+                    //- .icon
                         i.fa.fa-building
+                    img.margin1(src="/img/apartment.png", alt="")
                 .card 
                     .info 
                         h1 اداری / تجاری
                         .num= numberOfOffices
-                        .date= convertDate(now)
-                    .icon
+                            .f فایل
+                        .date
+                            i.fa.fa-refresh
+                            | #{convertDate(now)}
+                    //- .icon
                         i.fa.fa-university
+                    img.margin1(src="/img/house.png", alt="")
                 .card 
                     .info 
                         h1 مستقلات و کلنگی
                         .num= numberOfOthers
-                        .date= convertDate(now)
-                    .icon
+                            .f فایل
+                        .date
+                            i.fa.fa-refresh
+                            | #{convertDate(now)}
+                    //- .icon
                         i.fa.fa-wrench
+                    img(src="/img/sale.png", alt="")
         section 
             .register
                 .part 

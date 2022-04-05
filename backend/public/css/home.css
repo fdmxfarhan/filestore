@@ -543,24 +543,48 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     }
     section .statistics-view{
         overflow: hidden;
-        width: 70%;
+        width: 80%;
         margin: auto;
         padding: 2vw 0;
         padding-bottom: 0;
         text-align: center;
+        margin-top: -5vw;
     }
     section .statistics-view .card{
         /* float: right; */
         display: inline-block;
-        width: 15vw;
+        width: 16.5vw;
         margin: 0 0.3333%;
         background-color: white;
         overflow: hidden;
         margin-top: 0.5vw;
-        border-radius: 0.2vw;
+        border-radius: 0.4vw;
+        position: relative;
+        min-height: 7.4vw;
+        border: transparent 0.2vw solid;
+        transition-duration: 1s;
+        box-shadow: 0 0 0.3vw 0.3vw rgba(0, 0, 0, 0.03);
+    }
+    section .statistics-view .card:hover{
+        border: var(--blue) 0.2vw solid;
+        /* background-color: var(--blue); */
+    }
+    section .statistics-view .card img{
+        position: absolute;
+        height: 4.5vw;
+        bottom: 0.3vw;
+        left: 0.5vw;
+        opacity: 0.7;
+    }
+    section .statistics-view .card img.margin1{
+        margin-left: 1vw;
+        height: 5.5vw;
     }
     section .statistics-view .card .info{
         float: right;
+    }
+    section .statistics-view .card .info i{
+        padding-left: 0.3vw;
     }
     section .statistics-view .card .info h1{
         font-family: 'iransans';
@@ -570,12 +594,21 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         padding: 0.5vw 1vw;
         text-align: right;
     }
+    /* section .statistics-view .card:hover .info h1{color: white;} */
     section .statistics-view .card .info .num{
         font-family: 'iransans';
         font-size: 1.5vw;
         font-weight: bold;
         padding: 0 1vw;
         text-align: right;
+    }
+    /* section .statistics-view .card:hover .info .num{color: white;}
+    section .statistics-view .card:hover .info .num .f{color: white;} */
+    section .statistics-view .card .info .num .f{
+        font-size: 0.9vw;
+        color: var(--gray);
+        display: inline;
+        padding-right: 0.5vw;
     }
     section .statistics-view .card .info .date{
         font-family: 'iransans';
@@ -584,6 +617,7 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         font-weight: normal;
         padding: 0 1vw;
         text-align: right;
+        margin-top: 1vw;
     }
     section .statistics-view .card .icon{
         float: left;
