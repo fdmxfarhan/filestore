@@ -4,11 +4,13 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+    script(src="/js/jquery-3.5.1.min.js")
     title FileStore
     style.
       @font-face{
       font-family: 'iransans';
-      src: url('/css/iransans.ttf');
+      src: url('/css/B-NAZANIN.ttf');
       }
       body{
       margin: 0;
@@ -20,8 +22,9 @@ html(lang='en')
       background-color: white;
       }
       header{
+        position: relative;
       overflow: hidden;
-      width: 80%;
+      width: 100%;
       margin: auto;
       border-bottom: #2b3546 2px solid;
       }
@@ -31,37 +34,59 @@ html(lang='en')
       text-align: right;
       }
       header .part.left{
-      float: right;
-      width: 50%;
-      text-align: left;
+      float: left;
+      width: 18vw;
+      text-align: justify;
+      padding-top: 3vw;
       }
       header .part h1.title{
       font-family: 'iransans';
-      font-size: 2vw;
-      margin-top: 3vw;
+      font-size: 4vw;
+      margin-top: 1vw;
       padding-bottom: 0;
-      margin-bottom: 10px;
+      margin-bottom: 0;
       }
       header .part h2.title{
       font-family: 'iransans';
-      font-size: 1.2vw;
+      font-size: 2vw;
       font-weight: normal;
       padding-top: 0;
       margin-top: 0;
       }
-      header .part img{
-      margin-top: 3vw;
-      width: 4vw;
+      header .part-center{
+        position: absolute;
+        top: 0;
+        right: 45%;
+      }
+      header .part-center img{
+        width: 7.8vw;
+        display: block;
+        margin: auto;
+        margin-top: 0;
+      }
+      header .part-center p{
+        font-weight: bold;
+      margin: 0;
+      padding: 0;
+      font-family: 'iransans';
+      font-size: 1.8vw;
+      color: #848C98;
+      text-align: center;
+      }
+      header .part p i{
+        padding-left: 0.5vw;
+        font-size: 1.8vw;
       }
       header .part p{
       margin: 0;
       padding: 0;
+        font-weight: bold;
       font-family: 'iransans';
-      font-size: 0.8vw;
+      font-size: 1.7vw;
       color: #848C98;
       }
       .multi-column-form{
-      width: 80%;
+      width: 100%;
       margin: 1vw auto;
       overflow: hidden;
       }
@@ -75,15 +100,17 @@ html(lang='en')
       margin-bottom: 1vw;
       }
       .multi-column-form .col50 .double-text-input .label{
-        font-size: 1vw;
+        font-weight: bold;
+        font-size: 2vw;
       float: right;
-      width: 15%;
+      width: 17.3%;
       text-align: left;
       margin-left: 2%;
       padding: 0.2vw 0;
       }
       .multi-column-form .col50 .double-text-input .value{
-        font-size: 1vw;
+        font-weight: bold;
+        font-size: 1.9vw;
       float: right;
       width: 25%;
       border: #324054 1px solid;
@@ -91,7 +118,8 @@ html(lang='en')
       padding: 0.2vw 1vw;
       }
       .multi-column-form .col50 .text-area-input .label{
-        font-size: 1vw;
+        font-weight: bold;
+        font-size: 1.5vw;
       float: right;
       width: 15%;
       text-align: left;
@@ -99,16 +127,17 @@ html(lang='en')
       padding: 0.2vw 0;
       }
       .multi-column-form .col50 .text-area-input .value{
-        font-size: 1vw;
+        font-weight: bold;
+        font-size: 1.8vw;
       float: right;
-      width: 72.5%;
+      width: 76.4%;
       border: #324054 0.1vw solid;
       border-radius: 0.5vw;
       padding: 0.3vw 1vw;
       min-height: 4.2vw;
       }
       .table-form{
-      width: 80%;
+      width: 100%;
       margin: 1vw auto;
       }
       .table-form table{
@@ -116,28 +145,30 @@ html(lang='en')
       }
       .table-form th{
       font-family: 'iransans';
-      font-size: 0.9vw;
+      font-size: 1.8vw;
       text-align: center;
       }
       .table-form td{
       overflow: visible;
       }
       .table-form td .value{
+        font-weight: bold;
       border: #324054 0.1vw solid;
-      border-radius: 0.5vw;
-      font-size: 0.8vw;
-      padding: 0.2vw 0;
+      border-radius: 0.3vw;
+      font-size: 1.8vw;
+      padding: 0.3vw 0;
       margin-bottom: 0.2vw;
       text-align: center;
       }
       .long-atext-input,
       .two-text-input{
-      width: 80%;
+      width: 100%;
       margin: 1vw auto;
       overflow: hidden;
       }
       .long-atext-input .label{
-        font-size: 1vw;
+        font-weight: bold;
+        font-size: 2vw;
       float: right;
       width: 5%;
       text-align: left;
@@ -145,7 +176,8 @@ html(lang='en')
       padding: 0.2vw 0;
       }
       .long-atext-input .value{
-        font-size: 1vw;
+        font-weight: bold;
+        font-size: 2vw;
       float: right;
       width: 90%;
       border: #324054 0.1vw solid;
@@ -153,32 +185,44 @@ html(lang='en')
       padding: 0.2vw 1vw;
       }
       .two-text-input .label{
-        font-size: 1vw;
+        font-size: 2vw;
       float: right;
       width: 10%;
       text-align: left;
       margin-left: 1%;
       padding: 0.2vw 0;
+        font-weight: bold;
       }
       .two-text-input .value{
-        font-size: 1vw;
+        font-size: 1.9vw;
         min-height: 2vw;
-      float: right;
-      width: 38%;
-      border: #324054 0.1vw solid;
-      border-radius: 0.5vw;
-      padding: 0.2 1vw;
-      margin-left: 1vw;
+        float: right;
+        width: 36%;
+        border: #324054 0.1vw solid;
+        border-radius: 0.5vw;
+        padding: 0.2vw 1vw;
+        margin-left: 1vw;
+        font-weight: bold;
       }
       .two-text-input .value.marg{margin-left: 0;}
+      .value.left{text-align: left;}
+      .value.center{text-align: center;}
   body
     header
       .part.right
         h1.title فایل استور
-        h2.title فایلینگ تخصصی املاک در تهران (منطقه 22)
+        h2.title فایلینگ تخصصی املاک در تهران
       .part.left
-        img(src='/img/logo.png')
+        p 
+          i.fa.fa-map-marker
+          | بلوار کوهک، انتهای نسیم هفتم، مجتمع تجاری چیتگر، واحد 16
+        p.bigger 
+          i.fa.fa-phone
+          | 46127919
+      .part-center
+        img(src='/img/logo-dark.png')
         p www.fileestore.ir
+
     .multi-column-form
       .col50
         .double-text-input
@@ -192,19 +236,19 @@ html(lang='en')
       .col50
         .double-text-input
           .label همراه
-          .value.textinput= typeof(file.phone) == 'undefined' || file.phone == ''? '-' : file.phone
+          .value.textinput.left= typeof(file.phone) == 'undefined' || file.phone == ''? '-' : file.phone
           .label تاریخ
-          .value.textinput= typeof(file.date) == 'undefined' || file.date == ''? '-' : file.date
+          .value.textinput.left= typeof(file.date) == 'undefined' || file.date == ''? '-' : file.date
         .double-text-input
           .label نوع
-          .value.textinput= typeof(file.type) == 'undefined' || file.type == ''? '-' : file.type
+          .value.textinput.center= typeof(file.type) == 'undefined' || file.type == ''? '-' : file.type
           .label شماره
-          .value.textinput= typeof(file.fileNumber) == 'undefined' || file.fileNumber == ''? '-' : file.fileNumber
+          .value.textinput.left= typeof(file.fileNumber) == 'undefined' || file.fileNumber == ''? '-' : file.fileNumber
         .double-text-input
           .label وضعیت
-          .value.textinput= typeof(file.state) == 'undefined' || file.state == ''? '-' : file.state
+          .value.textinput.center= typeof(file.state) == 'undefined' || file.state == ''? '-' : file.state
           .label سمت
-          .value.textinput= typeof(file.role) == 'undefined' || file.role == ''? '-' : file.role
+          .value.textinput.left= typeof(file.role) == 'undefined' || file.role == ''? '-' : file.role
     .table-form
       table
         tbody
@@ -315,9 +359,9 @@ html(lang='en')
       .value= typeof(file.options) == 'undefined' || file.options == ''? '-' : file.options
     .two-text-input
       .label قیمت متری/رهن
-      .value= typeof(file.price) == 'undefined' || file.price == ''? '-' : file.price
+      .value.left= typeof(file.price) == 'undefined' || file.price == ''? '-' : showPrice(file.price)
       .label کل / اجاره
-      .value.marg= typeof(file.fullPrice) == 'undefined' || file.fullPrice == ''? '-' : file.fullPrice
+      .value.left.marg= typeof(file.fullPrice) == 'undefined' || file.fullPrice == ''? '-' : showPrice(file.fullPrice)
     .table-form.small
       table
         tbody
@@ -344,3 +388,4 @@ html(lang='en')
               .value= typeof(file.transfer) == 'undefined' || file.transfer == ''? '-' : file.transfer
             td
               .value= typeof(file.advertiser) == 'undefined' || file.advertiser == ''? '-' : file.advertiser
+    script(src="/js/persianNumber.js")

@@ -274,5 +274,15 @@ var showPrice = (number) => {
     }
     return(result.split("").reverse().join(""));
 }
+var showPrice2 = (number) => {
+    number = number.toString();
+    var result = '';
+    for (let i = number.length-1; i >= 0; i--) {
+        result += number[i];
+        if((number.length - i)%3 == 0 && i>0)
+            result += ',';
+    }
+    return(result.split("").reverse().join(""));
+}
 
-module.exports = {JalaliDate,j_days_in_month, day_in_week, div, jalali_to_gregorian, gregorian_to_jalali, get_year_month_day, get_hour_minute_second, convertDate, get_persian_month, showPrice, getNow, compareDates, convertDateObject, objToString, arrayToObj};
+module.exports = {JalaliDate,j_days_in_month, day_in_week, div, jalali_to_gregorian, gregorian_to_jalali, get_year_month_day, get_hour_minute_second, convertDate, get_persian_month, showPrice, showPrice2, getNow, compareDates, convertDateObject, objToString, arrayToObj};

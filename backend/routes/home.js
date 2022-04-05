@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { ensureAuthenticated } = require('../config/auth');
-var {convertDate} = require('../config/dateConvert');
+var {convertDate, showPrice} = require('../config/dateConvert');
 var File = require('../models/File');
 var Estate = require('../models/Estate');
 var User = require('../models/User');

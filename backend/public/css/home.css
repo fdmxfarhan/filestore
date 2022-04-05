@@ -543,17 +543,21 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     }
     section .statistics-view{
         overflow: hidden;
-        width: 90%;
+        width: 70%;
         margin: auto;
         padding: 2vw 0;
         padding-bottom: 0;
+        text-align: center;
     }
     section .statistics-view .card{
-        float: right;
-        width: 16%;
+        /* float: right; */
+        display: inline-block;
+        width: 15vw;
         margin: 0 0.3333%;
         background-color: white;
         overflow: hidden;
+        margin-top: 0.5vw;
+        border-radius: 0.2vw;
     }
     section .statistics-view .card .info{
         float: right;
@@ -564,12 +568,14 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         color: var(--blue);
         margin: 0;
         padding: 0.5vw 1vw;
+        text-align: right;
     }
     section .statistics-view .card .info .num{
         font-family: 'iransans';
         font-size: 1.5vw;
         font-weight: bold;
         padding: 0 1vw;
+        text-align: right;
     }
     section .statistics-view .card .info .date{
         font-family: 'iransans';
@@ -577,6 +583,7 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         color: var(--lightgray);
         font-weight: normal;
         padding: 0 1vw;
+        text-align: right;
     }
     section .statistics-view .card .icon{
         float: left;

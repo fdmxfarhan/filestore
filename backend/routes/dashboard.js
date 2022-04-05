@@ -9,7 +9,7 @@ const generateCode = require('../config/generateCode');
 var bodyparser = require('body-parser');
 const multer = require('multer');
 const mkdirp = require('mkdirp');
-var {convertDate} = require('../config/dateConvert');
+var {convertDate, showPrice, showPrice2} = require('../config/dateConvert');
 var phantomjs = require('phantomjs');
 var pdf = require("pdf-creator-node");
 var fs = require('fs');
@@ -420,6 +420,7 @@ router.get('/file-view', ensureAuthenticated, (req, res, next) => {
         res.render('./dashboard/admin-file-view', {
             user: req.user,
             file,
+            showPrice: showPrice2
         });
     })
 });
