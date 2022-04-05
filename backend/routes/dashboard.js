@@ -106,14 +106,19 @@ router.get('/estates', ensureAuthenticated, (req, res, next) => {
 router.get('/files', ensureAuthenticated, (req, res, next) => {
     var page = req.query.page;
     if(!page) page = 0;
+    page = parseInt(page);
     if(req.user.role == 'admin'){
+        var numberOfFilesInPage = 30;
         File.find({}, (err, files) => {
+            var fileLength = files.length;
+            files = files.slice(fileLength-1 - ((page+1)*numberOfFilesInPage), fileLength-1 - (page*numberOfFilesInPage))
             res.render('./dashboard/admin-files', {
                 user: req.user,
                 files,
                 convertDate,
                 page,
-                numberOfFilesInPage: 30,
+                numberOfFilesInPage,
+                fileLength,
             });
         })
     }
