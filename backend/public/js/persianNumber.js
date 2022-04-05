@@ -20,6 +20,5 @@ $(document).ready(function(){
         const text = texts[i];
         console.log(text.textContent)
         text.textContent = fixNumbers(text.textContent);
-        
     }
 })

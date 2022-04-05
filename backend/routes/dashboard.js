@@ -105,6 +105,7 @@ router.get('/estates', ensureAuthenticated, (req, res, next) => {
 });
 router.get('/files', ensureAuthenticated, (req, res, next) => {
     var page = req.query.page;
+    var search = req.query.search;
     if(!page) page = 0;
     page = parseInt(page);
     if(req.user.role == 'admin'){
