@@ -117,6 +117,8 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         padding: 0.5vw 1vw;
         font-family: 'iransans';
         font-size: 1vw;
+        display: none;
+
     }
     header .info .contact a{
         color: white;
