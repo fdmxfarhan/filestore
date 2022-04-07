@@ -8,28 +8,42 @@
 </div>
 <div class="search-parameters hidden" id="pro-search-view">
     <div class="range-input">
-        <div class="title">متراژ: 
-            <span id="metrage-min">0 </span>
+        <div class="title with-input">متراژ: 
+            <!-- <span id="metrage-min">0 </span>
             الی 
-            <span id="metrage-max">300 </span>
+            <span id="metrage-max">300 </span> -->
+            <label for="metrage-min-input">از</label>
+            <input type="number" class="filter-num" name="metrage-min-input" id="metrage-min-input" placeholder="حداقل" value="0">
+            <label for="metrage-min-input">تا</label>
+            <input type="number" class="filter-num" name="metrage-max-input" id="metrage-max-input" placeholder="حداکثر" value="300">
         </div>
-        <div class="slider" id="metrage-slider"></div>
+        <!-- <div class="slider" id="metrage-slider"></div> -->
     </div>
     <div class="range-input">
-        <div class="title">قیمت کل/اجاره: 
-            <span id="price1-min">100 </span>
+        <div class="title with-input">قیمت کل/اجاره: 
+            <!-- <span id="price1-min">100 </span>
             الی 
-            <span id="price1-max">500 میلیون</span>
+            <span id="price1-max">500 میلیون</span> -->
+            <label for="price1-min-input">از</label>
+            <input type="number" class="filter-num" name="price1-min-input" id="price1-min-input" placeholder="حداقل" value="0">
+            <label for="price1-min-input">تا</label>
+            <input type="number" class="filter-num" name="price1-max-input" id="price1-max-input" placeholder="حداکثر" value="300">
+            <label for="price1-min-input">میلیون تومان</label>
         </div>
-        <div class="slider" id="price1-slider"></div>
+        <!-- <div class="slider" id="price1-slider"></div> -->
     </div>
     <div class="range-input">
-        <div class="title">قیمت متری/رهن: 
-            <span id="price2-min">1 </span>
+        <div class="title with-input">قیمت متری/رهن: 
+            <!-- <span id="price2-min">1 </span>
             الی 
-            <span id="price2-max">50 میلیون</span>
+            <span id="price2-max">50 میلیون</span> -->
+            <label for="price2-min-input">از</label>
+            <input type="number" class="filter-num" name="price2-min-input" id="price2-min-input" placeholder="حداقل" value="0">
+            <label for="price2-min-input">تا</label>
+            <input type="number" class="filter-num" name="price2-max-input" id="price2-max-input" placeholder="حداکثر" value="50">
+            <label for="price2-min-input">میلیون تومان</label>
         </div>
-        <div class="slider" id="price2-slider"></div>
+        <!-- <div class="slider" id="price2-slider"></div> -->
     </div>
     <div class="range-input">
         <div class="title">سن بنا: 

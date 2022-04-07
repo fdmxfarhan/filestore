@@ -50,6 +50,7 @@ var getAddress = (address) => {
         if(i > 30) return newAddress + '...';
         newAddress += address[i];
     }
+    return newAddress;
 }
 var addFile = (data, index) => {
     // console.log(index);
@@ -96,6 +97,13 @@ var addFile = (data, index) => {
     value2.appendChild(document.createTextNode(getPrice(data.price)));
     td3.appendChild(name2);
     td3.appendChild(value2);
+
+    var tdDate = document.createElement('td');
+    tdDate.classList.add('column');
+    var valueDate = document.createElement('div');
+    valueDate.appendChild(document.createTextNode(data.date));
+    tdDate.appendChild(valueDate);
+    
     
     var td4 = document.createElement('td');
     td4.classList.add('column');
@@ -141,6 +149,7 @@ var addFile = (data, index) => {
     info1.appendChild(td5);
     info1.appendChild(td6);
     info1.appendChild(td7);
+    info1.appendChild(tdDate);
 
     // Table 2
     var info2 = document.createElement('table');
@@ -326,6 +335,7 @@ var loadData = (more, len) => {
     $('#file-documentState').text(more.data.documentState)
     $('#file-transfer').text(more.data.transfer)
     $('#file-advertiser').text(more.data.advertiser)
+    $('#file-date').text(more.data.date)
     if(more.data.price)
         $('#file-price').text(more.data.price)
     else
@@ -358,7 +368,9 @@ var loadData = (more, len) => {
 }
 var updateHandlers = (data) => {
     var moreButtons = [];
-    for (let i = 0; i < data.files.length; i++) moreButtons.push({btn: $(`#more-btn-${i}`),id: i,data: data.files[i]});
+    for (let i = 0; i < data.files.length; i++) {
+        moreButtons.push({btn: $(`#more-btn-${i}`),id: i,data: data.files[i]});
+    }
     moreButtons.forEach(more => {
         more.btn.click(() => {            
             $('#file-popup').fadeIn(500);
@@ -368,10 +380,20 @@ var updateHandlers = (data) => {
     });
     $('#next-file-btn').click(() => {
         var index = parseInt(document.getElementById('popup-index').textContent);
+        while(index < data.files.length-1){
+            if(document.getElementById(`more-btn-${index+1}`).style.display != 'none')
+                break;
+            index++;
+        }
         loadData(moreButtons[index+1], moreButtons.length);
     });
     $('#prev-file-btn').click(() => {
         var index = parseInt(document.getElementById('popup-index').textContent);
+        while(index > 0){
+            if(document.getElementById(`more-btn-${index-1}`).style.display != 'none')
+                break;
+            index--;
+        }
         loadData(moreButtons[index-1], moreButtons.length);
     });
     $(document).keyup(function(e) {
@@ -379,13 +401,23 @@ var updateHandlers = (data) => {
             $('#file-popup').fadeOut(500);
             $('.black-modal').fadeOut(500);
         }
-        if (e.keyCode  == 37) {
-            var index = parseInt(document.getElementById('popup-index').textContent);
-            if(index > 0) loadData(moreButtons[index-1], moreButtons.length);
-        }
         if (e.keyCode  == 39) {
             var index = parseInt(document.getElementById('popup-index').textContent);
+            while(index < data.files.length-1){
+                if(document.getElementById(`more-btn-${index+1}`).style.display != 'none')
+                    break;
+                index++;
+            }
             if(index < moreButtons.length-1) loadData(moreButtons[index+1], moreButtons.length);
+        }
+        if (e.keyCode  == 37) {
+            var index = parseInt(document.getElementById('popup-index').textContent);
+            while(index > 0){
+                if(document.getElementById(`more-btn-${index-1}`).style.display != 'none')
+                    break;
+                index--;
+            }
+            if(index > 0) loadData(moreButtons[index-1], moreButtons.length);
         }
     });
 }
@@ -476,7 +508,6 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
     }
     else console.log('file not found or does not contain Files data');
 });
-
 var payPlan = (plan) => {
     fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
         if(rawdata){
@@ -487,7 +518,6 @@ var payPlan = (plan) => {
         else console.log('file not found');
     });
 }
-
 $(document).ready(() => {
     var closeAll = () => {
         $('#plans-popup').fadeOut(500);

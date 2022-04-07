@@ -34,22 +34,32 @@ var search = () => {
     }
 }
 var filter = () => {
+    maxMetrage = parseInt(document.getElementById('metrage-max-input').value);
+    minMetrage = parseInt(document.getElementById('metrage-min-input').value);
+    minPrice1 = parseInt(document.getElementById('price1-min-input').value);
+    maxPrice1 = parseInt(document.getElementById('price1-max-input').value);
+    minPrice2 = parseInt(document.getElementById('price2-min-input').value);
+    maxPrice2 = parseInt(document.getElementById('price2-max-input').value);
+
     var filesContainer = document.getElementById('file-list-container');
     items = filesContainer.childNodes;
     for (let i = 0; i < items.length; i++) {
         const item = items[i];
         var metrage = parseInt(item.childNodes[1].childNodes[1].childNodes[0].textContent);
-        if((maxMetrage != 500 && metrage > maxMetrage) || metrage < minMetrage)
+        // if((maxMetrage != 500 && metrage > maxMetrage) || metrage < minMetrage)
+        if(!(metrage > minMetrage && metrage < maxMetrage))
             item.style.display = 'none';
         else {
             item.style.display = 'block';
             var price1 = parseInt(item.childNodes[2].childNodes[1].childNodes[1].textContent)/1000000;
-            if((maxPrice1 != 2000 && price1 > maxPrice1) || price1 < minPrice1)
+            // if((maxPrice1 != 2000 && price1 > maxPrice1) || price1 < minPrice1)
+            if(!(price1 > minPrice1 && price1 < maxPrice1))
                 item.style.display = 'none';
             else {
                 item.style.display = 'block';
                 var price2 = parseInt(item.childNodes[2].childNodes[0].childNodes[1].textContent)/1000000;
-                if((maxPrice2 != 100 && price2 > maxPrice2) || price2 < minPrice2)
+                // if((maxPrice2 != 100 && price2 > maxPrice2) || price2 < minPrice2)
+                if(!(price2 > minPrice2 && price2 < maxPrice2))
                     item.style.display = 'none';
                 else {
                     item.style.display = 'block';
@@ -60,14 +70,14 @@ var filter = () => {
                         item.style.display = 'block';
                         var type = item.childNodes[0].childNodes[0].childNodes[1].textContent;
                         var state = item.childNodes[0].childNodes[0].childNodes[0].textContent;
-                        if(!apartment         && type == 'آپارتمان ') item.style.display = 'none';
-                        else if(!vilage       && type == 'ویلایی ')    item.style.display = 'none';
-                        else if(!old          && type == 'کلنگی ')    item.style.display = 'none';
-                        else if(!business     && type == 'تجاری ')    item.style.display = 'none';
-                        else if(!office       && type == 'اداری ')    item.style.display = 'none';
+                        if(!apartment         && type == 'آپارتمان ')      item.style.display = 'none';
+                        else if(!vilage       && type == 'ویلایی ')         item.style.display = 'none';
+                        else if(!old          && type == 'کلنگی ')         item.style.display = 'none';
+                        else if(!business     && type == 'تجاری ')         item.style.display = 'none';
+                        else if(!office       && type == 'اداری ')         item.style.display = 'none';
                         else if(!officeEstate && type == 'موقعیت اداری ') item.style.display = 'none';
-                        else if(!land         && type == 'زمین ') item.style.display = 'none';
-                        else if(!mostaghelat  && type == 'مستغلات ') item.style.display = 'none';
+                        else if(!land         && type == 'زمین ')          item.style.display = 'none';
+                        else if(!mostaghelat  && type == 'مستغلات ')        item.style.display = 'none';
                         else if(!sell         && state == 'فروش ') item.style.display = 'none';
                         else if(!presell      && state == 'پیش‌فروش ') item.style.display = 'none';
                         else if(!exchange     && state == 'معاوضه ') item.style.display = 'none';
@@ -81,7 +91,6 @@ var filter = () => {
         }
     }
 }
-
 $(document).ready(() => {
     $("#metrage-slider").slider({
         range: true,

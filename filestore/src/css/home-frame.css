@@ -207,7 +207,20 @@
     padding: 0;
     font-family: 'iransans';
     font-size: 0.85vw;
+    cursor: auto;
     padding-right: 1vw;
+}
+.main-container .sidebar .search-parameters .range-input .title:hover{color: var(--text);}
+.main-container .sidebar .search-parameters .range-input .title.with-input{
+    width: 100%;
+}
+.main-container .sidebar .search-parameters .range-input .title.with-input input.filter-num{
+    font-family: 'iransans';
+    font-size: 0.8vw;
+    border: var(--lightgray) 0.1vw solid;
+    border-radius: 0.5vw;
+    width: 4vw;
+    padding: 0.2vw 0.5vw;
 
 }
 .main-container .sidebar .search-parameters .range-input .slider{
