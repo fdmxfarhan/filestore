@@ -8,7 +8,7 @@ var User = require('../models/User');
 const sms2 = require('../config/sms2');
 const sms = require('../config/sms');
 router.get('/correctpishforosh', (req, res, next) => {
-    File.updateMany({state: 'پیش.فروش'}, {$set: {state: 'پیش‌فروش'}}, (err) => {
+    File.updateMany({$or: [state: 'پیش.فروش', state: 'پیش . فروش', state: 'پیش. فروش', state: 'پیش .فروش', ]}, {$set: {state: 'پیش‌فروش'}}, (err) => {
         res.send('done');
     });
 })
