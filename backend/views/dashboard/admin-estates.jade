@@ -4,6 +4,9 @@ block styles
     //- link(rel="stylesheet", href="/css/dashboard/users-view.css")
 
 block content
+    #estate-length.hidden= estates.length
+    #estate-length-max.hidden= estates.length-1
+    #estate-length-min.hidden= 0
     .title-view 
         h1 مشاورین املاک
         h2 
@@ -16,6 +19,7 @@ block content
                     th آدرس
                     th کد املاک
                     th اشتراک
+                    th 
                     th 
                 -for(var i=0; i<estates.length; i++){
                     tr 
@@ -49,10 +53,16 @@ block content
                                     h2 #{Math.floor((endDate - now)/(1000*60*60*24))} روز تا پایان اعتبار
                             -}
                         td
+                            -if(user.editEstatePermission){
+                                a.edit(id="edit-estate-btn#{i}")
+                                    i.fa.fa-edit
+                            -}
+                        td
                             -if(user.removeEstatePermission){
                                 a.trash(href="/dashboard/delete-estate?estateID=#{estates[i]._id}") 
                                     i.fa.fa-trash 
                             -}
+                            
                 -}
         .user-control 
             .control 
@@ -65,5 +75,17 @@ block content
                         i.fa.fa-plus 
                         | افزودن مشاور املاک
                 -}
+            .control 
+                h1.title افزودن مشاور املاک 
+                p افزودن مشاور املاک به صورت اتوماتیک
+                form.add-multiple-estates(action="/dashboard/add-multiple-estate" method="post") 
+                    input(type="number" name="numberOfEstates" placeholder="تعداد")
+                    button(type="submit") ثبت
+                    -if(success_msg && success_msg == 'فایل ها با موفقیت ساخته شدند.'){
+                        a.download(href="/files/users.xlsx")
+                            i.fa.fa-cloud-download
+                            | دانلود لیست کاربران ساخته شده
+                    -}
     include ../components/estate-popup
+    include ../components/estates-popups
     script(src="/js/estates.js") 

@@ -260,21 +260,6 @@
     .page-navigator a:hover{
         color: var(--hover);
     }
-    .control h1.title{
-        font-family: 'iransans';
-        font-size: 1vw;
-        color: var(--blue);
-        padding: 0.5vw 1vw;
-        margin: 0;
-    }
-    .control p{
-        font-family: 'iransans';
-        font-size: 1vw;
-        color: var(--text);
-        padding: 0 1vw;
-        margin: 0;
-        margin-bottom: 1vw;
-    }
     .control form.backup,
     .control form.upload{
         width: 90%;

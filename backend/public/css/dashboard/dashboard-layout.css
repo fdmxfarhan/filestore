@@ -784,6 +784,60 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         color: var(--red);
         padding-left: 0.5vw;
     }
+    .control h1.title{
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--blue);
+        padding: 0.5vw 1vw;
+        margin: 0;
+    }
+    .control p{
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--text);
+        padding: 0 1vw;
+        margin: 0;
+        margin-bottom: 1vw;
+    }
+    .control form.add-multiple-estates{
+        width: 90%;
+        margin: auto;
+    }
+    .control form.add-multiple-estates button{
+        background-color: var(--blue);
+        color: white;
+        border: none;
+        padding: 0.2vw 0;
+        width: 100%;
+        border-radius: 0.5vw;
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        display: block;
+        margin-top: 1vw;
+        cursor: pointer;
+    }
+    .control form.add-multiple-estates button:hover{
+        background-color: var(--hover);
+    }
+    .control form.add-multiple-estates input{
+        font-family: 'iransans';
+        font-size: 1vw;
+        padding: 0.2vw 1vw;
+        border-radius: 0.5vw;
+        border: var(--lightgray) 0.1vw solid;
+        width: 85%;
+    }
+    .control form.add-multiple-estates a.download{
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        color: var(--blue);
+        padding-top: 1vw;
+        text-decoration: none;
+    }
+    .control form.add-multiple-estates a.download:hover{color: var(--hover);}
+    .control form.add-multiple-estates a.download i{
+        padding-left: 0.5vw;
+    }
 }
 
 @media only screen and (max-width: 800px) {

@@ -190,6 +190,71 @@ router.post('/add-estate', ensureAuthenticated, (req, res, next) => {
         });
     }
 });
+router.post('/add-multiple-estate', ensureAuthenticated, (req, res, next) => {
+    var {numberOfEstates} = req.body;
+    var planType = 'free', payed = false;
+    // if(trial) {
+    //     planType = 'trial';
+    //     payed = true;
+    // }
+    var workbook = new excel.Workbook({
+        dateFormat: 'm/d/yy hh:mm:ss'
+    });
+    var style = workbook.createStyle({
+        font: {
+        color: '#111111',
+        size: 12
+        },
+        numberFormat: '$#,##0.00; ($#,##0.00); -'
+    });
+    var worksheet = workbook.addWorksheet('users');
+    worksheet.cell(1, 1 ).string('username').style(style);
+    worksheet.cell(1, 2 ).string('password').style(style);
+    if(req.user.role == 'admin'){
+        Estate.find({}, (err, estates) => {
+            var code = 1000;
+            for(var i=0; i<estates.length; i++){
+                if(code < estates[i].code)
+                    code = estates[i].code;
+            }
+            for(var i=1; i<=parseInt(numberOfEstates); i++){
+                var newEstate = new Estate({
+                    name: `کاربر ${code + i}`,
+                    address: '',
+                    phone: '',
+                    area: 22,
+                    creationDate: new Date(),
+                    code: code+i,
+                    password: generateCode(4),
+                    payAmount: 0,
+                    planType,
+                    payed,
+                    payDate: new Date(),
+                });
+                worksheet.cell(i+1, 1 ).string(newEstate.code.toString()).style(style);
+                worksheet.cell(i+1, 2 ).string(newEstate.password).style(style);
+                newEstate.save().then(doc => {}).catch(err => console.log(err));
+            }
+            workbook.write(`./public/files/users.xlsx`, (err, stats) => {
+                if(err) res.send(err);
+                else {
+                    req.flash('success_msg', 'فایل ها با موفقیت ساخته شدند.');
+                    res.redirect('/dashboard/estates');
+                }
+            });
+        });
+    }
+});
+router.post('/edit-estate', ensureAuthenticated, (req, res, next) => {
+    var {estateID} = req.body;
+    var body = req.body;
+    body.creationDate = new Date();
+    if(req.user.role == 'admin'){
+        Estate.updateMany({_id: estateID}, {$set: body}, (err, doc) => {
+            res.redirect('/dashboard/estates');
+        });
+    }
+});
 router.get('/delete-estate', ensureAuthenticated, (req, res, next) => {
     if(req.user.role == 'admin'){
         Estate.deleteOne({_id: req.query.estateID}, (err) => {
@@ -587,4 +652,7 @@ router.post('/download-excel', ensureAuthenticated, (req, res, next) => {
 
     });
 });
+
+
+
 module.exports = router;
