@@ -275,15 +275,17 @@
         margin: 0;
         margin-bottom: 1vw;
     }
+    .control form.backup,
     .control form.upload{
         width: 90%;
         margin: auto;
     }
+    .control form.backup button,
     .control form.upload button{
         background-color: var(--blue);
         color: white;
         border: none;
-        padding: 0.1vw 0;
+        padding: 0.2vw 0;
         width: 100%;
         border-radius: 0.5vw;
         font-family: 'iransans';
@@ -292,8 +294,41 @@
         margin-top: 1vw;
         cursor: pointer;
     }
+    .control form.backup button:hover,
     .control form.upload button:hover{
         background-color: var(--hover);
+    }
+    .control form.backup .date-input-view{
+        margin-bottom: 1vw;
+    }
+    .control form.backup .date-input-view label{
+        display: inline;
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        padding-left: 1vw;
+    }
+    .control form.backup .date-input-view .date-input{
+        display: inline;
+        border-radius: 0.5vw;
+        background-color: var(--grayblue);
+        padding: 0.2vw 0;
+    }
+    .control form.backup .date-input-view .date-input input{
+        background-color: transparent;
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        border: none;
+        width: 20%;
+        text-align: center;
+        direction: ltr;
+    }
+    .control form.upload .check-input {
+        margin-bottom: 0.5vw;
+    }
+    .control form.upload .check-input label{
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        padding-right: 0.5vw;
     }
 }
 @media only screen and (max-width: 800px) {

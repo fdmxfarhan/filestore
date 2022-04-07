@@ -109,9 +109,34 @@ block content
                 h1.title آپلود فایل اکسل
                 p فرمت فایل اکسل باید xlsx باشد
                 form.upload(action="/dashboard/upload-excel" enctype="multipart/form-data" method="POST")
+                    .check-input 
+                        input(type="checkbox" name="removeAll" value="true" id="removeAll")
+                        label(for="removeAll") حذف همه فایل‌های قبلی
                     input(type="file" name="excelFile")
                     button(type="submit") ارسال
-
+            .control 
+                h1.title بک‌آپ
+                p فیلتر تاریخ ثبت شده در فایل 
+                form.backup(action="/dashboard/download-excel" method="POST")
+                    .date-input-view
+                        label(for="date") از تاریخ
+                        .date-input
+                            input(type="number" name="startDay" placeholder="روز" value="1")
+                            | /
+                            input(type="number" name="startMonth" placeholder="ماه" value="1")
+                            | /
+                            input(type="number" name="startYear" placeholder="سال" value="1401")
+                    .date-input-view
+                        label(for="date") تا تاریخ
+                        .date-input
+                            input(type="number" name="endDay" placeholder="روز" value="#{get_year_month_day(now)[2]}")
+                            | /
+                            input(type="number" name="endMonth" placeholder="ماه" value="#{get_year_month_day(now)[1]}")
+                            | /
+                            input(type="number" name="endYear" placeholder="سال" value="#{get_year_month_day(now)[0]}")
+                    
+                    button(type="submit") دانلود
+            
     include ../components/file-popup
     include ../components/files-popups
     script(src="/js/files.js") 

@@ -26,6 +26,7 @@ var FileSchema = new mongoose.Schema({
     floortype: {type: String, default: ''}, // Kaf
     service: {type: String, default: ''}, 
     heatingAndCoolingSystem: {type: String, default: ''}, // systeme garmayesh va sarmayesh
+    
     meterage2: {type: String, default: ''},
     bedroom2: {type: String, default: ''},
     floor2: {type: String, default: ''},

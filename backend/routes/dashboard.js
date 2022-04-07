@@ -9,17 +9,16 @@ const generateCode = require('../config/generateCode');
 var bodyparser = require('body-parser');
 const multer = require('multer');
 const mkdirp = require('mkdirp');
-var {convertDate, showPrice, showPrice2} = require('../config/dateConvert');
+var {convertDate, showPrice, showPrice2, get_year_month_day, jalali_to_gregorian} = require('../config/dateConvert');
 var phantomjs = require('phantomjs');
 var pdf = require("pdf-creator-node");
 var fs = require('fs');
 var path = require('path');
 const bcrypt = require('bcryptjs');
 const reader = require('xlsx');
+var excel = require('excel4node');
 
 // const excelFile = reader.readFile(__dirname + '/../public/files.xlsx');
-
-
 router.use(bodyparser.urlencoded({ extended: true }));
 var storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -131,6 +130,8 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
                 fileLength,
                 result,
                 search,
+                now: new Date(),
+                get_year_month_day,
             });
         })
     }
@@ -387,49 +388,100 @@ router.post('/add-user', ensureAuthenticated, (req, res, next) => {
 });
 router.post('/upload-excel', ensureAuthenticated, upload.single('excelFile'), (req, res, next) => {
     var file = req.file, filePath;
-    if(file) filePath = file.destination.slice(6) + '/' + file.originalname
-    const excelFile = reader.readFile(__dirname + '/../public' + filePath);
-    const sheets = excelFile.SheetNames;
-    for(let i = 0; i < sheets.length; i++)
-    {
-        var newFile = new File({
-            date: typeof(excelFile.Sheets[sheets[i]].B2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B2.v,
-            phone: typeof(excelFile.Sheets[sheets[i]].D2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D2.v,
-            ownerName: typeof(excelFile.Sheets[sheets[i]].S2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].S2.v,
-            fileNumber: typeof(excelFile.Sheets[sheets[i]].B4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B4.v,
-            type: typeof(excelFile.Sheets[sheets[i]].D4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D4.v,
-            address: typeof(excelFile.Sheets[sheets[i]].L4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].L4.v,
-            role: typeof(excelFile.Sheets[sheets[i]].B6) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B6.v,
-            state: typeof(excelFile.Sheets[sheets[i]].D6) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D6.v,
-            area: 22,
-            meterage: typeof(excelFile.Sheets[sheets[i]].AA9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].AA9.v,
-            bedroom: typeof(excelFile.Sheets[sheets[i]].X9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].X9.v,
-            floor: typeof(excelFile.Sheets[sheets[i]].W9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].W9.v,
-            numOfFloors: typeof(excelFile.Sheets[sheets[i]].U9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].U9.v,
-            unit: typeof(excelFile.Sheets[sheets[i]].T9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].T9.v,
-            buildAge: typeof(excelFile.Sheets[sheets[i]].R9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].R9.v,
-            parking: typeof(excelFile.Sheets[sheets[i]].P9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].P9.v,
-            warehouse: typeof(excelFile.Sheets[sheets[i]].N9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].N9.v,
-            elevator: typeof(excelFile.Sheets[sheets[i]].K9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].K9.v,
-            kitchen: typeof(excelFile.Sheets[sheets[i]].H9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].H9.v,
-            view: typeof(excelFile.Sheets[sheets[i]].G9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].G9.v,
-            floortype: typeof(excelFile.Sheets[sheets[i]].D9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D9.v,
-            service: typeof(excelFile.Sheets[sheets[i]].C9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].C9.v,
-            heatingAndCoolingSystem: typeof(excelFile.Sheets[sheets[i]].B9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B9.v,
-            options: typeof(excelFile.Sheets[sheets[i]].B12) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B12.v,
-            price: typeof(excelFile.Sheets[sheets[i]].M14) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].M14.v,
-            fullPrice: typeof(excelFile.Sheets[sheets[i]].B14) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B14.v,
-            lone: typeof(excelFile.Sheets[sheets[i]].AA16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].AA16.v,
-            changable: typeof(excelFile.Sheets[sheets[i]].V16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].V16.v,
-            discount: typeof(excelFile.Sheets[sheets[i]].S16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].S16.v,
-            documentState: typeof(excelFile.Sheets[sheets[i]].O16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].O16.v,
-            transfer: typeof(excelFile.Sheets[sheets[i]].J16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].J16.v,
-            advertiser: typeof(excelFile.Sheets[sheets[i]].E16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].E16.v,
-            creationDate: new Date(),
-        });
-        newFile.save().then(doc => {}).catch(err => console.log(err));
+    var removeAll = req.body.removeAll;
+    if(removeAll){
+        File.deleteMany({}, (err)=> {
+            if(file) filePath = file.destination.slice(6) + '/' + file.originalname
+            const excelFile = reader.readFile(__dirname + '/../public' + filePath);
+            const sheets = excelFile.SheetNames;
+            for(let i = 0; i < sheets.length; i++)
+            {
+                var newFile = new File({
+                    date: typeof(excelFile.Sheets[sheets[i]].B2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B2.v,
+                    phone: typeof(excelFile.Sheets[sheets[i]].D2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D2.v,
+                    ownerName: typeof(excelFile.Sheets[sheets[i]].S2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].S2.v,
+                    fileNumber: typeof(excelFile.Sheets[sheets[i]].B4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B4.v,
+                    type: typeof(excelFile.Sheets[sheets[i]].D4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D4.v,
+                    address: typeof(excelFile.Sheets[sheets[i]].L4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].L4.v,
+                    role: typeof(excelFile.Sheets[sheets[i]].B6) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B6.v,
+                    state: typeof(excelFile.Sheets[sheets[i]].D6) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D6.v,
+                    area: 22,
+                    meterage: typeof(excelFile.Sheets[sheets[i]].AA9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].AA9.v,
+                    bedroom: typeof(excelFile.Sheets[sheets[i]].X9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].X9.v,
+                    floor: typeof(excelFile.Sheets[sheets[i]].W9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].W9.v,
+                    numOfFloors: typeof(excelFile.Sheets[sheets[i]].U9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].U9.v,
+                    unit: typeof(excelFile.Sheets[sheets[i]].T9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].T9.v,
+                    buildAge: typeof(excelFile.Sheets[sheets[i]].R9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].R9.v,
+                    parking: typeof(excelFile.Sheets[sheets[i]].P9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].P9.v,
+                    warehouse: typeof(excelFile.Sheets[sheets[i]].N9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].N9.v,
+                    elevator: typeof(excelFile.Sheets[sheets[i]].K9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].K9.v,
+                    kitchen: typeof(excelFile.Sheets[sheets[i]].H9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].H9.v,
+                    view: typeof(excelFile.Sheets[sheets[i]].G9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].G9.v,
+                    floortype: typeof(excelFile.Sheets[sheets[i]].D9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D9.v,
+                    service: typeof(excelFile.Sheets[sheets[i]].C9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].C9.v,
+                    heatingAndCoolingSystem: typeof(excelFile.Sheets[sheets[i]].B9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B9.v,
+                    options: typeof(excelFile.Sheets[sheets[i]].B12) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B12.v,
+                    price: typeof(excelFile.Sheets[sheets[i]].M14) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].M14.v,
+                    fullPrice: typeof(excelFile.Sheets[sheets[i]].B14) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B14.v,
+                    lone: typeof(excelFile.Sheets[sheets[i]].AA16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].AA16.v,
+                    changable: typeof(excelFile.Sheets[sheets[i]].V16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].V16.v,
+                    discount: typeof(excelFile.Sheets[sheets[i]].S16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].S16.v,
+                    documentState: typeof(excelFile.Sheets[sheets[i]].O16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].O16.v,
+                    transfer: typeof(excelFile.Sheets[sheets[i]].J16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].J16.v,
+                    advertiser: typeof(excelFile.Sheets[sheets[i]].E16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].E16.v,
+                    creationDate: new Date(),
+                });
+                newFile.save().then(doc => {}).catch(err => console.log(err));
+            }
+            res.redirect('/dashboard/files');
+        })
     }
-    res.redirect('/dashboard/files');
+    else{
+        if(file) filePath = file.destination.slice(6) + '/' + file.originalname
+        const excelFile = reader.readFile(__dirname + '/../public' + filePath);
+        const sheets = excelFile.SheetNames;
+        for(let i = 0; i < sheets.length; i++)
+        {
+            var newFile = new File({
+                date: typeof(excelFile.Sheets[sheets[i]].B2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B2.v,
+                phone: typeof(excelFile.Sheets[sheets[i]].D2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D2.v,
+                ownerName: typeof(excelFile.Sheets[sheets[i]].S2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].S2.v,
+                fileNumber: typeof(excelFile.Sheets[sheets[i]].B4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B4.v,
+                type: typeof(excelFile.Sheets[sheets[i]].D4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D4.v,
+                address: typeof(excelFile.Sheets[sheets[i]].L4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].L4.v,
+                role: typeof(excelFile.Sheets[sheets[i]].B6) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B6.v,
+                state: typeof(excelFile.Sheets[sheets[i]].D6) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D6.v,
+                area: 22,
+                meterage: typeof(excelFile.Sheets[sheets[i]].AA9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].AA9.v,
+                bedroom: typeof(excelFile.Sheets[sheets[i]].X9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].X9.v,
+                floor: typeof(excelFile.Sheets[sheets[i]].W9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].W9.v,
+                numOfFloors: typeof(excelFile.Sheets[sheets[i]].U9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].U9.v,
+                unit: typeof(excelFile.Sheets[sheets[i]].T9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].T9.v,
+                buildAge: typeof(excelFile.Sheets[sheets[i]].R9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].R9.v,
+                parking: typeof(excelFile.Sheets[sheets[i]].P9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].P9.v,
+                warehouse: typeof(excelFile.Sheets[sheets[i]].N9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].N9.v,
+                elevator: typeof(excelFile.Sheets[sheets[i]].K9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].K9.v,
+                kitchen: typeof(excelFile.Sheets[sheets[i]].H9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].H9.v,
+                view: typeof(excelFile.Sheets[sheets[i]].G9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].G9.v,
+                floortype: typeof(excelFile.Sheets[sheets[i]].D9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D9.v,
+                service: typeof(excelFile.Sheets[sheets[i]].C9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].C9.v,
+                heatingAndCoolingSystem: typeof(excelFile.Sheets[sheets[i]].B9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B9.v,
+                options: typeof(excelFile.Sheets[sheets[i]].B12) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B12.v,
+                price: typeof(excelFile.Sheets[sheets[i]].M14) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].M14.v,
+                fullPrice: typeof(excelFile.Sheets[sheets[i]].B14) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B14.v,
+                lone: typeof(excelFile.Sheets[sheets[i]].AA16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].AA16.v,
+                changable: typeof(excelFile.Sheets[sheets[i]].V16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].V16.v,
+                discount: typeof(excelFile.Sheets[sheets[i]].S16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].S16.v,
+                documentState: typeof(excelFile.Sheets[sheets[i]].O16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].O16.v,
+                transfer: typeof(excelFile.Sheets[sheets[i]].J16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].J16.v,
+                advertiser: typeof(excelFile.Sheets[sheets[i]].E16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].E16.v,
+                creationDate: new Date(),
+            });
+            newFile.save().then(doc => {}).catch(err => console.log(err));
+        }
+        res.redirect('/dashboard/files');
+    }
+    
 });
 router.get('/file-view', ensureAuthenticated, (req, res, next) => {
     var {fileID} = req.query;
@@ -441,5 +493,98 @@ router.get('/file-view', ensureAuthenticated, (req, res, next) => {
         });
     })
 });
+router.post('/download-excel', ensureAuthenticated, (req, res, next) => {
+    var {startDay, startMonth, startYear, endDay, endMonth, endYear} = req.body;
+    var startDate = parseInt(startYear)*365 + parseInt(startMonth)*30 + parseInt(startDay);
+    var endDate = parseInt(endYear)*365 + parseInt(endMonth)*30 + parseInt(endDay);
+    var workbook = new excel.Workbook({
+        dateFormat: 'm/d/yy hh:mm:ss'
+    });
+    var style = workbook.createStyle({
+        font: {
+        color: '#111111',
+        size: 12
+        },
+        numberFormat: '$#,##0.00; ($#,##0.00); -'
+    });
+    File.find({}, (err, files) => {
+        var result = [];
+        for (let i = 0; i < files.length; i++) {
+            var d = files[i].date.split('/');
+            if(d && d.length == 3){
+                var fileDate = parseInt(d[0])*365 + parseInt(d[1])*30 + parseInt(d[2]);
+                if(fileDate <= endDate && fileDate >= startDate){
+                    result.push(files[i]);
+                    var worksheet = workbook.addWorksheet(files[i].fileNumber);
+                    worksheet.cell(2 , 2 ).string(files[i].date).style(style);
+                    worksheet.cell(4 , 2 ).string(files[i].fileNumber).style(style);
+                    worksheet.cell(6 , 2 ).string(files[i].role).style(style);
+                    worksheet.cell(4 , 2 ).string(files[i].phone).style(style);
+                    worksheet.cell(4 , 4 ).string(files[i].type).style(style);
+                    worksheet.cell(4 , 6 ).string(files[i].state).style(style);
+                    worksheet.cell(2 , 12).string(files[i].constPhone).style(style);
+                    worksheet.cell(2 , 19).string(files[i].ownerName).style(style);
+                    worksheet.cell(4 , 12).string(files[i].address).style(style);
+                    worksheet.cell(12, 2 ).string(files[i].options).style(style);
+                    worksheet.cell(14, 13).string(files[i].price).style(style);
+                    worksheet.cell(14, 2 ).string(files[i].fullPrice).style(style);
+                    worksheet.cell(16, 27).string(files[i].lone).style(style);
+                    worksheet.cell(16, 22).string(files[i].changable).style(style);
+                    worksheet.cell(16, 19).string(files[i].discount).style(style);
+                    worksheet.cell(16, 15).string(files[i].documentState).style(style);
+                    worksheet.cell(16, 10).string(files[i].transfer).style(style);
+                    worksheet.cell(16, 5 ).string(files[i].advertiser).style(style);
+                    
+                    worksheet.cell(9 , 2 ).string(files[i].heatingAndCoolingSystem).style(style);
+                    worksheet.cell(10, 2 ).string(files[i].heatingAndCoolingSystem2).style(style);
+                    worksheet.cell(11, 2 ).string(files[i].heatingAndCoolingSystem3).style(style);
+                    worksheet.cell(9 , 3 ).string(files[i].service).style(style);
+                    worksheet.cell(10, 3 ).string(files[i].service2).style(style);
+                    worksheet.cell(11, 3 ).string(files[i].service3).style(style);
+                    worksheet.cell(9 , 4 ).string(files[i].floortype).style(style);
+                    worksheet.cell(10, 4 ).string(files[i].floortype2).style(style);
+                    worksheet.cell(11, 4 ).string(files[i].floortype3).style(style);
+                    worksheet.cell(9 , 7 ).string(files[i].view).style(style);
+                    worksheet.cell(10, 7 ).string(files[i].view2).style(style);
+                    worksheet.cell(11, 7 ).string(files[i].view3).style(style);
+                    worksheet.cell(9 , 8 ).string(files[i].kitchen).style(style);
+                    worksheet.cell(10, 8 ).string(files[i].kitchen2).style(style);
+                    worksheet.cell(11, 8 ).string(files[i].kitchen3).style(style);
+                    worksheet.cell(9 , 11).string(files[i].elevator).style(style);
+                    worksheet.cell(10, 11).string(files[i].elevator2).style(style);
+                    worksheet.cell(11, 11).string(files[i].elevator3).style(style);
+                    worksheet.cell(9 , 14).string(files[i].warehouse).style(style);
+                    worksheet.cell(10, 14).string(files[i].warehouse2).style(style);
+                    worksheet.cell(11, 14).string(files[i].warehouse3).style(style);
+                    worksheet.cell(9 , 16).string(files[i].parking).style(style);
+                    worksheet.cell(10, 16).string(files[i].parking2).style(style);
+                    worksheet.cell(11, 16).string(files[i].parking3).style(style);
+                    worksheet.cell(9 , 18).string(files[i].buildAge).style(style);
+                    worksheet.cell(10, 18).string(files[i].buildAge2).style(style);
+                    worksheet.cell(11, 18).string(files[i].buildAge3).style(style);
+                    worksheet.cell(9 , 20).string(files[i].unit).style(style);
+                    worksheet.cell(10, 20).string(files[i].unit2).style(style);
+                    worksheet.cell(11, 20).string(files[i].unit3).style(style);
+                    worksheet.cell(9 , 21).string(files[i].numOfFloors).style(style);
+                    worksheet.cell(10, 21).string(files[i].numOfFloors2).style(style);
+                    worksheet.cell(11, 21).string(files[i].numOfFloors3).style(style);
+                    worksheet.cell(9 , 23).string(files[i].floor).style(style);
+                    worksheet.cell(10, 23).string(files[i].floor2).style(style);
+                    worksheet.cell(11, 23).string(files[i].floor3).style(style);
+                    worksheet.cell(9 , 24).string(files[i].bedroom).style(style);
+                    worksheet.cell(10, 24).string(files[i].bedroom2).style(style);
+                    worksheet.cell(11, 24).string(files[i].bedroom3).style(style);
+                    worksheet.cell(9 , 27).string(files[i].bedroom).style(style);
+                    worksheet.cell(10, 27).string(files[i].bedroom2).style(style);
+                    worksheet.cell(11, 27).string(files[i].bedroom3).style(style);
+                }
+            }
+        }
+        workbook.write(`./public/files/backup.xlsx`, (err, stats) => {
+            if(err) res.send(err);
+            else res.sendFile(path.join(__dirname, '../public/files/backup.xlsx'));
+        });
 
+    });
+});
 module.exports = router;
