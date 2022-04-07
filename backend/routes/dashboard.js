@@ -120,7 +120,8 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
                     else if(files[i].address && files[i].address.indexOf(search) != -1) result.push(files[i]);
                 }
             }
-            files = files.slice(fileLength-1 - ((page+1)*numberOfFilesInPage), fileLength-1 - (page*numberOfFilesInPage))
+            if(fileLength > numberOfFilesInPage)
+                files = files.slice(fileLength-1 - ((page+1)*numberOfFilesInPage), fileLength-1 - (page*numberOfFilesInPage))
             res.render('./dashboard/admin-files', {
                 user: req.user,
                 files,
@@ -456,47 +457,49 @@ router.post('/upload-excel', ensureAuthenticated, upload.single('excelFile'), (r
     var removeAll = req.body.removeAll;
     if(removeAll){
         File.deleteMany({}, (err)=> {
-            if(file) filePath = file.destination.slice(6) + '/' + file.originalname
-            const excelFile = reader.readFile(__dirname + '/../public' + filePath);
-            const sheets = excelFile.SheetNames;
-            for(let i = 0; i < sheets.length; i++)
-            {
-                var newFile = new File({
-                    date: typeof(excelFile.Sheets[sheets[i]].B2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B2.v,
-                    phone: typeof(excelFile.Sheets[sheets[i]].D2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D2.v,
-                    ownerName: typeof(excelFile.Sheets[sheets[i]].S2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].S2.v,
-                    fileNumber: typeof(excelFile.Sheets[sheets[i]].B4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B4.v,
-                    type: typeof(excelFile.Sheets[sheets[i]].D4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D4.v,
-                    address: typeof(excelFile.Sheets[sheets[i]].L4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].L4.v,
-                    role: typeof(excelFile.Sheets[sheets[i]].B6) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B6.v,
-                    state: typeof(excelFile.Sheets[sheets[i]].D6) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D6.v,
-                    area: 22,
-                    meterage: typeof(excelFile.Sheets[sheets[i]].AA9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].AA9.v,
-                    bedroom: typeof(excelFile.Sheets[sheets[i]].X9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].X9.v,
-                    floor: typeof(excelFile.Sheets[sheets[i]].W9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].W9.v,
-                    numOfFloors: typeof(excelFile.Sheets[sheets[i]].U9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].U9.v,
-                    unit: typeof(excelFile.Sheets[sheets[i]].T9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].T9.v,
-                    buildAge: typeof(excelFile.Sheets[sheets[i]].R9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].R9.v,
-                    parking: typeof(excelFile.Sheets[sheets[i]].P9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].P9.v,
-                    warehouse: typeof(excelFile.Sheets[sheets[i]].N9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].N9.v,
-                    elevator: typeof(excelFile.Sheets[sheets[i]].K9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].K9.v,
-                    kitchen: typeof(excelFile.Sheets[sheets[i]].H9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].H9.v,
-                    view: typeof(excelFile.Sheets[sheets[i]].G9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].G9.v,
-                    floortype: typeof(excelFile.Sheets[sheets[i]].D9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D9.v,
-                    service: typeof(excelFile.Sheets[sheets[i]].C9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].C9.v,
-                    heatingAndCoolingSystem: typeof(excelFile.Sheets[sheets[i]].B9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B9.v,
-                    options: typeof(excelFile.Sheets[sheets[i]].B12) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B12.v,
-                    price: typeof(excelFile.Sheets[sheets[i]].M14) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].M14.v,
-                    fullPrice: typeof(excelFile.Sheets[sheets[i]].B14) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B14.v,
-                    lone: typeof(excelFile.Sheets[sheets[i]].AA16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].AA16.v,
-                    changable: typeof(excelFile.Sheets[sheets[i]].V16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].V16.v,
-                    discount: typeof(excelFile.Sheets[sheets[i]].S16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].S16.v,
-                    documentState: typeof(excelFile.Sheets[sheets[i]].O16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].O16.v,
-                    transfer: typeof(excelFile.Sheets[sheets[i]].J16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].J16.v,
-                    advertiser: typeof(excelFile.Sheets[sheets[i]].E16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].E16.v,
-                    creationDate: new Date(),
-                });
-                newFile.save().then(doc => {}).catch(err => console.log(err));
+            if(file) {
+                filePath = file.destination.slice(6) + '/' + file.originalname
+                const excelFile = reader.readFile(__dirname + '/../public' + filePath);
+                const sheets = excelFile.SheetNames;
+                for(let i = 0; i < sheets.length; i++)
+                {
+                    var newFile = new File({
+                        date: typeof(excelFile.Sheets[sheets[i]].B2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B2.v,
+                        phone: typeof(excelFile.Sheets[sheets[i]].D2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D2.v,
+                        ownerName: typeof(excelFile.Sheets[sheets[i]].S2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].S2.v,
+                        fileNumber: typeof(excelFile.Sheets[sheets[i]].B4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B4.v,
+                        type: typeof(excelFile.Sheets[sheets[i]].D4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D4.v,
+                        address: typeof(excelFile.Sheets[sheets[i]].L4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].L4.v,
+                        role: typeof(excelFile.Sheets[sheets[i]].B6) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B6.v,
+                        state: typeof(excelFile.Sheets[sheets[i]].D6) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D6.v,
+                        area: 22,
+                        meterage: typeof(excelFile.Sheets[sheets[i]].AA9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].AA9.v,
+                        bedroom: typeof(excelFile.Sheets[sheets[i]].X9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].X9.v,
+                        floor: typeof(excelFile.Sheets[sheets[i]].W9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].W9.v,
+                        numOfFloors: typeof(excelFile.Sheets[sheets[i]].U9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].U9.v,
+                        unit: typeof(excelFile.Sheets[sheets[i]].T9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].T9.v,
+                        buildAge: typeof(excelFile.Sheets[sheets[i]].R9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].R9.v,
+                        parking: typeof(excelFile.Sheets[sheets[i]].P9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].P9.v,
+                        warehouse: typeof(excelFile.Sheets[sheets[i]].N9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].N9.v,
+                        elevator: typeof(excelFile.Sheets[sheets[i]].K9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].K9.v,
+                        kitchen: typeof(excelFile.Sheets[sheets[i]].H9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].H9.v,
+                        view: typeof(excelFile.Sheets[sheets[i]].G9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].G9.v,
+                        floortype: typeof(excelFile.Sheets[sheets[i]].D9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D9.v,
+                        service: typeof(excelFile.Sheets[sheets[i]].C9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].C9.v,
+                        heatingAndCoolingSystem: typeof(excelFile.Sheets[sheets[i]].B9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B9.v,
+                        options: typeof(excelFile.Sheets[sheets[i]].B12) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B12.v,
+                        price: typeof(excelFile.Sheets[sheets[i]].M14) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].M14.v,
+                        fullPrice: typeof(excelFile.Sheets[sheets[i]].B14) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B14.v,
+                        lone: typeof(excelFile.Sheets[sheets[i]].AA16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].AA16.v,
+                        changable: typeof(excelFile.Sheets[sheets[i]].V16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].V16.v,
+                        discount: typeof(excelFile.Sheets[sheets[i]].S16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].S16.v,
+                        documentState: typeof(excelFile.Sheets[sheets[i]].O16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].O16.v,
+                        transfer: typeof(excelFile.Sheets[sheets[i]].J16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].J16.v,
+                        advertiser: typeof(excelFile.Sheets[sheets[i]].E16) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].E16.v,
+                        creationDate: new Date(),
+                    });
+                    newFile.save().then(doc => {}).catch(err => console.log(err));
+                }
             }
             res.redirect('/dashboard/files');
         })
@@ -516,6 +519,7 @@ router.post('/upload-excel', ensureAuthenticated, upload.single('excelFile'), (r
                 address: typeof(excelFile.Sheets[sheets[i]].L4) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].L4.v,
                 role: typeof(excelFile.Sheets[sheets[i]].B6) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].B6.v,
                 state: typeof(excelFile.Sheets[sheets[i]].D6) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].D6.v,
+                constPhone: typeof(excelFile.Sheets[sheets[i]].L2) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].L2.v,
                 area: 22,
                 meterage: typeof(excelFile.Sheets[sheets[i]].AA9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].AA9.v,
                 bedroom: typeof(excelFile.Sheets[sheets[i]].X9) == 'undefined' ? '' : excelFile.Sheets[sheets[i]].X9.v,
@@ -584,9 +588,9 @@ router.post('/download-excel', ensureAuthenticated, (req, res, next) => {
                     worksheet.cell(2 , 2 ).string(typeof(files[i].date) == 'undefined' || files[i].date == null? '': files[i].date.toString()).style(style);
                     worksheet.cell(4 , 2 ).string(typeof(files[i].fileNumber) == 'undefined' || files[i].fileNumber == null? '': files[i].fileNumber.toString()).style(style);
                     worksheet.cell(6 , 2 ).string(typeof(files[i].role) == 'undefined' || files[i].role == null? '': files[i].role.toString()).style(style);
-                    worksheet.cell(4 , 2 ).string(typeof(files[i].phone) == 'undefined' || files[i].phone == null? '': files[i].phone.toString()).style(style);
+                    worksheet.cell(2 , 4 ).string(typeof(files[i].phone) == 'undefined' || files[i].phone == null? '': files[i].phone.toString()).style(style);
                     worksheet.cell(4 , 4 ).string(typeof(files[i].type) == 'undefined' || files[i].type == null? '': files[i].type.toString()).style(style);
-                    worksheet.cell(4 , 6 ).string(typeof(files[i].state) == 'undefined' || files[i].state == null? '': files[i].state.toString()).style(style);
+                    worksheet.cell(6 , 4 ).string(typeof(files[i].state) == 'undefined' || files[i].state == null? '': files[i].state.toString()).style(style);
                     worksheet.cell(2 , 12).string(typeof(files[i].constPhone) == 'undefined' || files[i].constPhone == null? '': files[i].constPhone.toString()).style(style);
                     worksheet.cell(2 , 19).string(typeof(files[i].ownerName) == 'undefined' || files[i].ownerName == null? '': files[i].ownerName.toString()).style(style);
                     worksheet.cell(4 , 12).string(typeof(files[i].address) == 'undefined' || files[i].address == null? '': files[i].address.toString()).style(style);
@@ -638,9 +642,9 @@ router.post('/download-excel', ensureAuthenticated, (req, res, next) => {
                     worksheet.cell(9 , 24).string(typeof(files[i].bedroom) == 'undefined' || files[i].bedroom == null? '': files[i].bedroom.toString()).style(style);
                     worksheet.cell(10, 24).string(typeof(files[i].bedroom2) == 'undefined' || files[i].bedroom2 == null? '': files[i].bedroom2.toString()).style(style);
                     worksheet.cell(11, 24).string(typeof(files[i].bedroom3) == 'undefined' || files[i].bedroom3 == null? '': files[i].bedroom3.toString()).style(style);
-                    worksheet.cell(9 , 27).string(typeof(files[i].bedroom) == 'undefined' || files[i].bedroom == null? '': files[i].bedroom.toString()).style(style);
-                    worksheet.cell(10, 27).string(typeof(files[i].bedroom2) == 'undefined' || files[i].bedroom2 == null? '': files[i].bedroom2.toString()).style(style);
-                    worksheet.cell(11, 27).string(typeof(files[i].bedroom3) == 'undefined' || files[i].bedroom3 == null? '': files[i].bedroom3.toString()).style(style);
+                    worksheet.cell(9 , 27).string(typeof(files[i].meterage) == 'undefined' || files[i].meterage == null? '': files[i].meterage.toString()).style(style);
+                    worksheet.cell(10, 27).string(typeof(files[i].meterage2) == 'undefined' || files[i].meterage2 == null? '': files[i].meterage2.toString()).style(style);
+                    worksheet.cell(11, 27).string(typeof(files[i].meterage3) == 'undefined' || files[i].meterage3 == null? '': files[i].meterage3.toString()).style(style);
                 }
             }
         }

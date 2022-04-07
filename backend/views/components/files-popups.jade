@@ -1,205 +1,411 @@
--for(var i=0; i<files.length; i++){
-    .popup.file(id="edit-file-popup#{i}")
-        i.fa.fa-times.close-popup
-        .title-line
-            .popup-title
-                h1 ویرایش فایل
-        form(action="/dashboard/edit-file" enctype="multipart/form-data" method="POST")
-            input.hidden(type="text" name="fileID" value="#{files[i]._id}")
-            .multi-column-form
-                .col50
-                    .double-text-input
-                        label(for="ownerName") نام مالک
-                        input.textinput(type="text" placeholder="" name="ownerName" value= "#{files[i].ownerName}")
-                        label(for="constPhone") تلفن
-                        input.textinput(type="text" placeholder="" name="constPhone" value= "#{files[i].constPhone}")
-                    .text-area-input 
-                        label(for="address") آدرس
-                        textarea(name="address")= files[i].address
-                .col50
-                    .double-text-input
-                        label(for="phone") همراه
-                        input.textinput(type="text" placeholder="" name="phone" value= "#{files[i].phone}")
-                        label(for="date") تاریخ
-                        input.textinput(type="text" placeholder="" name="date" value= "#{files[i].date}")
-                    .double-text-input
-                        label(for="type") نوع
-                        select#state(name="type") 
-                            option(value="#{files[i].type}")= files[i].type
-                            option(value="آپارتمان") آپارتمان
-                            option(value="ویلایی") ویلایی
-                            option(value="کلنگی") کلنگی
-                            option(value="تجاری") تجاری
-                            option(value="اداری") اداری
-                            option(value="موقعیت اداری") موقعیت اداری
-                            option(value="زمین") زمین
-                            option(value="مستغلات") مستغلات
-                        //- input.textinput(type="text" placeholder="" name="type" value= "#{ typeof type != 'undefined' ? type: '' }")
-                        label(for="fileNumber") شماره
-                        input.textinput(type="text" placeholder="" name="fileNumber" value= "#{files[i].fileNumber}")
-                    .double-text-input
-                        label(for="state") وضعیت
-                        select#state(name="state") 
-                            option(value="#{files[i].state}")= files[i].state
-                            option(value="فروش") فروش
-                            option(value="پیش‌فروش") پیش‌فروش
-                            option(value="معاوضه") معاوضه
-                            option(value="مشارکت") مشارکت
-                            option(value="رهن و اجاره") رهن و اجاره
-                            option(value="رهن کامل") رهن کامل
-                        //- input.textinput(type="text" placeholder="" name="state" value= "#{ typeof state != 'undefined' ? state: '' }")
-                        label(for="role") سمت
-                        input.textinput(type="text" placeholder="" name="role" value= "#{files[i].role}")
-            .table-form 
-                table 
-                    tr 
-                        th متراژ
-                        th خواب
-                        th طبقه
-                        th طبقات
-                        th واحد
-                        th سن بنا
-                        th پارکینگ
-                        th انباری
-                        th آسانسور
-                        th آشپزخانه
-                        th نما
-                        th کف
-                        th سرویس
-                        th سرمایش و گرمایش
-                    tr 
-                        td
-                            input(type="text" placeholder="" name="meterage" value="#{files[i].meterage}")
-                        td
-                            input(type="text" placeholder="" name="bedroom" value="#{files[i].bedroom}")
-                        td
-                            input(type="text" placeholder="" name="floor" value="#{files[i].floor}")
-                        td
-                            input(type="text" placeholder="" name="numOfFloors" value="#{files[i].numOfFloors}")
-                        td
-                            input(type="text" placeholder="" name="unit" value="#{files[i].unit}")
-                        td
-                            input(type="text" placeholder="" name="buildAge" value="#{files[i].buildAge}")
-                        td
-                            input(type="text" placeholder="" name="parking" value="#{files[i].parking}")
-                        td
-                            input(type="text" placeholder="" name="warehouse" value="#{files[i].warehouse}")
-                        td
-                            input(type="text" placeholder="" name="elevator" value="#{files[i].elevator}")
-                        td
-                            input(type="text" placeholder="" name="kitchen" value="#{files[i].kitchen}")
-                        td
-                            input(type="text" placeholder="" name="view" value="#{files[i].view}")
-                        td
-                            input(type="text" placeholder="" name="floortype" value="#{files[i].floortype}")
-                        td
-                            input(type="text" placeholder="" name="service" value="#{files[i].service}")
-                        td
-                            input(type="text" placeholder="" name="heatingAndCoolingSystem" value="#{files[i].heatingAndCoolingSystem}")
-                    tr 
-                        td
-                            input(type="text" placeholder="" name="meterage2" value="#{files[i].meterage2}")
-                        td
-                            input(type="text" placeholder="" name="bedroom2" value="#{files[i].bedroom2}")
-                        td
-                            input(type="text" placeholder="" name="floor2" value="#{files[i].floor2}")
-                        td
-                            input(type="text" placeholder="" name="numOfFloors2" value="#{files[i].numOfFloors2}")
-                        td
-                            input(type="text" placeholder="" name="unit2" value="#{files[i].unit2}")
-                        td
-                            input(type="text" placeholder="" name="buildAge2" value="#{files[i].buildAge2}")
-                        td
-                            input(type="text" placeholder="" name="parking2" value="#{files[i].parking2}")
-                        td
-                            input(type="text" placeholder="" name="warehouse2" value="#{files[i].warehouse2}")
-                        td
-                            input(type="text" placeholder="" name="elevator2" value="#{files[i].elevator2}")
-                        td
-                            input(type="text" placeholder="" name="kitchen2" value="#{files[i].kitchen2}")
-                        td
-                            input(type="text" placeholder="" name="view2" value="#{files[i].view2}")
-                        td
-                            input(type="text" placeholder="" name="floortype2" value="#{files[i].floortype2}")
-                        td
-                            input(type="text" placeholder="" name="service2" value="#{files[i].service2}")
-                        td
-                            input(type="text" placeholder="" name="heatingAndCoolingSystem2" value="#{files[i].heatingAndCoolingSystem2}")
-                    tr 
-                        td
-                            input(type="text" placeholder="" name="meterage3" value="#{files[i].meterage3}")
-                        td
-                            input(type="text" placeholder="" name="bedroom3" value="#{files[i].bedroom3}")
-                        td
-                            input(type="text" placeholder="" name="floor3" value="#{files[i].floor3}")
-                        td
-                            input(type="text" placeholder="" name="numOfFloors3" value="#{files[i].numOfFloors3}")
-                        td
-                            input(type="text" placeholder="" name="unit3" value="#{files[i].unit3}")
-                        td
-                            input(type="text" placeholder="" name="buildAge3" value="#{files[i].buildAge3}")
-                        td
-                            input(type="text" placeholder="" name="parking3" value="#{files[i].parking3}")
-                        td
-                            input(type="text" placeholder="" name="warehouse3" value="#{files[i].warehouse3}")
-                        td
-                            input(type="text" placeholder="" name="elevator3" value="#{files[i].elevator3}")
-                        td
-                            input(type="text" placeholder="" name="kitchen3" value="#{files[i].kitchen3}")
-                        td
-                            input(type="text" placeholder="" name="view3" value="#{files[i].view3}")
-                        td
-                            input(type="text" placeholder="" name="floortype3" value="#{files[i].floortype3}")
-                        td
-                            input(type="text" placeholder="" name="service3" value="#{files[i].service3}")
-                        td
-                            input(type="text" placeholder="" name="heatingAndCoolingSystem3" value="#{files[i].heatingAndCoolingSystem3}")
-            .long-atext-input 
-                label(for="options") امکانات
-                input(name="options" value="#{files[i].options}")
-            .two-text-input
-                label(for="price") قیمت متری/رهن
-                input(type="number" placeholder="" name="price" value="#{files[i].price}")
-                label.marg(for="fullPrice") کل / اجاره
-                input(type="number" placeholder="" name="fullPrice" value="#{files[i].fullPrice}")
-            .table-form.small
-                table 
-                    tr 
-                        th منطقه
-                        th وام
-                        th قابلیت تبدیل
-                        th تخفیف
-                        th وضعیت سند
-                        th تحویل
-                        th اگهی دهنده
-                    tr 
-                        td
-                            input(type="number" placeholder="" name="area" value="#{files[i].area}")
-                        td
-                            input(type="text" placeholder="" name="lone" value="#{files[i].lone}")
-                        td
-                            input(type="text" placeholder="" name="changable" value="#{files[i].changable}")
-                        td
-                            input(type="text" placeholder="" name="discount" value="#{files[i].discount}")
-                        td
-                            input(type="text" placeholder="" name="documentState" value="#{files[i].documentState}")
-                        td
-                            input(type="text" placeholder="" name="transfer" value="#{files[i].transfer}")
-                        td
-                            input(type="text" placeholder="" name="advertiser" value="#{files[i].advertiser}")
-                button.submit(type="submit")
-                    i.fa.fa-save
-                    | ثبت
-            .images-view 
-                -for(var j=0; j<files[i].images.length; j++){
-                    .image 
-                        img(src="#{files[i].images[j].link}", alt="")
-                -}
-                .add-image-btn
-                    input.file-input(type="file" name="myFile")
-                    i.fa.fa-plus 
-                    h1 افزودن عکس
--}                    
+-if(!search || search == ''){
+    -for(var i=0; i<files.length; i++){
+        .popup.file(id="edit-file-popup#{i}")
+            i.fa.fa-times.close-popup
+            .title-line
+                .popup-title
+                    h1 ویرایش فایل
+            form(action="/dashboard/edit-file" enctype="multipart/form-data" method="POST")
+                input.hidden(type="text" name="fileID" value="#{files[i]._id}")
+                .multi-column-form
+                    .col50
+                        .double-text-input
+                            label(for="ownerName") نام مالک
+                            input.textinput(type="text" placeholder="" name="ownerName" value= "#{files[i].ownerName}")
+                            label(for="constPhone") تلفن
+                            input.textinput(type="text" placeholder="" name="constPhone" value= "#{files[i].constPhone}")
+                        .text-area-input 
+                            label(for="address") آدرس
+                            textarea(name="address")= files[i].address
+                    .col50
+                        .double-text-input
+                            label(for="phone") همراه
+                            input.textinput(type="text" placeholder="" name="phone" value= "#{files[i].phone}")
+                            label(for="date") تاریخ
+                            input.textinput(type="text" placeholder="" name="date" value= "#{files[i].date}")
+                        .double-text-input
+                            label(for="type") نوع
+                            select#state(name="type") 
+                                option(value="#{files[i].type}")= files[i].type
+                                option(value="آپارتمان") آپارتمان
+                                option(value="ویلایی") ویلایی
+                                option(value="کلنگی") کلنگی
+                                option(value="تجاری") تجاری
+                                option(value="اداری") اداری
+                                option(value="موقعیت اداری") موقعیت اداری
+                                option(value="زمین") زمین
+                                option(value="مستغلات") مستغلات
+                            //- input.textinput(type="text" placeholder="" name="type" value= "#{ typeof type != 'undefined' ? type: '' }")
+                            label(for="fileNumber") شماره
+                            input.textinput(type="text" placeholder="" name="fileNumber" value= "#{files[i].fileNumber}")
+                        .double-text-input
+                            label(for="state") وضعیت
+                            select#state(name="state") 
+                                option(value="#{files[i].state}")= files[i].state
+                                option(value="فروش") فروش
+                                option(value="پیش‌فروش") پیش‌فروش
+                                option(value="معاوضه") معاوضه
+                                option(value="مشارکت") مشارکت
+                                option(value="رهن و اجاره") رهن و اجاره
+                                option(value="رهن کامل") رهن کامل
+                            //- input.textinput(type="text" placeholder="" name="state" value= "#{ typeof state != 'undefined' ? state: '' }")
+                            label(for="role") سمت
+                            input.textinput(type="text" placeholder="" name="role" value= "#{files[i].role}")
+                .table-form 
+                    table 
+                        tr 
+                            th متراژ
+                            th خواب
+                            th طبقه
+                            th طبقات
+                            th واحد
+                            th سن بنا
+                            th پارکینگ
+                            th انباری
+                            th آسانسور
+                            th آشپزخانه
+                            th نما
+                            th کف
+                            th سرویس
+                            th سرمایش و گرمایش
+                        tr 
+                            td
+                                input(type="text" placeholder="" name="meterage" value="#{files[i].meterage}")
+                            td
+                                input(type="text" placeholder="" name="bedroom" value="#{files[i].bedroom}")
+                            td
+                                input(type="text" placeholder="" name="floor" value="#{files[i].floor}")
+                            td
+                                input(type="text" placeholder="" name="numOfFloors" value="#{files[i].numOfFloors}")
+                            td
+                                input(type="text" placeholder="" name="unit" value="#{files[i].unit}")
+                            td
+                                input(type="text" placeholder="" name="buildAge" value="#{files[i].buildAge}")
+                            td
+                                input(type="text" placeholder="" name="parking" value="#{files[i].parking}")
+                            td
+                                input(type="text" placeholder="" name="warehouse" value="#{files[i].warehouse}")
+                            td
+                                input(type="text" placeholder="" name="elevator" value="#{files[i].elevator}")
+                            td
+                                input(type="text" placeholder="" name="kitchen" value="#{files[i].kitchen}")
+                            td
+                                input(type="text" placeholder="" name="view" value="#{files[i].view}")
+                            td
+                                input(type="text" placeholder="" name="floortype" value="#{files[i].floortype}")
+                            td
+                                input(type="text" placeholder="" name="service" value="#{files[i].service}")
+                            td
+                                input(type="text" placeholder="" name="heatingAndCoolingSystem" value="#{files[i].heatingAndCoolingSystem}")
+                        tr 
+                            td
+                                input(type="text" placeholder="" name="meterage2" value="#{files[i].meterage2}")
+                            td
+                                input(type="text" placeholder="" name="bedroom2" value="#{files[i].bedroom2}")
+                            td
+                                input(type="text" placeholder="" name="floor2" value="#{files[i].floor2}")
+                            td
+                                input(type="text" placeholder="" name="numOfFloors2" value="#{files[i].numOfFloors2}")
+                            td
+                                input(type="text" placeholder="" name="unit2" value="#{files[i].unit2}")
+                            td
+                                input(type="text" placeholder="" name="buildAge2" value="#{files[i].buildAge2}")
+                            td
+                                input(type="text" placeholder="" name="parking2" value="#{files[i].parking2}")
+                            td
+                                input(type="text" placeholder="" name="warehouse2" value="#{files[i].warehouse2}")
+                            td
+                                input(type="text" placeholder="" name="elevator2" value="#{files[i].elevator2}")
+                            td
+                                input(type="text" placeholder="" name="kitchen2" value="#{files[i].kitchen2}")
+                            td
+                                input(type="text" placeholder="" name="view2" value="#{files[i].view2}")
+                            td
+                                input(type="text" placeholder="" name="floortype2" value="#{files[i].floortype2}")
+                            td
+                                input(type="text" placeholder="" name="service2" value="#{files[i].service2}")
+                            td
+                                input(type="text" placeholder="" name="heatingAndCoolingSystem2" value="#{files[i].heatingAndCoolingSystem2}")
+                        tr 
+                            td
+                                input(type="text" placeholder="" name="meterage3" value="#{files[i].meterage3}")
+                            td
+                                input(type="text" placeholder="" name="bedroom3" value="#{files[i].bedroom3}")
+                            td
+                                input(type="text" placeholder="" name="floor3" value="#{files[i].floor3}")
+                            td
+                                input(type="text" placeholder="" name="numOfFloors3" value="#{files[i].numOfFloors3}")
+                            td
+                                input(type="text" placeholder="" name="unit3" value="#{files[i].unit3}")
+                            td
+                                input(type="text" placeholder="" name="buildAge3" value="#{files[i].buildAge3}")
+                            td
+                                input(type="text" placeholder="" name="parking3" value="#{files[i].parking3}")
+                            td
+                                input(type="text" placeholder="" name="warehouse3" value="#{files[i].warehouse3}")
+                            td
+                                input(type="text" placeholder="" name="elevator3" value="#{files[i].elevator3}")
+                            td
+                                input(type="text" placeholder="" name="kitchen3" value="#{files[i].kitchen3}")
+                            td
+                                input(type="text" placeholder="" name="view3" value="#{files[i].view3}")
+                            td
+                                input(type="text" placeholder="" name="floortype3" value="#{files[i].floortype3}")
+                            td
+                                input(type="text" placeholder="" name="service3" value="#{files[i].service3}")
+                            td
+                                input(type="text" placeholder="" name="heatingAndCoolingSystem3" value="#{files[i].heatingAndCoolingSystem3}")
+                .long-atext-input 
+                    label(for="options") امکانات
+                    input(name="options" value="#{files[i].options}")
+                .two-text-input
+                    label(for="price") قیمت متری/رهن
+                    input(type="number" placeholder="" name="price" value="#{files[i].price}")
+                    label.marg(for="fullPrice") کل / اجاره
+                    input(type="number" placeholder="" name="fullPrice" value="#{files[i].fullPrice}")
+                .table-form.small
+                    table 
+                        tr 
+                            th منطقه
+                            th وام
+                            th قابلیت تبدیل
+                            th تخفیف
+                            th وضعیت سند
+                            th تحویل
+                            th اگهی دهنده
+                        tr 
+                            td
+                                input(type="number" placeholder="" name="area" value="#{files[i].area}")
+                            td
+                                input(type="text" placeholder="" name="lone" value="#{files[i].lone}")
+                            td
+                                input(type="text" placeholder="" name="changable" value="#{files[i].changable}")
+                            td
+                                input(type="text" placeholder="" name="discount" value="#{files[i].discount}")
+                            td
+                                input(type="text" placeholder="" name="documentState" value="#{files[i].documentState}")
+                            td
+                                input(type="text" placeholder="" name="transfer" value="#{files[i].transfer}")
+                            td
+                                input(type="text" placeholder="" name="advertiser" value="#{files[i].advertiser}")
+                    button.submit(type="submit")
+                        i.fa.fa-save
+                        | ثبت
+                .images-view 
+                    -for(var j=0; j<files[i].images.length; j++){
+                        .image 
+                            img(src="#{files[i].images[j].link}", alt="")
+                    -}
+                    .add-image-btn
+                        input.file-input(type="file" name="myFile")
+                        i.fa.fa-plus 
+                        h1 افزودن عکس
+    -}                    
+-}else{
+    -for(var i=0; i<result.length; i++){
+        .popup.file(id="edit-file-popup#{i}")
+            i.fa.fa-times.close-popup
+            .title-line
+                .popup-title
+                    h1 ویرایش فایل
+            form(action="/dashboard/edit-file" enctype="multipart/form-data" method="POST")
+                input.hidden(type="text" name="fileID" value="#{result[i]._id}")
+                .multi-column-form
+                    .col50
+                        .double-text-input
+                            label(for="ownerName") نام مالک
+                            input.textinput(type="text" placeholder="" name="ownerName" value= "#{result[i].ownerName}")
+                            label(for="constPhone") تلفن
+                            input.textinput(type="text" placeholder="" name="constPhone" value= "#{result[i].constPhone}")
+                        .text-area-input 
+                            label(for="address") آدرس
+                            textarea(name="address")= result[i].address
+                    .col50
+                        .double-text-input
+                            label(for="phone") همراه
+                            input.textinput(type="text" placeholder="" name="phone" value= "#{result[i].phone}")
+                            label(for="date") تاریخ
+                            input.textinput(type="text" placeholder="" name="date" value= "#{result[i].date}")
+                        .double-text-input
+                            label(for="type") نوع
+                            select#state(name="type") 
+                                option(value="#{result[i].type}")= result[i].type
+                                option(value="آپارتمان") آپارتمان
+                                option(value="ویلایی") ویلایی
+                                option(value="کلنگی") کلنگی
+                                option(value="تجاری") تجاری
+                                option(value="اداری") اداری
+                                option(value="موقعیت اداری") موقعیت اداری
+                                option(value="زمین") زمین
+                                option(value="مستغلات") مستغلات
+                            //- input.textinput(type="text" placeholder="" name="type" value= "#{ typeof type != 'undefined' ? type: '' }")
+                            label(for="fileNumber") شماره
+                            input.textinput(type="text" placeholder="" name="fileNumber" value= "#{result[i].fileNumber}")
+                        .double-text-input
+                            label(for="state") وضعیت
+                            select#state(name="state") 
+                                option(value="#{result[i].state}")= result[i].state
+                                option(value="فروش") فروش
+                                option(value="پیش‌فروش") پیش‌فروش
+                                option(value="معاوضه") معاوضه
+                                option(value="مشارکت") مشارکت
+                                option(value="رهن و اجاره") رهن و اجاره
+                                option(value="رهن کامل") رهن کامل
+                            //- input.textinput(type="text" placeholder="" name="state" value= "#{ typeof state != 'undefined' ? state: '' }")
+                            label(for="role") سمت
+                            input.textinput(type="text" placeholder="" name="role" value= "#{result[i].role}")
+                .table-form 
+                    table 
+                        tr 
+                            th متراژ
+                            th خواب
+                            th طبقه
+                            th طبقات
+                            th واحد
+                            th سن بنا
+                            th پارکینگ
+                            th انباری
+                            th آسانسور
+                            th آشپزخانه
+                            th نما
+                            th کف
+                            th سرویس
+                            th سرمایش و گرمایش
+                        tr 
+                            td
+                                input(type="text" placeholder="" name="meterage" value="#{result[i].meterage}")
+                            td
+                                input(type="text" placeholder="" name="bedroom" value="#{result[i].bedroom}")
+                            td
+                                input(type="text" placeholder="" name="floor" value="#{result[i].floor}")
+                            td
+                                input(type="text" placeholder="" name="numOfFloors" value="#{result[i].numOfFloors}")
+                            td
+                                input(type="text" placeholder="" name="unit" value="#{result[i].unit}")
+                            td
+                                input(type="text" placeholder="" name="buildAge" value="#{result[i].buildAge}")
+                            td
+                                input(type="text" placeholder="" name="parking" value="#{result[i].parking}")
+                            td
+                                input(type="text" placeholder="" name="warehouse" value="#{result[i].warehouse}")
+                            td
+                                input(type="text" placeholder="" name="elevator" value="#{result[i].elevator}")
+                            td
+                                input(type="text" placeholder="" name="kitchen" value="#{result[i].kitchen}")
+                            td
+                                input(type="text" placeholder="" name="view" value="#{result[i].view}")
+                            td
+                                input(type="text" placeholder="" name="floortype" value="#{result[i].floortype}")
+                            td
+                                input(type="text" placeholder="" name="service" value="#{result[i].service}")
+                            td
+                                input(type="text" placeholder="" name="heatingAndCoolingSystem" value="#{result[i].heatingAndCoolingSystem}")
+                        tr 
+                            td
+                                input(type="text" placeholder="" name="meterage2" value="#{result[i].meterage2}")
+                            td
+                                input(type="text" placeholder="" name="bedroom2" value="#{result[i].bedroom2}")
+                            td
+                                input(type="text" placeholder="" name="floor2" value="#{result[i].floor2}")
+                            td
+                                input(type="text" placeholder="" name="numOfFloors2" value="#{result[i].numOfFloors2}")
+                            td
+                                input(type="text" placeholder="" name="unit2" value="#{result[i].unit2}")
+                            td
+                                input(type="text" placeholder="" name="buildAge2" value="#{result[i].buildAge2}")
+                            td
+                                input(type="text" placeholder="" name="parking2" value="#{result[i].parking2}")
+                            td
+                                input(type="text" placeholder="" name="warehouse2" value="#{result[i].warehouse2}")
+                            td
+                                input(type="text" placeholder="" name="elevator2" value="#{result[i].elevator2}")
+                            td
+                                input(type="text" placeholder="" name="kitchen2" value="#{result[i].kitchen2}")
+                            td
+                                input(type="text" placeholder="" name="view2" value="#{result[i].view2}")
+                            td
+                                input(type="text" placeholder="" name="floortype2" value="#{result[i].floortype2}")
+                            td
+                                input(type="text" placeholder="" name="service2" value="#{result[i].service2}")
+                            td
+                                input(type="text" placeholder="" name="heatingAndCoolingSystem2" value="#{result[i].heatingAndCoolingSystem2}")
+                        tr 
+                            td
+                                input(type="text" placeholder="" name="meterage3" value="#{result[i].meterage3}")
+                            td
+                                input(type="text" placeholder="" name="bedroom3" value="#{result[i].bedroom3}")
+                            td
+                                input(type="text" placeholder="" name="floor3" value="#{result[i].floor3}")
+                            td
+                                input(type="text" placeholder="" name="numOfFloors3" value="#{result[i].numOfFloors3}")
+                            td
+                                input(type="text" placeholder="" name="unit3" value="#{result[i].unit3}")
+                            td
+                                input(type="text" placeholder="" name="buildAge3" value="#{result[i].buildAge3}")
+                            td
+                                input(type="text" placeholder="" name="parking3" value="#{result[i].parking3}")
+                            td
+                                input(type="text" placeholder="" name="warehouse3" value="#{result[i].warehouse3}")
+                            td
+                                input(type="text" placeholder="" name="elevator3" value="#{result[i].elevator3}")
+                            td
+                                input(type="text" placeholder="" name="kitchen3" value="#{result[i].kitchen3}")
+                            td
+                                input(type="text" placeholder="" name="view3" value="#{result[i].view3}")
+                            td
+                                input(type="text" placeholder="" name="floortype3" value="#{result[i].floortype3}")
+                            td
+                                input(type="text" placeholder="" name="service3" value="#{result[i].service3}")
+                            td
+                                input(type="text" placeholder="" name="heatingAndCoolingSystem3" value="#{result[i].heatingAndCoolingSystem3}")
+                .long-atext-input 
+                    label(for="options") امکانات
+                    input(name="options" value="#{result[i].options}")
+                .two-text-input
+                    label(for="price") قیمت متری/رهن
+                    input(type="number" placeholder="" name="price" value="#{result[i].price}")
+                    label.marg(for="fullPrice") کل / اجاره
+                    input(type="number" placeholder="" name="fullPrice" value="#{result[i].fullPrice}")
+                .table-form.small
+                    table 
+                        tr 
+                            th منطقه
+                            th وام
+                            th قابلیت تبدیل
+                            th تخفیف
+                            th وضعیت سند
+                            th تحویل
+                            th اگهی دهنده
+                        tr 
+                            td
+                                input(type="number" placeholder="" name="area" value="#{result[i].area}")
+                            td
+                                input(type="text" placeholder="" name="lone" value="#{result[i].lone}")
+                            td
+                                input(type="text" placeholder="" name="changable" value="#{result[i].changable}")
+                            td
+                                input(type="text" placeholder="" name="discount" value="#{result[i].discount}")
+                            td
+                                input(type="text" placeholder="" name="documentState" value="#{result[i].documentState}")
+                            td
+                                input(type="text" placeholder="" name="transfer" value="#{result[i].transfer}")
+                            td
+                                input(type="text" placeholder="" name="advertiser" value="#{result[i].advertiser}")
+                    button.submit(type="submit")
+                        i.fa.fa-save
+                        | ثبت
+                .images-view 
+                    -for(var j=0; j<result[i].images.length; j++){
+                        .image 
+                            img(src="#{result[i].images[j].link}", alt="")
+                    -}
+                    .add-image-btn
+                        input.file-input(type="file" name="myFile")
+                        i.fa.fa-plus 
+                        h1 افزودن عکس
+    -}      
+-}
+
 -if(errors){
     script.
         $('#add-estate-popup').show();
