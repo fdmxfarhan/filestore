@@ -111,10 +111,10 @@
     padding: 0;
     margin-top: 1vw;
 }
-.info4 td.metrage, .info4-header th.metrage{width: 10%;}
-.info4 td.bedroom, .info4-header th.bedroom{width: 10%;}
-.info4 td.floor, .info4-header th.floor{width: 10%;}
-.info4 td.build-age, .info4-header th.build-age{width: 10%;}
+.info4 td.metrage, .info4-header th.metrage{width: 5%;}
+.info4 td.bedroom, .info4-header th.bedroom{width: 5%;}
+.info4 td.floor, .info4-header th.floor{width: 5%;}
+.info4 td.build-age, .info4-header th.build-age{width: 5%;}
 .info4 td.address{text-align: right;}
 .info4 td.price{width: 20%; color: green; font-weight: bold; font-size: 1vw;}
 .info4-header th.price{width: 20%;}

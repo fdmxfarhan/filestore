@@ -1,0 +1,66 @@
+-for(var i=0; i<users.length; i++){
+    .popup.w40p(id="edit-user-popup#{i}")
+        i.fa.fa-times.close-popup
+        .title-line
+            .popup-title
+                h1 افزودن کاربر جدید
+        form(action="/dashboard/edit-user" method="POST")
+            input.hidden(type="text" name="userID" value="#{users[i]._id}")
+            .one-side-form
+                .text-input-area
+                    label(for="fullname") 
+                        i.fa.fa-user
+                        | نام و نام خانوادگی:
+                    input.textinput(type="text" placeholder="نام و نام خانوادگی" name="fullname" value= "#{ typeof users[i].fullname != 'undefined' ? users[i].fullname: '' }")
+                .text-input-area
+                    label(for="idNumber") 
+                        i.fa.fa-phone
+                        | شماره تلفن:
+                    input.textinput(type="text" placeholder="شماره تلفن" name="idNumber" value= "#{ typeof users[i].idNumber != 'undefined' ? users[i].idNumber: '' }")
+                .text-input-area
+                    label(for="password") 
+                        i.fa.fa-key
+                        | کلمه عبور:
+                    input.textinput(type="password" placeholder="کلمه عبور (در صورت عدم نیاز به تغییر خالی بگذارید)" name="password")
+                table.access 
+                    tr
+                        th دسترسی
+                        th افزودن
+                        th حذف
+                        th ویرایش
+                    tr 
+                        td فایل ها
+                        td 
+                            -if(users[i].addFilePermission)
+                                input(type="checkbox" name="addFilePermission" id="addFilePermission" value="true" checked)
+                            -else
+                                input(type="checkbox" name="addFilePermission" id="addFilePermission" value="true")
+                        td 
+                            -if(users[i].removeFilePermission)
+                                input(type="checkbox" name="removeFilePermission" id="removeFilePermission" value="true" checked)
+                            -else
+                                input(type="checkbox" name="removeFilePermission" id="removeFilePermission" value="true")
+                        td 
+                            -if(users[i].editFilePermission)
+                                input(type="checkbox" name="editFilePermission" id="editFilePermission" value="true" checked)
+                            -else
+                                input(type="checkbox" name="editFilePermission" id="editFilePermission" value="true")
+                    tr 
+                        td مشاور املاک
+                        td 
+                            -if(users[i].addEstatePermission)
+                                input(type="checkbox" name="addEstatePermission" id="addEstatePermission" value="true" checked)
+                            -else
+                                input(type="checkbox" name="addEstatePermission" id="addEstatePermission" value="true")
+                        td 
+                            -if(users[i].removeEstatePermission)
+                                input(type="checkbox" name="removeEstatePermission" id="removeEstatePermission" value="true" checked)
+                            -else
+                                input(type="checkbox" name="removeEstatePermission" id="removeEstatePermission" value="true")
+                        td 
+                            -if(users[i].editEstatePermission)
+                                input(type="checkbox" name="editEstatePermission" id="editEstatePermission" value="true" checked)
+                            -else
+                                input(type="checkbox" name="editEstatePermission" id="editEstatePermission" value="true")
+                button.submit(type="submit") ثبت
+-}

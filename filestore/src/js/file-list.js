@@ -260,6 +260,7 @@ var addFile = (data, index) => {
     var table4Value3 = document.createElement('td'); table4Value3.classList.add('floor'); table4Value3.appendChild(document.createTextNode(data.floor));tr5.appendChild(table4Value3);
     var table4Value4 = document.createElement('td'); table4Value4.classList.add('build-age'); table4Value4.appendChild(document.createTextNode(data.buildAge));tr5.appendChild(table4Value4);
     var table4Value5 = document.createElement('td'); table4Value5.classList.add('address'); table4Value5.appendChild(document.createTextNode(getAddress(data.address)));tr5.appendChild(table4Value5);
+    var table4Value555 = document.createElement('td'); table4Value555.classList.add('price'); table4Value555.appendChild(document.createTextNode(getPrice(data.price)));tr5.appendChild(table4Value555);
     var table4Value6 = document.createElement('td'); table4Value6.classList.add('price'); table4Value6.appendChild(document.createTextNode(getPrice(data.fullPrice)));tr5.appendChild(table4Value6);
     info4.appendChild(tr5);
     

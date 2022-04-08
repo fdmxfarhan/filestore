@@ -452,6 +452,41 @@ router.post('/add-user', ensureAuthenticated, (req, res, next) => {
     })
     
 });
+router.post('/edit-user', ensureAuthenticated, (req, res, next) => {
+    var {fullname, idNumber, password, addFilePermission, removeFilePermission, editFilePermission, addEstatePermission, removeEstatePermission, editEstatePermission} = req.body;
+    if(addFilePermission)      addFilePermission = true;
+    else                       addFilePermission = false;
+    if(removeFilePermission)   removeFilePermission = true;
+    else                       removeFilePermission = false;
+    if(editFilePermission)     editFilePermission = true;
+    else                       editFilePermission = false;
+    if(addEstatePermission)    addEstatePermission = true;
+    else                       addEstatePermission = false;
+    if(removeEstatePermission) removeEstatePermission = true;
+    else                       removeEstatePermission = false;
+    if(editEstatePermission)   editEstatePermission = true;
+    else                       editEstatePermission = false;
+    bcrypt.genSalt(10, (err, salt) => bcrypt.hash(password, salt, (err, hash) => {
+        if(password && password != '') password = hash;
+        User.updateMany({idNumber}, {$set: {
+            fullname, 
+            idNumber, 
+            password, 
+            addFilePermission, 
+            removeFilePermission, 
+            editFilePermission, 
+            addEstatePermission, 
+            removeEstatePermission, 
+            editEstatePermission,
+            role: 'admin'
+        }},(err) => {
+            if(err) console.log(err);
+            req.flash('success_msg', 'تغییرات با موفقیت ثبت شد');
+            res.redirect('/dashboard/users');
+        })
+    }));
+    
+});
 router.post('/upload-excel', ensureAuthenticated, upload.single('excelFile'), (req, res, next) => {
     var file = req.file, filePath;
     var removeAll = req.body.removeAll;

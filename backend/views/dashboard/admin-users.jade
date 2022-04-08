@@ -4,6 +4,9 @@ block styles
     link(rel="stylesheet", href="/css/dashboard/users-view.css")
 
 block content
+    #user-length.hidden= users.length
+    #user-length-max.hidden= users.length-1
+    #user-length-min.hidden= 0
     .title-view 
         h1 کاربران
         h2 #{users.filter(e => e.role == 'user').length} user, #{users.filter(e => e.role == 'admin').length} admin
@@ -34,9 +37,9 @@ block content
                             -if(users[i].addEstatePermission || users[i].removeEstatePermission || users[i].editEstatePermission)
                                 h2 #{users[i].addEstatePermission == true? 'افزودن' : ''} #{users[i].removeEstatePermission == true? 'حذف' : ''} #{users[i].editEstatePermission == true? 'ویرایش' : ''} مشاور املاک
                                                                             
-                        //- td
-                        //-     a.edit(href="/dashboard/user-view?userID=#{users[i]._id}") 
-                        //-         i.fa.fa-eye 
+                        td
+                            a.edit(id="edit-user-btn#{i}")
+                                i.fa.fa-edit
                         td
                             a.trash(href="/dashboard/delete-user?userID=#{users[i]._id}") 
                                 i.fa.fa-trash 
@@ -51,4 +54,5 @@ block content
                     i.fa.fa-plus 
                     | افزودن کاربر
     include ../components/register-popup
+    include ../components/register-popups
     script(src="/js/users-view.js") 

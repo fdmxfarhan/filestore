@@ -40,26 +40,26 @@ var filter = () => {
     maxPrice1 = parseInt(document.getElementById('price1-max-input').value);
     minPrice2 = parseInt(document.getElementById('price2-min-input').value);
     maxPrice2 = parseInt(document.getElementById('price2-max-input').value);
-
+    
     var filesContainer = document.getElementById('file-list-container');
     items = filesContainer.childNodes;
     for (let i = 0; i < items.length; i++) {
         const item = items[i];
         var metrage = parseInt(item.childNodes[1].childNodes[1].childNodes[0].textContent);
         // if((maxMetrage != 500 && metrage > maxMetrage) || metrage < minMetrage)
-        if(!(metrage > minMetrage && metrage < maxMetrage))
+        if(!((metrage > minMetrage || isNaN(minMetrage)) && (metrage < maxMetrage || isNaN(maxMetrage))))
             item.style.display = 'none';
         else {
             item.style.display = 'block';
             var price1 = parseInt(item.childNodes[2].childNodes[1].childNodes[1].textContent)/1000000;
             // if((maxPrice1 != 2000 && price1 > maxPrice1) || price1 < minPrice1)
-            if(!(price1 > minPrice1 && price1 < maxPrice1))
+            if(!((price1 > minPrice1 || isNaN(minPrice1)) && (price1 < maxPrice1 || isNaN(maxPrice1))))
                 item.style.display = 'none';
             else {
                 item.style.display = 'block';
                 var price2 = parseInt(item.childNodes[2].childNodes[0].childNodes[1].textContent)/1000000;
                 // if((maxPrice2 != 100 && price2 > maxPrice2) || price2 < minPrice2)
-                if(!(price2 > minPrice2 && price2 < maxPrice2))
+                if(!((price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2))))
                     item.style.display = 'none';
                 else {
                     item.style.display = 'block';
