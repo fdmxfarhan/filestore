@@ -32,7 +32,7 @@ router.get('/get-files', (req, res, next) => {
                     files.reverse();
                     files.filter(e => now - e.creationDate.getTime() < 15 * 24 * 60 * 60 * 1000);
                     res.send({status: 'ok', files});
-                })
+                });
             }
             else res.send({status: 'not payed'})
         }

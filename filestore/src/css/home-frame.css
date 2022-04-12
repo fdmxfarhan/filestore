@@ -274,7 +274,9 @@
 .refresh-link i{
     padding-left: 0.5vw;
 }
-
+.refresh-link.red{
+    background-color: var(--red);
+}
 .images-view{
     overflow: hidden;
     width: 95%;

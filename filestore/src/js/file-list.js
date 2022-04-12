@@ -6,6 +6,8 @@ var pathName = path.join(__dirname, '../files');
 var filesContainer = document.getElementById('file-list-container');
 var errorMsg = document.getElementById('error-msg');
 var successMsg = document.getElementById('success-msg');
+var loadingScreen = document.getElementById('loading-screen');
+var downloadBar = document.getElementById('download-bar');
 
 var saveEstate = (username, password, estate, files) => {
     var file = path.join(pathName, 'estate.json');
@@ -19,14 +21,14 @@ var showError = (text) => {
     errorMsg.textContent = text;
     setTimeout(() => {
         errorMsg.classList.add('hidden');
-    }, 3000);
+    }, 5000);
 }
 var showSuccess = (text) => {
     successMsg.classList.remove('hidden');
     successMsg.textContent = text;
     setTimeout(() => {
         successMsg.classList.add('hidden');
-    }, 3000);
+    }, 5000);
 }
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
@@ -423,14 +425,21 @@ var updateHandlers = (data) => {
     });
 }
 var refresh = () => {
+    var downloadPercent = 10;
     fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
         if(rawdata){
             var estate = JSON.parse(rawdata);
-            // console.log(estate);
-            fetch(api + `get-files?username=${estate.username}&password=${estate.password}`)
+            loadingScreen.classList.remove('hidden');
+            downloadBar.classList.remove('hidden');
+            var downloadInterval = setInterval(() => {
+                document.getElementById('download-bar-handle').style.width = `${downloadPercent}%`;
+                document.getElementById('download-bar-text').textContent = `${downloadPercent}%`;
+                if(downloadPercent<99) downloadPercent++;
+                else clearInterval(downloadInterval);
+            }, 170);
+            var res = fetch(api + `get-files?username=${estate.username}&password=${estate.password}`)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
                     if(data.status == 'ok'){
                         saveEstate(estate.username, estate.password, estate.estate, data.files);
                         removeAllChildNodes(filesContainer);
@@ -438,18 +447,67 @@ var refresh = () => {
                             addFile(data.files[i], i);
                         }
                         updateHandlers(data);
+                        downloadBar.classList.add('hidden');
+                        loadingScreen.classList.add('hidden');
+                        clearInterval(downloadInterval);
+                        document.getElementById('refresh-btn').classList.remove('red');
+                        document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات';
                         showSuccess('بارگیری با موفقیت انجام شد');
                     }
                     else if(data.status == 'not payed'){
+                        loadingScreen.classList.add('hidden');
                         $('#plans-popup').fadeIn(500);
                         $('.black-modal').fadeIn(500);
                     }
-                }).catch(err => {showError('خطای اتصال به اینترنت')});
+                }).catch(err => {
+                    showError('خطای اتصال به اینترنت');
+                    loadingScreen.classList.add('hidden');
+                    console.log(err);
+                });
+            var refreshInterval = setInterval(() => {
+                fetch(api + `login?username=${estate.username}&password=${estate.password}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.correct == true){
+                            if(data.estate.planType != 'free' && data.estate.payed){
+                                var payDate = (new Date(data.estate.payDate)).getTime();
+                                var now = (new Date()).getTime();
+                                var endDate = 0;
+                                if(data.estate.planType == 'trial')  endDate = payDate + 3 * 24 * 60 * 60 * 1000;
+                                if(data.estate.planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
+                                if(data.estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
+                                if(data.estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
+                                if(data.estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
+                                if(endDate - now < 0) {
+                                    document.getElementById('plan-info').classList.add('hidden');
+                                    document.getElementById('no-plan-info').classList.remove('hidden');
+                                    document.getElementById('refresh-btn').classList.add('red');
+                                    document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
+                                }
+                                else {
+                                    document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
+                                    document.getElementById('refresh-btn').classList.remove('red');
+                                    document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات';
+                                    clearInterval(refreshInterval);
+                                }
+                            }
+                            else{
+                                document.getElementById('plan-info').classList.add('hidden');
+                                document.getElementById('no-plan-info').classList.remove('hidden');
+                                document.getElementById('refresh-btn').classList.add('red');
+                                document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
+                            }
+                        }
+                    }).catch(err => console.log(err));
+            }, 5000);
         }
         else console.log('file not found');
     });
+    document.getElementById('download-bar-handle').style.width = `${0}%`;
+    document.getElementById('download-bar-text').textContent = `${0}%`;
 }
 fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+    document.getElementById('loading-screen').classList.remove('hidden');
     removeAllChildNodes(filesContainer);
     if(rawdata && JSON.parse(rawdata).files){
         var data = JSON.parse(rawdata);
@@ -473,12 +531,20 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
             if(endDate - now < 0) {
                 document.getElementById('plan-info').classList.add('hidden');
                 document.getElementById('no-plan-info').classList.remove('hidden');
+                document.getElementById('refresh-btn').classList.add('red');
+                document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
             }
-            else document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
+            else {
+                document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
+                document.getElementById('refresh-btn').classList.remove('red');
+                document.getElementById('refresh-btn').textContent = 'بارگیری اطلاعات';
+            }
         }
         else{
             document.getElementById('plan-info').classList.add('hidden');
             document.getElementById('no-plan-info').classList.remove('hidden');
+            document.getElementById('refresh-btn').classList.add('red');
+            document.getElementById('refresh-btn').textContent = 'خرید اشتراک';
         }
         updateHandlers(data);
     }
@@ -499,15 +565,24 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
             if(endDate - now < 0) {
                 document.getElementById('plan-info').classList.add('hidden');
                 document.getElementById('no-plan-info').classList.remove('hidden');
+                document.getElementById('refresh-btn').classList.add('red');
+                document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
             }
-            else document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
+            else {
+                document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
+                document.getElementById('refresh-btn').classList.remove('red');
+                document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات';
+            }
         }
         else{
             document.getElementById('plan-info').classList.add('hidden');
             document.getElementById('no-plan-info').classList.remove('hidden');
+            document.getElementById('refresh-btn').classList.add('red');
+            document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
         }
     }
     else console.log('file not found or does not contain Files data');
+    document.getElementById('loading-screen').classList.add('hidden');
 });
 var payPlan = (plan) => {
     fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {

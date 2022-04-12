@@ -1,0 +1,71 @@
+<style>
+    .loader {
+        border: 16px solid #eeeeee;
+        border-radius: 50%;
+        border-top: 16px solid #aaaaaa;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+        margin-top: 35vh;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+    }
+    @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .load-screen{
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.569);
+        position: fixed;
+        top: 0;
+        right: 0;
+    }
+    .load-screen h1{
+        font-family: 'iransans';
+        font-size: 1.5vw;
+        color: white;
+        text-align: center;
+    }
+    .load-screen p{
+        font-family: 'iransans';
+        font-size: 1.2vw;
+        color: white;
+        text-align: center;
+    }
+    .download-bar{
+        width: 50%;
+        margin: 3vw auto;
+        height: 1vw;
+        background-color: lightgray;
+        position: relative;
+        border-radius: 0.5vw;
+    }
+    .download-bar .handle{
+        background-color: blue;
+        width: 1%;
+        height: 1vw;
+        border-radius: 0.5vw;
+        transition-duration: 500ms;
+    }
+    .download-bar .download-text{
+        position: absolute;
+        top: 0;
+        right: -5vw;
+        color: white;
+    }
+</style>
+<div class="load-screen hidden" id="loading-screen">
+    <div class="loader"></div>
+    <h1>لطفا منتظر بمانید...</h1>
+    <p>از صبر و شکیبایی شما سپاسگزاریم</p>
+    <div class="download-bar hidden" id="download-bar">
+        <div class="handle"  id="download-bar-handle"></div>
+        <div class="download-text" id="download-bar-text">0%</div>
+    </div>
+</div>

@@ -42,6 +42,10 @@ var checkLogin = async() => {
                 document.getElementById('home-frame').classList.remove('hidden');
                 successMsg.classList.remove('hidden');
                 successMsg.textContent = 'خوش آمدید';
+                document.getElementById('fullname').textContent = data.estate.name;
+                document.getElementById('address').textContent = data.estate.address;
+                document.getElementById('estate-code').textContent = data.estate.code;
+                document.getElementById('estate-number').textContent = data.estate.area;
                 setTimeout(() => {
                     successMsg.classList.add('hidden');
                 }, 3000);
