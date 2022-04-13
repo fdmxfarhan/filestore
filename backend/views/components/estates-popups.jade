@@ -28,6 +28,10 @@
                         i.fa.fa-pencil
                         | شماره منطقه:
                     input.textinput(type="text" placeholder="شماره منطقه" name="area" value= "#{ typeof estates[i].area != 'undefined' ? estates[i].area: '' }")
+                -if(estates[i].planType == 'free')
+                    a.link(href="/dashboard/start-trial?estateID=#{estates[i]._id}") 
+                        i.fa.fa-play
+                        | شروع 3 روز اشتراک رایگان
                 //- .check-input 
                 //-     input(type="checkbox" name="trial" id="trial" value="true")
                 //-     label(for="trial") 3 روز اشتراک رایگان

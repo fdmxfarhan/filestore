@@ -241,6 +241,21 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     .popup .one-side-form{
         overflow: hidden;
     }
+    .popup .one-side-form  a.link{
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--blue);
+        text-decoration: none;
+        display: block;
+        width: 90%;
+        margin: auto;
+    }
+    .popup .one-side-form  a.link:hover{
+        color: var(--hover);
+    }
+    .popup .one-side-form  a.link i{
+        padding-left: 0.5vw;
+    }
     .popup .one-side-form .text-input-area,
     .popup .one-side-form .check-input{
         width: 90%;

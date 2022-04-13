@@ -690,7 +690,13 @@ router.post('/download-excel', ensureAuthenticated, (req, res, next) => {
 
     });
 });
-
+router.get('/start-trial', ensureAuthenticated, (req, res, next) => {
+    var {estateID} = req.query;
+    Estate.updateMany({_id: estateID}, {$set: {planType: 'trial', payed: true, payDate: new Date()}}, (err, doc) => {
+        req.flash('3 روز اشتراک رایگان فعال شد.');
+        res.redirect('/dashboard/estates');
+    });
+});
 
 
 module.exports = router;
