@@ -11,6 +11,28 @@ block content
         h1 مشاورین املاک
         h2 
     .content-view 
+        .user-control 
+            .control 
+                .search-view
+                    input(type="text" placeholder="جستجو")
+                    button
+                        i.fa.fa-search
+                -if(user.addEstatePermission){
+                    a.add-user#add-user-btn
+                        i.fa.fa-plus 
+                        | افزودن مشاور املاک
+                -}
+            .control.hidden-in-mobile
+                h1.title افزودن مشاور املاک 
+                p افزودن مشاور املاک به صورت اتوماتیک
+                form.add-multiple-estates(action="/dashboard/add-multiple-estate" method="post") 
+                    input(type="number" name="numberOfEstates" placeholder="تعداد")
+                    button(type="submit") ثبت
+                    -if(success_msg && success_msg == 'فایل ها با موفقیت ساخته شدند.'){
+                        a.download(href="/files/users.xlsx")
+                            i.fa.fa-cloud-download
+                            | دانلود لیست کاربران ساخته شده
+                    -}
         .users-view 
             table 
                 tr 
@@ -64,28 +86,7 @@ block content
                             -}
                             
                 -}
-        .user-control 
-            .control 
-                .search-view
-                    input(type="text" placeholder="جستجو")
-                    button
-                        i.fa.fa-search
-                -if(user.addEstatePermission){
-                    a.add-user#add-user-btn
-                        i.fa.fa-plus 
-                        | افزودن مشاور املاک
-                -}
-            .control 
-                h1.title افزودن مشاور املاک 
-                p افزودن مشاور املاک به صورت اتوماتیک
-                form.add-multiple-estates(action="/dashboard/add-multiple-estate" method="post") 
-                    input(type="number" name="numberOfEstates" placeholder="تعداد")
-                    button(type="submit") ثبت
-                    -if(success_msg && success_msg == 'فایل ها با موفقیت ساخته شدند.'){
-                        a.download(href="/files/users.xlsx")
-                            i.fa.fa-cloud-download
-                            | دانلود لیست کاربران ساخته شده
-                    -}
+        
     include ../components/estate-popup
     include ../components/estates-popups
     script(src="/js/estates.js") 

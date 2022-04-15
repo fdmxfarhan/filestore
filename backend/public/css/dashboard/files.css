@@ -317,5 +317,321 @@
     }
 }
 @media only screen and (max-width: 800px) {
+    .multi-column-form{
+        overflow: hidden;
+        margin-top: 2vw;
+    }
+    .multi-column-form .col50{
+        float: right;
+        width: 100%;
+        margin-bottom: 3vw;
+    }
+    .multi-column-form .double-text-input{
+        overflow: hidden;
+        margin-bottom: 3vw;
+    }
+    .multi-column-form .double-text-input label, .multi-column-form .text-area-input label{
+        width: 14%;
+        display: block;
+        float: right;
+        text-align: left;
+        padding: 1vw;
+        font-size: 3vw;
+    }
+    .multi-column-form .double-text-input input{
+        width: 27%;
+        display: block;
+        float: right;
+        font-family: 'iransans';
+        font-size: 3vw;
+        border: none;
+        border-radius: 1vw;
+        background-color: var(--grayblue);
+        padding: 0.3vw 1vw;
+    }
+    .multi-column-form .double-text-input select{
+        width: 30.7%;
+        display: block;
+        float: right;
+        font-family: 'iransans';
+        font-size: 3vw;
+        border: none;
+        border-radius: 1vw;
+        background-color: var(--grayblue);
+        padding: 0.9vw 3vw;
+        /* -moz-appearance:none;
+        -webkit-appearance:none;
+        appearance:none; */
+    }
+    .multi-column-form .double-text-input select:focus,
+    .multi-column-form .double-text-input input:focus{
+        outline: none;
+    }
+    .multi-column-form .text-area-input textarea{
+        width: 73%;
+        height: 15vw;
+        display: block;
+        float: right;
+        font-family: 'iransans';
+        font-size: 3vw;
+        border: none;
+        border-radius: 1vw;
+        background-color: var(--grayblue);
+        padding: 0.3vw 1vw;
+        resize: none;
+    }
+    .multi-column-form .text-area-input textarea:focus{
+        outline: none;
+    }
+    .table-form {
+        width: 95%;
+        margin: auto;
+        text-align: center;
+        margin-bottom: 3vw;
+        overflow-x: scroll;
+    }
+    .table-form table{
+        width: 100%;
+    }
+    .table-form th{
+        font-family: 'iransans';
+        font-size: 2.9vw;
+        /* color: var(--text); */
+        font-weight: normal;
+        /* line-height: 1vw; */
+    }
+    .table-form input{
+        width: 10vw;
+        display: inline;
+        float: right;
+        font-family: 'iransans';
+        font-size: 2.8vw;
+        border: none;
+        border-radius: 1vw;
+        background-color: var(--grayblue);
+        padding: 0.6vw 1vw;
+        resize: none;
+        text-align: center;
+    }
+    .table-form input:focus{
+        outline: var(--lightgray) 0.1vw solid;
+    }
+    .long-atext-input{
+        /* margin-bottom: 1vw; */
+        overflow: hidden;
+        display: block;
+        width: 100%;
+    }
+    .long-atext-input input{
+        width: 86.3%;
+        display: block;
+        float: right;
+        font-family: 'iransans';
+        font-size: 3vw;
+        border: none;
+        border-radius: 0.3vw;
+        background-color: var(--grayblue);
+        padding: 0.3vw 1vw;
+        resize: none;
+    }
+    .long-atext-input input:focus{
+        outline: none;
+    }
     
+    .long-atext-input label{
+        width: 7%;
+        display: block;
+        float: right;
+        text-align: left;
+        padding: 0.3vw;
+        font-size: 3vw;
+    }
+    .two-text-input{
+        margin-bottom: 1vw;
+        overflow: hidden;
+    }
+    .two-text-input label{
+        width: 7%;
+        display: block;
+        float: right;
+        text-align: left;
+        padding: 0.3vw;
+        font-size: 3vw;
+    }
+    .two-text-input input{
+        width: 37.9%;
+        display: block;
+        float: right;
+        font-family: 'iransans';
+        font-size: 3vw;
+        border: none;
+        border-radius: 0.3vw;
+        background-color: var(--grayblue);
+        padding: 0.3vw 1vw;
+        resize: none;
+        margin-top: 1vw;
+    }
+    .two-text-input input:focus{
+        outline: none;
+    }
+    button.submit{
+        display: block;
+        width: fit-content;
+        color: white;
+        background-color: var(--green);
+        border: none;
+        float: left;
+        font-family: 'iransans';
+        font-size: 3.1vw;
+        padding: 0.3vw 3vw;
+        margin-top: 1.3vw;
+        margin-left: 0.2vw;
+        border-radius: 0.4vw;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    button.submit:hover{
+        background-color: var(--blue);
+    }
+    button.submit i{
+        padding-left: 1vw;
+    }
+    label.marg{padding-top: 1.2vw;}
+    .table-form.small{
+        overflow: hidden;
+        margin-top: 0;
+    }
+    .table-form.small input{
+        width: 6vw;
+        padding: 0.5vw;
+    }
+    .table-form.small table{
+        width: 60%;
+        float: right;
+    }
+    .popup.file .images-view {
+        overflow: hidden;
+        width: 95%;
+        margin: auto;
+    }
+    .popup.file .images-view .image{
+        width: 4vw;
+        height: 3.5vw;
+        overflow: hidden;
+        border-radius: 0.3vw;
+        float: right;
+        margin-left: 0.5vw;
+    }
+    .popup.file .images-view .image img{
+        height: 3.5vw;
+        display: block;
+    }
+    .popup.file .images-view .add-image-btn{
+        float: right;
+        width: 4vw;
+        border-radius: 0.3vw;
+        text-align: center;
+        color: var(--gray);
+        border: var(--grayblue) 0.1vw solid;
+        height: 3.5vw;
+        cursor: pointer;
+        position: relative;
+    }
+    .popup.file .images-view .add-image-btn:hover{
+        color: white;
+        border: var(--blue) 0.1vw solid;
+        background-color: var(--blue);
+    }
+    .popup.file .images-view .add-image-btn h1{
+        font-family: 'iransans';
+        font-size: 0.6vw;
+        padding: 0;
+        margin: 0;
+    }
+    .add-image-btn input.file-input{
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 3.5vw;
+        opacity: 0;
+        cursor: pointer;
+    }
+    .page-navigator{
+        overflow: hidden;
+        text-align: center;
+        margin-bottom: 1vw;
+    }
+    .page-navigator a{
+        color: var(--blue);
+        text-decoration: none;
+        margin: 0 1vw;
+    }
+    .page-navigator a.active{
+        color: darkblue;
+        font-weight: bold;
+    }
+    .page-navigator a i{
+        padding: 0 0.5vw;
+        font-size: 0.7vw;
+    }
+    .page-navigator a:hover{
+        color: var(--hover);
+    }
+    .control form.backup,
+    .control form.upload{
+        width: 90%;
+        margin: auto;
+    }
+    .control form.backup button,
+    .control form.upload button{
+        background-color: var(--blue);
+        color: white;
+        border: none;
+        padding: 0.2vw 0;
+        width: 100%;
+        border-radius: 0.5vw;
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        display: block;
+        margin-top: 1vw;
+        cursor: pointer;
+    }
+    .control form.backup button:hover,
+    .control form.upload button:hover{
+        background-color: var(--hover);
+    }
+    .control form.backup .date-input-view{
+        margin-bottom: 1vw;
+    }
+    .control form.backup .date-input-view label{
+        display: inline;
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        padding-left: 1vw;
+    }
+    .control form.backup .date-input-view .date-input{
+        display: inline;
+        border-radius: 0.5vw;
+        background-color: var(--grayblue);
+        padding: 0.2vw 0;
+    }
+    .control form.backup .date-input-view .date-input input{
+        background-color: transparent;
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        border: none;
+        width: 20%;
+        text-align: center;
+        direction: ltr;
+    }
+    .control form.upload .check-input {
+        margin-bottom: 0.5vw;
+    }
+    .control form.upload .check-input label{
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        padding-right: 0.5vw;
+    }
 }

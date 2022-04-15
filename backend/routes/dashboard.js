@@ -698,5 +698,4 @@ router.get('/start-trial', ensureAuthenticated, (req, res, next) => {
     });
 });
 
-
 module.exports = router;

@@ -1,25 +1,58 @@
-.privacy-view{
-    margin: 3vw auto;
-    width: 70%;
-    background-color: white;
-    padding: 2vw 3vw;
-    border-radius: 0.5vw;
+@media only screen and (min-width: 800px) {
+    .privacy-view{
+        margin: 3vw auto;
+        width: 70%;
+        background-color: white;
+        padding: 2vw 3vw;
+        border-radius: 0.5vw;
+    }
+    h1.title{
+        columns: var(--darkblue);
+        font-family: 'iransans';
+        font-size: 1.3vw;
+    }
+    ul.privacy{
+        font-family: 'iransans';
+        font-size: 1.1vw;
+    }
+    ul.privacy li{
+        text-align: justify;
+    }
+    .privacy-view .notice{
+        color: var(--red);
+    }
+    .privacy-view .notice i{
+        padding-left: 1vw;
+    }
 }
-h1.title{
-    columns: var(--darkblue);
-    font-family: 'iransans';
-    font-size: 1.3vw;
-}
-ul.privacy{
-    font-family: 'iransans';
-    font-size: 1.1vw;
-}
-ul.privacy li{
-    text-align: justify;
-}
-.privacy-view .notice{
-    color: var(--red);
-}
-.privacy-view .notice i{
-    padding-left: 1vw;
+@media only screen and (max-width: 800px) {
+    .privacy-view{
+        margin: 3vw auto;
+        width: 70%;
+        background-color: white;
+        padding: 4vw 6vw;
+        border-radius: 0.5vw;
+    }
+    h1.title{
+        columns: var(--darkblue);
+        font-family: 'iransans';
+        font-size: 3.3vw;
+    }
+    ul.privacy{
+        font-family: 'iransans';
+        font-size: 3.1vw;
+        padding: 0;
+    }
+    ul.privacy li{
+        text-align: justify;
+    }
+    .privacy-view .notice{
+        color: var(--red);
+    }
+    .privacy-view .notice i{
+        padding-left: 1vw;
+    }
+    .notice{
+
+    }
 }

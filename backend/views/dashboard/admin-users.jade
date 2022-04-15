@@ -11,6 +11,15 @@ block content
         h1 کاربران
         h2 #{users.filter(e => e.role == 'user').length} user, #{users.filter(e => e.role == 'admin').length} admin
     .content-view 
+        .user-control 
+            .control 
+                .search-view
+                    input(type="text" placeholder="جستجو")
+                    button
+                        i.fa.fa-search
+                a.add-user#add-user-btn
+                    i.fa.fa-plus 
+                    | افزودن کاربر
         .users-view 
             table 
                 tr 
@@ -44,15 +53,7 @@ block content
                             a.trash(href="/dashboard/delete-user?userID=#{users[i]._id}") 
                                 i.fa.fa-trash 
                 -}
-        .user-control 
-            .control 
-                .search-view
-                    input(type="text" placeholder="جستجو")
-                    button
-                        i.fa.fa-search
-                a.add-user#add-user-btn
-                    i.fa.fa-plus 
-                    | افزودن کاربر
+        
     include ../components/register-popup
     include ../components/register-popups
     script(src="/js/users-view.js") 

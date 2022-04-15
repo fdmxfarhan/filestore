@@ -10,7 +10,50 @@ block content
     .title-view 
         h1 فایل ها
         h2 
-    .content-view 
+    .content-view        
+        .user-control 
+            .control 
+                form.search-view(action="/dashboard/files") 
+                    input.hidden(type="text" name="page" value="#{page}")
+                    input(type="text" name="search" placeholder="جستجو" id="searchInput" value="#{typeof(search) == 'undefined'? '': search}" onkeyup="searchFile()")
+                    button(type="submit")
+                        i.fa.fa-search
+                -if(user.addFilePermission){
+                    a.add-user#add-user-btn
+                        i.fa.fa-plus 
+                        | افزودن فایل
+                -}
+            .control.hidden-in-mobile
+                h1.title آپلود فایل اکسل
+                p فرمت فایل اکسل باید xlsx باشد
+                form.upload(action="/dashboard/upload-excel" enctype="multipart/form-data" method="POST")
+                    .check-input 
+                        input(type="checkbox" name="removeAll" value="true" id="removeAll")
+                        label(for="removeAll") حذف همه فایل‌های قبلی
+                    input(type="file" name="excelFile")
+                    button(type="submit") ارسال
+            .control.hidden-in-mobile
+                h1.title بک‌آپ
+                p فیلتر تاریخ ثبت شده در فایل 
+                form.backup(action="/dashboard/download-excel" method="POST")
+                    .date-input-view
+                        label(for="date") از تاریخ
+                        .date-input
+                            input(type="number" name="startDay" placeholder="روز" value="1")
+                            | /
+                            input(type="number" name="startMonth" placeholder="ماه" value="1")
+                            | /
+                            input(type="number" name="startYear" placeholder="سال" value="1401")
+                    .date-input-view
+                        label(for="date") تا تاریخ
+                        .date-input
+                            input(type="number" name="endDay" placeholder="روز" value="#{get_year_month_day(now)[2]}")
+                            | /
+                            input(type="number" name="endMonth" placeholder="ماه" value="#{get_year_month_day(now)[1]}")
+                            | /
+                            input(type="number" name="endYear" placeholder="سال" value="#{get_year_month_day(now)[0]}")
+                    
+                    button(type="submit") دانلود
         .users-view 
             table#myTable 
                 tr 
@@ -92,51 +135,7 @@ block content
                     a(href="/dashboard/files?page=#{page+1}")
                         | صفحه بعدی 
                         i.fa.fa-chevron-left
-                
-        .user-control 
-            .control 
-                form.search-view(action="/dashboard/files") 
-                    input.hidden(type="text" name="page" value="#{page}")
-                    input(type="text" name="search" placeholder="جستجو" id="searchInput" value="#{typeof(search) == 'undefined'? '': search}" onkeyup="searchFile()")
-                    button(type="submit")
-                        i.fa.fa-search
-                -if(user.addFilePermission){
-                    a.add-user#add-user-btn
-                        i.fa.fa-plus 
-                        | افزودن فایل
-                -}
-            .control 
-                h1.title آپلود فایل اکسل
-                p فرمت فایل اکسل باید xlsx باشد
-                form.upload(action="/dashboard/upload-excel" enctype="multipart/form-data" method="POST")
-                    .check-input 
-                        input(type="checkbox" name="removeAll" value="true" id="removeAll")
-                        label(for="removeAll") حذف همه فایل‌های قبلی
-                    input(type="file" name="excelFile")
-                    button(type="submit") ارسال
-            .control 
-                h1.title بک‌آپ
-                p فیلتر تاریخ ثبت شده در فایل 
-                form.backup(action="/dashboard/download-excel" method="POST")
-                    .date-input-view
-                        label(for="date") از تاریخ
-                        .date-input
-                            input(type="number" name="startDay" placeholder="روز" value="1")
-                            | /
-                            input(type="number" name="startMonth" placeholder="ماه" value="1")
-                            | /
-                            input(type="number" name="startYear" placeholder="سال" value="1401")
-                    .date-input-view
-                        label(for="date") تا تاریخ
-                        .date-input
-                            input(type="number" name="endDay" placeholder="روز" value="#{get_year_month_day(now)[2]}")
-                            | /
-                            input(type="number" name="endMonth" placeholder="ماه" value="#{get_year_month_day(now)[1]}")
-                            | /
-                            input(type="number" name="endYear" placeholder="سال" value="#{get_year_month_day(now)[0]}")
-                    
-                    button(type="submit") دانلود
-            
+        
     include ../components/file-popup
     include ../components/files-popups
     script(src="/js/files.js") 
