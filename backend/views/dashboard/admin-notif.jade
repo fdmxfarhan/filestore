@@ -5,7 +5,7 @@ block styles
 
 block content
     .notifs 
-        -for(var i=0; i<notifs.length; i++){
+        -for(var i=notifs.length-1; i>=0; i--){
             .notif 
                 .text= notifs[i].text
                 .date= convertDate(notifs[i].date)
