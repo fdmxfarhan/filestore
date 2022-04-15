@@ -108,8 +108,13 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
     if(!page) page = 0;
     page = parseInt(page);
     if(req.user.role == 'admin'){
-        var numberOfFilesInPage = 30;
+        var numberOfFilesInPage = 5;
         File.find({}, (err, files) => {
+            var newFileNumber = 0;
+            for(var i=0; i<files.length; i++){
+                if(parseInt(files[i].fileNumber) > newFileNumber)
+                    newFileNumber = parseInt(files[i].fileNumber);
+            }
             var fileLength = files.length;
             var result = [];
             if(search){
@@ -121,7 +126,7 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
                 }
             }
             if(fileLength > numberOfFilesInPage)
-                files = files.slice(fileLength-1 - ((page+1)*numberOfFilesInPage), fileLength-1 - (page*numberOfFilesInPage))
+                files = files.slice(fileLength - ((page+1)*numberOfFilesInPage), fileLength - (page*numberOfFilesInPage))
             res.render('./dashboard/admin-files', {
                 user: req.user,
                 files,
@@ -131,6 +136,7 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
                 fileLength,
                 result,
                 search,
+                newFileNumber: newFileNumber+1,
                 now: new Date(),
                 get_year_month_day,
             });

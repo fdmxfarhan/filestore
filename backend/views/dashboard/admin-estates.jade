@@ -81,7 +81,7 @@ block content
                             -}
                         td
                             -if(user.removeEstatePermission){
-                                a.trash(href="/dashboard/delete-estate?estateID=#{estates[i]._id}") 
+                                a.trash(href="/dashboard/delete-estate?estateID=#{estates[i]._id}" onclick="makeSure(event)") 
                                     i.fa.fa-trash 
                             -}
                             
@@ -90,3 +90,11 @@ block content
     include ../components/estate-popup
     include ../components/estates-popups
     script(src="/js/estates.js") 
+    script.
+        $('#link3').addClass('active');
+        function makeSure(e)
+        {
+            if(!confirm('آیا مطمئن هستید؟')) {
+                e.preventDefault();
+            }
+        }
