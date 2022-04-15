@@ -109,7 +109,7 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
     if(!page) page = 0;
     page = parseInt(page);
     if(req.user.role == 'admin'){
-        var numberOfFilesInPage = 5;
+        var numberOfFilesInPage = 30;
         File.find({}, (err, files) => {
             var newFileNumber = 0;
             for(var i=0; i<files.length; i++){
