@@ -3,6 +3,7 @@ var router = express.Router();
 var User = require('../models/User');
 var Estate = require('../models/Estate');
 var File = require('../models/File');
+var Notif = require('../models/Notif');
 const ZarinpalCheckout = require('zarinpal-checkout');
 const zarinpal = ZarinpalCheckout.create('18286cd3-6065-4a7a-ad43-05eaf70f01a6', false);
 const { ensureAuthenticated } = require('../config/auth');
@@ -76,10 +77,18 @@ router.get('/payment-call-back', (req, res, next) => {
         Estate.findOne({authority: Authority}, (err, estate) => {
             Estate.updateMany({authority: Authority}, {$set: {payed: true, payDate: new Date(), authority: ''}}, (err, doc) => {
                 sms(estate.phone, `اشتراک ${estate.planType} شما فعال شد\n فایل استور`);
+                var newNotif = new Notif({type: 'payment', text: `خرید اشتراک ${estate.planType} توسط ${estate.name}`, date: new Date()});
+                newNotif.save().then(doc => {}).catch(err => console.log(err));
                 res.render('./api/success-payment', {estate});
             });
         });
     }
 });
-  
+
+router.get('/add-notif', (req, res, next) => {
+    var newNotif = new Notif({type: 'payment', text: `خرید اشتراک test توسط test`, date: new Date()});
+    newNotif.save().then(doc => {}).catch(err => console.log(err));
+    res.send('ok');
+
+});
 module.exports = router;

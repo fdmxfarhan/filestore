@@ -1,0 +1,14 @@
+extends layout
+
+block styles
+    link(rel="stylesheet", href="/css/dashboard/notif.css")
+
+block content
+    .notifs 
+        -for(var i=0; i<notifs.length; i++){
+            .notif 
+                .text= notifs[i].text
+                .date= convertDate(notifs[i].date)
+        -}
+    script.
+        $('#link6').addClass('active');

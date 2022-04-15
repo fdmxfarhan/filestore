@@ -4,6 +4,7 @@ const { ensureAuthenticated } = require('../config/auth');
 var User = require('../models/User');
 var Estate = require('../models/Estate');
 var File = require('../models/File');
+var Notif = require('../models/Notif');
 const mail = require('../config/mail');
 const generateCode = require('../config/generateCode');
 var bodyparser = require('body-parser');
@@ -704,6 +705,15 @@ router.get('/start-trial', ensureAuthenticated, (req, res, next) => {
         req.flash('3 روز اشتراک رایگان فعال شد.');
         res.redirect('/dashboard/estates');
     });
+});
+router.get('/notif', ensureAuthenticated, (req, res, next) => {
+    Notif.find({}, (err, notifs) => {
+        res.render('./dashboard/admin-notif', {
+            user: req.user,
+            notifs,
+            convertDate
+        })
+    })
 });
 
 module.exports = router;

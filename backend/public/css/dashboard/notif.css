@@ -1,0 +1,11 @@
+.notifs{
+    width: 90%;
+    margin: 2vw auto;
+}
+.notifs .notif{
+    background-color: var(--blue);
+    color: white;
+    padding: 0.5vw 1vw;
+    border-radius: 0.5vw;
+    margin-bottom: 0.5vw;
+}
