@@ -50,7 +50,7 @@ block content
                             h2
                                 a(href="tel:#{estates[i].phone}")= estates[i].phone
                         td.role= estates[i].area
-                        td.address= estates[i].address
+                        td.address= getAddress(estates[i].address)
                         td.acounts 
                             h1 کد املاک: #{estates[i].code}
                             h2 کلمه عبور: #{estates[i].password}

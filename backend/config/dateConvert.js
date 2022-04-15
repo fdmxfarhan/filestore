@@ -285,4 +285,31 @@ var showPrice2 = (number) => {
     return(result.split("").reverse().join(""));
 }
 
-module.exports = {JalaliDate,j_days_in_month, day_in_week, div, jalali_to_gregorian, gregorian_to_jalali, get_year_month_day, get_hour_minute_second, convertDate, get_persian_month, showPrice, showPrice2, getNow, compareDates, convertDateObject, objToString, arrayToObj};
+var getAddress = (address) => {
+    var newAddress = '';
+    for(var i=0; i<address.length; i++){
+        if(i > 20) return newAddress + '...';
+        newAddress += address[i];
+    }
+    return newAddress;
+}
+module.exports = {
+    JalaliDate,
+    j_days_in_month,
+    day_in_week, 
+    div, 
+    jalali_to_gregorian, 
+    gregorian_to_jalali, 
+    get_year_month_day, 
+    get_hour_minute_second, 
+    convertDate, 
+    get_persian_month, 
+    showPrice, 
+    showPrice2, 
+    getNow, 
+    compareDates, 
+    convertDateObject, 
+    objToString, 
+    arrayToObj,
+    getAddress
+};

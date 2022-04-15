@@ -50,10 +50,18 @@ block content
                             a.edit(id="edit-user-btn#{i}")
                                 i.fa.fa-edit
                         td
-                            a.trash(href="/dashboard/delete-user?userID=#{users[i]._id}") 
+                            a.trash(href="/dashboard/delete-user?userID=#{users[i]._id}" onclick="makeSure(event)") 
                                 i.fa.fa-trash 
                 -}
         
     include ../components/register-popup
     include ../components/register-popups
     script(src="/js/users-view.js") 
+    script.
+        $('#link3').addClass('active');
+        function makeSure(e)
+        {
+            if(!confirm('آیا مطمئن هستید؟')) {
+                e.preventDefault();
+            }
+        }

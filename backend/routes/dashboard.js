@@ -9,7 +9,7 @@ const generateCode = require('../config/generateCode');
 var bodyparser = require('body-parser');
 const multer = require('multer');
 const mkdirp = require('mkdirp');
-var {convertDate, showPrice, showPrice2, get_year_month_day, jalali_to_gregorian} = require('../config/dateConvert');
+var {convertDate, showPrice, showPrice2, get_year_month_day, jalali_to_gregorian, getAddress} = require('../config/dateConvert');
 var phantomjs = require('phantomjs');
 var pdf = require("pdf-creator-node");
 var fs = require('fs');
@@ -97,6 +97,7 @@ router.get('/estates', ensureAuthenticated, (req, res, next) => {
             res.render('./dashboard/admin-estates', {
                 user: req.user,
                 estates,
+                getAddress,
             });
         })
     }
@@ -138,6 +139,7 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
                 search,
                 newFileNumber: newFileNumber+1,
                 now: new Date(),
+                getAddress,
                 get_year_month_day,
             });
         })

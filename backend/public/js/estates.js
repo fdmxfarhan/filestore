@@ -1,5 +1,6 @@
 $(document).ready(function(){
     $('#link4').addClass('active');
+    $('#link3').removeClass('active');
 
     $('#add-user-btn').click(() => {
         $('.black-modal').fadeIn(500);
