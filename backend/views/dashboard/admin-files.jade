@@ -94,13 +94,13 @@ block content
                 -}else{
                     -for(var i=result.length-1; i>=0; i--){
                         tr 
-                            td.role= typeof(files[i]) == 'undefined' ? '' : files[i].fileNumber
+                            td.role= typeof(result[i].fileNumber) == 'undefined' ? '' : result[i].fileNumber
                             td.user 
                                 h1= result[i].ownerName
                                 h2
                                     a(href="tel:#{result[i].phone}")= result[i].phone
                             td.role= result[i].area
-                            td.hidden= typeof(result[i].fileNumber) == 'undefined' ? '' : files[i].fileNumber
+                            td.hidden= typeof(result[i].fileNumber) == 'undefined' ? '' : result[i].fileNumber
                                 
                             td.acounts 
                                 h1= result[i].meterage
