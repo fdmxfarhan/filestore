@@ -62,5 +62,20 @@
                                 input(type="checkbox" name="editEstatePermission" id="editEstatePermission" value="true" checked)
                             -else
                                 input(type="checkbox" name="editEstatePermission" id="editEstatePermission" value="true")
+                    tr 
+                        td مشاهده اعلان ها
+                        td 
+                            -if(users[i].notifPermission)
+                                input(type="checkbox" name="notifPermission" id="notifPermission" value="true" checked)
+                            -else
+                                input(type="checkbox" name="notifPermission" id="notifPermission" value="true")
+                    tr 
+                        td تغییر تنظیمات
+                        td 
+                            -if(users[i].settingsPermission)
+                                input(type="checkbox" name="settingsPermission" id="settingsPermission" value="true" checked)
+                            -else
+                                input(type="checkbox" name="settingsPermission" id="settingsPermission" value="true")
+                    
                 button.submit(type="submit") ثبت
 -}

@@ -731,10 +731,10 @@ $(document).ready(() => {
         $('#file-popup').fadeOut(500);
     }
     $('#refresh-btn').click(() => {
-        refresh();
+        refresh2();
     });
     $('#refresh-btn2').click(() => {
-        refresh2();
+        refresh();
     });
     $('.close-popup').click(() =>{
         closeAll();

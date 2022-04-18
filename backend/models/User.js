@@ -28,6 +28,8 @@ var UserSchema = new mongoose.Schema({
   addEstatePermission: {type: Boolean, default: true},
   removeEstatePermission: {type: Boolean, default: true},
   editEstatePermission: {type: Boolean, default: true},
+  notifPermission: {type: Boolean, default: true},
+  settingsPermission: {type: Boolean, default: true},
 });
 
 var User = mongoose.model('User', UserSchema);

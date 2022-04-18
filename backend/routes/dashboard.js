@@ -436,7 +436,9 @@ router.get('/pdf-file', ensureAuthenticated, (req, res, next) => {
     });
 });
 router.post('/add-user', ensureAuthenticated, (req, res, next) => {
-    var {fullname, idNumber, password, addFilePermission, removeFilePermission, editFilePermission, addEstatePermission, removeEstatePermission, editEstatePermission} = req.body;
+    var {fullname, idNumber, password, addFilePermission, removeFilePermission, editFilePermission, 
+        addEstatePermission, removeEstatePermission, editEstatePermission,notifPermission,
+        settingsPermission} = req.body;
     if(addFilePermission)      addFilePermission = true;
     else                       addFilePermission = false;
     if(removeFilePermission)   removeFilePermission = true;
@@ -449,6 +451,11 @@ router.post('/add-user', ensureAuthenticated, (req, res, next) => {
     else                       removeEstatePermission = false;
     if(editEstatePermission)   editEstatePermission = true;
     else                       editEstatePermission = false;
+    if(notifPermission)        notifPermission = true;
+    else                       notifPermission = false;
+    if(settingsPermission)     settingsPermission = true;
+    else                       settingsPermission = false;
+    
     User.findOne({idNumber}, (err, user) => {
         if(user){
             req.flash('error_msg', 'شماره تلفن قبلا ثبت شده');
@@ -464,6 +471,8 @@ router.post('/add-user', ensureAuthenticated, (req, res, next) => {
                 addEstatePermission, 
                 removeEstatePermission, 
                 editEstatePermission,
+                notifPermission,
+                settingsPermission,
                 role: 'admin',
             });
             bcrypt.genSalt(10, (err, salt) => bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -478,7 +487,7 @@ router.post('/add-user', ensureAuthenticated, (req, res, next) => {
     
 });
 router.post('/edit-user', ensureAuthenticated, (req, res, next) => {
-    var {fullname, idNumber, password, addFilePermission, removeFilePermission, editFilePermission, addEstatePermission, removeEstatePermission, editEstatePermission} = req.body;
+    var {fullname, idNumber, password, addFilePermission, removeFilePermission, editFilePermission, addEstatePermission, removeEstatePermission, editEstatePermission, notifPermission, settingsPermission} = req.body;
     if(addFilePermission)      addFilePermission = true;
     else                       addFilePermission = false;
     if(removeFilePermission)   removeFilePermission = true;
@@ -491,6 +500,10 @@ router.post('/edit-user', ensureAuthenticated, (req, res, next) => {
     else                       removeEstatePermission = false;
     if(editEstatePermission)   editEstatePermission = true;
     else                       editEstatePermission = false;
+    if(notifPermission)        notifPermission = true;
+    else                       notifPermission = false;
+    if(settingsPermission)     settingsPermission = true;
+    else                       settingsPermission = false;
     bcrypt.genSalt(10, (err, salt) => bcrypt.hash(password, salt, (err, hash) => {
         if(password && password != '') password = hash;
         User.updateMany({idNumber}, {$set: {
@@ -503,7 +516,9 @@ router.post('/edit-user', ensureAuthenticated, (req, res, next) => {
             addEstatePermission, 
             removeEstatePermission, 
             editEstatePermission,
-            role: 'admin'
+            notifPermission,
+            settingsPermission,
+            role: 'admin',
         }},(err) => {
             if(err) console.log(err);
             req.flash('success_msg', 'تغییرات با موفقیت ثبت شد');
