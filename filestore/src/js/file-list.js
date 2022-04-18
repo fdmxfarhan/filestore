@@ -55,6 +55,7 @@ var getAddress = (address) => {
     return newAddress;
 }
 var addFile = (data, index) => {
+    if(typeof(data) == 'undefined') return;
     // console.log(index);
     var item = document.createElement('div');
     item.classList.add('item');
@@ -506,6 +507,118 @@ var refresh = () => {
     document.getElementById('download-bar-handle').style.width = `${0}%`;
     document.getElementById('download-bar-text').textContent = `${0}%`;
 }
+var refresh2 = () => {
+    var downloadPercent = 10;
+    fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+        if(rawdata){
+            var estate = JSON.parse(rawdata);
+            loadingScreen.classList.remove('hidden');
+            downloadBar.classList.remove('hidden');
+            var downloadInterval = setInterval(() => {
+                document.getElementById('download-bar-handle').style.width = `${downloadPercent}%`;
+                document.getElementById('download-bar-text').textContent = `${downloadPercent}%`;
+                if(downloadPercent<99) downloadPercent++;
+                else clearInterval(downloadInterval);
+            }, 170);
+            var availableFileNumers = [];
+            if(estate.files){
+                for (let i = 0; i < estate.files.length; i++) {
+                    if(estate.files[i])
+                        availableFileNumers.push(estate.files[i].fileNumber);
+                }
+            }
+            var res = fetch(api + `get-files2`,{
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    mode: 'cors', // no-cors, *cors, same-origin
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: 'same-origin', // include, *same-origin, omit
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    redirect: 'follow', // manual, *follow, error
+                    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                    body: JSON.stringify({
+                        username: estate.username,
+                        password: estate.password,
+                        availableFileNumers: availableFileNumers
+                    }) // body data type must match "Content-Type" header
+                }).then(res => res.json())
+                .then(data => {
+                    if(data.status == 'ok'){
+                        fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+                            if(rawdata){
+                                var estate = JSON.parse(rawdata);
+                                console.log(data.files);
+                                if(estate.files) data.files = estate.files.concat(data.files);
+                                console.log(data.files);
+                                saveEstate(estate.username, estate.password, estate.estate, data.files);
+                                removeAllChildNodes(filesContainer);
+                                for(var i=0; i<data.files.length; i++){
+                                    addFile(data.files[i], i);
+                                }
+                                updateHandlers(data);
+                                downloadBar.classList.add('hidden');
+                                loadingScreen.classList.add('hidden');
+                                clearInterval(downloadInterval);
+                                document.getElementById('refresh-btn').classList.remove('red');
+                                document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات';
+                                showSuccess('بارگیری با موفقیت انجام شد');
+                            }
+                        });
+                    }
+                    else if(data.status == 'not payed'){
+                        loadingScreen.classList.add('hidden');
+                        $('#plans-popup').fadeIn(500);
+                        $('.black-modal').fadeIn(500);
+                    }
+                }).catch(err => {
+                    showError('خطای اتصال به اینترنت');
+                    loadingScreen.classList.add('hidden');
+                    console.log(err);
+                });
+            // var refreshInterval = setInterval(() => {
+            //     fetch(api + `login?username=${estate.username}&password=${estate.password}`)
+            //         .then(res => res.json())
+            //         .then(data => {
+            //             if(data.correct == true){
+            //                 if(data.estate.planType != 'free' && data.estate.payed){
+            //                     var payDate = (new Date(data.estate.payDate)).getTime();
+            //                     var now = (new Date()).getTime();
+            //                     var endDate = 0;
+            //                     if(data.estate.planType == 'trial')  endDate = payDate + 3 * 24 * 60 * 60 * 1000;
+            //                     if(data.estate.planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
+            //                     if(data.estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
+            //                     if(data.estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
+            //                     if(data.estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
+            //                     if(endDate - now < 0) {
+            //                         document.getElementById('plan-info').classList.add('hidden');
+            //                         document.getElementById('no-plan-info').classList.remove('hidden');
+            //                         document.getElementById('refresh-btn').classList.add('red');
+            //                         document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
+            //                     }
+            //                     else {
+            //                         document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
+            //                         document.getElementById('refresh-btn').classList.remove('red');
+            //                         document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات';
+            //                         clearInterval(refreshInterval);
+            //                     }
+            //                 }
+            //                 else{
+            //                     document.getElementById('plan-info').classList.add('hidden');
+            //                     document.getElementById('no-plan-info').classList.remove('hidden');
+            //                     document.getElementById('refresh-btn').classList.add('red');
+            //                     document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
+            //                 }
+            //             }
+            //         }).catch(err => console.log(err));
+            // }, 5000);
+        }
+        else console.log('file not found');
+    });
+    document.getElementById('download-bar-handle').style.width = `${0}%`;
+    document.getElementById('download-bar-text').textContent = `${0}%`;
+}
 fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
     document.getElementById('loading-screen').classList.remove('hidden');
     removeAllChildNodes(filesContainer);
@@ -601,7 +714,7 @@ $(document).ready(() => {
         $('#file-popup').fadeOut(500);
     }
     $('#refresh-btn').click(() => {
-        refresh();
+        refresh2();
     });
     $('.close-popup').click(() =>{
         closeAll();
@@ -632,4 +745,16 @@ $(document).ready(() => {
         $('.info-1').removeClass('hidden');
         $('.info-2').removeClass('hidden');
     });
+    $('#delete-files').click(() => {
+        removeAllChildNodes(filesContainer);
+        fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+            if(rawdata){
+                var estate = JSON.parse(rawdata);
+                estate.files = [];
+                saveEstate(estate.username, estate.password, estate.estate, estate.files);
+
+            }
+        });
+    });
 });
+

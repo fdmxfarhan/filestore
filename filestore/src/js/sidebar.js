@@ -34,62 +34,69 @@ var search = () => {
     }
 }
 var filter = () => {
-    maxMetrage = parseInt(document.getElementById('metrage-max-input').value);
-    minMetrage = parseInt(document.getElementById('metrage-min-input').value);
-    minPrice1 = parseInt(document.getElementById('price1-min-input').value);
-    maxPrice1 = parseInt(document.getElementById('price1-max-input').value);
-    minPrice2 = parseInt(document.getElementById('price2-min-input').value);
-    maxPrice2 = parseInt(document.getElementById('price2-max-input').value);
-    
-    var filesContainer = document.getElementById('file-list-container');
-    items = filesContainer.childNodes;
-    for (let i = 0; i < items.length; i++) {
-        const item = items[i];
-        var metrage = parseInt(item.childNodes[1].childNodes[1].childNodes[0].textContent);
-        // if((maxMetrage != 500 && metrage > maxMetrage) || metrage < minMetrage)
-        if(!((metrage > minMetrage || isNaN(minMetrage)) && (metrage < maxMetrage || isNaN(maxMetrage))))
-            item.style.display = 'none';
-        else {
-            item.style.display = 'block';
-            var price1 = parseInt(item.childNodes[2].childNodes[1].childNodes[1].textContent)/1000000;
-            // if((maxPrice1 != 2000 && price1 > maxPrice1) || price1 < minPrice1)
-            if(!((price1 > minPrice1 || isNaN(minPrice1)) && (price1 < maxPrice1 || isNaN(maxPrice1))))
+    var loadingScreen = document.getElementById('loading-screen');
+    loadingScreen.classList.remove('hidden');
+    setTimeout(() => {
+        maxMetrage = parseInt(document.getElementById('metrage-max-input').value);
+        minMetrage = parseInt(document.getElementById('metrage-min-input').value);
+        minPrice1 = parseInt(document.getElementById('price1-min-input').value);
+        maxPrice1 = parseInt(document.getElementById('price1-max-input').value);
+        minPrice2 = parseInt(document.getElementById('price2-min-input').value);
+        maxPrice2 = parseInt(document.getElementById('price2-max-input').value);
+        var filesContainer = document.getElementById('file-list-container');
+        items = filesContainer.childNodes;
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            var metrage = parseInt(item.childNodes[1].childNodes[1].childNodes[0].textContent);
+            // if((maxMetrage != 500 && metrage > maxMetrage) || metrage < minMetrage)
+            if(!((metrage > minMetrage || isNaN(minMetrage)) && (metrage < maxMetrage || isNaN(maxMetrage))))
                 item.style.display = 'none';
             else {
                 item.style.display = 'block';
-                var price2 = parseInt(item.childNodes[2].childNodes[0].childNodes[1].textContent)/1000000;
-                // if((maxPrice2 != 100 && price2 > maxPrice2) || price2 < minPrice2)
-                if(!((price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2))))
+                var price1 = parseInt(item.childNodes[2].childNodes[1].childNodes[1].textContent)/1000000;
+                // if((maxPrice1 != 2000 && price1 > maxPrice1) || price1 < minPrice1)
+                if(!((price1 > minPrice1 || isNaN(minPrice1)) && (price1 < maxPrice1 || isNaN(maxPrice1))))
                     item.style.display = 'none';
                 else {
                     item.style.display = 'block';
-                    var age = parseInt(item.childNodes[1].childNodes[1].childNodes[5].textContent);
-                    if((maxAge != 100 && age > maxAge) || age < minAge)
+                    var price2 = parseInt(item.childNodes[2].childNodes[0].childNodes[1].textContent)/1000000;
+                    // if((maxPrice2 != 100 && price2 > maxPrice2) || price2 < minPrice2)
+                    if(!((price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2))))
                         item.style.display = 'none';
                     else {
                         item.style.display = 'block';
-                        var type = item.childNodes[0].childNodes[0].childNodes[1].textContent;
-                        var state = item.childNodes[0].childNodes[0].childNodes[0].textContent;
-                        if(!apartment         && type == 'آپارتمان ')      item.style.display = 'none';
-                        else if(!vilage       && type == 'ویلایی ')         item.style.display = 'none';
-                        else if(!old          && type == 'کلنگی ')         item.style.display = 'none';
-                        else if(!business     && type == 'تجاری ')         item.style.display = 'none';
-                        else if(!office       && type == 'اداری ')         item.style.display = 'none';
-                        else if(!officeEstate && type == 'موقعیت اداری ') item.style.display = 'none';
-                        else if(!land         && type == 'زمین ')          item.style.display = 'none';
-                        else if(!mostaghelat  && type == 'مستغلات ')        item.style.display = 'none';
-                        else if(!sell         && state == 'فروش ') item.style.display = 'none';
-                        else if(!presell      && state == 'پیش‌فروش ') item.style.display = 'none';
-                        else if(!exchange     && state == 'معاوضه ') item.style.display = 'none';
-                        else if(!cooperate    && state == 'مشارکت ') item.style.display = 'none';
-                        else if(!rent         && state == 'رهن و اجاره ') item.style.display = 'none';
-                        else if(!rent2        && state == 'رهن کامل ') item.style.display = 'none';
-                        else item.style.display = 'block';
+                        var age = parseInt(item.childNodes[1].childNodes[1].childNodes[5].textContent);
+                        if((maxAge != 100 && age > maxAge) || age < minAge)
+                            item.style.display = 'none';
+                        else {
+                            item.style.display = 'block';
+                            var type = item.childNodes[0].childNodes[0].childNodes[1].textContent;
+                            var state = item.childNodes[0].childNodes[0].childNodes[0].textContent;
+                            if(!apartment         && type == 'آپارتمان ')      item.style.display = 'none';
+                            else if(!vilage       && type == 'ویلایی ')         item.style.display = 'none';
+                            else if(!old          && type == 'کلنگی ')         item.style.display = 'none';
+                            else if(!business     && type == 'تجاری ')         item.style.display = 'none';
+                            else if(!office       && type == 'اداری ')         item.style.display = 'none';
+                            else if(!officeEstate && type == 'موقعیت اداری ') item.style.display = 'none';
+                            else if(!land         && type == 'زمین ')          item.style.display = 'none';
+                            else if(!mostaghelat  && type == 'مستغلات ')        item.style.display = 'none';
+                            else if(!sell         && state == 'فروش ') item.style.display = 'none';
+                            else if(!presell      && state == 'پیش‌فروش ') item.style.display = 'none';
+                            else if(!exchange     && state == 'معاوضه ') item.style.display = 'none';
+                            else if(!cooperate    && state == 'مشارکت ') item.style.display = 'none';
+                            else if(!rent         && state == 'رهن و اجاره ') item.style.display = 'none';
+                            else if(!rent2        && state == 'رهن کامل ') item.style.display = 'none';
+                            else item.style.display = 'block';
+                        }
                     }
                 }
             }
         }
-    }
+    }, 100);
+    setTimeout(() => {
+        var loadingScreen = document.getElementById('loading-screen');
+        loadingScreen.classList.add('hidden');
+    }, 100);
 }
 $(document).ready(() => {
     $("#metrage-slider").slider({
@@ -186,9 +193,6 @@ $(document).ready(() => {
             // filter();    
         }
     });
-
-
-
     $('#apartment-btn').click(() => {
         if(document.getElementById('apartment-btn').className.split(/\s+/)[1] == 'active'){
             $('#apartment-btn').removeClass('active');
@@ -199,7 +203,6 @@ $(document).ready(() => {
         }
         // filter();
     })
-
     $('#vilage-btn').click(() => {
         if(document.getElementById('vilage-btn').className.split(/\s+/)[1] == 'active'){
             $('#vilage-btn').removeClass('active');
@@ -210,7 +213,6 @@ $(document).ready(() => {
         }
         // filter();
     })
-
     $('#old-btn').click(() => {
         if(document.getElementById('old-btn').className.split(/\s+/)[1] == 'active'){
             $('#old-btn').removeClass('active');
@@ -221,7 +223,6 @@ $(document).ready(() => {
         }
         // filter();
     })
-
     $('#business-btn').click(() => {
         if(document.getElementById('business-btn').className.split(/\s+/)[1] == 'active'){
             $('#business-btn').removeClass('active');
@@ -232,7 +233,6 @@ $(document).ready(() => {
         }
         // filter();
     })
-
     $('#office-btn').click(() => {
         if(document.getElementById('office-btn').className.split(/\s+/)[1] == 'active'){
             $('#office-btn').removeClass('active');
@@ -243,7 +243,6 @@ $(document).ready(() => {
         }
         // filter();
     })
-
     $('#office-estate-btn').click(() => {
         if(document.getElementById('office-estate-btn').className.split(/\s+/)[1] == 'active'){
             $('#office-estate-btn').removeClass('active');
@@ -254,7 +253,6 @@ $(document).ready(() => {
         }
         // filter();
     })
-
     $('#land-btn').click(() => {
         if(document.getElementById('land-btn').className.split(/\s+/)[1] == 'active'){
             $('#land-btn').removeClass('active');
@@ -265,7 +263,6 @@ $(document).ready(() => {
         }
         // filter();
     })
-
     $('#mostaghelat-btn').click(() => {
         if(document.getElementById('mostaghelat-btn').className.split(/\s+/)[1] == 'active'){
             $('#mostaghelat-btn').removeClass('active');
@@ -339,5 +336,11 @@ $(document).ready(() => {
     $('#refresh-btn').click(() => {
         // setTimeout(filter, 1000);
     });
-    $('#filter-btn').click(filter);
+    $('#filter-btn').click(() => {
+        var loadingScreen = document.getElementById('loading-screen');
+        loadingScreen.classList.remove('hidden');
+    });
+    $('#filter-btn').click(() => {
+        filter();
+    });
 })

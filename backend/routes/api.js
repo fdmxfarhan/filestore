@@ -12,7 +12,6 @@ const sms = require('../config/sms');
 router.get('/', (req, res, next) => {
     res.send('API called successfully');
 });
-
 router.get('/login', (req, res, next) => {
     var {username, password} = req.query;
     Estate.findOne({code: username, password: password}, (err, estate) => {
@@ -22,7 +21,6 @@ router.get('/login', (req, res, next) => {
             res.send({correct: false});
     })
 });
-
 router.get('/get-files', (req, res, next) => {
     var {username, password} = req.query;
     Estate.findOne({code: username, password: password}, (err, estate) => {
@@ -40,7 +38,30 @@ router.get('/get-files', (req, res, next) => {
         else res.send({status: 'error'})
     })
 });
-
+router.post('/get-files2', (req, res, next) => {
+    var {username, password, availableFileNumers} = req.body;
+    Estate.findOne({code: username, password: password}, (err, estate) => {
+        if(estate){
+            if(estate.payed && estate.planType != 'free'){
+                File.find({area: estate.area}, (err, files) => {
+                    var now = new Date();
+                    files.reverse();
+                    files.filter(e => now - e.creationDate.getTime() < 15 * 24 * 60 * 60 * 1000);
+                    var newFiles = [];
+                    for (let i = 0; i < files.length; i++) {
+                        if(availableFileNumers.indexOf(files[i].fileNumber) == -1){
+                            newFiles.push(files[i]);
+                        }
+                    }
+                    // files.filter(e => availableFileNumers.indexOf(e.fileNumber) == -1);
+                    res.send({status: 'ok', files: newFiles});
+                });
+            }
+            else res.send({status: 'not payed'})
+        }
+        else res.send({status: 'error'})
+    })
+});
 router.get('/pay-estate', (req, res, next) => {
     var {username, password, plan} = req.query;
     amounts = [170000, 470000, 680000, 1469000];
@@ -70,7 +91,6 @@ router.get('/pay-estate', (req, res, next) => {
         else res.send({status: 'error'});
     });
 });
-
 router.get('/payment-call-back', (req, res, next) => {
     var {Authority, Status} = req.query;
     if(Status == 'OK'){
@@ -84,11 +104,11 @@ router.get('/payment-call-back', (req, res, next) => {
         });
     }
 });
-
 router.get('/add-notif', (req, res, next) => {
     var newNotif = new Notif({type: 'payment', text: `خرید اشتراک test توسط test`, date: new Date()});
     newNotif.save().then(doc => {}).catch(err => console.log(err));
     res.send('ok');
 
 });
+
 module.exports = router;
