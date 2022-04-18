@@ -65,13 +65,13 @@ block content
                 -if(!search || search == ''){
                     -for(var i=files.length-1; i>=0; i--){
                         tr 
-                            td.role= typeof(files[i].fileNumber) == 'undefined' ? '' : files[i].fileNumber
+                            td.role= typeof(files[i]) == 'undefined' ? '' : files[i].fileNumber
                             td.user 
                                 h1= files[i].ownerName
                                 h2
                                     a(href="tel:#{files[i].phone}")= files[i].phone
                             td.role= files[i].area
-                            td.hidden= typeof(files[i].fileNumber) == 'undefined' ? '' : files[i].fileNumber
+                            td.hidden= typeof(files[i]) == 'undefined' ? '' : files[i].fileNumber
                                 
                             td.acounts 
                                 h1= files[i].meterage
@@ -94,7 +94,7 @@ block content
                 -}else{
                     -for(var i=result.length-1; i>=0; i--){
                         tr 
-                            td.role= typeof(files[i].fileNumber) == 'undefined' ? '' : files[i].fileNumber
+                            td.role= typeof(files[i]) == 'undefined' ? '' : files[i].fileNumber
                             td.user 
                                 h1= result[i].ownerName
                                 h2
