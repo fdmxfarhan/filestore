@@ -12,9 +12,50 @@ block content
             .control 
         .users-view 
             .settings-view
-                
-                
-    
-
+                form(action="/dashboard/save-settings" method="POST") 
+                    table 
+                        tr
+                            th نوع اشتراک
+                            th مبلغ به عدد (تومان)
+                            th مبلغ به حروف
+                            th مبلغ بدون تخفیف به حروف
+                        tr 
+                            td
+                                label(for="oneMonth") اشتراک یک ماهه (تومان): 
+                            td 
+                                input(type="number" name="oneMonth" value="#{settings.oneMonth}")
+                            td 
+                                input(type="text" name="oneMonthText" value="#{settings.oneMonthText}")
+                            td 
+                                input(type="text" name="oneMonthFullText" value="#{settings.oneMonthFullText}")
+                        tr 
+                            td 
+                                label(for="threeMonth") اشتراک سه ماهه (تومان): 
+                            td
+                                input(type="number" name="threeMonth" value="#{settings.threeMonth}")
+                            td
+                                input(type="text" name="threeMonthText" value="#{settings.threeMonthText}")
+                            td
+                                input(type="text" name="threeMonthFullText" value="#{settings.threeMonthFullText}")
+                        tr 
+                            td
+                                label(for="sixMonth") اشتراک شش ماهه (تومان): 
+                            td
+                                input(type="number" name="sixMonth" value="#{settings.sixMonth}")
+                            td
+                                input(type="text" name="sixMonthText" value="#{settings.sixMonthText}")
+                            td
+                                input(type="text" name="sixMonthFullText" value="#{settings.sixMonthFullText}")
+                        tr 
+                            td
+                                label(for="oneYear") اشتراک یک ساله (تومان): 
+                            td
+                                input(type="number" name="oneYear" value="#{settings.oneYear}")
+                            td
+                                input(type="text" name="oneYearText" value="#{settings.oneYearText}")
+                            td
+                                input(type="text" name="oneYearFullText" value="#{settings.oneYearFullText}")
+                    input.submit(type="submit" value="ثبت")
+                    
     script.
         $('#link5').addClass('active');

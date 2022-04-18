@@ -425,6 +425,23 @@ var updateHandlers = (data) => {
         }
     });
 }
+var updatePlanPrices = () => {
+    fetch(api + `get-settings`)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('onemonthfulltext').textContent = data.settings.oneMonthFullText;
+            document.getElementById('threemonthfulltext').textContent = data.settings.threeMonthFullText;
+            document.getElementById('sixmonthfulltext').textContent = data.settings.sixMonthFullText;
+            document.getElementById('oneyearfulltext').textContent = data.settings.oneYearFullText;
+            document.getElementById('onemonthtext').textContent = data.settings.oneMonthText;
+            document.getElementById('threemonthtext').textContent = data.settings.threeMonthText;
+            document.getElementById('sixmonthtext').textContent = data.settings.sixMonthText;
+            document.getElementById('oneyeartext').textContent = data.settings.oneYearText;
+        }).catch(err => {
+            showError('خطای اتصال به اینترنت');
+            console.log(err);
+        });
+}
 var refresh = () => {
     var downloadPercent = 10;
     fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
@@ -452,10 +469,11 @@ var refresh = () => {
                         loadingScreen.classList.add('hidden');
                         clearInterval(downloadInterval);
                         document.getElementById('refresh-btn').classList.remove('red');
-                        document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات';
+                        document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات جدید';
                         showSuccess('بارگیری با موفقیت انجام شد');
                     }
                     else if(data.status == 'not payed'){
+                        updatePlanPrices();
                         loadingScreen.classList.add('hidden');
                         $('#plans-popup').fadeIn(500);
                         $('.black-modal').fadeIn(500);
@@ -488,7 +506,7 @@ var refresh = () => {
                                 else {
                                     document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
                                     document.getElementById('refresh-btn').classList.remove('red');
-                                    document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات';
+                                    document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات جدید';
                                     clearInterval(refreshInterval);
                                 }
                             }
@@ -549,25 +567,24 @@ var refresh2 = () => {
                         fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
                             if(rawdata){
                                 var estate = JSON.parse(rawdata);
-                                console.log(data.files);
-                                if(estate.files) data.files = estate.files.concat(data.files);
-                                console.log(data.files);
-                                saveEstate(estate.username, estate.password, estate.estate, data.files);
-                                removeAllChildNodes(filesContainer);
+                                // removeAllChildNodes(filesContainer);
                                 for(var i=0; i<data.files.length; i++){
                                     addFile(data.files[i], i);
                                 }
                                 updateHandlers(data);
+                                if(estate.files) data.files = estate.files.concat(data.files);
+                                saveEstate(estate.username, estate.password, estate.estate, data.files);
                                 downloadBar.classList.add('hidden');
                                 loadingScreen.classList.add('hidden');
                                 clearInterval(downloadInterval);
                                 document.getElementById('refresh-btn').classList.remove('red');
-                                document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات';
+                                document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات جدید';
                                 showSuccess('بارگیری با موفقیت انجام شد');
                             }
                         });
                     }
                     else if(data.status == 'not payed'){
+                        updatePlanPrices();
                         loadingScreen.classList.add('hidden');
                         $('#plans-popup').fadeIn(500);
                         $('.black-modal').fadeIn(500);
@@ -600,7 +617,7 @@ var refresh2 = () => {
             //                     else {
             //                         document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
             //                         document.getElementById('refresh-btn').classList.remove('red');
-            //                         document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات';
+            //                         document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات جدید';
             //                         clearInterval(refreshInterval);
             //                     }
             //                 }
@@ -650,7 +667,7 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
             else {
                 document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
                 document.getElementById('refresh-btn').classList.remove('red');
-                document.getElementById('refresh-btn').textContent = 'بارگیری اطلاعات';
+                document.getElementById('refresh-btn').textContent = 'بارگیری اطلاعات جدید';
             }
         }
         else{
@@ -684,7 +701,7 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
             else {
                 document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
                 document.getElementById('refresh-btn').classList.remove('red');
-                document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات';
+                document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات جدید';
             }
         }
         else{
@@ -714,6 +731,9 @@ $(document).ready(() => {
         $('#file-popup').fadeOut(500);
     }
     $('#refresh-btn').click(() => {
+        refresh();
+    });
+    $('#refresh-btn2').click(() => {
         refresh2();
     });
     $('.close-popup').click(() =>{
@@ -730,20 +750,28 @@ $(document).ready(() => {
         $('#pro-search-view').slideToggle(500);
     })
     $('#view-table-btn').click(() => {
-        $('#view-table-btn').addClass('active');
-        $('#view-column-btn').removeClass('active');
-        $('.info4-header').show();
-        $('.info-4').removeClass('hidden');
-        $('.info-1').addClass('hidden');
-        $('.info-2').addClass('hidden');
+        document.getElementById('loading-screen').classList.remove('hidden');
+        setTimeout(() => {
+            $('#view-table-btn').addClass('active');
+            $('#view-column-btn').removeClass('active');
+            $('.info4-header').show();
+            $('.info-4').removeClass('hidden');
+            $('.info-1').addClass('hidden');
+            $('.info-2').addClass('hidden');
+            document.getElementById('loading-screen').classList.add('hidden');
+        }, 10);
     });
     $('#view-column-btn').click(() => {
-        $('#view-table-btn').removeClass('active');
-        $('#view-column-btn').addClass('active');
-        $('.info4-header').hide();
-        $('.info-4').addClass('hidden');
-        $('.info-1').removeClass('hidden');
-        $('.info-2').removeClass('hidden');
+        document.getElementById('loading-screen').classList.remove('hidden');
+        setTimeout(() => {
+            $('#view-table-btn').removeClass('active');
+            $('#view-column-btn').addClass('active');
+            $('.info4-header').hide();
+            $('.info-4').addClass('hidden');
+            $('.info-1').removeClass('hidden');
+            $('.info-2').removeClass('hidden');
+            document.getElementById('loading-screen').classList.add('hidden');
+        }, 10);
     });
     $('#delete-files').click(() => {
         removeAllChildNodes(filesContainer);

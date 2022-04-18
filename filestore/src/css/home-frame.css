@@ -267,6 +267,7 @@
     border-radius: 0.3vw;
     padding: 0.5vw 0;
     cursor: pointer;
+    margin-top: 1vw;
 }
 .refresh-link:hover{
     background-color: var(--green);

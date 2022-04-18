@@ -4,6 +4,7 @@ var User = require('../models/User');
 var Estate = require('../models/Estate');
 var File = require('../models/File');
 var Notif = require('../models/Notif');
+var Settings = require('../models/Settings');
 const ZarinpalCheckout = require('zarinpal-checkout');
 const zarinpal = ZarinpalCheckout.create('18286cd3-6065-4a7a-ad43-05eaf70f01a6', false);
 const { ensureAuthenticated } = require('../config/auth');
@@ -66,29 +67,32 @@ router.get('/pay-estate', (req, res, next) => {
     var {username, password, plan} = req.query;
     amounts = [170000, 470000, 680000, 1469000];
     names = ['1 ماهه', '3 ماهه', '6 ماهه', '1 ساله'];
-    Estate.findOne({code: username, password: password}, (err, estate) => {
-        if(estate){
-            zarinpal.PaymentRequest({
-                Amount: amounts[parseInt(plan)].toString(), // In Tomans
-                CallbackURL: 'http://185.81.99.34:3000/api/payment-call-back',
-                Description: `خرید اشتراک ${names[parseInt(plan)]} توسط ${estate.name}`,
-                Email: '',
-                Mobile: estate.phone
-              }).then(response => {
-                if (response.status === 100) {
-                    Estate.updateMany({code: username, password: password}, {$set: {
-                        authority: response.authority, 
-                        planType: names[parseInt(plan)]
-                    }}, (err, doc) => {
-                        console.log(response);
-                        res.redirect(response.url);
-                    });
-                }
-              }).catch(err => {
-                console.error(err);
-              });
-        }
-        else res.send({status: 'error'});
+    Settings.findOne({}, (err, settings) => {
+        amounts = [settings.oneMonth, settings.threeMonth, settings.sixMonth, settings.oneYear];
+        Estate.findOne({code: username, password: password}, (err, estate) => {
+            if(estate){
+                zarinpal.PaymentRequest({
+                    Amount: amounts[parseInt(plan)].toString(), // In Tomans
+                    CallbackURL: 'http://185.81.99.34:3000/api/payment-call-back',
+                    Description: `خرید اشتراک ${names[parseInt(plan)]} توسط ${estate.name}`,
+                    Email: '',
+                    Mobile: estate.phone
+                }).then(response => {
+                    if (response.status === 100) {
+                        Estate.updateMany({code: username, password: password}, {$set: {
+                            authority: response.authority, 
+                            planType: names[parseInt(plan)]
+                        }}, (err, doc) => {
+                            console.log(response);
+                            res.redirect(response.url);
+                        });
+                    }
+                }).catch(err => {
+                    console.error(err);
+                });
+            }
+            else res.send({status: 'error'});
+        });
     });
 });
 router.get('/payment-call-back', (req, res, next) => {
@@ -109,6 +113,11 @@ router.get('/add-notif', (req, res, next) => {
     newNotif.save().then(doc => {}).catch(err => console.log(err));
     res.send('ok');
 
+});
+router.get('/get-settings', (req, res, next) => {
+    Settings.findOne({}, (err, settings) => {
+        res.send({settings});
+    })
 });
 
 module.exports = router;

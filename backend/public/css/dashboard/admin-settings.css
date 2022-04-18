@@ -1,0 +1,20 @@
+.settings-view form th{text-align: center;}
+.settings-view form input{
+    font-family: 'iransans';
+    font-size: 1vw;
+    background-color: var(--grayblue);
+    border: none;
+    border-radius: 0.5vw;
+    margin: 0.5vw 1vw;
+    padding: 0.2vw 1vw;
+    width: 10vw;
+}
+.settings-view form input.submit{
+    background-color: var(--blue);
+    color: white;
+    padding: 0.3vw 2vw;
+    cursor: pointer;
+}
+.settings-view form input.submit:hover{
+    background-color: var(--hover);
+}

@@ -5,6 +5,7 @@ var User = require('../models/User');
 var Estate = require('../models/Estate');
 var File = require('../models/File');
 var Notif = require('../models/Notif');
+var Settings = require('../models/Settings');
 const mail = require('../config/mail');
 const generateCode = require('../config/generateCode');
 var bodyparser = require('body-parser');
@@ -56,6 +57,12 @@ setInterval(() => {
     })
 }, 1000 * 60);
 
+Settings.findOne({}, (err, settings) => {
+    if(!settings){
+        var newSettings = new Settings();
+        newSettings.save().then(() => console.log('new settings saved :)')).catch(err => console.log(err));
+    }
+})
 router.get('/', ensureAuthenticated, (req, res, next) => {
     if(req.user.role == 'user')
     {
@@ -149,10 +156,19 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
 });
 router.get('/settings', ensureAuthenticated, (req, res, next) => {
     if(req.user.role == 'admin'){
-        res.render('./dashboard/admin-settings', {
-            user: req.user,
-        });
+        Settings.findOne({}, (err, settings) => {
+            res.render('./dashboard/admin-settings', {
+                user: req.user,
+                settings,
+            });
+        })
     }
+});
+router.post('/save-settings', ensureAuthenticated, (req, res, next) => {
+    Settings.updateMany({}, {$set: req.body}, (err) => {
+        req.flash('success_msg', 'تغییرات با موفقیت ثبت شد.');
+        res.redirect('/dashboard/settings');
+    })
 });
 router.post('/add-estate', ensureAuthenticated, (req, res, next) => {
     var {name, address, phone, area, trial} = req.body;
