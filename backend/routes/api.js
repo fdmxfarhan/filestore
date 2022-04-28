@@ -69,6 +69,7 @@ router.get('/pay-estate', (req, res, next) => {
     names = ['1 ماهه', '3 ماهه', '6 ماهه', '1 ساله'];
     Settings.findOne({}, (err, settings) => {
         amounts = [settings.oneMonth, settings.threeMonth, settings.sixMonth, settings.oneYear];
+        console.log(amounts);
         Estate.findOne({code: username, password: password}, (err, estate) => {
             if(estate){
                 zarinpal.PaymentRequest({

@@ -55,7 +55,7 @@ setInterval(() => {
             }
         }
     })
-}, 1000 * 60);
+}, 1000 * 60 * 60 * 12);
 
 Settings.findOne({}, (err, settings) => {
     if(!settings){
@@ -102,9 +102,14 @@ router.get('/delete-user', ensureAuthenticated, (req, res, next) => {
 router.get('/estates', ensureAuthenticated, (req, res, next) => {
     if(req.user.role == 'admin'){
         Estate.find({}, (err, estates) => {
+            var districts = [];
+            for(var i=0; i<estates.length; i++){
+                if(districts.indexOf(estates[i].area) == -1) districts.push(estates[i].area)
+            }
             res.render('./dashboard/admin-estates', {
                 user: req.user,
                 estates,
+                districts,
                 getAddress,
             });
         })

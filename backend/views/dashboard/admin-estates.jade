@@ -14,7 +14,7 @@ block content
         .user-control 
             .control 
                 .search-view
-                    input(type="text" placeholder="جستجو")
+                    input(type="text" placeholder="جستجو" onkeyup="searchEstate()" id="searchInput" )
                     button
                         i.fa.fa-search
                 -if(user.addEstatePermission){
@@ -34,7 +34,14 @@ block content
                             | دانلود لیست کاربران ساخته شده
                     -}
         .users-view 
-            table 
+            #districts-length.hidden= districts.length
+            .district-filter-view
+                -for(var i=0; i<districts.length; i++){
+                    .district-filter.active(id="district-filter-#{i}") 
+                        .text منطقه #{districts[i]}
+                        .district.hidden= districts[i]
+                -}
+            table#myTable
                 tr 
                     th مالک
                     th منطقه

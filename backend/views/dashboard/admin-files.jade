@@ -27,7 +27,7 @@ block content
                 h1.title آپلود فایل اکسل
                 p فرمت فایل اکسل باید xlsx باشد
                 form.upload(action="/dashboard/upload-excel" enctype="multipart/form-data" method="POST")
-                    .check-input 
+                    .check-input.hidden 
                         input(type="checkbox" name="removeAll" value="true" id="removeAll")
                         label(for="removeAll") حذف همه فایل‌های قبلی
                     input(type="file" name="excelFile")

@@ -852,6 +852,29 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         padding-left: 0.5vw;
     }
     .menu-collapse-btn {display: none;}
+    /* ----------------------------- responsive flag ------------------------------ */
+    .district-filter-view{
+        overflow: hidden;
+        width: 90%;
+        margin: auto;
+        margin-top: 1vw;
+    }
+    .district-filter-view .district-filter{
+        float: right;
+        padding: 0.1vw 1vw;
+        cursor: pointer;
+        color: var(--blue);
+        border: var(--blue) 0.1vw solid;
+        border-radius: 0.5vw;
+        margin-left: 1vw;
+    }
+    .district-filter-view .district-filter .text{
+        font-size: 0.9vw;
+    }
+    .district-filter-view .district-filter.active{
+        background-color: var(--blue);
+        color: white;
+    }
 }
 @media only screen and (max-width: 800px) {
     .dashboard .side-bar{
