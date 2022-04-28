@@ -852,7 +852,6 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         padding-left: 0.5vw;
     }
     .menu-collapse-btn {display: none;}
-    /* ----------------------------- responsive flag ------------------------------ */
     .district-filter-view{
         overflow: hidden;
         width: 90%;
@@ -875,6 +874,8 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         background-color: var(--blue);
         color: white;
     }
+    /* ----------------------------- responsive flag ------------------------------ */
+    
 }
 @media only screen and (max-width: 800px) {
     .dashboard .side-bar{
@@ -1690,6 +1691,28 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         top: 0;
         right: 0;
         z-index: 1;
+    }
+    .district-filter-view{
+        overflow: hidden;
+        width: 90%;
+        margin: auto;
+        margin-top: 1vw;
+    }
+    .district-filter-view .district-filter{
+        float: right;
+        padding: 0.1vw 1vw;
+        cursor: pointer;
+        color: var(--blue);
+        border: var(--blue) 0.1vw solid;
+        border-radius: 1.5vw;
+        margin-left: 3vw;
+    }
+    .district-filter-view .district-filter .text{
+        font-size: 2.9vw;
+    }
+    .district-filter-view .district-filter.active{
+        background-color: var(--blue);
+        color: white;
     }
 }
 .invisible{display: none;}
