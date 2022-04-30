@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/plans.css">
     <link rel="stylesheet" href="css/login-frame.css">
     <link rel="stylesheet" href="css/home-frame.css">
+    <link rel="stylesheet" href="css/intro.css">
     <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- <link rel="stylesheet" href="css/photon.min.css"> -->
@@ -23,6 +24,7 @@
     <div class="black-modal"></div>
 
     <%- include('./components/login.ejs') %>
+    <%- include('./components/intro.ejs') %>
 
     <div class="home-frame hidden" id="home-frame">
       <div class="title-view">
@@ -31,7 +33,11 @@
             <i class="fa fa-file"></i>
             فایل استور
           </h1>
-          <h2>منطقه <div class="inline" id="estate-number"></div></h2>
+          <h2 class="hidden">منطقه <div class="inline" id="estate-number"></div></h2>
+          <h2 id="intro-start-btn">
+            <i class="fa fa-info"></i>
+            راهنما
+          </h2>
         </div>
       </div>
       
@@ -61,6 +67,7 @@
     <script>
       require('./js/login.js');
       require('./js/file-list.js')
+      require('./js/intro.js')
 
     </script>
   </body>

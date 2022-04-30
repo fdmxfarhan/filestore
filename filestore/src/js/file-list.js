@@ -69,6 +69,11 @@ var addFile = (data, index) => {
     label1.classList.add('label');
     label1.classList.add('green');
     label1.appendChild(document.createTextNode(data.state + ' '));
+    if(data.state == 'رهن و اجاره' || data.state == 'رهن کامل')
+        label1.classList.add('border-blue');
+    else
+        label1.classList.add('border-purple');
+    
     var label2 = document.createElement('div');
     label2.classList.add('label');
     label2.classList.add('blue');
@@ -266,6 +271,12 @@ var addFile = (data, index) => {
     var table4Value555 = document.createElement('td'); table4Value555.classList.add('price'); table4Value555.appendChild(document.createTextNode(getPrice(data.price)));tr5.appendChild(table4Value555);
     var table4Value6 = document.createElement('td'); table4Value6.classList.add('price'); table4Value6.appendChild(document.createTextNode(getPrice(data.fullPrice)));tr5.appendChild(table4Value6);
     info4.appendChild(tr5);
+    if(data.type == 'کلنگی' || data.type == 'مستقلات' || data.type == 'زمین')
+        info4.classList.add('border-red');
+    else if(data.state == 'رهن و اجاره' || data.state == 'رهن کامل')
+        info4.classList.add('border-blue');
+    else
+        info4.classList.add('border-purple');
     
     
     info1.classList.add('info-1');
@@ -280,6 +291,18 @@ var addFile = (data, index) => {
     filesContainer.appendChild(item);
 }
 var loadData = (more, len) => {
+    $('#file-popup').removeClass('border-blue');
+    $('#file-popup').removeClass('border-purple');
+    $('#file-state').removeClass('border-blue');
+    $('#file-state').removeClass('border-purple');
+
+    if(more.data.state == 'رهن و اجاره' || more.data.state == 'رهن کامل'){
+        $('#file-state').addClass('border-blue');
+        $('#file-popup').addClass('border-blue');
+    }else{
+        $('#file-state').addClass('border-purple');
+        $('#file-popup').addClass('border-purple');
+    }
     if(more.id == len-1) $('#next-file-btn').hide();
     else $('#next-file-btn').show();
     if(more.id == 0) $('#prev-file-btn').hide();
@@ -357,6 +380,7 @@ var loadData = (more, len) => {
     else
         $('#file-fullPrice2').text(0)
     $('#file-number').text(more.data.fileNumber)
+    $('#file-role').text(more.data.role)
     $('#popup-index').text(more.id)
     var imagesView = document.getElementById('file-images-view');
     removeAllChildNodes(imagesView);
@@ -675,6 +699,43 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
             document.getElementById('no-plan-info').classList.remove('hidden');
             document.getElementById('refresh-btn').classList.add('red');
             document.getElementById('refresh-btn').textContent = 'خرید اشتراک';
+            var estate = data;
+            var refreshInterval = setInterval(() => {
+                fetch(api + `login?username=${estate.username}&password=${estate.password}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.correct == true){
+                            if(data.estate.planType != 'free' && data.estate.payed){
+                                var payDate = (new Date(data.estate.payDate)).getTime();
+                                var now = (new Date()).getTime();
+                                var endDate = 0;
+                                if(data.estate.planType == 'trial')  endDate = payDate + 3 * 24 * 60 * 60 * 1000;
+                                if(data.estate.planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
+                                if(data.estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
+                                if(data.estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
+                                if(data.estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
+                                if(endDate - now < 0) {
+                                    document.getElementById('plan-info').classList.add('hidden');
+                                    document.getElementById('no-plan-info').classList.remove('hidden');
+                                    document.getElementById('refresh-btn').classList.add('red');
+                                    document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
+                                }
+                                else {
+                                    document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
+                                    document.getElementById('refresh-btn').classList.remove('red');
+                                    document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات جدید';
+                                    clearInterval(refreshInterval);
+                                }
+                            }
+                            else{
+                                document.getElementById('plan-info').classList.add('hidden');
+                                document.getElementById('no-plan-info').classList.remove('hidden');
+                                document.getElementById('refresh-btn').classList.add('red');
+                                document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
+                            }
+                        }
+                    }).catch(err => console.log(err));
+            }, 5000);
         }
         updateHandlers(data);
     }

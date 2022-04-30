@@ -48,31 +48,38 @@ var filter = () => {
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
             var metrage = parseInt(item.childNodes[1].childNodes[1].childNodes[0].textContent);
+            var fileNumber = item.getElementsByClassName('info1')[0].getElementsByClassName('column')[6].textContent;
+            var trackingFileNumber = '13167';
             // if((maxMetrage != 500 && metrage > maxMetrage) || metrage < minMetrage)
-            if(!((metrage > minMetrage || isNaN(minMetrage)) && (metrage < maxMetrage || isNaN(maxMetrage))))
+            if(!((metrage > minMetrage || isNaN(minMetrage)) && (metrage < maxMetrage || isNaN(maxMetrage))) && !isNaN(metrage)){
                 item.style.display = 'none';
-            else {
+            }else {
+                if(fileNumber == trackingFileNumber) console.log('metrage ok');
                 item.style.display = 'block';
                 var price1 = parseInt(item.childNodes[2].childNodes[1].childNodes[1].textContent)/1000000;
+                if(fileNumber == trackingFileNumber) console.log({price1, minPrice1, maxPrice1});
                 // if((maxPrice1 != 2000 && price1 > maxPrice1) || price1 < minPrice1)
-                if(!((price1 > minPrice1 || isNaN(minPrice1)) && (price1 < maxPrice1 || isNaN(maxPrice1))))
+                if(!((price1 > minPrice1 || isNaN(minPrice1)) && (price1 < maxPrice1 || isNaN(maxPrice1))) && !isNaN(price1))
                     item.style.display = 'none';
                 else {
+                    if(fileNumber == trackingFileNumber) console.log('price1 ok');
                     item.style.display = 'block';
                     var price2 = parseInt(item.childNodes[2].childNodes[0].childNodes[1].textContent)/1000000;
                     // if((maxPrice2 != 100 && price2 > maxPrice2) || price2 < minPrice2)
-                    if(!((price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2))))
+                    if(!((price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2))) && !isNaN(price2))
                         item.style.display = 'none';
                     else {
+                        if(fileNumber == trackingFileNumber) console.log('price2 ok');
                         item.style.display = 'block';
                         var age = parseInt(item.childNodes[1].childNodes[1].childNodes[5].textContent);
-                        if((maxAge != 100 && age > maxAge) || age < minAge)
+                        if(((maxAge != 100 && age > maxAge) || age < minAge) && !isNaN(maxAge))
                             item.style.display = 'none';
                         else {
+                            if(fileNumber == trackingFileNumber) console.log('maxAge ok');
                             item.style.display = 'block';
                             var type = item.childNodes[0].childNodes[0].childNodes[1].textContent;
                             var state = item.childNodes[0].childNodes[0].childNodes[0].textContent;
-                            if(!apartment         && type == 'آپارتمان ')      item.style.display = 'none';
+                            if(!apartment         && type == 'آپارتمان ')      {item.style.display = 'none';if(fileNumber == trackingFileNumber) console.log('type incorrect');}
                             else if(!vilage       && type == 'ویلایی ')         item.style.display = 'none';
                             else if(!old          && type == 'کلنگی ')         item.style.display = 'none';
                             else if(!business     && type == 'تجاری ')         item.style.display = 'none';
@@ -80,13 +87,16 @@ var filter = () => {
                             else if(!officeEstate && type == 'موقعیت اداری ') item.style.display = 'none';
                             else if(!land         && type == 'زمین ')          item.style.display = 'none';
                             else if(!mostaghelat  && type == 'مستغلات ')        item.style.display = 'none';
-                            else if(!sell         && state == 'فروش ') item.style.display = 'none';
-                            else if(!presell      && state == 'پیش‌فروش ') item.style.display = 'none';
-                            else if(!exchange     && state == 'معاوضه ') item.style.display = 'none';
-                            else if(!cooperate    && state == 'مشارکت ') item.style.display = 'none';
-                            else if(!rent         && state == 'رهن و اجاره ') item.style.display = 'none';
-                            else if(!rent2        && state == 'رهن کامل ') item.style.display = 'none';
-                            else item.style.display = 'block';
+                            else if(!sell         && state == 'فروش ')         item.style.display = 'none';
+                            else if(!presell      && state == 'پیش‌فروش ')      item.style.display = 'none';
+                            else if(!exchange     && state == 'معاوضه ')       item.style.display = 'none';
+                            else if(!cooperate    && state == 'مشارکت ')       item.style.display = 'none';
+                            else if(!rent         && state == 'رهن و اجاره ')  item.style.display = 'none';
+                            else if(!rent2        && state == 'رهن کامل ')     {item.style.display = 'none';if(fileNumber == trackingFileNumber) console.log('state incorrect');}
+                            else {
+                                item.style.display = 'block';
+                                if(fileNumber == trackingFileNumber) console.log('type and state ok');
+                            }
                         }
                     }
                 }
@@ -97,6 +107,13 @@ var filter = () => {
         var loadingScreen = document.getElementById('loading-screen');
         loadingScreen.classList.add('hidden');
     }, 100);
+}
+var clearFilters = () => {
+    var filesContainer = document.getElementById('file-list-container');
+    var items = filesContainer.getElementsByClassName('item');
+    for(var i=0; i<items.length; i++){
+        items[i].style.display = '';
+    }
 }
 $(document).ready(() => {
     $("#metrage-slider").slider({
@@ -342,5 +359,12 @@ $(document).ready(() => {
     });
     $('#filter-btn').click(() => {
         filter();
+    });
+    $('.clear-filters-btn').click(() => {
+        document.getElementById('loading-screen').classList.remove('hidden');
+        setTimeout(() => {
+            clearFilters();
+            document.getElementById('loading-screen').classList.add('hidden');
+        }, 10);
     });
 })

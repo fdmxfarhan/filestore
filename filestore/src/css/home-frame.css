@@ -113,7 +113,7 @@
 }
 .info4 td.metrage, .info4-header th.metrage{width: 5%;}
 .info4 td.bedroom, .info4-header th.bedroom{width: 5%;}
-.info4 td.floor, .info4-header th.floor{width: 5%;}
+.info4 td.floor, .info4-header th.floor{width: 7%;}
 .info4 td.build-age, .info4-header th.build-age{width: 5%;}
 .info4 td.address{text-align: right;}
 .info4 td.price{width: 20%; color: green; font-weight: bold; font-size: 1vw;}
@@ -173,6 +173,10 @@
 .label.blue{
     background-color: var(--blue);
 }
+.label.blue.border-blue{background-color: var(--blue);}
+.label.blue.border-purple{background-color: purple;}
+.label.green.border-purple{background-color: purple;}
+
 .info3 .more{
     font-family: 'iransans';
     font-size: 0.9vw;
@@ -402,12 +406,11 @@
 }
 .overflow-hidden{overflow: hidden;}
 .inline{display: inline;}
-
 .view-controls{
     overflow: hidden;
-    width: fit-content;
+    width: 90%;
+    margin: auto;
     margin-top: 1vw;
-    margin-right: 3vw;
 }
 .view-controls i{
     display: block;
@@ -421,4 +424,50 @@
 .view-controls i.active{
     background-color: var(--lightgray);
     color: var(--blue);
+}
+.controls .clear-filters-btn{
+    float: left;
+    color: var(--blue);
+    font-size: 0.9vw;
+    border: var(--blue) 0.1vw solid;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 0.5vw;
+    padding: 0.1vw 1vw;
+}
+.controls .clear-filters-btn:hover{
+    background-color: var(--blue);
+    color: white;
+}
+.controls .clear-filters-btn i{
+    color: var(--blue);
+    padding: 0;
+    margin: 0;
+    padding-left: 0.3vw;
+    font-size: 0.9vw;
+    padding-top: 0.3vw;
+}
+.controls .clear-filters-btn:hover i{color: white;}
+.info4.border-blue td{background-color: rgb(191, 226, 194);}
+.info4.border-purple td{background-color: #e0e7ee;}
+.info4.border-red td{background-color: rgb(233, 171, 171);}
+.intro-start-btn{
+    width: 30%;
+    margin: 3vw auto;
+    color: white;
+    border-radius: 0.5vw;
+    background-color: var(--blue);
+    text-align: center;
+    padding: 0.3vw 0;
+    font-size: 1vw;
+    font-weight: bold;
+    font-family: 'iransans';
+    cursor: pointer;
+    transition-duration: 500ms;
+}
+.intro-start-btn i{
+    padding-left: 0.3vw;
+}
+.intro-start-btn:hover{
+    background-color: var(--hover);
 }

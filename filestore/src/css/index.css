@@ -91,6 +91,8 @@ body {
   border-radius: 0.3vw;
   padding: 2vw;
 }
+.popup.border-blue{border-bottom: rgb(191, 226, 194) 0.8vw solid;}
+.popup.border-purple{border-bottom: #e0e7ee 0.8vw solid;}
 .popup .close-popup{
   position: absolute;
   top: 1.2vw;
