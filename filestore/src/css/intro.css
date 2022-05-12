@@ -89,3 +89,13 @@
 .intro-popup .next-intro:hover{
     color: var(--hover);
 }
+.intro-popup-image {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 101;
+}
+.intro-popup-image img{
+    width: 100%;
+}

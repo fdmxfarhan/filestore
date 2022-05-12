@@ -8,7 +8,53 @@ var errorMsg = document.getElementById('error-msg');
 var successMsg = document.getElementById('success-msg');
 var loadingScreen = document.getElementById('loading-screen');
 var downloadBar = document.getElementById('download-bar');
+var refreshInterval = null;
+var udatePlanTime = 1000;
+var activeFile = null;
 
+var updatePlans = () => {
+    fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+        if(rawdata){
+            var estate = JSON.parse(rawdata);
+            fetch(api + `login?username=${estate.username}&password=${estate.password}`)
+                .then(res => res.json())
+                .then(data => {
+                    if(data.correct == true){
+                        if(data.estate.planType != 'free' && data.estate.payed){
+                            var payDate = (new Date(data.estate.payDate)).getTime();
+                            var now = (new Date()).getTime();
+                            var endDate = 0;
+                            if(data.estate.planType == 'trial')  endDate = payDate + 3 * 24 * 60 * 60 * 1000;
+                            if(data.estate.planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
+                            if(data.estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
+                            if(data.estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
+                            if(data.estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
+                            if(endDate - now < 0) {
+                                document.getElementById('plan-info').classList.add('hidden');
+                                document.getElementById('no-plan-info').classList.remove('hidden');
+                                document.getElementById('refresh-btn').classList.add('red');
+                                document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
+                            }
+                            else {
+                                document.getElementById('plan-info').classList.remove('hidden');
+                                document.getElementById('no-plan-info').classList.add('hidden');
+                                document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
+                                document.getElementById('refresh-btn').classList.remove('red');
+                                document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات جدید';
+                                clearInterval(refreshInterval);
+                            }
+                        }
+                        else{
+                            document.getElementById('plan-info').classList.add('hidden');
+                            document.getElementById('no-plan-info').classList.remove('hidden');
+                            document.getElementById('refresh-btn').classList.add('red');
+                            document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
+                        }
+                    }else console.log('cnnot connect to server!!')
+                }).catch(err => console.log(err));
+        }
+    });
+}
 var saveEstate = (username, password, estate, files) => {
     var file = path.join(pathName, 'estate.json');
     var estateInfo = {username, password, estate, files};
@@ -394,6 +440,69 @@ var loadData = (more, len) => {
         imagesView.appendChild(link);
     }
 }
+var loadPDFData = (file) => {
+    $('#pdf-file-ownerName').text(typeof(file.ownerName) == 'undefined' ? '-' : file.ownerName == '' ? '-' : file.ownerName);
+    $('#pdf-file-constPhone').text(typeof(file.constPhone) == 'undefined' ? '-' : file.constPhone == '' ? '-' : file.constPhone);
+    $('#pdf-file-address').text(typeof(file.address) == 'undefined' ? '-' : file.address == '' ? '-' : file.address);
+    $('#pdf-file-phone').text(typeof(file.phone) == 'undefined' ? '-' : file.phone == '' ? '-' : file.phone);
+    $('#pdf-file-date').text(typeof(file.date) == 'undefined' ? '-' : file.date == '' ? '-' : file.date);
+    $('#pdf-file-type').text(typeof(file.type) == 'undefined' ? '-' : file.type == '' ? '-' : file.type);
+    $('#pdf-file-fileNumber').text(typeof(file.fileNumber) == 'undefined' ? '-' : file.fileNumber == '' ? '-' : file.fileNumber);
+    $('#pdf-file-state').text(typeof(file.state) == 'undefined' ? '-' : file.state == '' ? '-' : file.state);
+    $('#pdf-file-role').text(typeof(file.role) == 'undefined' ? '-' : file.role == '' ? '-' : file.role);
+    $('#pdf-file-meterage').text(typeof(file.meterage) == 'undefined' ? '-' : file.meterage == '' ? '-' : file.meterage);
+    $('#pdf-file-bedroom').text(typeof(file.bedroom) == 'undefined' ? '-' : file.bedroom == '' ? '-' : file.bedroom);
+    $('#pdf-file-floor').text(typeof(file.floor) == 'undefined' ? '-' : file.floor == '' ? '-' : file.floor);
+    $('#pdf-file-numOfFloors').text(typeof(file.numOfFloors) == 'undefined' ? '-' : file.numOfFloors == '' ? '-' : file.numOfFloors);
+    $('#pdf-file-unit').text(typeof(file.unit) == 'undefined' ? '-' : file.unit == '' ? '-' : file.unit);
+    $('#pdf-file-buildAge').text(typeof(file.buildAge) == 'undefined' ? '-' : file.buildAge == '' ? '-' : file.buildAge);
+    $('#pdf-file-parking').text(typeof(file.parking) == 'undefined' ? '-' : file.parking == '' ? '-' : file.parking);
+    $('#pdf-file-warehouse').text(typeof(file.warehouse) == 'undefined' ? '-' : file.warehouse == '' ? '-' : file.warehouse);
+    $('#pdf-file-elevator').text(typeof(file.elevator) == 'undefined' ? '-' : file.elevator == '' ? '-' : file.elevator);
+    $('#pdf-file-kitchen').text(typeof(file.kitchen) == 'undefined' ? '-' : file.kitchen == '' ? '-' : file.kitchen);
+    $('#pdf-file-view').text(typeof(file.view) == 'undefined' ? '-' : file.view == '' ? '-' : file.view);
+    $('#pdf-file-floortype').text(typeof(file.floortype) == 'undefined' ? '-' : file.floortype == '' ? '-' : file.floortype);
+    $('#pdf-file-service').text(typeof(file.service) == 'undefined' ? '-' : file.service == '' ? '-' : file.service);
+    $('#pdf-file-heatingAndCoolingSystem').text(typeof(file.heatingAndCoolingSystem) == 'undefined' ? '-' : file.heatingAndCoolingSystem == '' ? '-' : file.heatingAndCoolingSystem);
+    $('#pdf-file-meterage2').text(typeof(file.meterage2) == 'undefined' ? '-' : file.meterage2 == '' ? '-' : file.meterage2);
+    $('#pdf-file-bedroom2').text(typeof(file.bedroom2) == 'undefined' ? '-' : file.bedroom2 == '' ? '-' : file.bedroom2);
+    $('#pdf-file-floor2').text(typeof(file.floor2) == 'undefined' ? '-' : file.floor2 == '' ? '-' : file.floor2);
+    $('#pdf-file-numOfFloors2').text(typeof(file.numOfFloors2) == 'undefined' ? '-' : file.numOfFloors2 == '' ? '-' : file.numOfFloors2);
+    $('#pdf-file-unit2').text(typeof(file.unit2) == 'undefined' ? '-' : file.unit2 == '' ? '-' : file.unit2);
+    $('#pdf-file-buildAge2').text(typeof(file.buildAge2) == 'undefined' ? '-' : file.buildAge2 == '' ? '-' : file.buildAge2);
+    $('#pdf-file-parking2').text(typeof(file.parking2) == 'undefined' ? '-' : file.parking2 == '' ? '-' : file.parking2);
+    $('#pdf-file-warehouse2').text(typeof(file.warehouse2) == 'undefined' ? '-' : file.warehouse2 == '' ? '-' : file.warehouse2);
+    $('#pdf-file-elevator2').text(typeof(file.elevator2) == 'undefined' ? '-' : file.elevator2 == '' ? '-' : file.elevator2);
+    $('#pdf-file-kitchen2').text(typeof(file.kitchen2) == 'undefined' ? '-' : file.kitchen2 == '' ? '-' : file.kitchen2);
+    $('#pdf-file-view2').text(typeof(file.view2) == 'undefined' ? '-' : file.view2 == '' ? '-' : file.view2);
+    $('#pdf-file-floortype2').text(typeof(file.floortype2) == 'undefined' ? '-' : file.floortype2 == '' ? '-' : file.floortype2);
+    $('#pdf-file-service2').text(typeof(file.service2) == 'undefined' ? '-' : file.service2 == '' ? '-' : file.service2);
+    $('#pdf-file-heatingAndCoolingSystem2').text(typeof(file.heatingAndCoolingSystem2) == 'undefined' ? '-' : file.heatingAndCoolingSystem2 == '' ? '-' : file.heatingAndCoolingSystem2);
+    $('#pdf-file-meterage3').text(typeof(file.meterage3) == 'undefined' ? '-' : file.meterage3 == '' ? '-' : file.meterage3);
+    $('#pdf-file-bedroom3').text(typeof(file.bedroom3) == 'undefined' ? '-' : file.bedroom3 == '' ? '-' : file.bedroom3);
+    $('#pdf-file-floor3').text(typeof(file.floor3) == 'undefined' ? '-' : file.floor3 == '' ? '-' : file.floor3);
+    $('#pdf-file-numOfFloors3').text(typeof(file.numOfFloors3) == 'undefined' ? '-' : file.numOfFloors3 == '' ? '-' : file.numOfFloors3);
+    $('#pdf-file-unit3').text(typeof(file.unit3) == 'undefined' ? '-' : file.unit3 == '' ? '-' : file.unit3);
+    $('#pdf-file-buildAge3').text(typeof(file.buildAge3) == 'undefined' ? '-' : file.buildAge3 == '' ? '-' : file.buildAge3);
+    $('#pdf-file-parking3').text(typeof(file.parking3) == 'undefined' ? '-' : file.parking3 == '' ? '-' : file.parking3);
+    $('#pdf-file-warehouse3').text(typeof(file.warehouse3) == 'undefined' ? '-' : file.warehouse3 == '' ? '-' : file.warehouse3);
+    $('#pdf-file-elevator3').text(typeof(file.elevator3) == 'undefined' ? '-' : file.elevator3 == '' ? '-' : file.elevator3);
+    $('#pdf-file-kitchen3').text(typeof(file.kitchen3) == 'undefined' ? '-' : file.kitchen3 == '' ? '-' : file.kitchen3);
+    $('#pdf-file-view3').text(typeof(file.view3) == 'undefined' ? '-' : file.view3 == '' ? '-' : file.view3);
+    $('#pdf-file-floortype3').text(typeof(file.floortype3) == 'undefined' ? '-' : file.floortype3 == '' ? '-' : file.floortype3);
+    $('#pdf-file-service3').text(typeof(file.service3) == 'undefined' ? '-' : file.service3 == '' ? '-' : file.service3);
+    $('#pdf-file-heatingAndCoolingSystem3').text(typeof(file.heatingAndCoolingSystem3) == 'undefined' ? '-' : file.heatingAndCoolingSystem3 == '' ? '-' : file.heatingAndCoolingSystem3);
+    $('#pdf-file-options').text(typeof(file.options) == 'undefined' ? '-' : file.options == '' ? '-' : file.options);
+    $('#pdf-file-price').text(typeof(file.price) == 'undefined' ? '-' : file.price == '' ? '-' : file.price);
+    $('#pdf-file-fullPrice').text(typeof(file.fullPrice) == 'undefined' ? '-' : file.fullPrice == '' ? '-' : file.fullPrice);
+    $('#pdf-file-area').text(typeof(file.area) == 'undefined' ? '-' : file.area == '' ? '-' : file.area);
+    $('#pdf-file-lone').text(typeof(file.lone) == 'undefined' ? '-' : file.lone == '' ? '-' : file.lone);
+    $('#pdf-file-changable').text(typeof(file.changable) == 'undefined' ? '-' : file.changable == '' ? '-' : file.changable);
+    $('#pdf-file-discount').text(typeof(file.discount) == 'undefined' ? '-' : file.discount == '' ? '-' : file.discount);
+    $('#pdf-file-documentState').text(typeof(file.documentState) == 'undefined' ? '-' : file.documentState == '' ? '-' : file.documentState);
+    $('#pdf-file-transfer').text(typeof(file.transfer) == 'undefined' ? '-' : file.transfer == '' ? '-' : file.transfer);
+    $('#pdf-file-advertiser').text(typeof(file.advertiser) == 'undefined' ? '-' : file.advertiser == '' ? '-' : file.advertiser);
+}
 var updateHandlers = (data) => {
     var moreButtons = [];
     for (let i = 0; i < data.files.length; i++) {
@@ -404,6 +513,7 @@ var updateHandlers = (data) => {
             $('#file-popup').fadeIn(500);
             $('.black-modal').fadeIn(500);
             loadData(more, moreButtons.length);
+            activeFile = more.data;
         });
     });
     $('#next-file-btn').click(() => {
@@ -414,6 +524,7 @@ var updateHandlers = (data) => {
             index++;
         }
         loadData(moreButtons[index+1], moreButtons.length);
+        activeFile = moreButtons[index+1].data;
     });
     $('#prev-file-btn').click(() => {
         var index = parseInt(document.getElementById('popup-index').textContent);
@@ -423,11 +534,13 @@ var updateHandlers = (data) => {
             index--;
         }
         loadData(moreButtons[index-1], moreButtons.length);
+        activeFile = moreButtons[index-1].data;
     });
     $(document).keyup(function(e) {
         if (e.key === "Escape") {
             $('#file-popup').fadeOut(500);
             $('.black-modal').fadeOut(500);
+            activeFile = null;
         }
         if (e.keyCode  == 39) {
             var index = parseInt(document.getElementById('popup-index').textContent);
@@ -437,6 +550,7 @@ var updateHandlers = (data) => {
                 index++;
             }
             if(index < moreButtons.length-1) loadData(moreButtons[index+1], moreButtons.length);
+            activeFile = moreButtons[index+1].data;
         }
         if (e.keyCode  == 37) {
             var index = parseInt(document.getElementById('popup-index').textContent);
@@ -446,6 +560,7 @@ var updateHandlers = (data) => {
                 index--;
             }
             if(index > 0) loadData(moreButtons[index-1], moreButtons.length);
+            activeFile = moreButtons[index-1].data;
         }
     });
 }
@@ -501,48 +616,17 @@ var refresh = () => {
                         loadingScreen.classList.add('hidden');
                         $('#plans-popup').fadeIn(500);
                         $('.black-modal').fadeIn(500);
+                        document.getElementById('plan-info').classList.add('hidden');
+                        document.getElementById('no-plan-info').classList.remove('hidden');
+                        document.getElementById('refresh-btn').classList.add('red');
+                        document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
+                        refreshInterval = setInterval(updatePlans, udatePlanTime);
                     }
                 }).catch(err => {
                     showError('خطای اتصال به اینترنت');
                     loadingScreen.classList.add('hidden');
                     console.log(err);
                 });
-            var refreshInterval = setInterval(() => {
-                fetch(api + `login?username=${estate.username}&password=${estate.password}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        if(data.correct == true){
-                            if(data.estate.planType != 'free' && data.estate.payed){
-                                var payDate = (new Date(data.estate.payDate)).getTime();
-                                var now = (new Date()).getTime();
-                                var endDate = 0;
-                                if(data.estate.planType == 'trial')  endDate = payDate + 3 * 24 * 60 * 60 * 1000;
-                                if(data.estate.planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
-                                if(data.estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
-                                if(data.estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
-                                if(data.estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
-                                if(endDate - now < 0) {
-                                    document.getElementById('plan-info').classList.add('hidden');
-                                    document.getElementById('no-plan-info').classList.remove('hidden');
-                                    document.getElementById('refresh-btn').classList.add('red');
-                                    document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
-                                }
-                                else {
-                                    document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
-                                    document.getElementById('refresh-btn').classList.remove('red');
-                                    document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات جدید';
-                                    clearInterval(refreshInterval);
-                                }
-                            }
-                            else{
-                                document.getElementById('plan-info').classList.add('hidden');
-                                document.getElementById('no-plan-info').classList.remove('hidden');
-                                document.getElementById('refresh-btn').classList.add('red');
-                                document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
-                            }
-                        }
-                    }).catch(err => console.log(err));
-            }, 5000);
         }
         else console.log('file not found');
     });
@@ -612,6 +696,11 @@ var refresh2 = () => {
                         loadingScreen.classList.add('hidden');
                         $('#plans-popup').fadeIn(500);
                         $('.black-modal').fadeIn(500);
+                        document.getElementById('plan-info').classList.add('hidden');
+                        document.getElementById('no-plan-info').classList.remove('hidden');
+                        document.getElementById('refresh-btn').classList.add('red');
+                        document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
+                        refreshInterval = setInterval(updatePlans, udatePlanTime);
                     }
                 }).catch(err => {
                     showError('خطای اتصال به اینترنت');
@@ -687,6 +776,7 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
                 document.getElementById('no-plan-info').classList.remove('hidden');
                 document.getElementById('refresh-btn').classList.add('red');
                 document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
+                refreshInterval = setInterval(updatePlans, udatePlanTime);
             }
             else {
                 document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
@@ -700,42 +790,7 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
             document.getElementById('refresh-btn').classList.add('red');
             document.getElementById('refresh-btn').textContent = 'خرید اشتراک';
             var estate = data;
-            var refreshInterval = setInterval(() => {
-                fetch(api + `login?username=${estate.username}&password=${estate.password}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        if(data.correct == true){
-                            if(data.estate.planType != 'free' && data.estate.payed){
-                                var payDate = (new Date(data.estate.payDate)).getTime();
-                                var now = (new Date()).getTime();
-                                var endDate = 0;
-                                if(data.estate.planType == 'trial')  endDate = payDate + 3 * 24 * 60 * 60 * 1000;
-                                if(data.estate.planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
-                                if(data.estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
-                                if(data.estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
-                                if(data.estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
-                                if(endDate - now < 0) {
-                                    document.getElementById('plan-info').classList.add('hidden');
-                                    document.getElementById('no-plan-info').classList.remove('hidden');
-                                    document.getElementById('refresh-btn').classList.add('red');
-                                    document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
-                                }
-                                else {
-                                    document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
-                                    document.getElementById('refresh-btn').classList.remove('red');
-                                    document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات جدید';
-                                    clearInterval(refreshInterval);
-                                }
-                            }
-                            else{
-                                document.getElementById('plan-info').classList.add('hidden');
-                                document.getElementById('no-plan-info').classList.remove('hidden');
-                                document.getElementById('refresh-btn').classList.add('red');
-                                document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
-                            }
-                        }
-                    }).catch(err => console.log(err));
-            }, 5000);
+            refreshInterval = setInterval(updatePlans, udatePlanTime);
         }
         updateHandlers(data);
     }
@@ -758,6 +813,7 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
                 document.getElementById('no-plan-info').classList.remove('hidden');
                 document.getElementById('refresh-btn').classList.add('red');
                 document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
+                refreshInterval = setInterval(updatePlans, udatePlanTime);
             }
             else {
                 document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
@@ -770,6 +826,7 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
             document.getElementById('no-plan-info').classList.remove('hidden');
             document.getElementById('refresh-btn').classList.add('red');
             document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
+            refreshInterval = setInterval(updatePlans, udatePlanTime);
         }
     }
     else console.log('file not found or does not contain Files data');
@@ -845,5 +902,40 @@ $(document).ready(() => {
             }
         });
     });
+    $('#file-print-button').click(() => {
+        document.getElementById('home-frame').classList.add('hidden');
+        document.getElementById('file-print-frame').classList.remove('hidden');
+        $('#file-popup').fadeOut(500);
+        $('.black-modal').fadeOut(500);
+        loadPDFData(activeFile);
+        var beforePrint = function () {
+            // alert('Functionality to run before printing.');
+        };
+        var afterPrint = function () {
+            // alert('Functionality to run after printing');
+            document.getElementById('home-frame').classList.remove('hidden');
+            document.getElementById('file-print-frame').classList.add('hidden');
+            $('#file-popup').fadeIn(500);
+            $('.black-modal').fadeIn(500);
+        };
+        if (window.matchMedia) {
+            var mediaQueryList = window.matchMedia('print');
+            mediaQueryList.addListener(function (mql) {
+                //alert($(mediaQueryList).html());
+                if (mql.matches) {
+                    beforePrint();
+                } else {
+                    afterPrint();
+                }
+            });
+        }
+        window.onbeforeprint = beforePrint;
+        window.onafterprint = afterPrint;
+        setTimeout(() => {
+            window.print();
+        }, 1000);
+    });
 });
+
+
 

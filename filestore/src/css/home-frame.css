@@ -471,3 +471,12 @@
 .intro-start-btn:hover{
     background-color: var(--hover);
 }
+.popup .print-button{
+    float: left;
+    font-size: 2vw;
+    color: var(--blue);
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+}
+.popup .print-button:hover{color: var(--hover);}

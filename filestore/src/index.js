@@ -5,7 +5,7 @@ const ejse = require('ejs-electron')
 if (require('electron-squirrel-startup')) { 
   app.quit();
 }
-
+app.disableHardwareAcceleration();
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1200,
