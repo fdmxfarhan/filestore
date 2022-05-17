@@ -81,7 +81,8 @@
         font-weight: normal;
         line-height: 1vw;
     }
-    .table-form input{
+    .table-form input,
+    .table-form select{
         width: 3.5vw;
         display: inline;
         float: right;
@@ -94,11 +95,14 @@
         resize: none;
         text-align: center;
     }
+    .table-form select{
+        width: 5vw;
+        padding: 0.5vw 0.5vw;
+    }
     .table-form input:focus{
         outline: var(--lightgray) 0.1vw solid;
     }
     .long-atext-input{
-        /* margin-bottom: 1vw; */
         overflow: hidden;
         display: block;
         width: 100%;

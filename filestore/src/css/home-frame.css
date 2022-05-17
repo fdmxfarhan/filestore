@@ -116,8 +116,9 @@
 .info4 td.floor, .info4-header th.floor{width: 7%;}
 .info4 td.build-age, .info4-header th.build-age{width: 5%;}
 .info4 td.address{text-align: right;}
-.info4 td.price{width: 20%; color: green; font-weight: bold; font-size: 1vw;}
-.info4-header th.price{width: 20%;}
+.info4 td.date, .info4-header th.date{text-align: center; width: 6%;}
+.info4 td.price{width: 17%; color: green; font-weight: bold; font-size: 1vw;}
+.info4-header th.price{width: 17%;}
 .col20{width: 18%; margin: 0;}
 .col25{width: 23%; margin: 0;}
 .col30{width: 28%; margin: 0;}

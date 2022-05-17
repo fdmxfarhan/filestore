@@ -175,7 +175,11 @@
                             th اگهی دهنده
                         tr 
                             td
-                                input(type="number" placeholder="" name="area" value="#{files[i].area}")
+                                //- input(type="number" placeholder="" name="area" value="#{files[i].area}")
+                                select(name="area") 
+                                    option(value="#{files[i].area}")= files[i].area
+                                    option(value="22") 22
+                                    option(value="5") 5
                             td
                                 input(type="text" placeholder="" name="lone" value="#{files[i].lone}")
                             td
@@ -378,7 +382,11 @@
                             th اگهی دهنده
                         tr 
                             td
-                                input(type="number" placeholder="" name="area" value="#{result[i].area}")
+                                //- input(type="number" placeholder="" name="area" value="#{result[i].area}")
+                                select(name="area") 
+                                    option(value="#{files[i].area}")= files[i].area
+                                    option(value="22") 22
+                                    option(value="5") 5
                             td
                                 input(type="text" placeholder="" name="lone" value="#{result[i].lone}")
                             td
