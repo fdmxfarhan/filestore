@@ -19,8 +19,13 @@ const createWindow = () => {
 
   mainWindow.loadURL(path.join(path.join('file://', __dirname), 'index.ejs'));
   mainWindow.maximize();
+  mainWindow.webContents.setZoomFactor(1.0);
+  mainWindow.webContents
+    .setVisualZoomLevelLimits(1, 5)
+    .then(console.log("Zoom Levels Have been Set between 100% and 500%"))
+    .catch((err) => console.log(err));
   mainWindow.setMenu(null);
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 };
 
 app.on('ready', createWindow);

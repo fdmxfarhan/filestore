@@ -66,6 +66,19 @@
         right: 47.3vw;
         width: 4.5vw;
     }
+    .cancle-btn{
+        background-color: rgb(231, 73, 67);
+        color: white;
+        width: fit-content;
+        padding: 0.5vw 2vw;
+        margin: 1vw auto;
+        border-radius: 0.5vw;
+        cursor: pointer;
+    }
+    .cancle-btn:hover{background-color: red;}
+    .cancle-btn i{
+        padding-left: 0.5vw;
+    }
 </style>
 <div class="load-screen hidden" id="loading-screen">
     <div class="loader"></div>
@@ -75,5 +88,9 @@
     <div class="download-bar hidden" id="download-bar">
         <div class="handle"  id="download-bar-handle"></div>
         <div class="download-text" id="download-bar-text">0%</div>
+    </div>
+    <div class="cancle-btn hidden" id="cancle-refresh-btn">
+        <i class="fa fa-times"></i>
+        انصراف
     </div>
 </div>

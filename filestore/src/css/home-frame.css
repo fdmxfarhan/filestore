@@ -481,3 +481,19 @@
     margin: 0;
 }
 .popup .print-button:hover{color: var(--hover);}
+.popup .zoom-control{
+    float: right;
+    font-size: 2vw;
+    color: var(--blue);
+    cursor: pointer;
+    padding: 0;
+}
+.popup .zoom-control i{
+    font-size: 2vw;
+    cursor: pointer;
+    color: var(--blue);
+}
+.popup .zoom-control i:hover{
+    color: var(--hover);
+}
+#zoom-out{display: none;}

@@ -159,7 +159,7 @@ body {
   margin-top: 2vw;
   margin-bottom: 1vw;
 }
-.popup .next-file-btn{
+.next-file-btn{
   position: fixed;
   font-size: 3vw;
   right: 1vw;
@@ -172,8 +172,8 @@ body {
   cursor: pointer;
   padding: 0 2vw;
 }
-.popup .next-file-btn:hover{background-color: rgba(0, 0, 0, 0.3);}
-.popup .prev-file-btn{
+.next-file-btn:hover{background-color: rgba(0, 0, 0, 0.3);}
+.prev-file-btn{
   position: fixed;
   font-size: 3vw;
   left: 1vw;
@@ -186,4 +186,4 @@ body {
   cursor: pointer;
   padding: 0 2vw;
 }
-.popup .prev-file-btn:hover{background-color: rgba(0, 0, 0, 0.3);}
+.prev-file-btn:hover{background-color: rgba(0, 0, 0, 0.3);}

@@ -18,9 +18,12 @@ var rent = true;
 var rent2 = true;
 var refresh = true;
 var lastSearchText = '';
+var activeMenu = 'files';
+
 var search = () => {
     var text = document.getElementById('address-search').value;
     var filesContainer = document.getElementById('file-list-container');
+    if(activeMenu == 'bookmarks') filesContainer = document.getElementById('file-bookmark-container');
     var items = filesContainer.getElementsByClassName('item');
     if(text == '' || text.length < lastSearchText.length) filter();
     for(var i=0; i<items.length; i++){
@@ -49,6 +52,7 @@ var filter = () => {
         minPrice2 = parseInt(document.getElementById('price2-min-input').value);
         maxPrice2 = parseInt(document.getElementById('price2-max-input').value);
         var filesContainer = document.getElementById('file-list-container');
+        if(activeMenu == 'bookmarks') filesContainer = document.getElementById('file-bookmark-container');
         items = filesContainer.childNodes;
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
@@ -115,6 +119,7 @@ var filter = () => {
 }
 var clearFilters = () => {
     var filesContainer = document.getElementById('file-list-container');
+    if(activeMenu == 'bookmarks') filesContainer = document.getElementById('file-bookmark-container');
     var items = filesContainer.getElementsByClassName('item');
     for(var i=0; i<items.length; i++){
         items[i].style.display = '';
@@ -372,4 +377,14 @@ $(document).ready(() => {
             document.getElementById('loading-screen').classList.add('hidden');
         }, 10);
     });
+    $('#view-table-btn').click(() => {
+        activeMenu = 'files';
+    });
+    $('#view-column-btn').click(() => {
+        activeMenu = 'files';
+    });
+    $('#view-bookmark-btn').click(() => {
+        activeMenu = 'bookmarks';
+    });
+    
 })

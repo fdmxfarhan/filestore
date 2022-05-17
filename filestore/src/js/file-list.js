@@ -4,13 +4,19 @@ var api = require('./api');
 var {convertDate, showPrice} = require('./dateConvert');
 var pathName = path.join(__dirname, '../files');
 var filesContainer = document.getElementById('file-list-container');
+var bookmarksContainer = document.getElementById('file-bookmark-container');
 var errorMsg = document.getElementById('error-msg');
 var successMsg = document.getElementById('success-msg');
 var loadingScreen = document.getElementById('loading-screen');
+var cancleButton = document.getElementById('cancle-refresh-btn');
 var downloadBar = document.getElementById('download-bar');
 var refreshInterval = null;
 var udatePlanTime = 1000;
 var activeFile = null;
+var activeMenu = 'files';
+var refreshCancled = false;
+var zoom = 1;
+var zoomed = false;
 
 var updatePlans = () => {
     fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
@@ -338,21 +344,35 @@ var addFile = (data, index) => {
     filesContainer.appendChild(item);
 }
 var getBookmarks = () => {
-    fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
-        if(rawdata){
-            var data = JSON.parse(rawdata);
-            var bookmarks = [];
-            if(data.bookmarks) bookmarks = data.bookmarks;
-            return bookmarks;
-        }
-    });
+    var rawdata = fs.readFileSync(path.join(pathName, 'estate.json'));
+    if(rawdata){
+        var data = JSON.parse(rawdata);
+        var bookmarks = [];
+        if(data.bookmarks) bookmarks = data.bookmarks;
+        return bookmarks;
+    }
+}
+var bookmarkIndex = (file) => {
+    bookmarks = getBookmarks();
+    var index = -1;
+    for (let i = 0; i < bookmarks.length; i++) {
+        if(bookmarks[i].fileNumber == file.fileNumber)
+            index = i;
+    }
+    return index;
 }
 var loadData = (more, len) => {
     $('#file-popup').removeClass('border-blue');
     $('#file-popup').removeClass('border-purple');
     $('#file-state').removeClass('border-blue');
     $('#file-state').removeClass('border-purple');
-    
+    if(bookmarkIndex(more.data) != -1) {
+        $('.mark-file-btn-o').show();
+        $('.mark-file-btn').hide();
+    }else {
+        $('.mark-file-btn-o').hide();
+        $('.mark-file-btn').show();
+    }
     if(more.data.state == 'رهن و اجاره' || more.data.state == 'رهن کامل'){
         $('#file-state').addClass('border-blue');
         $('#file-popup').addClass('border-blue');
@@ -518,60 +538,71 @@ var updateHandlers = (data) => {
     var moreButtons = [];
     for (let i = 0; i < data.files.length; i++) {
         moreButtons.push({btn: $(`#more-btn-${i}`),id: i,data: data.files[i]});
+        // if(refreshCancled) return;
     }
     moreButtons.forEach(more => {
         more.btn.click(() => {            
             $('#file-popup').fadeIn(500);
+            $('#next-file-btn').fadeIn(500);
+            $('#prev-file-btn').fadeIn(500);
             $('.black-modal').fadeIn(500);
             loadData(more, moreButtons.length);
             activeFile = more.data;
         });
     });
     $('#next-file-btn').click(() => {
-        var index = parseInt(document.getElementById('popup-index').textContent);
-        while(index < data.files.length-1){
-            if(document.getElementById(`more-btn-${index+1}`).style.display != 'none')
-                break;
-            index++;
-        }
-        loadData(moreButtons[index+1], moreButtons.length);
-        activeFile = moreButtons[index+1].data;
-    });
-    $('#prev-file-btn').click(() => {
-        var index = parseInt(document.getElementById('popup-index').textContent);
-        while(index > 0){
-            if(document.getElementById(`more-btn-${index-1}`).style.display != 'none')
-                break;
-            index--;
-        }
-        loadData(moreButtons[index-1], moreButtons.length);
-        activeFile = moreButtons[index-1].data;
-    });
-    $(document).keyup(function(e) {
-        if (e.key === "Escape") {
-            $('#file-popup').fadeOut(500);
-            $('.black-modal').fadeOut(500);
-            activeFile = null;
-        }
-        if (e.keyCode  == 39) {
+        if(activeMenu == 'files'){
             var index = parseInt(document.getElementById('popup-index').textContent);
             while(index < data.files.length-1){
                 if(document.getElementById(`more-btn-${index+1}`).style.display != 'none')
                     break;
                 index++;
             }
-            if(index < moreButtons.length-1) loadData(moreButtons[index+1], moreButtons.length);
+            loadData(moreButtons[index+1], moreButtons.length);
             activeFile = moreButtons[index+1].data;
         }
-        if (e.keyCode  == 37) {
+    });
+    $('#prev-file-btn').click(() => {
+        if(activeMenu == 'files'){
             var index = parseInt(document.getElementById('popup-index').textContent);
             while(index > 0){
                 if(document.getElementById(`more-btn-${index-1}`).style.display != 'none')
                     break;
                 index--;
             }
-            if(index > 0) loadData(moreButtons[index-1], moreButtons.length);
+            loadData(moreButtons[index-1], moreButtons.length);
             activeFile = moreButtons[index-1].data;
+        }
+    });
+    $(document).keyup(function(e) {
+        if(activeMenu == 'files'){
+            if (e.key === "Escape") {
+                $('#file-popup').fadeOut(500);
+                $('#next-file-btn').fadeOut(500);
+                $('#prev-file-btn').fadeOut(500);
+                $('.black-modal').fadeOut(500);
+                activeFile = null;
+            }
+            if (e.keyCode  == 39) {
+                var index = parseInt(document.getElementById('popup-index').textContent);
+                while(index < data.files.length-1){
+                    if(document.getElementById(`more-btn-${index+1}`).style.display != 'none')
+                        break;
+                    index++;
+                }
+                if(index < moreButtons.length-1) loadData(moreButtons[index+1], moreButtons.length);
+                activeFile = moreButtons[index+1].data;
+            }
+            if (e.keyCode  == 37) {
+                var index = parseInt(document.getElementById('popup-index').textContent);
+                while(index > 0){
+                    if(document.getElementById(`more-btn-${index-1}`).style.display != 'none')
+                        break;
+                    index--;
+                }
+                if(index > 0) loadData(moreButtons[index-1], moreButtons.length);
+                activeFile = moreButtons[index-1].data;
+            }
         }
     });
 }
@@ -593,12 +624,15 @@ var updatePlanPrices = () => {
         });
 }
 var refresh = () => {
+    refreshCancled = false;
     var downloadPercent = 10;
     fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
         if(rawdata){
             var estate = JSON.parse(rawdata);
             loadingScreen.classList.remove('hidden');
+            cancleButton.classList.remove('hidden');
             downloadBar.classList.remove('hidden');
+
             var downloadInterval = setInterval(() => {
                 document.getElementById('download-bar-handle').style.width = `${downloadPercent}%`;
                 document.getElementById('download-bar-text').textContent = `${downloadPercent}%`;
@@ -613,10 +647,12 @@ var refresh = () => {
                         removeAllChildNodes(filesContainer);
                         for(var i=0; i<data.files.length; i++){
                             addFile(data.files[i], i);
+                            // if(refreshCancled) break;
                         }
                         updateHandlers(data);
                         downloadBar.classList.add('hidden');
                         loadingScreen.classList.add('hidden');
+                        cancleButton.classList.add('hidden');
                         clearInterval(downloadInterval);
                         document.getElementById('refresh-btn').classList.remove('red');
                         document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات جدید';
@@ -636,6 +672,7 @@ var refresh = () => {
                 }).catch(err => {
                     showError('خطای اتصال به اینترنت');
                     loadingScreen.classList.add('hidden');
+                    cancleButton.classList.add('hidden');
                     console.log(err);
                 });
         }
@@ -651,6 +688,7 @@ var refresh2 = () => {
             var estate = JSON.parse(rawdata);
             loadingScreen.classList.remove('hidden');
             downloadBar.classList.remove('hidden');
+            cancleButton.classList.remove('hidden');
             var downloadInterval = setInterval(() => {
                 document.getElementById('download-bar-handle').style.width = `${downloadPercent}%`;
                 document.getElementById('download-bar-text').textContent = `${downloadPercent}%`;
@@ -695,6 +733,7 @@ var refresh2 = () => {
                                 saveEstate(estate.username, estate.password, estate.estate, data.files);
                                 downloadBar.classList.add('hidden');
                                 loadingScreen.classList.add('hidden');
+                                cancleButton.classList.add('hidden');
                                 clearInterval(downloadInterval);
                                 document.getElementById('refresh-btn').classList.remove('red');
                                 document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات جدید';
@@ -716,44 +755,9 @@ var refresh2 = () => {
                 }).catch(err => {
                     showError('خطای اتصال به اینترنت');
                     loadingScreen.classList.add('hidden');
+                    cancleButton.classList.add('hidden');
                     console.log(err);
                 });
-            // var refreshInterval = setInterval(() => {
-            //     fetch(api + `login?username=${estate.username}&password=${estate.password}`)
-            //         .then(res => res.json())
-            //         .then(data => {
-            //             if(data.correct == true){
-            //                 if(data.estate.planType != 'free' && data.estate.payed){
-            //                     var payDate = (new Date(data.estate.payDate)).getTime();
-            //                     var now = (new Date()).getTime();
-            //                     var endDate = 0;
-            //                     if(data.estate.planType == 'trial')  endDate = payDate + 3 * 24 * 60 * 60 * 1000;
-            //                     if(data.estate.planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
-            //                     if(data.estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
-            //                     if(data.estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
-            //                     if(data.estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
-            //                     if(endDate - now < 0) {
-            //                         document.getElementById('plan-info').classList.add('hidden');
-            //                         document.getElementById('no-plan-info').classList.remove('hidden');
-            //                         document.getElementById('refresh-btn').classList.add('red');
-            //                         document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
-            //                     }
-            //                     else {
-            //                         document.getElementById('days-to-pay').textContent = Math.floor((endDate - now)/(1000*60*60*24));
-            //                         document.getElementById('refresh-btn').classList.remove('red');
-            //                         document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات جدید';
-            //                         clearInterval(refreshInterval);
-            //                     }
-            //                 }
-            //                 else{
-            //                     document.getElementById('plan-info').classList.add('hidden');
-            //                     document.getElementById('no-plan-info').classList.remove('hidden');
-            //                     document.getElementById('refresh-btn').classList.add('red');
-            //                     document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
-            //                 }
-            //             }
-            //         }).catch(err => console.log(err));
-            // }, 5000);
         }
         else console.log('file not found');
     });
@@ -765,7 +769,7 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
     removeAllChildNodes(filesContainer);
     if(rawdata && JSON.parse(rawdata).files){
         var data = JSON.parse(rawdata);
-        console.log(data);
+        // console.log(data);
         for(var i=0; i<data.files.length; i++){
             addFile(data.files[i], i);
         }
@@ -853,11 +857,293 @@ var payPlan = (plan) => {
         else console.log('file not found');
     });
 }
+var addBookmark = (data, index) => {
+    var item = document.createElement('div');
+    item.classList.add('item');
+    var info1 = document.createElement('table');
+    info1.classList.add('info1');
+    var td1 = document.createElement('td');
+    td1.classList.add('column');
+    td1.classList.add('col20');
+    td1.classList.add('overflow-hidden');
+    var label1 = document.createElement('div');
+    label1.classList.add('label');
+    label1.classList.add('green');
+    label1.appendChild(document.createTextNode(data.state + ' '));
+    if(data.state == 'رهن و اجاره' || data.state == 'رهن کامل')
+        label1.classList.add('border-blue');
+    else
+        label1.classList.add('border-purple');
+    
+    var label2 = document.createElement('div');
+    label2.classList.add('label');
+    label2.classList.add('blue');
+    label2.appendChild(document.createTextNode(data.type + ' '));
+    td1.appendChild(label1);
+    td1.appendChild(label2);
+    
+    var td2 = document.createElement('td');
+    td2.classList.add('column');
+    var name1 = document.createElement('div');
+    name1.classList.add('name');
+    name1.appendChild(document.createTextNode('آدرس: '));
+    var value1 = document.createElement('div');
+    value1.classList.add('value');
+    value1.appendChild(document.createTextNode(data.address));
+    td2.appendChild(name1);
+    td2.appendChild(value1);
+    
+    var td3 = document.createElement('td');
+    td3.classList.add('column');
+    var name2 = document.createElement('div');
+    name2.classList.add('name');
+    if(data.state == 'رهن و اجاره' || data.state == 'رهن کامل')
+        name2.appendChild(document.createTextNode('قیمت رهن: '));
+    else
+        name2.appendChild(document.createTextNode('قیمت متری: ')); 
+    var value2 = document.createElement('div');
+    value2.classList.add('value');
+    value2.appendChild(document.createTextNode(getPrice(data.price)));
+    td3.appendChild(name2);
+    td3.appendChild(value2);
+
+    var tdDate = document.createElement('td');
+    tdDate.classList.add('column');
+    var valueDate = document.createElement('div');
+    valueDate.appendChild(document.createTextNode(data.date));
+    tdDate.appendChild(valueDate);
+    
+    
+    var td4 = document.createElement('td');
+    td4.classList.add('column');
+    var name3 = document.createElement('div');
+    name3.classList.add('name');
+    if(data.state == 'رهن و اجاره' || data.state == 'رهن کامل')
+        name3.appendChild(document.createTextNode('قیمت اجاره: '));
+    else
+        name3.appendChild(document.createTextNode('قیمت کل: '));
+
+    var value3 = document.createElement('div');
+    value3.classList.add('value');
+    value3.appendChild(document.createTextNode(getPrice(data.fullPrice)));
+    td4.appendChild(name3);
+    td4.appendChild(value3);
+    
+    var td5 = document.createElement('td');
+    td5.classList.add('column');
+    td5.classList.add('hidden');
+    var name4 = document.createElement('div');
+    name4.classList.add('name');
+    name4.appendChild(document.createTextNode('نام مالک: '));
+    var value4 = document.createElement('div');
+    value4.classList.add('value');
+    value4.appendChild(document.createTextNode(data.ownerName));
+    td5.appendChild(name4);
+    td5.appendChild(value4);
+
+    var td6 = document.createElement('td');
+    td6.classList.add('column');
+    td6.classList.add('hidden');
+    td6.appendChild(document.createTextNode(data.phone));
+    
+    var td7 = document.createElement('td');
+    td7.classList.add('column');
+    td7.classList.add('hidden');
+    td7.appendChild(document.createTextNode(data.fileNumber));
+    
+    info1.appendChild(td1);
+    info1.appendChild(td2);
+    info1.appendChild(td3);
+    info1.appendChild(td4);
+    info1.appendChild(td5);
+    info1.appendChild(td6);
+    info1.appendChild(td7);
+    info1.appendChild(tdDate);
+
+    // Table 2
+    var info2 = document.createElement('table');
+    info2.classList.add('info2');
+    var tr1 = document.createElement('tr');
+    
+    var tableTitle1 = document.createElement('td'); tableTitle1.classList.add('table-title'); tableTitle1.appendChild(document.createTextNode('متراژ'));tr1.appendChild(tableTitle1);
+    var tableTitle2 = document.createElement('td'); tableTitle2.classList.add('table-title'); tableTitle2.appendChild(document.createTextNode('خواب'));tr1.appendChild(tableTitle2);
+    var tableTitle3 = document.createElement('td'); tableTitle3.classList.add('table-title'); tableTitle3.appendChild(document.createTextNode('طبقه'));tr1.appendChild(tableTitle3);
+    var tableTitle4 = document.createElement('td'); tableTitle4.classList.add('table-title'); tableTitle4.appendChild(document.createTextNode('طبقات'));tr1.appendChild(tableTitle4);
+    var tableTitle5 = document.createElement('td'); tableTitle5.classList.add('table-title'); tableTitle5.appendChild(document.createTextNode('واحد'));tr1.appendChild(tableTitle5);
+    var tableTitle6 = document.createElement('td'); tableTitle6.classList.add('table-title'); tableTitle6.appendChild(document.createTextNode('سن بنا'));tr1.appendChild(tableTitle6);
+    var tableTitle7 = document.createElement('td'); tableTitle7.classList.add('table-title'); tableTitle7.appendChild(document.createTextNode('پارکینگ'));tr1.appendChild(tableTitle7);
+    var tableTitle8 = document.createElement('td'); tableTitle8.classList.add('table-title'); tableTitle8.appendChild(document.createTextNode('انباری'));tr1.appendChild(tableTitle8);
+    var tableTitle9 = document.createElement('td'); tableTitle9.classList.add('table-title'); tableTitle9.appendChild(document.createTextNode('آسانسور'));tr1.appendChild(tableTitle9);
+    var tableTitle10= document.createElement('td');tableTitle10.classList.add('table-title');tableTitle10.appendChild(document.createTextNode('آشپزخانه'));tr1.appendChild(tableTitle10);
+    var tableTitle11= document.createElement('td');tableTitle11.classList.add('table-title');tableTitle11.appendChild(document.createTextNode('نما'));tr1.appendChild(tableTitle11);
+    var tableTitle12= document.createElement('td');tableTitle12.classList.add('table-title');tableTitle12.appendChild(document.createTextNode('کف'));tr1.appendChild(tableTitle12);
+    var tableTitle13= document.createElement('td');tableTitle13.classList.add('table-title');tableTitle13.appendChild(document.createTextNode('سرویس'));tr1.appendChild(tableTitle13);
+    var tableTitle14= document.createElement('td');tableTitle14.classList.add('table-title');tableTitle14.appendChild(document.createTextNode('سرمایش و گرمایش'));tr1.appendChild(tableTitle14);
+    
+    var tr2 = document.createElement('tr');
+    var table1Value1 = document.createElement('td'); table1Value1.classList.add('table-value'); table1Value1.appendChild(document.createTextNode(data.meterage));tr2.appendChild(table1Value1);
+    var table1Value2 = document.createElement('td'); table1Value2.classList.add('table-value'); table1Value2.appendChild(document.createTextNode(data.bedroom));tr2.appendChild(table1Value2);
+    var table1Value3 = document.createElement('td'); table1Value3.classList.add('table-value'); table1Value3.appendChild(document.createTextNode(data.floor));tr2.appendChild(table1Value3);
+    var table1Value4 = document.createElement('td'); table1Value4.classList.add('table-value'); table1Value4.appendChild(document.createTextNode(data.numOfFloors));tr2.appendChild(table1Value4);
+    var table1Value5 = document.createElement('td'); table1Value5.classList.add('table-value'); table1Value5.appendChild(document.createTextNode(data.unit));tr2.appendChild(table1Value5);
+    var table1Value6 = document.createElement('td'); table1Value6.classList.add('table-value'); table1Value6.appendChild(document.createTextNode(data.buildAge));tr2.appendChild(table1Value6);
+    var table1Value7 = document.createElement('td'); table1Value7.classList.add('table-value'); table1Value7.appendChild(document.createTextNode(data.parking));tr2.appendChild(table1Value7);
+    var table1Value8 = document.createElement('td'); table1Value8.classList.add('table-value'); table1Value8.appendChild(document.createTextNode(data.warehouse));tr2.appendChild(table1Value8);
+    var table1Value9 = document.createElement('td'); table1Value9.classList.add('table-value'); table1Value9.appendChild(document.createTextNode(data.elevator));tr2.appendChild(table1Value9);
+    var table1Value10= document.createElement('td');table1Value10.classList.add('table-value');table1Value10.appendChild(document.createTextNode(data.kitchen));tr2.appendChild(table1Value10);
+    var table1Value11= document.createElement('td');table1Value11.classList.add('table-value');table1Value11.appendChild(document.createTextNode(data.view));tr2.appendChild(table1Value11);
+    var table1Value12= document.createElement('td');table1Value12.classList.add('table-value');table1Value12.appendChild(document.createTextNode(data.floortype));tr2.appendChild(table1Value12);
+    var table1Value13= document.createElement('td');table1Value13.classList.add('table-value');table1Value13.appendChild(document.createTextNode(data.service));tr2.appendChild(table1Value13);
+    var table1Value14= document.createElement('td');table1Value14.classList.add('table-value');table1Value14.appendChild(document.createTextNode(data.heatingAndCoolingSystem));tr2.appendChild(table1Value14);
+    
+    info2.appendChild(tr1);
+    info2.appendChild(tr2);
+
+    var info3 = document.createElement('table');
+    info3.classList.add('info3');
+    var info3td1 = document.createElement('td');
+    var info3name1;
+    if(data.state == 'رهن و اجاره' || data.state == 'رهن کامل'){
+        info3name1 = document.createElement('div');info3name1.classList.add('name');info3name1.appendChild(document.createTextNode('قیمت رهن: '));info3td1.appendChild(info3name1);
+    }else{
+        info3name1 = document.createElement('div');info3name1.classList.add('name');info3name1.appendChild(document.createTextNode('قیمت متری: '));info3td1.appendChild(info3name1);
+    }
+    var info3value1 = document.createElement('div');info3value1.classList.add('value');info3value1.appendChild(document.createTextNode(data.price));info3td1.appendChild(info3value1);
+    var info3td2 = document.createElement('td');
+    var info3name2;
+    if(data.state == 'رهن و اجاره' || data.state == 'رهن کامل'){
+        info3name2 = document.createElement('div');info3name2.classList.add('name');info3name2.appendChild(document.createTextNode('قیمت اجاره: '));info3td2.appendChild(info3name2);
+    }else{
+        info3name2 = document.createElement('div');info3name2.classList.add('name');info3name2.appendChild(document.createTextNode('قیمت کل: '));info3td2.appendChild(info3name2);
+    }
+    var info3value2 = document.createElement('div');info3value2.classList.add('value');info3value2.appendChild(document.createTextNode(data.fullPrice));info3td2.appendChild(info3value2);
+    var info3td3 = document.createElement('td');
+    // var moreButton = document.createElement('div');moreButton.classList.add('more');moreButton.id='more-btn-'+index.toString();moreButton.appendChild(document.createTextNode('مشاهده فایل'));info3td3.appendChild(moreButton);
+
+    info3.appendChild(info3td1);
+    info3.appendChild(info3td2);
+    info3.appendChild(info3td3);
+    info1.classList.add('hidden');
+    info2.classList.add('hidden');
+    info3.classList.add('hidden');
+    
+    var info4 = document.createElement('table');
+    info4.classList.add('info4');
+    var tr5 = document.createElement('tr');
+    var table4Value1 = document.createElement('td'); table4Value1.classList.add('metrage'); table4Value1.appendChild(document.createTextNode(data.meterage));tr5.appendChild(table4Value1);
+    var table4Value2 = document.createElement('td'); table4Value2.classList.add('bedroom'); table4Value2.appendChild(document.createTextNode(data.bedroom));tr5.appendChild(table4Value2);
+    var table4Value3 = document.createElement('td'); table4Value3.classList.add('floor'); table4Value3.appendChild(document.createTextNode(data.floor));tr5.appendChild(table4Value3);
+    var table4Value4 = document.createElement('td'); table4Value4.classList.add('build-age'); table4Value4.appendChild(document.createTextNode(data.buildAge));tr5.appendChild(table4Value4);
+    var table4Value5 = document.createElement('td'); table4Value5.classList.add('address'); table4Value5.appendChild(document.createTextNode(getAddress(data.address)));tr5.appendChild(table4Value5);
+    var table4Value55 = document.createElement('td'); table4Value55.classList.add('date'); table4Value55.appendChild(document.createTextNode(data.date));tr5.appendChild(table4Value55);
+    var table4Value555 = document.createElement('td'); table4Value555.classList.add('price'); table4Value555.appendChild(document.createTextNode(getPrice(data.price)));tr5.appendChild(table4Value555);
+    var table4Value6 = document.createElement('td'); table4Value6.classList.add('price'); table4Value6.appendChild(document.createTextNode(getPrice(data.fullPrice)));tr5.appendChild(table4Value6);
+    info4.appendChild(tr5);
+    if(data.type == 'کلنگی' || data.type == 'مستقلات' || data.type == 'زمین')
+        info4.classList.add('border-red');
+    else if(data.state == 'رهن و اجاره' || data.state == 'رهن کامل')
+        info4.classList.add('border-blue');
+    else
+        info4.classList.add('border-purple');
+    info1.classList.add('info-1');
+    info2.classList.add('info-2');
+    info3.classList.add('info-3');
+    info4.classList.add('info-4');
+    item.appendChild(info1);
+    item.appendChild(info2);
+    item.appendChild(info3);
+    item.appendChild(info4);
+    item.id='more-bookmark-btn-'+index.toString();
+    bookmarksContainer.appendChild(item);
+}
+var updateBookmarksHandlers = (data) => {
+    var moreButtons = [];
+    for (let i = 0; i < data.length; i++) {
+        moreButtons.push({btn: $(`#more-bookmark-btn-${i}`), id: i, data: data[i]});
+    }
+    moreButtons.forEach(more => {
+        more.btn.click(() => {            
+            $('#file-popup').fadeIn(500);
+            $('#next-file-btn').fadeIn(500);
+            $('#prev-file-btn').fadeIn(500);
+            $('.black-modal').fadeIn(500);
+            loadData(more, moreButtons.length);
+            activeFile = more.data;
+        });
+    });
+    $('#next-file-btn').click(() => {
+        if(activeMenu == 'bookmarks'){
+            var index = parseInt(document.getElementById('popup-index').textContent);
+            while(index < data.length-1){
+                if(document.getElementById(`more-btn-${index+1}`).style.display != 'none')
+                    break;
+                index++;
+            }
+            loadData(moreButtons[index+1], moreButtons.length);
+            activeFile = moreButtons[index+1].data;
+        }
+    });
+    $('#prev-file-btn').click(() => {
+        if(activeMenu == 'bookmarks'){
+            var index = parseInt(document.getElementById('popup-index').textContent);
+            while(index > 0){
+                if(document.getElementById(`more-btn-${index-1}`).style.display != 'none')
+                    break;
+                index--;
+            }
+            loadData(moreButtons[index-1], moreButtons.length);
+            activeFile = moreButtons[index-1].data;
+        }
+    });
+    $(document).keyup(function(e) {
+        if(activeMenu == 'bookmarks'){
+            if (e.key === "Escape") {
+                $('#file-popup').fadeOut(500);
+                $('#next-file-btn').fadeOut(500);
+                $('#prev-file-btn').fadeOut(500);
+                $('.black-modal').fadeOut(500);
+                activeFile = null;
+            }
+            if (e.keyCode  == 39) {
+                var index = parseInt(document.getElementById('popup-index').textContent);
+                while(index < data.length-1){
+                    if(document.getElementById(`more-btn-${index+1}`).style.display != 'none')
+                        break;
+                    index++;
+                }
+                if(index < moreButtons.length-1) loadData(moreButtons[index+1], moreButtons.length);
+                activeFile = moreButtons[index+1].data;
+            }
+            if (e.keyCode  == 37) {
+                var index = parseInt(document.getElementById('popup-index').textContent);
+                while(index > 0){
+                    if(document.getElementById(`more-btn-${index-1}`).style.display != 'none')
+                        break;
+                    index--;
+                }
+                if(index > 0) loadData(moreButtons[index-1], moreButtons.length);
+                activeFile = moreButtons[index-1].data;
+            }
+        }
+    });
+}
+var loadBookmarks = () => {
+    var bookmarks = getBookmarks();
+    removeAllChildNodes(bookmarksContainer);
+    for (let i = 0; i < bookmarks.length; i++) {
+        addBookmark(bookmarks[i], i);
+    }
+    updateBookmarksHandlers(bookmarks);
+}
 $(document).ready(() => {
+    $('#next-file-btn').hide();
+    $('#prev-file-btn').hide();
     var closeAll = () => {
         $('#plans-popup').fadeOut(500);
         $('.black-modal').fadeOut(500);
         $('#file-popup').fadeOut(500);
+        $('#next-file-btn').fadeOut(500);
+        $('#prev-file-btn').fadeOut(500);
     }
     $('#refresh-btn').click(() => {
         refresh2();
@@ -882,11 +1168,15 @@ $(document).ready(() => {
         document.getElementById('loading-screen').classList.remove('hidden');
         setTimeout(() => {
             $('#view-table-btn').addClass('active');
+            $('#view-bookmark-btn').removeClass('active');
             $('#view-column-btn').removeClass('active');
             $('.info4-header').show();
             $('.info-4').removeClass('hidden');
             $('.info-1').addClass('hidden');
             $('.info-2').addClass('hidden');
+            filesContainer.style.display = '';
+            bookmarksContainer.style.display = 'none';
+            activeMenu = 'files';
             document.getElementById('loading-screen').classList.add('hidden');
         }, 10);
     });
@@ -894,11 +1184,28 @@ $(document).ready(() => {
         document.getElementById('loading-screen').classList.remove('hidden');
         setTimeout(() => {
             $('#view-table-btn').removeClass('active');
+            $('#view-bookmark-btn').removeClass('active');
             $('#view-column-btn').addClass('active');
             $('.info4-header').hide();
             $('.info-4').addClass('hidden');
             $('.info-1').removeClass('hidden');
             $('.info-2').removeClass('hidden');
+            filesContainer.style.display = '';
+            bookmarksContainer.style.display = 'none';
+            activeMenu = 'files';
+            document.getElementById('loading-screen').classList.add('hidden');
+        }, 10);
+    });
+    $('#view-bookmark-btn').click(() => {
+        document.getElementById('loading-screen').classList.remove('hidden');
+        setTimeout(() => {
+            $('#view-table-btn').removeClass('active');
+            $('#view-bookmark-btn').addClass('active');
+            $('#view-column-btn').removeClass('active');
+            filesContainer.style.display = 'none';
+            bookmarksContainer.style.display = '';
+            loadBookmarks();
+            activeMenu = 'bookmarks';
             document.getElementById('loading-screen').classList.add('hidden');
         }, 10);
     });
@@ -917,6 +1224,8 @@ $(document).ready(() => {
         document.getElementById('home-frame').classList.add('hidden');
         document.getElementById('file-print-frame').classList.remove('hidden');
         $('#file-popup').fadeOut(500);
+        $('#next-file-btn').fadeOut(500);
+        $('#prev-file-btn').fadeOut(500);
         $('.black-modal').fadeOut(500);
         loadPDFData(activeFile);
         var beforePrint = function () {
@@ -927,6 +1236,8 @@ $(document).ready(() => {
             document.getElementById('home-frame').classList.remove('hidden');
             document.getElementById('file-print-frame').classList.add('hidden');
             $('#file-popup').fadeIn(500);
+            $('#next-file-btn').fadeIn(500);
+            $('#prev-file-btn').fadeIn(500);
             $('.black-modal').fadeIn(500);
         };
         if (window.matchMedia) {
@@ -953,7 +1264,11 @@ $(document).ready(() => {
             if(rawdata){
                 var data = JSON.parse(rawdata);
                 if(!data.bookmarks) data.bookmarks = [];
-                data.bookmarks.push(activeFile);
+                var index = -1;
+                for(var i=0; i<data.bookmarks.length; i++)
+                    if(data.bookmarks[i].fileNumber == activeFile.fileNumber)
+                        index = i;
+                if(index == -1) data.bookmarks.push(activeFile);
                 saveEstate(data.username, data.password, data.estate, data.files, data.bookmarks);
             }
         });
@@ -971,10 +1286,25 @@ $(document).ready(() => {
                         index = i;
                 if(index != -1) data.bookmarks.splice(index, 1);
                 saveEstate(data.username, data.password, data.estate, data.files, data.bookmarks);
+                loadBookmarks();
             }
         });
-    })
+    });
+    $('#cancle-refresh-btn').click(() => {
+        refreshCancled = true;
+        downloadBar.classList.add('hidden');
+        loadingScreen.classList.add('hidden');
+    });
+    $('#zoom-in').click(() => {
+        document.getElementById('file-popup').style.transform = "scale(1.16)";
+        $('#zoom-in').hide();
+        $('#zoom-out').show();
+    });
+    $('#zoom-out').click(() => {
+        document.getElementById('file-popup').style.transform = "scale(1)";
+        $('#zoom-in').show();
+        $('#zoom-out').hide();
+    });
 });
-
 
 
