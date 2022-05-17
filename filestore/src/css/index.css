@@ -101,6 +101,27 @@ body {
   cursor: pointer;
   color: var(--lightgray);
 }
+.popup .mark-file-btn{
+  position: absolute;
+  top: 1.2vw;
+  left: 2vw;
+  font-size: 1.8vw;
+  cursor: pointer;
+  color: var(--gray);
+}
+.popup .mark-file-btn:hover{color: var(--blue);}
+.popup .mark-file-btn-o{
+  position: absolute;
+  top: 1.2vw;
+  left: 2vw;
+  font-size: 1.8vw;
+  cursor: pointer;
+  color: var(--yellow);
+  display: none;
+}
+.popup .mark-file-btn.active{
+  display: hidden;
+}
 .popup .close-popup:hover{
   color: var(--red);
 }

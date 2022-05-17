@@ -55,9 +55,9 @@ var updatePlans = () => {
         }
     });
 }
-var saveEstate = (username, password, estate, files) => {
+var saveEstate = (username, password, estate, files, bookmarks=[]) => {
     var file = path.join(pathName, 'estate.json');
-    var estateInfo = {username, password, estate, files};
+    var estateInfo = {username, password, estate, files, bookmarks};
     fs.writeFile(file, JSON.stringify(estateInfo), (err) => {
         if(err) console.log(err);
     })
@@ -337,12 +337,22 @@ var addFile = (data, index) => {
     item.id='more-btn-'+index.toString();
     filesContainer.appendChild(item);
 }
+var getBookmarks = () => {
+    fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+        if(rawdata){
+            var data = JSON.parse(rawdata);
+            var bookmarks = [];
+            if(data.bookmarks) bookmarks = data.bookmarks;
+            return bookmarks;
+        }
+    });
+}
 var loadData = (more, len) => {
     $('#file-popup').removeClass('border-blue');
     $('#file-popup').removeClass('border-purple');
     $('#file-state').removeClass('border-blue');
     $('#file-state').removeClass('border-purple');
-
+    
     if(more.data.state == 'رهن و اجاره' || more.data.state == 'رهن کامل'){
         $('#file-state').addClass('border-blue');
         $('#file-popup').addClass('border-blue');
@@ -936,6 +946,34 @@ $(document).ready(() => {
             window.print();
         }, 1000);
     });
+    $('.mark-file-btn').click(() => {
+        $('.mark-file-btn').hide();
+        $('.mark-file-btn-o').show();
+        fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+            if(rawdata){
+                var data = JSON.parse(rawdata);
+                if(!data.bookmarks) data.bookmarks = [];
+                data.bookmarks.push(activeFile);
+                saveEstate(data.username, data.password, data.estate, data.files, data.bookmarks);
+            }
+        });
+    });
+    $('.mark-file-btn-o').click(() => {
+        $('.mark-file-btn-o').hide();
+        $('.mark-file-btn').show();
+        fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+            if(rawdata){
+                var data = JSON.parse(rawdata);
+                if(!data.bookmarks) data.bookmarks = [];
+                var index = -1;
+                for(var i=0; i<data.bookmarks.length; i++)
+                    if(data.bookmarks[i].fileNumber == activeFile.fileNumber)
+                        index = i;
+                if(index != -1) data.bookmarks.splice(index, 1);
+                saveEstate(data.username, data.password, data.estate, data.files, data.bookmarks);
+            }
+        });
+    })
 });
 
 
