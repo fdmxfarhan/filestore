@@ -127,7 +127,7 @@ router.get('/get-news', (req, res, next) => {
         res.send(news);
         for(var i=0; i<news.length; i++){
             if(news[i].seenBy.indexOf(username) == -1){
-                news[i].seedBy.push(username);
+                news[i].seenBy.push(username);
                 news[i].seen += 1;
                 News.updateMany({_id: news[i]._id}, {$set: {seenBy: news[i].seenBy, seen: news[i].seen}}, (err, doc) => {});
             }
