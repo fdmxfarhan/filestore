@@ -1145,7 +1145,19 @@ var updateNews = () => {
             fetch(api + `get-news?username=${estate.username}&password=${estate.password}`)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
+                    var newsContainer = document.getElementById('news-container');
+                    for (let i = 0; i < data.length; i++) {
+                        var news = document.createElement('div');
+                        news.classList.add('news');
+                        var h1 = document.createElement('h1');    h1.textContent = data[i].title; news.appendChild(h1);
+                        var p = document.createElement('p');      p.textContent = data[i].text;   news.appendChild(p);
+                        var date = document.createElement('div'); date.textContent = convertDate(new Date(data[i].date)); date.classList.add('date'); news.appendChild(date);
+                        var seen = document.createElement('div'); seen.classList.add('seen');
+                        var icon = document.createElement('i');   icon.classList.add('fa'); icon.classList.add('fa-eye'); seen.appendChild(icon);
+                        var num  = document.createElement('div'); num.classList.add('num'); num.textContent = data[i].seen; seen.appendChild(num);
+                        news.appendChild(seen);
+                        newsContainer.appendChild(news);
+                    }
                 }).catch(err => console.log(err));
         }
     });
