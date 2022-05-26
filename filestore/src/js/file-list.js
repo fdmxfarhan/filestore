@@ -1,6 +1,9 @@
+const { shell } = require('electron');
 var fs = require('fs');
 var path = require('path');
 var api = require('./api');
+// const { shell } = require('electron')
+// var shell = require("shell");
 var {convertDate, showPrice} = require('./dateConvert');
 var pathName = path.join(__dirname, '../files');
 var filesContainer = document.getElementById('file-list-container');
@@ -1135,6 +1138,20 @@ var loadBookmarks = () => {
     }
     updateBookmarksHandlers(bookmarks);
 }
+var updateNews = () => {
+    fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+        if(rawdata){
+            var estate = JSON.parse(rawdata);
+            fetch(api + `get-news?username=${estate.username}&password=${estate.password}`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                }).catch(err => console.log(err));
+        }
+    });
+}
+updateNews();
+setInterval(updateNews, 10 * 60 * 1000);
 $(document).ready(() => {
     $('#next-file-btn').hide();
     $('#prev-file-btn').hide();
@@ -1305,6 +1322,10 @@ $(document).ready(() => {
         $('#zoom-in').show();
         $('#zoom-out').hide();
     });
+    $('#open-website').click(() => {
+        shell.openExternal("https://fileestore.ir")
+    });
 });
+
 
 

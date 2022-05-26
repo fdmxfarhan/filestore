@@ -1,21 +1,35 @@
 
 .home-frame .title-view{
+    position: relative;
     border-radius: 0.3vw;
-    background-color: white;
+    background-color: var(--darkblue);
     box-shadow: 0 0 0.2vw 0.05vw rgba(0, 0, 0, 0.2);
     width: 98%;
     margin: 0.5vw auto;
-    padding-bottom: 1vw;
+    padding-bottom: 0.1vw;
+    color: white;
+}
+.home-frame .title-view img.icon{
+    width: 3vw;
+    position: absolute;
+    top: 1vw;
+    right: 48%;
+    cursor: pointer;
 }
 .home-frame .title-view .title{
     overflow: hidden;
     padding: 0 2vw;
+    padding-bottom: 0.1vw;
 }
 .home-frame .title-view .title h1{
     float: right;
     font-family: 'iransans';
     font-size: 1.1vw;
-    color: var(--text);
+    /* color: var(--text); */
+    color: white;
+}
+.home-frame .title-view .title .sub-h1{
+  font-size: 1vw;
 }
 .home-frame .title-view .title h1 i{
     padding-left: 1vw;
@@ -24,7 +38,8 @@
     float: left;
     font-family: 'iransans';
     font-size: 1.1vw;
-    color: var(--text);
+    /* color: var(--text); */
+    color: white;
 }
 .home-frame .main-container{
     overflow: hidden;
@@ -497,3 +512,60 @@
     color: var(--hover);
 }
 #zoom-out{display: none;}
+.home-frame .main-container .sidebar h1.title{
+    color: var(--darkblue);
+    font-family: 'iransans';
+    font-size: 1vw;
+    padding: 0.5vw 1vw;
+    margin: 0;
+    padding-bottom: 0.5vw;
+}
+.home-frame .main-container .sidebar .news{
+    width: 90%;
+    background-color: rgb(206, 230, 238);
+    border-radius: 0.5vw;
+    margin: auto;
+    margin-bottom: 0.5vw;
+    position: relative;
+    padding-bottom: 1vw;
+}
+.home-frame .main-container .sidebar .news h1{
+    color: var(--darkblue);
+    font-family: 'iransans';
+    font-size: 1vw;
+    margin: 0;
+    padding: 0;
+    padding-top: 0.5vw;
+    padding-right: 0.5vw;
+}
+.home-frame .main-container .sidebar .news p{
+    font-family: 'iransans';
+    font-size: 1vw;
+    color: var(--text);
+    padding: 0.5vw;
+    margin: 0;
+    text-align: justify;
+}
+.home-frame .main-container .sidebar .news .date{
+    position: absolute;
+    font-family: 'iransans';
+    font-size: 0.8vw;
+    color: var(--gray);
+    bottom: 0.3vw;
+    left: 0.5vw;
+}
+.home-frame .main-container .sidebar .news .seen{
+    position: absolute;
+    font-family: 'iransans';
+    font-size: 0.8vw;
+    color: var(--gray);
+    bottom: 0.3vw;
+    right: 0.5vw;
+}
+
+.home-frame .main-container .sidebar .news .seen i{
+    padding-left: 0.3vw;
+}
+.home-frame .main-container .sidebar .news .seen .num{
+    display: inline;
+}

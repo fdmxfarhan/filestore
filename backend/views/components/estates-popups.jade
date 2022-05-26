@@ -28,10 +28,27 @@
                         i.fa.fa-pencil
                         | شماره منطقه:
                     input.textinput(type="text" placeholder="شماره منطقه" name="area" value= "#{ typeof estates[i].area != 'undefined' ? estates[i].area: '' }")
-                -if(estates[i].planType == 'free')
+                -if(estates[i].planType == 'free'){
                     a.link(href="/dashboard/start-trial?estateID=#{estates[i]._id}") 
                         i.fa.fa-play
                         | شروع 3 روز اشتراک رایگان
+                -}
+                -if(user.role == 'admin' && (user.idNumber == 'admin' || user.idNumber == '1234')){
+                    .special-actions
+                        i.fa.fa-play
+                        a.link(href="/dashboard/change-plan?estateID=#{estates[i]._id}&planType=1 ماهه") 
+                            | اشتراک یک ماهه
+                        a.link(href="/dashboard/change-plan?estateID=#{estates[i]._id}&planType=3 ماهه") 
+                            | اشتراک سه ماهه
+                        a.link(href="/dashboard/change-plan?estateID=#{estates[i]._id}&planType=6 ماهه") 
+                            | اشتراک شش ماهه
+                        a.link(href="/dashboard/change-plan?estateID=#{estates[i]._id}&planType=1 ساله") 
+                            | اشتراک یک ساله
+                    .special-actions
+                        i.fa.fa-times
+                        a.link(href="/dashboard/remove-plan?estateID=#{estates[i]._id}") 
+                            | لغو اشتراک
+                -}
                 //- .check-input 
                 //-     input(type="checkbox" name="trial" id="trial" value="true")
                 //-     label(for="trial") 3 روز اشتراک رایگان

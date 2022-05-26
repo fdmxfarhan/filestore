@@ -4,11 +4,42 @@ block styles
     link(rel="stylesheet", href="/css/dashboard/notif.css")
 
 block content
-    .notifs 
-        -for(var i=notifs.length-1; i>=0; i--){
-            .notif 
-                .text= notifs[i].text
-                .date= convertDate(notifs[i].date)
-        -}
+    .title-view 
+        h1 اعلان‌ها
+        h2 
+    .content-view 
+        .user-control 
+            .control.hidden-in-mobile
+                h1.title آخرین اخبار
+                .news-view 
+                    -for(var i=0; i<news.length; i++){
+                        .news 
+                            h1= news[i].title
+                            p= news[i].text
+                            .date= convertDate(news[i].date)
+                            .seen 
+                                i.fa.fa-eye 
+                                | #{news[i].seen}
+                            a.delete(href="/dashboard/delete-news?newsID=#{news[i]._id}") 
+                                i.fa.fa-trash
+                    -}
+                    form.add-news-view(action="/dashboard/add-news" method="POST") 
+                        input.text(type="text" name="title" placeholder="عنوان پیام")
+                        textarea#text(name="text" placeholder="متن پیام ...")
+                        button(type="submit")
+                            i.fa.fa-send
+        .users-view 
+            .notifs 
+                -for(var i=notifs.length-1; i>=0; i--){
+                    .notif 
+                        .text= notifs[i].text
+                        .date= convertDate(notifs[i].date)
+                -}
     script.
         $('#link6').addClass('active');
+        textarea = document.querySelector("#text");
+        textarea.addEventListener('input', autoResize, false);
+        function autoResize() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        }

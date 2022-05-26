@@ -30,14 +30,19 @@
       <div class="title-view">
         <div class="title">
           <h1>
-            <i class="fa fa-file"></i>
+            <!-- <i class="fa fa-file"></i> -->
             فایل استور
+            <div class="sub-h1">
+              <!-- <i class="fa fa-phone"></i> -->
+              02146127947
+            </div>
           </h1>
           <h2 class="hidden">منطقه <div class="inline" id="estate-number"></div></h2>
           <h2 id="intro-start-btn">
             <i class="fa fa-info"></i>
             راهنما
           </h2>
+          <img src="img/logo.png" class="icon" id="open-website">
         </div>
       </div>
       
@@ -49,6 +54,10 @@
           <div class="sidebar">
             <%- include('./components/sidebar.ejs') %>
           </div>
+          <div class="sidebar">
+            <%- include('./components/news.ejs') %>
+          </div>
+          
           <!-- <div class="refresh-link" id="refresh-btn">
             <i class="fa fa-refresh"></i>
             بارگیری اطلاعات

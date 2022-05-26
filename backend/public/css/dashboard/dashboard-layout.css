@@ -248,6 +248,27 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         width: 90%;
         margin: auto;
     }
+    .popup .one-side-form .special-actions{
+        overflow: hidden;
+        width: 90%;
+        margin: auto;
+    }
+    .popup .one-side-form .special-actions i{
+        float: right;
+        color: var(--blue);
+        padding-top: 0.2vw;
+    }
+    .popup .one-side-form .special-actions a.link{
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--blue);
+        text-decoration: none;
+        display: block;
+        float: right;
+        width: fit-content;
+        margin-right: 0.5vw;
+        margin-left: 1vw;
+    }
     .popup .one-side-form  a.link:hover{
         color: var(--hover);
     }
@@ -875,7 +896,113 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         color: white;
     }
     /* ----------------------------- responsive flag ------------------------------ */
-    
+    .content-view .user-control .control .news-view{
+        
+    }
+    .content-view .user-control .control .news-view .news{
+        width: 92%;
+        margin: auto;
+        background-color: var(--lightblue);
+        border-radius: 0.5vw;
+        position: relative;
+        padding-bottom: 1.2vw;
+        margin-bottom: 0.7vw;
+    }
+    .content-view .user-control .control .news-view .news h1{
+        color: var(--darkblue);
+        font-family: 'iransans';
+        font-size: 1vw;
+        margin: 0;
+        padding: 0;
+        padding-top: 0.5vw;
+        padding-right: 0.5vw;
+    }
+    .content-view .user-control .control .news-view .news p{
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--text);
+        padding: 0.5vw;
+        margin: 0;
+        text-align: justify;
+    }
+    .content-view .user-control .control .news-view .news .date{
+        position: absolute;
+        font-family: 'iransans';
+        font-size: 0.8vw;
+        color: var(--gray);
+        bottom: 0.3vw;
+        left: 0.5vw;
+    }
+    .content-view .user-control .control .news-view .news .seen{
+        position: absolute;
+        font-family: 'iransans';
+        font-size: 0.8vw;
+        color: var(--gray);
+        bottom: 0.3vw;
+        right: 0.5vw;
+    }
+    .content-view .user-control .control .news-view .news .seen i{
+        padding-left: 0.3vw;
+    }
+    .content-view .user-control .control .news-view .news .delete{
+        position: absolute;
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--gray);
+        top: 0.5vw;
+        left: 0.5vw;
+    }
+    .content-view .user-control .control .news-view .news .delete:hover{
+        color: var(--red);
+    }
+    .content-view .user-control .control .news-view form.add-news-view{
+        overflow: hidden;
+        width: 92%;
+        margin: auto;
+    }
+    .content-view .user-control .control .news-view form.add-news-view input.text{
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        display: block;
+        float: right;
+        width: 92%;
+        border: none;
+        background-color: var(--lightgray);
+        border-radius: 0.5vw;
+        padding: 0.5vw;
+        resize: none;
+        height: 1vw;
+        margin-bottom: 0.5vw;
+    }
+    .content-view .user-control .control .news-view form.add-news-view textarea{
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        display: block;
+        float: right;
+        width: 80%;
+        border: none;
+        background-color: var(--lightgray);
+        border-radius: 0.5vw;
+        padding: 0.5vw;
+        resize: vertical;
+        height: auto;
+    }
+    .content-view .user-control .control .news-view form.add-news-view input.text:focus,
+    .content-view .user-control .control .news-view form.add-news-view textarea:focus{
+        outline: none;
+    }
+    .content-view .user-control .control .news-view form.add-news-view button{
+        border: none;
+        background-color: var(--blue);
+        padding: 0.5vw;
+        border-radius: 0.5vw;
+        color: white;
+        margin-right: 0.3vw;
+        cursor: pointer;
+    }
+    .content-view .user-control .control .news-view form.add-news-view button:hover{
+        background-color: var(--hover);
+    }
 }
 @media only screen and (max-width: 800px) {
     .dashboard .side-bar{

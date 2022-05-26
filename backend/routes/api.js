@@ -5,6 +5,7 @@ var Estate = require('../models/Estate');
 var File = require('../models/File');
 var Notif = require('../models/Notif');
 var Settings = require('../models/Settings');
+var News = require('../models/News');
 const ZarinpalCheckout = require('zarinpal-checkout');
 const zarinpal = ZarinpalCheckout.create('18286cd3-6065-4a7a-ad43-05eaf70f01a6', false);
 const { ensureAuthenticated } = require('../config/auth');
@@ -120,5 +121,15 @@ router.get('/get-settings', (req, res, next) => {
         res.send({settings});
     })
 });
+router.get('/get-news', (req, res, next) => {
+    var {username, password} = req.query;
+    News.find({}, (err, news) => {
+        res.send(news);
+    });
+});
+
+
+
+
 
 module.exports = router;

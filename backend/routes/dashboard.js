@@ -6,6 +6,7 @@ var Estate = require('../models/Estate');
 var File = require('../models/File');
 var Notif = require('../models/Notif');
 var Settings = require('../models/Settings');
+var News = require('../models/News');
 const mail = require('../config/mail');
 const generateCode = require('../config/generateCode');
 var bodyparser = require('body-parser');
@@ -744,12 +745,41 @@ router.get('/start-trial', ensureAuthenticated, (req, res, next) => {
 });
 router.get('/notif', ensureAuthenticated, (req, res, next) => {
     Notif.find({}, (err, notifs) => {
-        res.render('./dashboard/admin-notif', {
-            user: req.user,
-            notifs,
-            convertDate
+        News.find({}, (err, news) => {
+            res.render('./dashboard/admin-notif', {
+                user: req.user,
+                notifs,
+                news,
+                convertDate
+            })
         })
     })
 });
+router.get('/change-plan', ensureAuthenticated, (req, res, next) => {
+    var {estateID, planType} = req.query;
+    Estate.updateMany({_id: estateID}, {$set: {payed: true, payDate: new Date(), authority: '', planType: planType}}, (err, doc) => {
+        res.redirect('/dashboard/estates');
+    });
+});
+router.get('/remove-plan', ensureAuthenticated, (req, res, next) => {
+    var {estateID} = req.query;
+    Estate.updateMany({_id: estateID}, {$set: {payed: false, planType: 'free'}}, (err, doc) => {
+        res.redirect('/dashboard/estates');
+    });
+});
+router.post('/add-news', ensureAuthenticated, (req, res, next) => {
+    var {title, text} = req.body;
+    var newNews = new News({title, text, date: new Date, seen: 0, seenBy: []});
+    newNews.save().then(doc => {
+        res.redirect('/dashboard/notif');
+    }).catch(err => console.log(err));
+});
+router.get('/delete-news', ensureAuthenticated, (req, res, next) => {
+    var {newsID} = req.query;
+    News.deleteMany({_id: newsID}, (err) => {
+        res.redirect('/dashboard/notif');
+    });
+});
+
 
 module.exports = router;
