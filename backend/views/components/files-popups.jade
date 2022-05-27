@@ -199,6 +199,8 @@
                     -for(var j=0; j<files[i].images.length; j++){
                         .image 
                             img(src="#{files[i].images[j].link}", alt="")
+                            a.delete(href="/dashboard/delete-image?fileID=#{files[i]._id}&index=#{j}") 
+                                i.fa.fa-trash
                     -}
                     .add-image-btn
                         input.file-input(type="file" name="myFile")
@@ -406,6 +408,8 @@
                     -for(var j=0; j<result[i].images.length; j++){
                         .image 
                             img(src="#{result[i].images[j].link}", alt="")
+                            a.delete(href="/dashboard/delete-image?fileID=#{result[i]._id}&index=#{j}") 
+                                i.fa.fa-trash
                     -}
                     .add-image-btn
                         input.file-input(type="file" name="myFile")

@@ -137,6 +137,4 @@ router.get('/get-news', (req, res, next) => {
 
 
 
-
-
 module.exports = router;

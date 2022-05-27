@@ -206,6 +206,15 @@
         border-radius: 0.3vw;
         float: right;
         margin-left: 0.5vw;
+        position: relative;
+    }
+    .popup.file .images-view .image a.delete{
+        display: block;
+        position: absolute;
+        color: var(--red);
+        top: 0vw;
+        left: 0vw;
+        font-size: 1vw;
     }
     .popup.file .images-view .image img{
         height: 3.5vw;
@@ -319,6 +328,7 @@
         font-size: 0.9vw;
         padding-right: 0.5vw;
     }
+
 }
 @media only screen and (max-width: 800px) {
     .multi-column-form{

@@ -780,6 +780,14 @@ router.get('/delete-news', ensureAuthenticated, (req, res, next) => {
         res.redirect('/dashboard/notif');
     });
 });
-
+router.get('/delete-image', ensureAuthenticated, (req, res, next) => {
+    var {fileID, index} = req.query;
+    File.findById(fileID, (err, file) => {
+        file.images.splice(index, 1);
+        File.updateMany({_id: fileID}, {$set: file}, (err) => {
+            res.redirect('/dashboard/files');
+        })
+    })
+});
 
 module.exports = router;
