@@ -20,6 +20,8 @@ var path = require('path');
 const bcrypt = require('bcryptjs');
 const reader = require('xlsx');
 var excel = require('excel4node');
+var Jimp = require('jimp')
+
 
 // const excelFile = reader.readFile(__dirname + '/../public/files.xlsx');
 router.use(bodyparser.urlencoded({ extended: true }));
@@ -302,7 +304,21 @@ router.post('/add-file', ensureAuthenticated, upload.single(`myFile`), (req, res
     body.creationDate = new Date();
     if(req.user.role == 'admin'){
         body.images = [];
-        if(file) body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
+        if(file) {
+            body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
+            p = path.join(__dirname, '../public/', file.destination.slice(6) + '/' + file.originalname)
+            Jimp.read(p)
+                .then((tpl) => {
+                    Jimp.read('./public/img/logo.png').then((logoTpl) => {
+                        // logoTpl.opacity(0.5)
+                        w = tpl.getWidth();
+                        h = tpl.getHeight();
+                        logoTpl.resize(w * 0.05, w * 0.05);
+                        return tpl.composite(logoTpl, 20, 20, [Jimp.BLEND_DESTINATION_OVER])
+                    })
+                    .then((tpl) => tpl.write(p))
+                })
+        }
         var newFile = new File(body);
         newFile.save().then(doc => {
             res.redirect('/dashboard/files');
@@ -317,7 +333,21 @@ router.post('/edit-file', ensureAuthenticated, upload.single(`myFile`), (req, re
     if(req.user.role == 'admin'){
         File.findById(fileID, (err, f) => {
             body.images = f.images;
-            if(file) body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
+            if(file) {
+                body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
+                p = path.join(__dirname, '../public/', file.destination.slice(6) + '/' + file.originalname)
+                Jimp.read(p)
+                    .then((tpl) => {
+                        Jimp.read('./public/img/logo.png').then((logoTpl) => {
+                            // logoTpl.opacity(0.5)
+                            w = tpl.getWidth();
+                            h = tpl.getHeight();
+                            logoTpl.resize(w * 0.05, w * 0.05);
+                            return tpl.composite(logoTpl, 20, 20, [Jimp.BLEND_DESTINATION_OVER])
+                        })
+                        .then((tpl) => tpl.write(p))
+                    })
+            }
             File.updateMany({_id: fileID}, {$set: body}, (err, doc) => {
                 res.redirect('/dashboard/files');
             });
