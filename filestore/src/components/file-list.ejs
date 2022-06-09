@@ -3,6 +3,13 @@
     <i class="fa fa-table active" id="view-table-btn"></i>
     <i class="fa fa-columns" id="view-column-btn"></i>
     <i class="fa fa-bookmark-o" id="view-bookmark-btn"></i>
+    <select name="numberoffilesinpage" id="numberoffilesinpage" class="numberoffilesinpage">
+      <option value="10">10 فایل در صفحه</option>
+      <option value="30" selected>30 فایل در صفحه</option>
+      <option value="50">50 فایل در صفحه</option>
+      <option value="100">100 فایل در صفحه</option>
+      <option value="all">نمایش همه</option>
+    </select>
     <div class="clear-filters-btn">
       <i class="fa fa-times"></i>
       پاک کردن فیلترها
@@ -127,6 +134,29 @@
   </div>
 </div>
 <div class="file-list" id="file-bookmark-container">
+</div>
+<div class="page-numbers-view disable-select" unselectable="on" id="page-numbers-view">
+  <div class="prev-filepage"  id="prev-filepage-btn">
+    <i class="fa fa-chevron-right"></i>
+    صفحع قبل
+  </div>
+  <div class="pagenumbers-container" id="pagenumbers-container">
+    <div class="page-number active" id="filepage-number-1">1</div>
+    <div class="page-number" id="filepage-number-2">2</div>
+    <div class="page-number" id="filepage-number-3">3</div>
+    <div class="page-number" id="filepage-number-4">4</div>
+    <div class="page-number" id="filepage-number-5">5</div>
+    <div class="page-number" id="filepage-number-6">6</div>
+    <div class="page-number" id="filepage-number-7">7</div>
+  </div>
+  <div class="dots">...</div>
+  <div class="pagenumbers-container" id="pagenumbers-container">
+    <div class="page-number" id="filepage-number-8">100</div>
+  </div>
+  <div class="next-filepage"  id="next-filepage-btn">
+    صفحع بعد
+    <i class="fa fa-chevron-left"></i>
+  </div>
 </div>
 
 <div class="intro-start-btn">

@@ -441,6 +441,15 @@
     background-color: var(--lightgray);
     color: var(--blue);
 }
+.view-controls .numberoffilesinpage{
+    padding: 0.1vw 0.5vw;
+    font-family: 'iransans';
+    font-size: 0.8vw;
+    margin-right: 1vw;
+    margin-top: 0.3vw;
+    border-radius: 0.5vw;
+    border: var(--gray) 0.1vw solid;
+}
 .controls .clear-filters-btn{
     float: left;
     color: var(--blue);
@@ -568,4 +577,57 @@
 }
 .home-frame .main-container .sidebar .news .seen .num{
     display: inline;
+}
+
+
+.page-numbers-view{
+    text-align: center;
+    /* overflow: hidden; */
+}
+.page-numbers-view .prev-filepage{
+    display: inline;
+    color: var(--gray);
+    cursor: pointer;
+    margin-left: 2vw;
+    font-size: 1vw;
+}
+.page-numbers-view .prev-filepage:hover{color: var(--blue);}
+.page-numbers-view .prev-filepage i{font-size: 0.5vw;}
+.page-numbers-view .next-filepage{
+    display: inline;
+    color: var(--gray);
+    cursor: pointer;
+    margin-right: 2vw;
+    font-size: 1vw;
+}
+.page-numbers-view .next-filepage:hover{color: var(--blue);}
+.page-numbers-view .next-filepage i{font-size: 0.5vw;}
+.page-numbers-view .pagenumbers-container .page-number{
+    display: inline;
+    color: var(--gray);
+    padding: 0.1vw 0.45vw;
+    border-radius: 0.4vw;
+    border: var(--lightgray) 0.1vw solid;
+    margin: 0.3 0.5vw;
+    cursor: pointer;
+}
+.page-numbers-view .pagenumbers-container .page-number:hover,
+.page-numbers-view .pagenumbers-container .page-number.active{
+    color: var(--blue);
+    background-color: var(--lightgray);
+}
+.page-numbers-view .pagenumbers-container{
+    display: inline;
+}
+.page-numbers-view .dots{
+    display: inline;
+    color: var(--gray);
+}
+
+.disable-select {
+    user-select: none; /* supported by Chrome and Opera */
+   -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none; /* Internet Explorer/Edge */
 }

@@ -2,24 +2,135 @@ const { shell } = require('electron');
 var fs = require('fs');
 var path = require('path');
 var api = require('./api');
-// const { shell } = require('electron')
-// var shell = require("shell");
 var {convertDate, showPrice} = require('./dateConvert');
 var pathName = path.join(__dirname, '../files');
 var filesContainer = document.getElementById('file-list-container');
 var bookmarksContainer = document.getElementById('file-bookmark-container');
+var pageNumbersView = document.getElementById('page-numbers-view');
 var errorMsg = document.getElementById('error-msg');
 var successMsg = document.getElementById('success-msg');
 var loadingScreen = document.getElementById('loading-screen');
 var cancleButton = document.getElementById('cancle-refresh-btn');
 var downloadBar = document.getElementById('download-bar');
+var numberSelect = document.getElementById("numberoffilesinpage");
+var pageNumberButtons = [
+    document.getElementById('filepage-number-0'),
+    document.getElementById('filepage-number-1'),
+    document.getElementById('filepage-number-2'),
+    document.getElementById('filepage-number-3'),
+    document.getElementById('filepage-number-4'),
+    document.getElementById('filepage-number-5'),
+    document.getElementById('filepage-number-6'),
+    document.getElementById('filepage-number-7'),
+    document.getElementById('filepage-number-8'),
+];
 var refreshInterval = null;
 var udatePlanTime = 1000;
 var activeFile = null;
-var activeMenu = 'files';
+var activeMenu = 'table';
 var refreshCancled = false;
 var zoom = 1;
 var zoomed = false;
+var allFiles = [];
+var showingFiles = [];
+var currentPage = 1;
+var numberOfFilesInPage = 30;
+// -----search:
+var minMetrage = 0, maxMetrage = 300;
+var minPrice1 = 100, maxPrice1 = 500;
+var minPrice2 = 1, maxPrice2 = 50;
+var minAge = 1, maxAge = 30;
+var apartment = true;
+var vilage = true;
+var old = true;
+var business = true;
+var office = true;
+var officeEstate = true;
+var land = true;
+var mostaghelat = true;
+var sell = true;
+var presell = true;
+var exchange = true;
+var cooperate = true;
+var rent = true;
+var rent2 = true;
+var lastSearchText = '';
+// ------------
+
+
+var search = () => {
+    var text = document.getElementById('address-search').value;
+    if(text == '' || text.length < lastSearchText.length) filter();
+    filteredFiles = showingFiles;
+    showingFiles = [];
+    for(var i=0; i<filteredFiles.length; i++){
+        var address = '', ownerName = '', phone = '', fileNumber = '', metrage = '';
+        if(filteredFiles[i].address)      address = filteredFiles[i].address.toString();
+        if(filteredFiles[i].ownerName)    ownerName = filteredFiles[i].ownerName.toString();
+        if(filteredFiles[i].phone)        phone = filteredFiles[i].phone.toString();
+        if(filteredFiles[i].fileNumber)   fileNumber = filteredFiles[i].fileNumber.toString();
+        if(filteredFiles[i].metrage)      metrage = filteredFiles[i].metrage.toString();
+        if(address.indexOf(text) != -1 || ownerName.indexOf(text) != -1 || phone.indexOf(text) != -1 || fileNumber.indexOf(text) != -1 || metrage.indexOf(text) != -1)
+            showingFiles.push(filteredFiles[i]);
+    }
+    lastSearchText = text;
+    showFiles();
+}
+var filter = () => {
+    showingFiles = [];
+    var loadingScreen = document.getElementById('loading-screen');
+    loadingScreen.classList.remove('hidden');
+    setTimeout(() => {
+        maxMetrage = parseInt(document.getElementById('metrage-max-input').value);
+        minMetrage = parseInt(document.getElementById('metrage-min-input').value);
+        minPrice1 = parseInt(document.getElementById('price1-min-input').value);
+        maxPrice1 = parseInt(document.getElementById('price1-max-input').value);
+        minPrice2 = parseInt(document.getElementById('price2-min-input').value);
+        maxPrice2 = parseInt(document.getElementById('price2-max-input').value);
+        for (let i = 0; i < allFiles.length; i++) {
+            var metrage = parseInt(allFiles[i].meterage);
+            var price1 = parseInt(allFiles[i].price)/1000000;
+            var price2 = parseInt(allFiles[i].fullPrice)/1000000;
+            var age = parseInt(allFiles[i].buildAge);
+            var type = allFiles[i].type;
+            var state = allFiles[i].state;
+            if((metrage > minMetrage || isNaN(minMetrage) ) && (metrage < maxMetrage || isNaN(maxMetrage)) || isNaN(metrage)){
+                if((price1 > minPrice1 || isNaN(minPrice1) ) && (price1 < maxPrice1 || isNaN(maxPrice1)) || isNaN(price1)){
+                    if((price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2)) || isNaN(price2)){
+                        if((((maxAge != 100 || age < maxAge) && age > minAge))){
+                            if(!apartment         && type == 'آپارتمان');
+                            else if(!vilage       && type == 'ویلایی');
+                            else if(!old          && type == 'کلنگی');
+                            else if(!business     && type == 'تجاری');
+                            else if(!office       && type == 'اداری');
+                            else if(!officeEstate && type == 'موقعیت اداری');
+                            else if(!land         && type == 'زمین');
+                            else if(!mostaghelat  && type == 'مستغلات');
+                            else if(!sell         && state == 'فروش');
+                            else if(!presell      && state == 'پیش‌فروش');
+                            else if(!exchange     && state == 'معاوضه');
+                            else if(!cooperate    && state == 'مشارکت');
+                            else if(!rent         && state == 'رهن و اجاره');
+                            else if(!rent2        && state == 'رهن کامل');
+                            else {
+                                showingFiles.push(allFiles[i]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        showFiles();
+    }, 100);
+    setTimeout(() => {
+        var loadingScreen = document.getElementById('loading-screen');
+        loadingScreen.classList.add('hidden');
+    }, 100);
+}
+var clearFilters = () => {
+    showingFiles = allFiles;
+    showFiles();
+}
 
 var updatePlans = () => {
     fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
@@ -311,8 +422,10 @@ var addFile = (data, index) => {
     info3.appendChild(info3td1);
     info3.appendChild(info3td2);
     info3.appendChild(info3td3);
-    info1.classList.add('hidden');
-    info2.classList.add('hidden');
+    if(activeMenu == 'table'){
+        info1.classList.add('hidden');
+        info2.classList.add('hidden');
+    }
     info3.classList.add('hidden');
     
     var info4 = document.createElement('table');
@@ -339,6 +452,7 @@ var addFile = (data, index) => {
     info2.classList.add('info-2');
     info3.classList.add('info-3');
     info4.classList.add('info-4');
+    if(activeMenu == 'files') info4.classList.add('hidden');
     item.appendChild(info1);
     item.appendChild(info2);
     item.appendChild(info3);
@@ -364,107 +478,107 @@ var bookmarkIndex = (file) => {
     }
     return index;
 }
-var loadData = (more, len) => {
+var loadData = (file, len, id) => {
     $('#file-popup').removeClass('border-blue');
     $('#file-popup').removeClass('border-purple');
     $('#file-state').removeClass('border-blue');
     $('#file-state').removeClass('border-purple');
-    if(bookmarkIndex(more.data) != -1) {
+    if(bookmarkIndex(file) != -1) {
         $('.mark-file-btn-o').show();
         $('.mark-file-btn').hide();
     }else {
         $('.mark-file-btn-o').hide();
         $('.mark-file-btn').show();
     }
-    if(more.data.state == 'رهن و اجاره' || more.data.state == 'رهن کامل'){
+    if(file.state == 'رهن و اجاره' || file.state == 'رهن کامل'){
         $('#file-state').addClass('border-blue');
         $('#file-popup').addClass('border-blue');
     }else{
         $('#file-state').addClass('border-purple');
         $('#file-popup').addClass('border-purple');
     }
-    if(more.id == len-1) $('#next-file-btn').hide();
+    if(id == len-1) $('#next-file-btn').hide();
     else $('#next-file-btn').show();
-    if(more.id == 0) $('#prev-file-btn').hide();
+    if(id == 0) $('#prev-file-btn').hide();
     else $('#prev-file-btn').show();
-    $('#file-type').text(more.data.type)
-    $('#file-state').text(more.data.state)
-    $('#file-owner').text(more.data.ownerName)
-    $('#file-phone').text(more.data.phone)
-    $('#file-address').text(more.data.address)
-    $('#file-meterage').text(more.data.meterage)
-    $('#file-bedroom').text(more.data.bedroom)
-    $('#file-floor').text(more.data.floor)
-    $('#file-numOfFloors').text(more.data.numOfFloors)
-    $('#file-unit').text(more.data.unit)
-    $('#file-buildAge').text(more.data.buildAge)
-    $('#file-parking').text(more.data.parking)
-    $('#file-warehouse').text(more.data.warehouse)
-    $('#file-elevator').text(more.data.elevator)
-    $('#file-kitchen').text(more.data.kitchen)
-    $('#file-view').text(more.data.view)
-    $('#file-floortype').text(more.data.floortype)
-    $('#file-service').text(more.data.service)
-    $('#file-heatingAndCoolingSystem').text(more.data.heatingAndCoolingSystem)
-    $('#file-meterage2').text(more.data.meterage2)
-    $('#file-bedroom2').text(more.data.bedroom2)
-    $('#file-floor2').text(more.data.floor2)
-    $('#file-numOfFloors2').text(more.data.numOfFloors2)
-    $('#file-unit2').text(more.data.unit2)
-    $('#file-buildAge2').text(more.data.buildAge2)
-    $('#file-parking2').text(more.data.parking2)
-    $('#file-warehouse2').text(more.data.warehouse2)
-    $('#file-elevator2').text(more.data.elevator2)
-    $('#file-kitchen2').text(more.data.kitchen2)
-    $('#file-view2').text(more.data.view2)
-    $('#file-floortype2').text(more.data.floortype2)
-    $('#file-service2').text(more.data.service2)
-    $('#file-heatingAndCoolingSystem2').text(more.data.heatingAndCoolingSystem2)
-    $('#file-meterage3').text(more.data.meterage3)
-    $('#file-bedroom3').text(more.data.bedroom3)
-    $('#file-floor3').text(more.data.floor3)
-    $('#file-numOfFloors3').text(more.data.numOfFloors3)
-    $('#file-unit3').text(more.data.unit3)
-    $('#file-buildAge3').text(more.data.buildAge3)
-    $('#file-parking3').text(more.data.parking3)
-    $('#file-warehouse3').text(more.data.warehouse3)
-    $('#file-elevator3').text(more.data.elevator3)
-    $('#file-kitchen3').text(more.data.kitchen3)
-    $('#file-view3').text(more.data.view3)
-    $('#file-floortype3').text(more.data.floortype3)
-    $('#file-service3').text(more.data.service3)
-    $('#file-heatingAndCoolingSystem3').text(more.data.heatingAndCoolingSystem3)
-    $('#file-options').text(more.data.options)
-    $('#file-area').text(more.data.area)
-    $('#file-lone').text(more.data.lone)
-    $('#file-changable').text(more.data.changable)
-    $('#file-discount').text(more.data.discount)
-    $('#file-documentState').text(more.data.documentState)
-    $('#file-transfer').text(more.data.transfer)
-    $('#file-advertiser').text(more.data.advertiser)
-    $('#file-date').text(more.data.date)
-    if(more.data.price)
-        $('#file-price').text(more.data.price)
+    $('#file-type').text(file.type)
+    $('#file-state').text(file.state)
+    $('#file-owner').text(file.ownerName)
+    $('#file-phone').text(file.phone)
+    $('#file-address').text(file.address)
+    $('#file-meterage').text(file.meterage)
+    $('#file-bedroom').text(file.bedroom)
+    $('#file-floor').text(file.floor)
+    $('#file-numOfFloors').text(file.numOfFloors)
+    $('#file-unit').text(file.unit)
+    $('#file-buildAge').text(file.buildAge)
+    $('#file-parking').text(file.parking)
+    $('#file-warehouse').text(file.warehouse)
+    $('#file-elevator').text(file.elevator)
+    $('#file-kitchen').text(file.kitchen)
+    $('#file-view').text(file.view)
+    $('#file-floortype').text(file.floortype)
+    $('#file-service').text(file.service)
+    $('#file-heatingAndCoolingSystem').text(file.heatingAndCoolingSystem)
+    $('#file-meterage2').text(file.meterage2)
+    $('#file-bedroom2').text(file.bedroom2)
+    $('#file-floor2').text(file.floor2)
+    $('#file-numOfFloors2').text(file.numOfFloors2)
+    $('#file-unit2').text(file.unit2)
+    $('#file-buildAge2').text(file.buildAge2)
+    $('#file-parking2').text(file.parking2)
+    $('#file-warehouse2').text(file.warehouse2)
+    $('#file-elevator2').text(file.elevator2)
+    $('#file-kitchen2').text(file.kitchen2)
+    $('#file-view2').text(file.view2)
+    $('#file-floortype2').text(file.floortype2)
+    $('#file-service2').text(file.service2)
+    $('#file-heatingAndCoolingSystem2').text(file.heatingAndCoolingSystem2)
+    $('#file-meterage3').text(file.meterage3)
+    $('#file-bedroom3').text(file.bedroom3)
+    $('#file-floor3').text(file.floor3)
+    $('#file-numOfFloors3').text(file.numOfFloors3)
+    $('#file-unit3').text(file.unit3)
+    $('#file-buildAge3').text(file.buildAge3)
+    $('#file-parking3').text(file.parking3)
+    $('#file-warehouse3').text(file.warehouse3)
+    $('#file-elevator3').text(file.elevator3)
+    $('#file-kitchen3').text(file.kitchen3)
+    $('#file-view3').text(file.view3)
+    $('#file-floortype3').text(file.floortype3)
+    $('#file-service3').text(file.service3)
+    $('#file-heatingAndCoolingSystem3').text(file.heatingAndCoolingSystem3)
+    $('#file-options').text(file.options)
+    $('#file-area').text(file.area)
+    $('#file-lone').text(file.lone)
+    $('#file-changable').text(file.changable)
+    $('#file-discount').text(file.discount)
+    $('#file-documentState').text(file.documentState)
+    $('#file-transfer').text(file.transfer)
+    $('#file-advertiser').text(file.advertiser)
+    $('#file-date').text(file.date)
+    if(file.price)
+        $('#file-price').text(file.price)
     else
         $('#file-price').text(0)
-    if(more.data.fullPrice)
-        $('#file-fullPrice').text(more.data.fullPrice)
+    if(file.fullPrice)
+        $('#file-fullPrice').text(file.fullPrice)
     else
         $('#file-fullPrice').text(0)
-    if(more.data.price)
-        $('#file-price2').text(showPrice(more.data.price))
+    if(file.price)
+        $('#file-price2').text(showPrice(file.price))
     else
         $('#file-price2').text(0)
-    if(more.data.fullPrice)
-        $('#file-fullPrice2').text(showPrice(more.data.fullPrice))
+    if(file.fullPrice)
+        $('#file-fullPrice2').text(showPrice(file.fullPrice))
     else
         $('#file-fullPrice2').text(0)
-    $('#file-number').text(more.data.fileNumber)
-    $('#file-role').text(more.data.role)
-    $('#popup-index').text(more.id)
+    $('#file-number').text(file.fileNumber)
+    $('#file-role').text(file.role)
+    $('#popup-index').text(id)
     var imagesView = document.getElementById('file-images-view');
     removeAllChildNodes(imagesView);
-    for (let j = 0; j < more.data.images.length; j++) {
+    for (let j = 0; j < file.images.length; j++) {
         var link = document.createElement('a');
         link.href = api.slice(0, -4) + more.data.images[j].link;
         link.target = '_blank';
@@ -537,78 +651,6 @@ var loadPDFData = (file) => {
     $('#pdf-file-transfer').text(typeof(file.transfer) == 'undefined' ? '-' : file.transfer == '' ? '-' : file.transfer);
     $('#pdf-file-advertiser').text(typeof(file.advertiser) == 'undefined' ? '-' : file.advertiser == '' ? '-' : file.advertiser);
 }
-var updateHandlers = (data) => {
-    var moreButtons = [];
-    for (let i = 0; i < data.files.length; i++) {
-        moreButtons.push({btn: $(`#more-btn-${i}`),id: i,data: data.files[i]});
-        // if(refreshCancled) return;
-    }
-    moreButtons.forEach(more => {
-        more.btn.click(() => {            
-            $('#file-popup').fadeIn(500);
-            $('#next-file-btn').fadeIn(500);
-            $('#prev-file-btn').fadeIn(500);
-            $('.black-modal').fadeIn(500);
-            loadData(more, moreButtons.length);
-            activeFile = more.data;
-        });
-    });
-    $('#next-file-btn').click(() => {
-        if(activeMenu == 'files'){
-            var index = parseInt(document.getElementById('popup-index').textContent);
-            while(index < data.files.length-1){
-                if(document.getElementById(`more-btn-${index+1}`).style.display != 'none')
-                    break;
-                index++;
-            }
-            loadData(moreButtons[index+1], moreButtons.length);
-            activeFile = moreButtons[index+1].data;
-        }
-    });
-    $('#prev-file-btn').click(() => {
-        if(activeMenu == 'files'){
-            var index = parseInt(document.getElementById('popup-index').textContent);
-            while(index > 0){
-                if(document.getElementById(`more-btn-${index-1}`).style.display != 'none')
-                    break;
-                index--;
-            }
-            loadData(moreButtons[index-1], moreButtons.length);
-            activeFile = moreButtons[index-1].data;
-        }
-    });
-    $(document).keyup(function(e) {
-        if(activeMenu == 'files'){
-            if (e.key === "Escape") {
-                $('#file-popup').fadeOut(500);
-                $('#next-file-btn').fadeOut(500);
-                $('#prev-file-btn').fadeOut(500);
-                $('.black-modal').fadeOut(500);
-                activeFile = null;
-            }
-            if (e.keyCode  == 39) {
-                var index = parseInt(document.getElementById('popup-index').textContent);
-                while(index < data.files.length-1){
-                    if(document.getElementById(`more-btn-${index+1}`).style.display != 'none')
-                        break;
-                    index++;
-                }
-                if(index < moreButtons.length-1) loadData(moreButtons[index+1], moreButtons.length);
-                activeFile = moreButtons[index+1].data;
-            }
-            if (e.keyCode  == 37) {
-                var index = parseInt(document.getElementById('popup-index').textContent);
-                while(index > 0){
-                    if(document.getElementById(`more-btn-${index-1}`).style.display != 'none')
-                        break;
-                    index--;
-                }
-                if(index > 0) loadData(moreButtons[index-1], moreButtons.length);
-                activeFile = moreButtons[index-1].data;
-            }
-        }
-    });
-}
 var updatePlanPrices = () => {
     fetch(api + `get-settings`)
         .then(res => res.json())
@@ -648,11 +690,10 @@ var refresh = () => {
                     if(data.status == 'ok'){
                         saveEstate(estate.username, estate.password, estate.estate, data.files);
                         removeAllChildNodes(filesContainer);
-                        for(var i=0; i<data.files.length; i++){
-                            addFile(data.files[i], i);
-                            // if(refreshCancled) break;
-                        }
-                        updateHandlers(data);
+                        allFiles = data.files;
+                        showingFiles = allFiles;
+                        showFiles();
+                        // updateHandlers(data.files);
                         downloadBar.classList.add('hidden');
                         loadingScreen.classList.add('hidden');
                         cancleButton.classList.add('hidden');
@@ -728,10 +769,10 @@ var refresh2 = () => {
                             if(rawdata){
                                 var estate = JSON.parse(rawdata);
                                 // removeAllChildNodes(filesContainer);
-                                for(var i=0; i<data.files.length; i++){
-                                    addFile(data.files[i], i);
-                                }
-                                updateHandlers(data);
+                                allFiles = data.files;
+                                showingFiles = allFiles;
+                                showFiles();
+                                // updateHandlers(data.files);
                                 if(estate.files) data.files = estate.files.concat(data.files);
                                 saveEstate(estate.username, estate.password, estate.estate, data.files);
                                 downloadBar.classList.add('hidden');
@@ -767,15 +808,83 @@ var refresh2 = () => {
     document.getElementById('download-bar-handle').style.width = `${0}%`;
     document.getElementById('download-bar-text').textContent = `${0}%`;
 }
+var activePageNumber = (n) => {
+    pageNumberButtons[1].classList.remove('active');
+    pageNumberButtons[2].classList.remove('active');
+    pageNumberButtons[3].classList.remove('active');
+    pageNumberButtons[4].classList.remove('active');
+    pageNumberButtons[5].classList.remove('active');
+    pageNumberButtons[6].classList.remove('active');
+    pageNumberButtons[7].classList.remove('active');
+    pageNumberButtons[n].classList.add('active');
+}
+var updatePageHandlers = () => {
+    var maxpage = Math.floor(showingFiles.length/numberOfFilesInPage);
+    var begin = numberOfFilesInPage * (currentPage - 1);
+    var end   = numberOfFilesInPage * (currentPage);
+    var moreButtons = [];
+    for (let i = begin; i<end && i < showingFiles.length; i++) {
+        moreButtons.push({btn: $(`#more-btn-${i}`),id: i,data: showingFiles[i]});
+    }
+    moreButtons.forEach(more => {
+        more.btn.click(() => {            
+            $('#file-popup').fadeIn(500);
+            $('#next-file-btn').fadeIn(500);
+            $('#prev-file-btn').fadeIn(500);
+            $('.black-modal').fadeIn(500);
+            loadData(more.data, moreButtons.length, more.id);
+            activeFile = more.data;
+        });
+    });
+}
+var showFiles = () => {
+    removeAllChildNodes(filesContainer);
+    var maxpage = Math.floor(showingFiles.length/numberOfFilesInPage);
+    var begin = numberOfFilesInPage * (currentPage - 1);
+    var end   = numberOfFilesInPage * (currentPage);
+    for(var i=begin; i<end && i<showingFiles.length; i++){
+        addFile(showingFiles[i], i);
+    }
+    updatePageHandlers();
+    if(currentPage < 4){
+        pageNumberButtons[1].textContent = 1;
+        pageNumberButtons[2].textContent = 2;
+        pageNumberButtons[3].textContent = 3;
+        pageNumberButtons[4].textContent = 4;
+        pageNumberButtons[5].textContent = 5;
+        pageNumberButtons[6].textContent = 6;
+        pageNumberButtons[7].textContent = 7;
+        activePageNumber(currentPage);
+    }
+    else if(currentPage > maxpage-4){
+        pageNumberButtons[1].textContent = maxpage - 6;
+        pageNumberButtons[2].textContent = maxpage - 5;
+        pageNumberButtons[3].textContent = maxpage - 4;
+        pageNumberButtons[4].textContent = maxpage - 3;
+        pageNumberButtons[5].textContent = maxpage - 2;
+        pageNumberButtons[6].textContent = maxpage - 1;
+        pageNumberButtons[7].textContent = maxpage;
+        activePageNumber(7 - (maxpage - currentPage));
+    }
+    else{
+        pageNumberButtons[1].textContent = currentPage - 3;
+        pageNumberButtons[2].textContent = currentPage - 2;
+        pageNumberButtons[3].textContent = currentPage - 1;
+        pageNumberButtons[4].textContent = currentPage;
+        pageNumberButtons[5].textContent = currentPage + 1;
+        pageNumberButtons[6].textContent = currentPage + 2;
+        pageNumberButtons[7].textContent = currentPage + 3;
+        activePageNumber(4);
+    }
+    pageNumberButtons[8].textContent = maxpage;
+}
 fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
     document.getElementById('loading-screen').classList.remove('hidden');
-    removeAllChildNodes(filesContainer);
     if(rawdata && JSON.parse(rawdata).files){
         var data = JSON.parse(rawdata);
-        // console.log(data);
-        for(var i=0; i<data.files.length; i++){
-            addFile(data.files[i], i);
-        }
+        allFiles = data.files;
+        showingFiles = allFiles;
+        showFiles();
         document.getElementById('fullname').textContent = data.estate.name;
         document.getElementById('address').textContent = data.estate.address;
         document.getElementById('estate-code').textContent = data.estate.code;
@@ -810,7 +919,7 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
             var estate = data;
             refreshInterval = setInterval(updatePlans, udatePlanTime);
         }
-        updateHandlers(data);
+        // updateHandlers(data.files);
     }
     else if(rawdata){
         var data = JSON.parse(rawdata);
@@ -1070,64 +1179,9 @@ var updateBookmarksHandlers = (data) => {
             $('#next-file-btn').fadeIn(500);
             $('#prev-file-btn').fadeIn(500);
             $('.black-modal').fadeIn(500);
-            loadData(more, moreButtons.length);
+            loadData(more.data, moreButtons.length, more.id);
             activeFile = more.data;
         });
-    });
-    $('#next-file-btn').click(() => {
-        if(activeMenu == 'bookmarks'){
-            var index = parseInt(document.getElementById('popup-index').textContent);
-            while(index < data.length-1){
-                if(document.getElementById(`more-btn-${index+1}`).style.display != 'none')
-                    break;
-                index++;
-            }
-            loadData(moreButtons[index+1], moreButtons.length);
-            activeFile = moreButtons[index+1].data;
-        }
-    });
-    $('#prev-file-btn').click(() => {
-        if(activeMenu == 'bookmarks'){
-            var index = parseInt(document.getElementById('popup-index').textContent);
-            while(index > 0){
-                if(document.getElementById(`more-btn-${index-1}`).style.display != 'none')
-                    break;
-                index--;
-            }
-            loadData(moreButtons[index-1], moreButtons.length);
-            activeFile = moreButtons[index-1].data;
-        }
-    });
-    $(document).keyup(function(e) {
-        if(activeMenu == 'bookmarks'){
-            if (e.key === "Escape") {
-                $('#file-popup').fadeOut(500);
-                $('#next-file-btn').fadeOut(500);
-                $('#prev-file-btn').fadeOut(500);
-                $('.black-modal').fadeOut(500);
-                activeFile = null;
-            }
-            if (e.keyCode  == 39) {
-                var index = parseInt(document.getElementById('popup-index').textContent);
-                while(index < data.length-1){
-                    if(document.getElementById(`more-btn-${index+1}`).style.display != 'none')
-                        break;
-                    index++;
-                }
-                if(index < moreButtons.length-1) loadData(moreButtons[index+1], moreButtons.length);
-                activeFile = moreButtons[index+1].data;
-            }
-            if (e.keyCode  == 37) {
-                var index = parseInt(document.getElementById('popup-index').textContent);
-                while(index > 0){
-                    if(document.getElementById(`more-btn-${index-1}`).style.display != 'none')
-                        break;
-                    index--;
-                }
-                if(index > 0) loadData(moreButtons[index-1], moreButtons.length);
-                activeFile = moreButtons[index-1].data;
-            }
-        }
     });
 }
 var loadBookmarks = () => {
@@ -1161,6 +1215,13 @@ var updateNews = () => {
                 }).catch(err => console.log(err));
         }
     });
+}
+var onChangeNumber = () => {
+    var x = numberSelect.value;
+    if(x == 'all') numberOfFilesInPage = 10000000;
+    else numberOfFilesInPage = parseInt(x);
+    currentPage = 1;
+    showFiles();
 }
 updateNews();
 setInterval(updateNews, 10 * 60 * 1000);
@@ -1203,9 +1264,10 @@ $(document).ready(() => {
             $('.info-4').removeClass('hidden');
             $('.info-1').addClass('hidden');
             $('.info-2').addClass('hidden');
+            pageNumbersView.style.display = '';
             filesContainer.style.display = '';
             bookmarksContainer.style.display = 'none';
-            activeMenu = 'files';
+            activeMenu = 'table';
             document.getElementById('loading-screen').classList.add('hidden');
         }, 10);
     });
@@ -1219,6 +1281,7 @@ $(document).ready(() => {
             $('.info-4').addClass('hidden');
             $('.info-1').removeClass('hidden');
             $('.info-2').removeClass('hidden');
+            pageNumbersView.style.display = '';
             filesContainer.style.display = '';
             bookmarksContainer.style.display = 'none';
             activeMenu = 'files';
@@ -1231,6 +1294,7 @@ $(document).ready(() => {
             $('#view-table-btn').removeClass('active');
             $('#view-bookmark-btn').addClass('active');
             $('#view-column-btn').removeClass('active');
+            pageNumbersView.style.display = 'none';
             filesContainer.style.display = 'none';
             bookmarksContainer.style.display = '';
             loadBookmarks();
@@ -1337,6 +1401,405 @@ $(document).ready(() => {
     $('#open-website').click(() => {
         shell.openExternal("https://fileestore.ir")
     });
+    $('#prev-filepage-btn').click(() => {
+        if(currentPage > 1) currentPage--;
+        showFiles();
+    });
+    $('#next-filepage-btn').click(() => {
+        if(currentPage < showingFiles.length/numberOfFilesInPage) currentPage++;
+        showFiles();
+    });
+    $('#filepage-number-1').click(() => {
+        var maxpage = Math.floor(showingFiles.length/numberOfFilesInPage);
+        if(currentPage < 4) currentPage = 1;
+        else if(currentPage > maxpage-4) currentPage = maxpage - 6;
+        else currentPage = currentPage - 3;
+        showFiles();
+    })
+    $('#filepage-number-2').click(() => {
+        var maxpage = Math.floor(showingFiles.length/numberOfFilesInPage);
+        if(currentPage < 4) currentPage = 2;
+        else if(currentPage > maxpage-4) currentPage = maxpage - 5;
+        else currentPage = currentPage - 2;
+        showFiles();
+    })
+    $('#filepage-number-3').click(() => {
+        var maxpage = Math.floor(showingFiles.length/numberOfFilesInPage);
+        if(currentPage < 4) currentPage = 3;
+        else if(currentPage > maxpage-4) currentPage = maxpage - 4;
+        else currentPage = currentPage - 1;
+        showFiles();
+    })
+    $('#filepage-number-4').click(() => {
+        var maxpage = Math.floor(showingFiles.length/numberOfFilesInPage);
+        if(currentPage < 4) currentPage = 4;
+        else if(currentPage > maxpage-4) currentPage = maxpage - 3;
+        else currentPage = currentPage;
+        showFiles();
+    })
+    $('#filepage-number-5').click(() => {
+        var maxpage = Math.floor(showingFiles.length/numberOfFilesInPage);
+        if(currentPage < 4) currentPage = 5;
+        else if(currentPage > maxpage-4) currentPage = maxpage - 2;
+        else currentPage = currentPage + 1;
+        showFiles();
+    })
+    $('#filepage-number-6').click(() => {
+        var maxpage = Math.floor(showingFiles.length/numberOfFilesInPage);
+        if(currentPage < 4) currentPage = 6;
+        else if(currentPage > maxpage-4) currentPage = maxpage - 1;
+        else currentPage = currentPage + 2;
+        showFiles();
+    })
+    $('#filepage-number-7').click(() => {
+        var maxpage = Math.floor(showingFiles.length/numberOfFilesInPage);
+        if(currentPage < 4) currentPage = 7;
+        else if(currentPage > maxpage-4) currentPage = maxpage;
+        else currentPage = currentPage + 3;
+        showFiles();
+    })
+    $('#filepage-number-8').click(() => {
+        var maxpage = Math.floor(showingFiles.length/numberOfFilesInPage);
+        currentPage = maxpage;
+        showFiles();
+    })
+    $('#next-file-btn').click(() => {
+        if(activeMenu != 'bookmarks'){
+            var index = parseInt(document.getElementById('popup-index').textContent);
+            loadData(showingFiles[index+1], showingFiles.length, index+1);
+            activeFile = showingFiles[index+1].data;
+        }
+        else{
+            var bookmarks = getBookmarks();
+            var index = parseInt(document.getElementById('popup-index').textContent);
+            loadData(bookmarks[index+1], bookmarks.length, index+1);
+            activeFile = bookmarks[index+1].data;
+        }
+    });
+    $('#prev-file-btn').click(() => {
+        if(activeMenu != 'bookmarks'){
+            var index = parseInt(document.getElementById('popup-index').textContent);
+            loadData(showingFiles[index-1], showingFiles.length, index-1);
+            activeFile = showingFiles[index-1].data;
+        }
+        else{
+            var bookmarks = getBookmarks();
+            var index = parseInt(document.getElementById('popup-index').textContent);
+            loadData(bookmarks[index-1], bookmarks.length, index-1);
+            activeFile = bookmarks[index-1].data;
+        }
+    });
+
+    // ---- search:
+    $("#metrage-slider").slider({
+        range: true,
+        min: 0,
+        max: 500,
+        values: [ 200, 500 ],
+        isRTL: true,
+        classes: {
+            "ui-slider": "slider-slider",
+            "ui-slider-handle": "slider-handle",
+            "ui-slider-range": "slider-range"
+        },
+        slide: function( event, ui ) {
+            $("#metrage-min").html(500 - ui.values[1]);
+            if(500 - ui.values[0] == 500)
+                $("#metrage-max").html((500 - ui.values[0]).toString() + '+');
+            else
+                $("#metrage-max").html(500 - ui.values[0]);
+            minMetrage = 500 - ui.values[1];
+            maxMetrage = 500 - ui.values[0];
+            // filter();
+        }
+    });
+    $("#price1-slider").slider({
+        range: true,
+        min: 0,
+        max: 1900,
+        values: [ 1500, 1900 ],
+        isRTL: true,
+        classes: {
+            "ui-slider": "slider-slider",
+            "ui-slider-handle": "slider-handle",
+            "ui-slider-range": "slider-range"
+        },
+        slide: function( event, ui ) {
+            // $("#price1-min").html(1000 - ui.values[1]);
+            if(2000 - ui.values[0] < 1000)
+                $("#price1-min").html((2000 - ui.values[1]).toString());
+            else
+               $("#price1-min").html((Math.floor((2000 - ui.values[1])/100)/10).toString());
+            if(2000 - ui.values[0] == 2000)
+                $("#price1-max").html('2+ میلیارد');
+            else if(2000 - ui.values[0] < 1000)
+                $("#price1-max").html((2000 - ui.values[0]).toString() + ' میلیون');
+            else
+               $("#price1-max").html((Math.floor((2000 - ui.values[0])/100)/10).toString() + ' میلیارد');
+            minPrice1 = 2000 - ui.values[1];
+            maxPrice1 = 2000 - ui.values[0];
+            // filter();
+        }
+    });
+    $("#price2-slider").slider({
+        range: true,
+        min: 0,
+        max: 99,
+        values: [ 50, 99 ],
+        isRTL: true,
+        classes: {
+            "ui-slider": "slider-slider",
+            "ui-slider-handle": "slider-handle",
+            "ui-slider-range": "slider-range"
+        },
+        slide: function( event, ui ) {
+            $("#price2-min").html(100 - ui.values[1]);
+            if(100 - ui.values[0] == 100)
+                $("#price2-max").html((100 - ui.values[0]).toString() + '+ میلیون');
+            else
+                $("#price2-max").html((100 - ui.values[0]).toString() + ' میلیون');
+            minPrice2 = 100 - ui.values[1];
+            maxPrice2 = 100 - ui.values[0];
+            // filter();    
+        }
+    });
+    $("#age-slider").slider({
+        range: true,
+        min: 0,
+        max: 99,
+        values: [ 70, 99 ],
+        isRTL: true,
+        classes: {
+            "ui-slider": "slider-slider",
+            "ui-slider-handle": "slider-handle",
+            "ui-slider-range": "slider-range"
+        },
+        slide: function( event, ui ) {
+            $("#age-min").html(100 - ui.values[1]);
+            if(100 - ui.values[0] == 100)
+                $("#age-max").html((100 - ui.values[0]).toString() + '+');
+            else
+                $("#age-max").html(100 - ui.values[0]);
+            minAge = 100 - ui.values[1];
+            maxAge = 100 - ui.values[0];
+            // filter();    
+        }
+    });
+    $('#apartment-btn').click(() => {
+        if(document.getElementById('apartment-btn').className.split(/\s+/)[1] == 'active'){
+            $('#apartment-btn').removeClass('active');
+            apartment = false;
+        }else{
+            $('#apartment-btn').addClass('active');
+            apartment = true;
+        }
+        // filter();
+    })
+    $('#vilage-btn').click(() => {
+        if(document.getElementById('vilage-btn').className.split(/\s+/)[1] == 'active'){
+            $('#vilage-btn').removeClass('active');
+            vilage = false;
+        }else{
+            $('#vilage-btn').addClass('active');
+            vilage = true;
+        }
+        // filter();
+    })
+    $('#old-btn').click(() => {
+        if(document.getElementById('old-btn').className.split(/\s+/)[1] == 'active'){
+            $('#old-btn').removeClass('active');
+            old = false;
+        }else{
+            $('#old-btn').addClass('active');
+            old = true;
+        }
+        // filter();
+    })
+    $('#business-btn').click(() => {
+        if(document.getElementById('business-btn').className.split(/\s+/)[1] == 'active'){
+            $('#business-btn').removeClass('active');
+            business = false;
+        }else{
+            $('#business-btn').addClass('active');
+            business = true;
+        }
+        // filter();
+    })
+    $('#office-btn').click(() => {
+        if(document.getElementById('office-btn').className.split(/\s+/)[1] == 'active'){
+            $('#office-btn').removeClass('active');
+            office = false;
+        }else{
+            $('#office-btn').addClass('active');
+            office = true;
+        }
+        // filter();
+    })
+    $('#office-estate-btn').click(() => {
+        if(document.getElementById('office-estate-btn').className.split(/\s+/)[1] == 'active'){
+            $('#office-estate-btn').removeClass('active');
+            officeEstate = false;
+        }else{
+            $('#office-estate-btn').addClass('active');
+            officeEstate = true;
+        }
+        // filter();
+    })
+    $('#land-btn').click(() => {
+        if(document.getElementById('land-btn').className.split(/\s+/)[1] == 'active'){
+            $('#land-btn').removeClass('active');
+            land = false;
+        }else{
+            $('#land-btn').addClass('active');
+            land = true;
+        }
+        // filter();
+    })
+    $('#mostaghelat-btn').click(() => {
+        if(document.getElementById('mostaghelat-btn').className.split(/\s+/)[1] == 'active'){
+            $('#mostaghelat-btn').removeClass('active');
+            mostaghelat = false;
+        }else{
+            $('#mostaghelat-btn').addClass('active');
+            mostaghelat = true;
+        }
+        // filter();
+    })
+    $('#sell-btn').click(() => {
+        if(document.getElementById('sell-btn').className.split(/\s+/)[1] == 'active'){
+            $('#sell-btn').removeClass('active');
+            sell = false;
+        }else{
+            $('#sell-btn').addClass('active');
+            sell = true;
+        }
+        // filter();
+    })
+    $('#presell-btn').click(() => {
+        if(document.getElementById('presell-btn').className.split(/\s+/)[1] == 'active'){
+            $('#presell-btn').removeClass('active');
+            presell = false;
+        }else{
+            $('#presell-btn').addClass('active');
+            presell = true;
+        }
+        // filter();
+    })
+    $('#exchange-btn').click(() => {
+        if(document.getElementById('exchange-btn').className.split(/\s+/)[1] == 'active'){
+            $('#exchange-btn').removeClass('active');
+            exchange = false;
+        }else{
+            $('#exchange-btn').addClass('active');
+            exchange = true;
+        }
+        // filter();
+    })
+    $('#cooperate-btn').click(() => {
+        if(document.getElementById('cooperate-btn').className.split(/\s+/)[1] == 'active'){
+            $('#cooperate-btn').removeClass('active');
+            cooperate = false;
+        }else{
+            $('#cooperate-btn').addClass('active');
+            cooperate = true;
+        }
+        // filter();
+    })
+    $('#rent-btn').click(() => {
+        if(document.getElementById('rent-btn').className.split(/\s+/)[1] == 'active'){
+            $('#rent-btn').removeClass('active');
+            rent = false;
+        }else{
+            $('#rent-btn').addClass('active');
+            rent = true;
+        }
+        // filter();
+    })
+    $('#rent2-btn').click(() => {
+        if(document.getElementById('rent2-btn').className.split(/\s+/)[1] == 'active'){
+            $('#rent2-btn').removeClass('active');
+            rent2 = false;
+        }else{
+            $('#rent2-btn').addClass('active');
+            rent2 = true;
+        }
+        // filter();
+    });
+    $('#refresh-btn').click(() => {
+        // setTimeout(filter, 1000);
+    });
+    $('#filter-btn').click(() => {
+        var loadingScreen = document.getElementById('loading-screen');
+        loadingScreen.classList.remove('hidden');
+    });
+    $('#filter-btn').click(() => {
+        filter();
+    });
+    $('.clear-filters-btn').click(() => {
+        document.getElementById('loading-screen').classList.remove('hidden');
+        setTimeout(() => {
+            clearFilters();
+            document.getElementById('loading-screen').classList.add('hidden');
+        }, 10);
+    });
+    $('#view-table-btn').click(() => {
+        activeMenu = 'files';
+    });
+    $('#view-column-btn').click(() => {
+        activeMenu = 'files';
+    });
+    $('#view-bookmark-btn').click(() => {
+        activeMenu = 'bookmarks';
+    });
+    document.getElementById('address-search').addEventListener('keyup', search);
+    // ------------
+
+
+
+    $(document).keyup(function(e) {
+        if (e.key === "Escape") {
+            $('#file-popup').fadeOut(500);
+            $('#next-file-btn').fadeOut(500);
+            $('#prev-file-btn').fadeOut(500);
+            $('.black-modal').fadeOut(500);
+            activeFile = null;
+        }
+        if (e.keyCode  == 39) { //next
+            if(activeMenu != 'bookmarks'){
+                var index = parseInt(document.getElementById('popup-index').textContent);
+                if(index < showingFiles.length-1) {
+                    loadData(showingFiles[index+1], showingFiles.length, index+1);
+                    activeFile = showingFiles[index+1].data;
+                }
+            }
+            else{
+                var bookmarks = getBookmarks();
+                var index = parseInt(document.getElementById('popup-index').textContent);
+                if(index < bookmarks.length-1) {
+                    loadData(bookmarks[index+1], bookmarks.length, index+1);
+                    activeFile = bookmarks[index+1].data;
+                }
+            }
+        }
+        if (e.keyCode  == 37) { //prev
+            if(activeMenu != 'bookmarks'){
+                var index = parseInt(document.getElementById('popup-index').textContent);
+                if(index > 0) {
+                    loadData(showingFiles[index-1], showingFiles.length, index-1);
+                    activeFile = showingFiles[index-1].data;
+                }
+            }
+            else{
+                var bookmarks = getBookmarks();
+                var index = parseInt(document.getElementById('popup-index').textContent);
+                if(index > 0) {
+                    loadData(bookmarks[index-1], bookmarks.length, index-1);
+                    activeFile = bookmarks[index-1].data;
+                }
+            }
+        }
+    });
+    numberSelect.addEventListener('change', onChangeNumber);
 });
 
 
