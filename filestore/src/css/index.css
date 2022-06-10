@@ -161,6 +161,14 @@ body {
   margin-top: 2vw;
   margin-bottom: 1vw;
 }
+.popup .info4 td.table-title.right-align{
+  text-align: right;
+  width: 10%;
+}
+.popup .info4 td.table-value.right-align{
+  text-align: right;
+  /* width: 75%; */
+}
 .next-file-btn{
   position: fixed;
   font-size: 3vw;

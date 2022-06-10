@@ -752,13 +752,13 @@ var refresh2 = () => {
                 if(downloadPercent<99) downloadPercent++;
                 else clearInterval(downloadInterval);
             }, 170);
-            var availableFileNumers = [];
-            if(estate.files){
-                for (let i = 0; i < estate.files.length; i++) {
-                    if(estate.files[i])
-                        availableFileNumers.push(estate.files[i].fileNumber);
-                }
-            }
+            // var availableFileNumers = [];
+            // if(estate.files){
+            //     for (let i = 0; i < estate.files.length; i++) {
+            //         if(estate.files[i])
+            //             availableFileNumers.push(estate.files[i].fileNumber);
+            //     }
+            // }
             var res = fetch(api + `get-files2`,{
                     method: 'POST', // *GET, POST, PUT, DELETE, etc.
                     mode: 'cors', // no-cors, *cors, same-origin
@@ -773,7 +773,7 @@ var refresh2 = () => {
                     body: JSON.stringify({
                         username: estate.username,
                         password: estate.password,
-                        availableFileNumers: availableFileNumers
+                        // availableFileNumers: availableFileNumers
                     }) // body data type must match "Content-Type" header
                 }).then(res => res.json())
                 .then(data => {
@@ -781,12 +781,10 @@ var refresh2 = () => {
                         fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
                             if(rawdata){
                                 var estate = JSON.parse(rawdata);
-                                // removeAllChildNodes(filesContainer);
-                                allFiles = data.files;
+                                allFiles = data.files.concat(allFiles);
                                 showingFiles = allFiles;
                                 showFiles();
-                                // updateHandlers(data.files);
-                                if(estate.files) data.files = estate.files.concat(data.files);
+                                if(estate.files) data.files = data.files.concat(estate.files);
                                 saveEstate(estate.username, estate.password, estate.estate, data.files);
                                 downloadBar.classList.add('hidden');
                                 loadingScreen.classList.add('hidden');

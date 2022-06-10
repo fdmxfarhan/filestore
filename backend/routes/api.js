@@ -33,6 +33,14 @@ router.get('/get-files', (req, res, next) => {
                     files.reverse();
                     files.filter(e => now - e.creationDate.getTime() < 15 * 24 * 60 * 60 * 1000);
                     res.send({status: 'ok', files});
+
+                    estate.lastRefreshFiles = [];
+                    for(var i=0; i<files.length; i++){
+                        estate.lastRefreshFiles.push(files[i].fileNumber);
+                    }
+                    Estate.updateMany({_id: estate._id}, {$set: {lastRefreshFiles: estate.lastRefreshFiles}}, err => {
+                        if(err) console.log(err);
+                    })
                 });
             }
             else res.send({status: 'not payed'})
@@ -41,7 +49,7 @@ router.get('/get-files', (req, res, next) => {
     })
 });
 router.post('/get-files2', (req, res, next) => {
-    var {username, password, availableFileNumers} = req.body;
+    var {username, password} = req.body;
     Estate.findOne({code: username, password: password}, (err, estate) => {
         if(estate){
             if(estate.payed && estate.planType != 'free'){
@@ -51,12 +59,15 @@ router.post('/get-files2', (req, res, next) => {
                     files.filter(e => now - e.creationDate.getTime() < 15 * 24 * 60 * 60 * 1000);
                     var newFiles = [];
                     for (let i = 0; i < files.length; i++) {
-                        if(availableFileNumers.indexOf(files[i].fileNumber) == -1){
+                        if(estate.lastRefreshFiles.indexOf(files[i].fileNumber) == -1){
                             newFiles.push(files[i]);
+                            estate.lastRefreshFiles.push(files[i].fileNumber);
                         }
                     }
-                    // files.filter(e => availableFileNumers.indexOf(e.fileNumber) == -1);
                     res.send({status: 'ok', files: newFiles});
+                    Estate.updateMany({_id: estate._id}, {$set: {lastRefreshFiles: estate.lastRefreshFiles}}, err => {
+                        if(err) console.log(err);
+                    })
                 });
             }
             else res.send({status: 'not payed'})

@@ -313,8 +313,9 @@ router.post('/add-file', ensureAuthenticated, upload.single(`myFile`), (req, res
                         // logoTpl.opacity(0.5)
                         w = tpl.getWidth();
                         h = tpl.getHeight();
-                        logoTpl.resize(w * 0.05, w * 0.05);
-                        return tpl.composite(logoTpl, 20, 20, [Jimp.BLEND_DESTINATION_OVER])
+                        logoTpl.resize(w * 0.2, w * 0.2);
+                        logoTpl.opacity(0.8);
+                        return tpl.composite(logoTpl, 20, h-(w*0.2)-20, [Jimp.BLEND_DESTINATION_OVER])
                     })
                     .then((tpl) => tpl.write(p))
                 })
@@ -342,8 +343,9 @@ router.post('/edit-file', ensureAuthenticated, upload.single(`myFile`), (req, re
                             // logoTpl.opacity(0.5)
                             w = tpl.getWidth();
                             h = tpl.getHeight();
-                            logoTpl.resize(w * 0.05, w * 0.05);
-                            return tpl.composite(logoTpl, 20, 20, [Jimp.BLEND_DESTINATION_OVER])
+                            logoTpl.resize(w * 0.2, w * 0.2);
+                            logoTpl.opacity(0.8);
+                            return tpl.composite(logoTpl, 20, h-(w*0.2)-20, [Jimp.BLEND_DESTINATION_OVER])
                         })
                         .then((tpl) => tpl.write(p))
                     })

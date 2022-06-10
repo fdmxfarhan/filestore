@@ -24,6 +24,7 @@ var EstateSchema = new mongoose.Schema({
   code: Number,
   password: String,
   authority: String,
+  lastRefreshFiles: {type: [Number], default: []},
 });
 
 var Estate = mongoose.model('Estate', EstateSchema);

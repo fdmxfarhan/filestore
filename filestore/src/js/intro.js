@@ -10,6 +10,8 @@ $(document).ready(() => {
         $('#intro-7').fadeOut(500);
         $('#intro-8').fadeOut(500);
         $('#intro-9').fadeOut(500);
+        $('#intro-10').fadeOut(500);
+        $('#intro-11').fadeOut(500);
     }
     var loadIntro = (index) => {
         clearIntro();
@@ -22,7 +24,9 @@ $(document).ready(() => {
         if(index == 7) $('#intro-7').fadeIn(500);
         if(index == 8) $('#intro-8').fadeIn(500);
         if(index == 9) $('#intro-9').fadeIn(500);
-        if(index >= 10) {
+        if(index == 10) $('#intro-10').fadeIn(500);
+        if(index == 11) $('#intro-11').fadeIn(500);
+        if(index >= 12) {
             $('.intro-modal').fadeOut(500);
             introIndex = 1;
         }

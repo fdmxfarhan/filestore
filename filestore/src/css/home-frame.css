@@ -167,6 +167,10 @@
     font-size: 0.8vw;
     font-weight: bold;
 }
+.table-title.right-align{
+    text-align: right;
+    width: 20vw;
+}
 .table-value{
     font-family: 'iransans';
     font-size: 0.9vw;
