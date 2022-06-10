@@ -193,9 +193,14 @@
                 i.fa.fa-save
                 | ثبت
         .images-view 
-            label(for="myFile") آپلود عکس: 
-            input.file-input(type="file" name="myFile")
-                    
+            input.hidden#number-of-images(type="number" value="0" name="numberOfImages")
+            .upload-input-area#upload-input-area
+                //- .image-input-view
+                //-     input.file-input(type="file" name="myFile" id="upload-file-input-1")
+                //-     .text(id="upload-file-input-text-1") انتخاب فایل
+            .add-image-btn#add-image-to-file-btn
+                i.fa.fa-plus 
+                h1 افزودن عکس
 -if(errors){
     script.
         $('#add-estate-popup').show();

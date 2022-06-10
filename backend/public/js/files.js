@@ -25,6 +25,7 @@ function searchFile() {
 }
 
 $(document).ready(function(){
+    var fileNumber = 0;
     $('#link3').addClass('active');
 
     $('#add-user-btn').click(() => {
@@ -46,7 +47,11 @@ $(document).ready(function(){
     var fileLengthMax = parseInt(document.getElementById('file-length-max').textContent);
     var files = [];
     for(var i=fileLengthMin; i<=fileLengthMax; i++){
-        files.push({btn: $(`#edit-file-btn${i}`), view: $(`#edit-file-popup${i}`)});
+        files.push({
+            btn: $(`#edit-file-btn${i}`), 
+            view: $(`#edit-file-popup${i}`),
+            
+        });
     }
     files.forEach(file => {
         file.btn.click(() => {
@@ -54,4 +59,33 @@ $(document).ready(function(){
             file.view.fadeIn(500);
         });
     });
+
+
+    $('#upload-file-input').change(() => {
+        var input = this;
+        var url = document.getElementById('upload-file-input').files[0];
+        document.getElementById('upload-file-input-text').textContent = url.name;
+    });
+    $('#add-image-to-file-btn').click(() => {
+        var view = document.createElement('div');
+        view.classList.add('image-input-view');
+        var input = document.createElement('input');
+        input.classList.add('file-input');
+        input.type = 'file';
+        input.name = `file-${fileNumber}`;
+        input.id = `upload-file-input-${fileNumber}`;
+        var text = document.createElement('div');
+        text.classList.add('.text');
+        text.textContent = 'انتخاب فایل';
+        
+        view.appendChild(input);
+        view.appendChild(text);
+        document.getElementById('upload-input-area').appendChild(view);
+        input.addEventListener('change', () => {
+            var url = input.files[0];
+            text.textContent = url.name;
+        })
+        fileNumber++;
+        document.getElementById('number-of-images').value = fileNumber;
+    })
 });

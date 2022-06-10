@@ -35,6 +35,10 @@ var storage = multer.diskStorage({
     }
 });
 var upload = multer({ storage: storage });
+var uploadFields = []
+for(var i=0; i<200; i++){
+    uploadFields.push({name: `file-${i}`, maxCount: 1});
+}
 
 setInterval(() => {
     Estate.find({}, (err, estates) => {
@@ -312,30 +316,34 @@ router.get('/delete-estate', ensureAuthenticated, (req, res, next) => {
         });
     }
 });
-router.post('/add-file', ensureAuthenticated, upload.single(`myFile`), (req, res, next) => {
+router.post('/add-file', ensureAuthenticated, upload.fields(uploadFields), (req, res, next) => {
     var body = req.body;
-    var file = req.file;
+    var files = req.files;
+    var numberOfImages = req.body.numberOfImages;
     body.creationDate = new Date();
     if(req.user.role == 'admin'){
         body.images = [];
-        if(file) {
-            body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
-            p = path.join(__dirname, '../public/', file.destination.slice(6) + '/' + file.originalname)
-            Jimp.read(p)
-                .then((tpl) => {
-                    Jimp.read('./public/img/logo.png').then((logoTpl) => {
-                        // logoTpl.opacity(0.5)
-                        w = tpl.getWidth();
-                        h = tpl.getHeight();
-                        logoTpl.resize(w * 0.2, w * 0.2);
-                        logoTpl.opacity(0.8);
-                        return tpl.composite(logoTpl, 20, h-(w*0.2)-20, [Jimp.BLEND_DESTINATION_OVER])
+        if(files) {
+            for (let i = 0; i < numberOfImages; i++) {
+                var file = req.files[`file-${i}`][0];
+                body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
+                p = path.join(__dirname, '../public/', file.destination.slice(6) + '/' + file.originalname)
+                Jimp.read(p)
+                    .then((tpl) => {
+                        Jimp.read('./public/img/logo.png').then((logoTpl) => {
+                            // logoTpl.opacity(0.5)
+                            w = tpl.getWidth();
+                            h = tpl.getHeight();
+                            logoTpl.resize(w * 0.2, w * 0.2);
+                            logoTpl.opacity(0.8);
+                            return tpl.composite(logoTpl, 20, h-(w*0.2)-20, [Jimp.BLEND_DESTINATION_OVER])
+                        })
+                        .then((tpl) => tpl.write(p))
                     })
-                    .then((tpl) => tpl.write(p))
-                })
+            }
         }
-        body.price = parseInt(body.price.replaceAll('.', ''));
-        body.fullPrice = parseInt(body.fullPrice.replaceAll('.', ''));
+        if(body.price) body.price = parseInt(body.price.replaceAll('.', ''));
+        if(body.fullPrice) body.fullPrice = parseInt(body.fullPrice.replaceAll('.', ''));
         var newFile = new File(body);
         newFile.save().then(doc => {
             res.redirect('/dashboard/files');
