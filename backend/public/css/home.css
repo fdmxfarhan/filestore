@@ -464,11 +464,13 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     section .map{
         width: 90%;
         margin: 1vw auto;
+        overflow: hidden;
     }
     section .map iframe{
         height: 50vw;
         width: 100%;
         border: none;
+        margin-top: -3.5vw;
     }
     section.light{
         background-color: white;
