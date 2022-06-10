@@ -158,6 +158,7 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
                 getAddress,
                 get_year_month_day,
                 getCorrectPrice: function(price){
+                    if(!price) return '';
                     var text = price.toString();
                     text = text.replaceAll('.', '');
                     text = text.replace(/\D/g,'');
