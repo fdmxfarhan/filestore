@@ -160,9 +160,9 @@
                     input(name="options" value="#{files[i].options}")
                 .two-text-input
                     label(for="price") قیمت متری/رهن
-                    input(type="number" placeholder="" name="price" value="#{files[i].price}")
+                    input(type="text" placeholder="" name="price" value="#{getCorrectPrice(files[i].price)}" onkeyup="correctPrice('popup-price-#{i}')" id="popup-price-#{i}")
                     label.marg(for="fullPrice") کل / اجاره
-                    input(type="number" placeholder="" name="fullPrice" value="#{files[i].fullPrice}")
+                    input(type="text" placeholder="" name="fullPrice" value="#{getCorrectPrice(files[i].fullPrice)}" onkeyup="correctPrice('popup-fullprice-#{i}')" id="popup-fullprice-#{i}")
                 .table-form.small
                     table 
                         tr 

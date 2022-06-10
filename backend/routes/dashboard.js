@@ -157,6 +157,18 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
                 now: new Date(),
                 getAddress,
                 get_year_month_day,
+                getCorrectPrice: function(price){
+                    var text = price.toString();
+                    text = text.replaceAll('.', '');
+                    text = text.replace(/\D/g,'');
+                    var newText = '';
+                    for(var i=0; i<text.length; i++){
+                        var j = text.length - i;
+                        if(j%3 == 0 && j>1 && i != 0) newText += '.';
+                        newText += text[i];
+                    }
+                    return newText;
+                }
             });
         })
     }
@@ -320,6 +332,8 @@ router.post('/add-file', ensureAuthenticated, upload.single(`myFile`), (req, res
                     .then((tpl) => tpl.write(p))
                 })
         }
+        body.price = parseInt(body.price.replaceAll('.', ''));
+        body.fullPrice = parseInt(body.fullPrice.replaceAll('.', ''));
         var newFile = new File(body);
         newFile.save().then(doc => {
             res.redirect('/dashboard/files');
@@ -331,6 +345,8 @@ router.post('/edit-file', ensureAuthenticated, upload.single(`myFile`), (req, re
     var body = req.body;
     var file = req.file;
     body.creationDate = new Date();
+    body.price = parseInt(body.price.replaceAll('.', ''));
+    body.fullPrice = parseInt(body.fullPrice.replaceAll('.', ''));
     if(req.user.role == 'admin'){
         File.findById(fileID, (err, f) => {
             body.images = f.images;

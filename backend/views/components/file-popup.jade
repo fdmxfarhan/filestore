@@ -158,9 +158,9 @@
             input(name="options")
         .two-text-input
             label(for="price") قیمت متری/رهن
-            input(type="number" placeholder="xx تومان" name="price" value="")
+            input(type="text" placeholder="xx تومان" name="price" value="" onkeyup="correctPrice('popup-price')" id="popup-price")
             label.marg(for="fullPrice") کل / اجاره
-            input(type="number" placeholder="xx تومان" name="fullPrice" value="")
+            input(type="text" placeholder="xx تومان" name="fullPrice" value="" onkeyup="correctPrice('popup-fullprice')" id="popup-fullprice")
         .table-form.small
             table 
                 tr 
@@ -202,3 +202,4 @@
         $('.black-modal').show();
 -}
 
+    
