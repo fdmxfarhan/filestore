@@ -57,7 +57,7 @@ var rent2 = true;
 var lastSearchText = '';
 // ------------
 
-
+removeAllChildNodes(filesContainer);
 var search = () => {
     var text = document.getElementById('address-search').value;
     if(text == '' || text.length < lastSearchText.length) filter();
@@ -131,7 +131,6 @@ var clearFilters = () => {
     showingFiles = allFiles;
     showFiles();
 }
-
 var updatePlans = () => {
     fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
         if(rawdata){
@@ -440,7 +439,7 @@ var addFile = (data, index) => {
     var table4Value555 = document.createElement('td'); table4Value555.classList.add('price'); table4Value555.appendChild(document.createTextNode(getPrice(data.price)));tr5.appendChild(table4Value555);
     var table4Value6 = document.createElement('td'); table4Value6.classList.add('price'); table4Value6.appendChild(document.createTextNode(getPrice(data.fullPrice)));tr5.appendChild(table4Value6);
     info4.appendChild(tr5);
-    if(data.type == 'کلنگی' || data.type == 'مستقلات' || data.type == 'زمین')
+    if(data.type == 'کلنگی' || data.type == 'مستغلات' || data.type == 'زمین')
         info4.classList.add('border-red');
     else if(data.state == 'رهن و اجاره' || data.state == 'رهن کامل')
         info4.classList.add('border-blue');
@@ -587,6 +586,13 @@ var loadData = (file, len, id) => {
         link.appendChild(img);
         imagesView.appendChild(link);
     }
+    if(file.state == 'رهن و اجاره' || file.state == 'رهن کامل'){
+        $('#file-price2-label').text('قیمت رهن');
+        $('#file-fullPrice2-label').text('قیمت اجاره');
+    }else{
+        $('#file-price2-label').text('قیمت متری');
+        $('#file-fullPrice2-label').text('قیمت کل');
+    }
 }
 var loadPDFData = (file) => {
     $('#pdf-file-ownerName').text(typeof(file.ownerName) == 'undefined' ? '-' : file.ownerName == '' ? '-' : file.ownerName);
@@ -650,6 +656,13 @@ var loadPDFData = (file) => {
     $('#pdf-file-documentState').text(typeof(file.documentState) == 'undefined' ? '-' : file.documentState == '' ? '-' : file.documentState);
     $('#pdf-file-transfer').text(typeof(file.transfer) == 'undefined' ? '-' : file.transfer == '' ? '-' : file.transfer);
     $('#pdf-file-advertiser').text(typeof(file.advertiser) == 'undefined' ? '-' : file.advertiser == '' ? '-' : file.advertiser);
+    if(file.state == 'رهن و اجاره' || file.state == 'رهن کامل'){
+        $('#pdf-file-price-label').text('قیمت رهن');
+        $('#pdf-file-fullPrice-label').text('قیمت اجاره');
+    }else{
+        $('#pdf-file-price-label').text('قیمت متری');
+        $('#pdf-file-fullPrice-label').text('قیمت کل');
+    }
 }
 var updatePlanPrices = () => {
     fetch(api + `get-settings`)
@@ -1151,7 +1164,7 @@ var addBookmark = (data, index) => {
     var table4Value555 = document.createElement('td'); table4Value555.classList.add('price'); table4Value555.appendChild(document.createTextNode(getPrice(data.price)));tr5.appendChild(table4Value555);
     var table4Value6 = document.createElement('td'); table4Value6.classList.add('price'); table4Value6.appendChild(document.createTextNode(getPrice(data.fullPrice)));tr5.appendChild(table4Value6);
     info4.appendChild(tr5);
-    if(data.type == 'کلنگی' || data.type == 'مستقلات' || data.type == 'زمین')
+    if(data.type == 'کلنگی' || data.type == 'مستغلات' || data.type == 'زمین')
         info4.classList.add('border-red');
     else if(data.state == 'رهن و اجاره' || data.state == 'رهن کامل')
         info4.classList.add('border-blue');

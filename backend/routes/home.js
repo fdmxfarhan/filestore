@@ -76,4 +76,9 @@ router.post('/contactus', (req, res, next) => {
     req.flash('success_msg', 'پیام شما با موفقیت ارسال شد.');
     res.redirect('/contactus');
 });
+router.get('/correct-mostaghelat', (req, res, next) => {
+    File.updateMany({type: 'مستقلات'}, {$set: {type: 'مستغلات'}}, (err) => {
+        res.send('done');
+    });
+})
 module.exports = router;
