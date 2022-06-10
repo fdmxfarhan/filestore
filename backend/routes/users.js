@@ -7,10 +7,10 @@ const mail = require('../config/mail');
 const passport = require('passport');
 
 router.get('/register', (req, res, next) => {
-    if(req.user)
+    // if(req.user)
         res.redirect('/dashboard');
-    else
-        res.render('register');
+    // else
+        // res.render('register');
 });
 
 router.get('/login', (req, res, next) => {
