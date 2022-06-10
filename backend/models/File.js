@@ -56,8 +56,8 @@ var FileSchema = new mongoose.Schema({
     service3: {type: String, default: ''}, 
     heatingAndCoolingSystem3: {type: String, default: ''}, // systeme garmayesh va sarmayesh
     options: String, 
-    price: Number, 
-    fullPrice: Number, 
+    price: {type: Number, default: 0},
+    fullPrice: {type: Number, default: 0},
     lone: String,
     changable: String,
     discount: String,
