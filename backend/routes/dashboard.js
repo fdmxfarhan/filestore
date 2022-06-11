@@ -324,26 +324,32 @@ router.post('/add-file', ensureAuthenticated, upload.fields(uploadFields), (req,
     if(req.user.role == 'admin'){
         body.images = [];
         if(files) {
+            var pathes = [];
             for (let i = 0; i < numberOfImages; i++) {
                 var file = req.files[`file-${i}`];
                 if(file){
                     file = file[0];
                     body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
-                    p = path.join(__dirname, '../public/', file.destination.slice(6) + '/' + file.originalname)
-                    Jimp.read(p)
-                        .then((tpl) => {
-                            Jimp.read('./public/img/logo.png').then((logoTpl) => {
-                                // logoTpl.opacity(0.5)
-                                w = tpl.getWidth();
-                                h = tpl.getHeight();
-                                logoTpl.resize(w * 0.2, w * 0.2);
-                                logoTpl.opacity(0.8);
-                                return tpl.composite(logoTpl, 20, h-(w*0.2)-20, [Jimp.BLEND_DESTINATION_OVER])
-                            })
-                            .then((tpl) => tpl.write(p))
-                        })
+                    pathes.push(path.join(__dirname, '../public/', file.destination.slice(6) + '/' + file.originalname));
                 }
             }
+            pathes.forEach(p => {
+                Jimp.read(p)
+                    .then((tpl) => {
+                        Jimp.read('./public/img/logo.png').then((logoTpl) => {
+                            // logoTpl.opacity(0.5)
+                            w = tpl.getWidth();
+                            h = tpl.getHeight();
+                            logoTpl.resize(w * 0.2, w * 0.2);
+                            logoTpl.opacity(0.8);
+                            return tpl.composite(logoTpl, 20, h-(w*0.2)-20, [Jimp.BLEND_DESTINATION_OVER])
+                        })
+                        .then((tpl) => {
+                            tpl.write(p)
+                            console.log(tpl);
+                        })
+                    })
+            });
         }
         if(body.price) body.price = parseInt(body.price.replaceAll('.', ''));
         if(body.fullPrice) body.fullPrice = parseInt(body.fullPrice.replaceAll('.', ''));
@@ -363,12 +369,17 @@ router.post('/edit-file', ensureAuthenticated, upload.fields(uploadFields), (req
     if(req.user.role == 'admin'){
         File.findById(fileID, (err, f) => {
             body.images = f.images;
-            for (let i = 0; i < numberOfImages; i++) {
-                var file = req.files[`file-${i}`];
-                if(file) {
-                    file = file[0];
-                    body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
-                    p = path.join(__dirname, '../public/', file.destination.slice(6) + '/' + file.originalname)
+            if(files) {
+                var pathes = [];
+                for (let i = 0; i < numberOfImages; i++) {
+                    var file = req.files[`file-${i}`];
+                    if(file) {
+                        file = file[0];
+                        body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
+                        pathes.push(path.join(__dirname, '../public/', file.destination.slice(6) + '/' + file.originalname));
+                    }
+                }
+                pathes.forEach(p => {
                     Jimp.read(p)
                         .then((tpl) => {
                             Jimp.read('./public/img/logo.png').then((logoTpl) => {
@@ -381,7 +392,7 @@ router.post('/edit-file', ensureAuthenticated, upload.fields(uploadFields), (req
                             })
                             .then((tpl) => tpl.write(p))
                         })
-                }
+                });
             }
             File.updateMany({_id: fileID}, {$set: body}, (err, doc) => {
                 res.redirect('/dashboard/files');
