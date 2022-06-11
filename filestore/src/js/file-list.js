@@ -579,10 +579,10 @@ var loadData = (file, len, id) => {
     removeAllChildNodes(imagesView);
     for (let j = 0; j < file.images.length; j++) {
         var link = document.createElement('a');
-        link.href = api.slice(0, -4) + more.data.images[j].link;
+        link.href = api.slice(0, -4) + file.images[j].link;
         link.target = '_blank';
         var img = document.createElement('img');
-        img.src = api.slice(0, -4) + more.data.images[j].link;
+        img.src = api.slice(0, -4) + file.images[j].link;
         link.appendChild(img);
         imagesView.appendChild(link);
     }
