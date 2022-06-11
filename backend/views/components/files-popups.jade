@@ -202,10 +202,19 @@
                             a.delete(href="/dashboard/delete-image?fileID=#{files[i]._id}&index=#{j}") 
                                 i.fa.fa-trash
                     -}
-                    .add-image-btn
-                        input.file-input(type="file" name="myFile")
+                    input.hidden(type="number" value="0" name="numberOfImages" id="number-of-images-#{i}")
+                    .upload-input-area(id="upload-input-area-#{i}")
+                        //- .image-input-view
+                        //-     input.file-input(type="file" name="myFile" id="upload-file-input-1")
+                        //-     .text(id="upload-file-input-text-1") انتخاب فایل
+                    .add-image-btn(id="add-image-to-file-btn-#{i}")
                         i.fa.fa-plus 
                         h1 افزودن عکس
+                    
+                    //- .add-image-btn
+                    //-     input.file-input(type="file" name="myFile")
+                    //-     i.fa.fa-plus 
+                    //-     h1 افزودن عکس
     -}                    
 -}else{
     -for(var i=0; i<result.length; i++){

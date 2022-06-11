@@ -50,13 +50,39 @@ $(document).ready(function(){
         files.push({
             btn: $(`#edit-file-btn${i}`), 
             view: $(`#edit-file-popup${i}`),
-            
+            addImageButton: $(`#add-image-to-file-btn-${i}`),
+            uploadInputArea: document.getElementById(`upload-input-area-${i}`),
+            numberOfImagesInput: document.getElementById(`number-of-images-${i}`),
+            numberOfImages: 0,
+            id: i,
         });
     }
     files.forEach(file => {
         file.btn.click(() => {
             $('.black-modal').fadeIn(500);
             file.view.fadeIn(500);
+        });
+        file.addImageButton.click(() => {
+            var view = document.createElement('div');
+            view.classList.add('image-input-view');
+            var input = document.createElement('input');
+            input.classList.add('file-input');
+            input.type = 'file';
+            input.name = `file-${file.numberOfImages}`;
+            input.id = `upload-file-input-${file.numberOfImages}`;
+            var text = document.createElement('div');
+            text.classList.add('.text');
+            text.textContent = 'انتخاب فایل';
+            
+            view.appendChild(input);
+            view.appendChild(text);
+            file.uploadInputArea.appendChild(view);
+            input.addEventListener('change', () => {
+                var url = input.files[0];
+                text.textContent = url.name;
+            })
+            file.numberOfImages++;
+            file.numberOfImagesInput.value = file.numberOfImages;
         });
     });
 

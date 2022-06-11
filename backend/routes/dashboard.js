@@ -326,20 +326,22 @@ router.post('/add-file', ensureAuthenticated, upload.fields(uploadFields), (req,
         if(files) {
             for (let i = 0; i < numberOfImages; i++) {
                 var file = req.files[`file-${i}`][0];
-                body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
-                p = path.join(__dirname, '../public/', file.destination.slice(6) + '/' + file.originalname)
-                Jimp.read(p)
-                    .then((tpl) => {
-                        Jimp.read('./public/img/logo.png').then((logoTpl) => {
-                            // logoTpl.opacity(0.5)
-                            w = tpl.getWidth();
-                            h = tpl.getHeight();
-                            logoTpl.resize(w * 0.2, w * 0.2);
-                            logoTpl.opacity(0.8);
-                            return tpl.composite(logoTpl, 20, h-(w*0.2)-20, [Jimp.BLEND_DESTINATION_OVER])
+                if(file){
+                    body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
+                    p = path.join(__dirname, '../public/', file.destination.slice(6) + '/' + file.originalname)
+                    Jimp.read(p)
+                        .then((tpl) => {
+                            Jimp.read('./public/img/logo.png').then((logoTpl) => {
+                                // logoTpl.opacity(0.5)
+                                w = tpl.getWidth();
+                                h = tpl.getHeight();
+                                logoTpl.resize(w * 0.2, w * 0.2);
+                                logoTpl.opacity(0.8);
+                                return tpl.composite(logoTpl, 20, h-(w*0.2)-20, [Jimp.BLEND_DESTINATION_OVER])
+                            })
+                            .then((tpl) => tpl.write(p))
                         })
-                        .then((tpl) => tpl.write(p))
-                    })
+                }
             }
         }
         if(body.price) body.price = parseInt(body.price.replaceAll('.', ''));
@@ -350,31 +352,34 @@ router.post('/add-file', ensureAuthenticated, upload.fields(uploadFields), (req,
         }).catch(err => console.log(err));
     }
 });
-router.post('/edit-file', ensureAuthenticated, upload.single(`myFile`), (req, res, next) => {
-    var {fileID} = req.body;
+router.post('/edit-file', ensureAuthenticated, upload.fields(uploadFields), (req, res, next) => {
+    var {fileID, numberOfImages} = req.body;
     var body = req.body;
-    var file = req.file;
+    var files = req.files;
     body.creationDate = new Date();
-    body.price = parseInt(body.price.replaceAll('.', ''));
-    body.fullPrice = parseInt(body.fullPrice.replaceAll('.', ''));
+    if(body.price) body.price = parseInt(body.price.replaceAll('.', ''));
+    if(body.fullPrice) body.fullPrice = parseInt(body.fullPrice.replaceAll('.', ''));
     if(req.user.role == 'admin'){
         File.findById(fileID, (err, f) => {
             body.images = f.images;
-            if(file) {
-                body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
-                p = path.join(__dirname, '../public/', file.destination.slice(6) + '/' + file.originalname)
-                Jimp.read(p)
-                    .then((tpl) => {
-                        Jimp.read('./public/img/logo.png').then((logoTpl) => {
-                            // logoTpl.opacity(0.5)
-                            w = tpl.getWidth();
-                            h = tpl.getHeight();
-                            logoTpl.resize(w * 0.2, w * 0.2);
-                            logoTpl.opacity(0.8);
-                            return tpl.composite(logoTpl, 20, h-(w*0.2)-20, [Jimp.BLEND_DESTINATION_OVER])
+            for (let i = 0; i < numberOfImages; i++) {
+                var file = req.files[`file-${i}`][0];
+                if(file) {
+                    body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
+                    p = path.join(__dirname, '../public/', file.destination.slice(6) + '/' + file.originalname)
+                    Jimp.read(p)
+                        .then((tpl) => {
+                            Jimp.read('./public/img/logo.png').then((logoTpl) => {
+                                // logoTpl.opacity(0.5)
+                                w = tpl.getWidth();
+                                h = tpl.getHeight();
+                                logoTpl.resize(w * 0.2, w * 0.2);
+                                logoTpl.opacity(0.8);
+                                return tpl.composite(logoTpl, 20, h-(w*0.2)-20, [Jimp.BLEND_DESTINATION_OVER])
+                            })
+                            .then((tpl) => tpl.write(p))
                         })
-                        .then((tpl) => tpl.write(p))
-                    })
+                }
             }
             File.updateMany({_id: fileID}, {$set: body}, (err, doc) => {
                 res.redirect('/dashboard/files');
