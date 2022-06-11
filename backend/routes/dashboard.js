@@ -325,8 +325,9 @@ router.post('/add-file', ensureAuthenticated, upload.fields(uploadFields), (req,
         body.images = [];
         if(files) {
             for (let i = 0; i < numberOfImages; i++) {
-                var file = req.files[`file-${i}`][0];
+                var file = req.files[`file-${i}`];
                 if(file){
+                    file = file[0];
                     body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
                     p = path.join(__dirname, '../public/', file.destination.slice(6) + '/' + file.originalname)
                     Jimp.read(p)
@@ -363,8 +364,9 @@ router.post('/edit-file', ensureAuthenticated, upload.fields(uploadFields), (req
         File.findById(fileID, (err, f) => {
             body.images = f.images;
             for (let i = 0; i < numberOfImages; i++) {
-                var file = req.files[`file-${i}`][0];
+                var file = req.files[`file-${i}`];
                 if(file) {
+                    file = file[0];
                     body.images.push({link: file.destination.slice(6) + '/' + file.originalname})
                     p = path.join(__dirname, '../public/', file.destination.slice(6) + '/' + file.originalname)
                     Jimp.read(p)
