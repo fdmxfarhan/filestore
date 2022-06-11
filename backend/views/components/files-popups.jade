@@ -399,6 +399,7 @@
                                     option(value="#{result[i].area}")= result[i].area
                                     option(value="22") 22
                                     option(value="5") 5
+                                    option(value="2") 2
                             td
                                 input(type="text" placeholder="" name="lone" value="#{result[i].lone}")
                             td
@@ -421,10 +422,18 @@
                             a.delete(href="/dashboard/delete-image?fileID=#{result[i]._id}&index=#{j}") 
                                 i.fa.fa-trash
                     -}
-                    .add-image-btn
-                        input.file-input(type="file" name="myFile")
+                    input.hidden(type="number" value="0" name="numberOfImages" id="number-of-images-#{i}")
+                    .upload-input-area(id="upload-input-area-#{i}")
+                        //- .image-input-view
+                        //-     input.file-input(type="file" name="myFile" id="upload-file-input-1")
+                        //-     .text(id="upload-file-input-text-1") انتخاب فایل
+                    .add-image-btn(id="add-image-to-file-btn-#{i}")
                         i.fa.fa-plus 
                         h1 افزودن عکس
+                    //- .add-image-btn
+                    //-     input.file-input(type="file" name="myFile")
+                    //-     i.fa.fa-plus 
+                    //-     h1 افزودن عکس
     -}      
 -}
 
