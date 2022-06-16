@@ -94,10 +94,11 @@ var filter = () => {
             var age = parseInt(allFiles[i].buildAge);
             var type = allFiles[i].type;
             var state = allFiles[i].state;
-            if((metrage > minMetrage || isNaN(minMetrage) ) && (metrage < maxMetrage || isNaN(maxMetrage)) || isNaN(metrage)){
-                if((price1 > minPrice1 || isNaN(minPrice1) ) && (price1 < maxPrice1 || isNaN(maxPrice1)) || isNaN(price1)){
-                    if((price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2)) || isNaN(price2)){
-                        if((((maxAge != 100 || age < maxAge) && age > minAge))){
+
+            if((metrage > minMetrage || isNaN(minMetrage) ) && (metrage < maxMetrage || isNaN(maxMetrage)) && !isNaN(metrage)){
+                if((price1 > minPrice1 || isNaN(minPrice1) ) && (price1 < maxPrice1 || isNaN(maxPrice1)) && !isNaN(price1)){
+                    if((price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2)) && !isNaN(price2)){
+                        if((maxAge == 100 || age < maxAge) && age > minAge){
                             if(!apartment         && type == 'آپارتمان');
                             else if(!vilage       && type == 'ویلایی');
                             else if(!old          && type == 'کلنگی');
@@ -701,7 +702,7 @@ var refresh = () => {
                 .then(res => res.json())
                 .then(data => {
                     if(data.status == 'ok'){
-                        saveEstate(estate.username, estate.password, estate.estate, data.files);
+                        saveEstate(estate.username, estate.password, estate.estate, data.files, estate.bookmarks);
                         removeAllChildNodes(filesContainer);
                         allFiles = data.files;
                         showingFiles = allFiles;
@@ -785,7 +786,7 @@ var refresh2 = () => {
                                 showingFiles = allFiles;
                                 showFiles();
                                 if(estate.files) data.files = data.files.concat(estate.files);
-                                saveEstate(estate.username, estate.password, estate.estate, data.files);
+                                saveEstate(estate.username, estate.password, estate.estate, data.files, estate.bookmarks);
                                 downloadBar.classList.add('hidden');
                                 loadingScreen.classList.add('hidden');
                                 cancleButton.classList.add('hidden');
@@ -1333,10 +1334,8 @@ $(document).ready(() => {
         $('.black-modal').fadeOut(500);
         loadPDFData(activeFile);
         var beforePrint = function () {
-            // alert('Functionality to run before printing.');
         };
         var afterPrint = function () {
-            // alert('Functionality to run after printing');
             document.getElementById('home-frame').classList.remove('hidden');
             document.getElementById('file-print-frame').classList.add('hidden');
             $('#file-popup').fadeIn(500);
@@ -1764,9 +1763,7 @@ $(document).ready(() => {
     });
     document.getElementById('address-search').addEventListener('keyup', search);
     // ------------
-
-
-
+    
     $(document).keyup(function(e) {
         if (e.key === "Escape") {
             $('#file-popup').fadeOut(500);
