@@ -54,15 +54,28 @@ setInterval(() => {
                 if(estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
                 if(estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
                 if(endDate - now < 0){
+                    Notif.find({type: estate._id.toString()}, (err, notifs) => {
+                        if(!notifs || notifs.length <= 0){
+                            var newNotif = new Notif({
+                                type: estate._id.toString(),
+                                text: `اشتراک ${estate.name} به پایان رسیده است.`,
+                                date: new Date(),
+                            })
+                            newNotif.save().then(doc => {}).catch(err => console.log(err));
+                        }
+                    })
                     Estate.updateMany({_id: estate._id}, {$set: {
                         payed: false,
                         planType: 'free',
                     }}, (err) => {if(err) console.log(err)})
                 }
+                else{
+                    Notif.deleteMany({type: estate._id.toString()}, (err) => {});
+                }
             }
         }
     })
-}, 1000 * 60 * 60 * 12);
+}, 1000);
 
 Settings.findOne({}, (err, settings) => {
     if(!settings){
@@ -341,7 +354,7 @@ router.post('/add-file', ensureAuthenticated, upload.fields(uploadFields), (req,
                             w = tpl.getWidth();
                             h = tpl.getHeight();
                             logoTpl.resize(w * 0.2, w * 0.2);
-                            logoTpl.opacity(0.8);
+                            logoTpl.opacity(0.5);
                             return tpl.composite(logoTpl, 20, h-(w*0.2)-20, [Jimp.BLEND_DESTINATION_OVER])
                         })
                         .then((tpl) => {
@@ -353,10 +366,18 @@ router.post('/add-file', ensureAuthenticated, upload.fields(uploadFields), (req,
         }
         if(body.price) body.price = parseInt(body.price.replaceAll('.', ''));
         if(body.fullPrice) body.fullPrice = parseInt(body.fullPrice.replaceAll('.', ''));
-        var newFile = new File(body);
-        newFile.save().then(doc => {
-            res.redirect('/dashboard/files');
-        }).catch(err => console.log(err));
+        File.find({}, (err, files) => {
+            var newFileNumber = 0;
+            for(var i=0; i<files.length; i++){
+                if(parseInt(files[i].fileNumber) > newFileNumber)
+                    newFileNumber = parseInt(files[i].fileNumber);
+            }
+            body.fileNumber = newFileNumber+1;
+            var newFile = new File(body);
+            newFile.save().then(doc => {
+                res.redirect('/dashboard/files');
+            }).catch(err => console.log(err));
+        });
     }
 });
 router.post('/edit-file', ensureAuthenticated, upload.fields(uploadFields), (req, res, next) => {

@@ -31,10 +31,22 @@ block content
         .users-view 
             .notifs 
                 -for(var i=notifs.length-1; i>=0; i--){
-                    .notif 
-                        .text= notifs[i].text
-                        .date= convertDate(notifs[i].date)
+                    -if(!notifs[i].seen){
+                        .notif 
+                            .text= notifs[i].text
+                            .date= convertDate(notifs[i].date)
+                            a.seen(href="/dashboard/notif-seen") 
+                                i.fa.fa-check
+                    -}
                 -}
+                -for(var i=notifs.length-1; i>=0; i--){
+                    -if(notifs[i].seen){
+                        .notif.seen 
+                            .text= notifs[i].text
+                            .date= convertDate(notifs[i].date)
+                    -}
+                -}
+                
     script.
         $('#link6').addClass('active');
         textarea = document.querySelector("#text");
