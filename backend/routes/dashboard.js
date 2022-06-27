@@ -144,51 +144,54 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
     if(req.user.role == 'admin'){
         var numberOfFilesInPage = 30;
         File.find({}, (err, files) => {
-            var newFileNumber = 0;
-            for(var i=0; i<files.length; i++){
-                if(parseInt(files[i].fileNumber) > newFileNumber)
-                    newFileNumber = parseInt(files[i].fileNumber);
-            }
-            var fileLength = files.length;
-            var result = [];
-            if(search){
-                for (let i = 0; i < files.length; i++) {
-                    if(files[i].ownerName && files[i].ownerName.indexOf(search) != -1) result.push(files[i]);
-                    else if(files[i].phone && files[i].phone.indexOf(search) != -1) result.push(files[i]);
-                    else if(files[i].fileNumber && files[i].fileNumber.toString().indexOf(search) != -1) result.push(files[i]);
-                    else if(files[i].address && files[i].address.indexOf(search) != -1) result.push(files[i]);
+            Notif.find({seen: false}, (err, seenNotifs) => {
+                var newFileNumber = 0;
+                for(var i=0; i<files.length; i++){
+                    if(parseInt(files[i].fileNumber) > newFileNumber)
+                        newFileNumber = parseInt(files[i].fileNumber);
                 }
-            }
-            if(fileLength > numberOfFilesInPage)
-                files = files.slice(fileLength - ((page+1)*numberOfFilesInPage), fileLength - (page*numberOfFilesInPage))
-            res.render('./dashboard/admin-files', {
-                user: req.user,
-                files,
-                convertDate,
-                page,
-                numberOfFilesInPage,
-                fileLength,
-                result,
-                search,
-                newFileNumber: newFileNumber+1,
-                now: new Date(),
-                getAddress,
-                get_year_month_day,
-                getCorrectPrice: function(price){
-                    if(typeof(price) != 'number') return '';
-                    var text = price.toString();
-                    if(typeof(text) != 'string') return '';
-                    text = text.replaceAll('.', '');
-                    text = text.replace(/\D/g,'');
-                    var newText = '';
-                    for(var i=0; i<text.length; i++){
-                        var j = text.length - i;
-                        if(j%3 == 0 && j>1 && i != 0) newText += '.';
-                        newText += text[i];
+                var fileLength = files.length;
+                var result = [];
+                if(search){
+                    for (let i = 0; i < files.length; i++) {
+                        if(files[i].ownerName && files[i].ownerName.indexOf(search) != -1) result.push(files[i]);
+                        else if(files[i].phone && files[i].phone.indexOf(search) != -1) result.push(files[i]);
+                        else if(files[i].fileNumber && files[i].fileNumber.toString().indexOf(search) != -1) result.push(files[i]);
+                        else if(files[i].address && files[i].address.indexOf(search) != -1) result.push(files[i]);
                     }
-                    return newText;
                 }
-            });
+                if(fileLength > numberOfFilesInPage)
+                    files = files.slice(fileLength - ((page+1)*numberOfFilesInPage), fileLength - (page*numberOfFilesInPage))
+                res.render('./dashboard/admin-files', {
+                    user: req.user,
+                    files,
+                    convertDate,
+                    page,
+                    numberOfFilesInPage,
+                    fileLength,
+                    result,
+                    search,
+                    newFileNumber: newFileNumber+1,
+                    now: new Date(),
+                    seenNotifs,
+                    getAddress,
+                    get_year_month_day,
+                    getCorrectPrice: function(price){
+                        if(typeof(price) != 'number') return '';
+                        var text = price.toString();
+                        if(typeof(text) != 'string') return '';
+                        text = text.replaceAll('.', '');
+                        text = text.replace(/\D/g,'');
+                        var newText = '';
+                        for(var i=0; i<text.length; i++){
+                            var j = text.length - i;
+                            if(j%3 == 0 && j>1 && i != 0) newText += '.';
+                            newText += text[i];
+                        }
+                        return newText;
+                    }
+                });
+            })
         })
     }
     else res.send('Access Denied');
@@ -886,5 +889,10 @@ router.get('/delete-image', ensureAuthenticated, (req, res, next) => {
         })
     })
 });
-
+router.get('/notif-seen', ensureAuthenticated, (req, res, next) => {
+    var {notifID} = req.query;
+    Notif.updateMany({_id: notifID}, {$set: {seen: true}}, (err, doc) => {
+        res.redirect('/dashboard/notif');
+    });
+});
 module.exports = router;

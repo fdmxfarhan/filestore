@@ -35,7 +35,7 @@ block content
                         .notif 
                             .text= notifs[i].text
                             .date= convertDate(notifs[i].date)
-                            a.seen(href="/dashboard/notif-seen") 
+                            a.seen(href="/dashboard/notif-seen?notifID=#{notifs[i]._id}") 
                                 i.fa.fa-check
                     -}
                 -}

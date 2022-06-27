@@ -20,7 +20,7 @@
                     i.fa.fa-key
                     | کلمه عبور:
                 input.textinput(type="password" placeholder="کلمه عبور" name="password" value= "#{ typeof password != 'undefined' ? password: '' }")
-            table.access 
+            table.access(class="#{user.role == 'admin' && (user.idNumber == 'admin' || user.idNumber == '1234') ? '' : 'hidden'}")
                 tr
                     th دسترسی
                     th افزودن

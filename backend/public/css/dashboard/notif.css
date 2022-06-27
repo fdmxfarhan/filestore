@@ -11,8 +11,20 @@
     margin-bottom: 0.5vw;
 }
 .notifs .notif.seen{
-    background-color: var(--lightgray);
+    background-color: rgb(184, 197, 207);
 }
 .notifs .notif a.seen{
-    
+    position: absolute;
+    top: 1vw;
+    left: 1vw;
+    color: var(--green);
+    background-color: lightblue;
+    border-radius: 50%;
+    padding: 0.3vw 0 0.1vw 0;
+    text-align: center;
+    width: 1.9vw;
+}
+.notifs .notif a.seen:hover{
+    background-color: var(--green);
+    color: white;
 }

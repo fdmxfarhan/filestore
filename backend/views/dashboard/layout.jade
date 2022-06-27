@@ -35,6 +35,8 @@ html
                         a.sidebar-nav-link#link4(href="#") 
                             i.fa.fa-bell
                             | اعلان ها
+                            -if(seenNotifs && seenNotifs.length > 0)
+                                .ball
                         .break 
                         a.sidebar-nav-link#link5(href="#") 
                             i.fa.fa-gears
@@ -56,6 +58,8 @@ html
                             a.sidebar-nav-link#link6(href="/dashboard/notif") 
                                 i.fa.fa-bell
                                 | اعلان ها
+                                -if(seenNotifs && seenNotifs.length > 0)
+                                    .ball
                             .break 
                         -}if(user.settingsPermission){
                             a.sidebar-nav-link#link6(href="/dashboard/settings") 
