@@ -71,7 +71,6 @@ Settings.findOne({}, (err, settings) => {
     }
 })
 router.get('/', ensureAuthenticated, (req, res, next) => {
-    console.log(req.info.remoteAddress)
     if(req.user.role == 'user')
     {
         res.render('./dashboard/user-dashboard', {
