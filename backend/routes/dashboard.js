@@ -171,8 +171,6 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
                 areas = arrToStr(allAreas);
                 areasArr = strToArray(areas);
             }
-            console.log(allAreas);
-            console.log(areas);
             if(removeArea){
                 for(var i=0 ; i< areasArr.length; i++)
                 if(areasArr[i].toString() == removeArea.toString())

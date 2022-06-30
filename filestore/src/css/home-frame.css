@@ -315,6 +315,7 @@
     float: right;
     margin-left: 0.5vw;
     overflow: hidden;
+    cursor: pointer;
 }
 .images-view a img{
     display: block;

@@ -1,0 +1,80 @@
+<style>
+    .image-modal{
+        background-color: rgb(63, 61, 61);
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+        top: 0;
+        right: 0;
+    }
+    .close-images-btn{
+        padding: 1vw;
+        position: absolute;
+        top: 1vw;
+        right: 1vw;
+        z-index: 1002;
+        cursor: pointer;
+    }
+    .close-images-btn i{
+        font-size: 1.5vw;
+        color: white;
+    }
+    .close-images-btn i:hover{
+        color: var(--blue);
+    }
+    .images-popup{
+        position: absolute;
+        top: 1vh;
+        right: 0;
+        z-index: 1001;
+        cursor: pointer;
+        width: 100%;
+    }
+    .images-popup img{
+        margin: auto;
+        display: block;
+        height: 98vh;
+    }
+    .images-slider-view{display: none;}
+    .next-image-btn{
+        position: absolute;
+        top: 45vh;
+        right: 1vw;
+        padding: 5vw 2vw;
+        color: white;
+        font-size: 2vw;
+        z-index: 1002;
+        cursor: pointer;
+    }
+    .next-image-btn:hover{
+        background-color: rgb(44, 44, 44);
+    }
+    .prev-image-btn{
+        position: absolute;
+        top: 45vh;
+        left: 1vw;
+        padding: 5vw 2vw;
+        color: white;
+        font-size: 2vw;
+        z-index: 1002;
+        cursor: pointer;
+    }
+    .prev-image-btn:hover{
+        background-color: rgb(44, 44, 44);
+    }
+    
+</style>
+<div class="images-slider-view" id="images-slider-view">
+    <div class="image-modal"></div>
+    <div class="close-images-btn">
+        <i class="fa fa-times"></i>
+    </div>
+    <div class="images-popup">
+        <img src="http://fileestore.ir/files/1656519246245/gYoCSEHO.1.jpg" alt="" id="images-slider-image">
+    </div>
+    <div id="images-slider-index" class="hidden">0</div>
+    <i class="fa fa-chevron-right next-image-btn"></i>
+    <i class="fa fa-chevron-left prev-image-btn"></i>
+    
+</div>

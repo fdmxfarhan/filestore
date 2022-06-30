@@ -35,6 +35,7 @@ var allFiles = [];
 var showingFiles = [];
 var currentPage = 1;
 var numberOfFilesInPage = 30;
+var currentImage = 0;
 // -----search:
 var minMetrage = 0, maxMetrage = 300;
 var minPrice1 = 100, maxPrice1 = 500;
@@ -94,11 +95,10 @@ var filter = () => {
             var age = parseInt(allFiles[i].buildAge);
             var type = allFiles[i].type;
             var state = allFiles[i].state;
-
             if((metrage > minMetrage || isNaN(minMetrage) ) && (metrage < maxMetrage || isNaN(maxMetrage)) && !isNaN(metrage)){
                 if((price1 > minPrice1 || isNaN(minPrice1) ) && (price1 < maxPrice1 || isNaN(maxPrice1)) && !isNaN(price1)){
                     if((price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2)) && !isNaN(price2)){
-                        if((maxAge == 100 || age < maxAge) && age > minAge){
+                        if((minAge == 1 && allFiles[i].buildAge == 'نوساز') || ((maxAge == 100 || age < maxAge) && age > minAge)){
                             if(!apartment         && type == 'آپارتمان');
                             else if(!vilage       && type == 'ویلایی');
                             else if(!old          && type == 'کلنگی');
@@ -580,11 +580,16 @@ var loadData = (file, len, id) => {
     removeAllChildNodes(imagesView);
     for (let j = 0; j < file.images.length; j++) {
         var link = document.createElement('a');
-        link.href = api.slice(0, -4) + file.images[j].link;
-        link.target = '_blank';
+        // link.href = api.slice(0, -4) + file.images[j].link;
+        // link.target = '_blank';
         var img = document.createElement('img');
         img.src = api.slice(0, -4) + file.images[j].link;
         link.appendChild(img);
+        link.addEventListener('click', () => {
+            document.getElementById('images-slider-view').style.display = 'block';
+            document.getElementById('images-slider-image').src = api.slice(0, -5) + file.images[j].link;
+            document.getElementById('images-slider-index').textContent = j;
+        });
         imagesView.appendChild(link);
     }
     if(file.state == 'رهن و اجاره' || file.state == 'رهن کامل'){
@@ -686,6 +691,7 @@ var refresh = () => {
     refreshCancled = false;
     var downloadPercent = 10;
     fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+        if(refreshCancled) return;
         if(rawdata){
             var estate = JSON.parse(rawdata);
             loadingScreen.classList.remove('hidden');
@@ -701,6 +707,7 @@ var refresh = () => {
             var res = fetch(api + `get-files?username=${estate.username}&password=${estate.password}`)
                 .then(res => res.json())
                 .then(data => {
+                    if(refreshCancled) return;
                     if(data.status == 'ok'){
                         saveEstate(estate.username, estate.password, estate.estate, data.files, estate.bookmarks);
                         removeAllChildNodes(filesContainer);
@@ -728,6 +735,7 @@ var refresh = () => {
                         refreshInterval = setInterval(updatePlans, udatePlanTime);
                     }
                 }).catch(err => {
+                    if(refreshCancled) return;
                     showError('خطای اتصال به اینترنت');
                     loadingScreen.classList.add('hidden');
                     cancleButton.classList.add('hidden');
@@ -778,6 +786,7 @@ var refresh2 = () => {
                     }) // body data type must match "Content-Type" header
                 }).then(res => res.json())
                 .then(data => {
+                    if(refreshCancled) return;
                     if(data.status == 'ok'){
                         fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
                             if(rawdata){
@@ -809,6 +818,7 @@ var refresh2 = () => {
                         refreshInterval = setInterval(updatePlans, udatePlanTime);
                     }
                 }).catch(err => {
+                    if(refreshCancled) return;
                     showError('خطای اتصال به اینترنت');
                     loadingScreen.classList.add('hidden');
                     cancleButton.classList.add('hidden');
@@ -1808,6 +1818,9 @@ $(document).ready(() => {
         }
     });
     numberSelect.addEventListener('change', onChangeNumber);
+    $('.close-images-btn').click(() => {
+        $('.images-slider-view').fadeOut(100);
+    });
 });
 
 
