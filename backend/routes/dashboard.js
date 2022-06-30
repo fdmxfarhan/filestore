@@ -165,7 +165,7 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
         File.find({}, (err, files) => {
             var allAreas = [];
             for(var i=0; i<files.length; i++)
-                if(allAreas.indexOf(files[i].area) == -1)
+                if(allAreas.indexOf(files[i].area) == -1 && files[i].area != '')
                     allAreas.push(files[i].area);
             if(areas == 'all'){
                 areas = arrToStr(allAreas);
