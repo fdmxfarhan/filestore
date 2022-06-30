@@ -36,6 +36,7 @@ var showingFiles = [];
 var currentPage = 1;
 var numberOfFilesInPage = 30;
 var currentImage = 0;
+var viewingImages = false;
 // -----search:
 var minMetrage = 0, maxMetrage = 300;
 var minPrice1 = 100, maxPrice1 = 500;
@@ -479,6 +480,7 @@ var bookmarkIndex = (file) => {
     return index;
 }
 var loadData = (file, len, id) => {
+    activeFile = file;
     $('#file-popup').removeClass('border-blue');
     $('#file-popup').removeClass('border-purple');
     $('#file-state').removeClass('border-blue');
@@ -589,6 +591,7 @@ var loadData = (file, len, id) => {
             document.getElementById('images-slider-view').style.display = 'block';
             document.getElementById('images-slider-image').src = api.slice(0, -5) + file.images[j].link;
             document.getElementById('images-slider-index').textContent = j;
+            viewingImages = true;
         });
         imagesView.appendChild(link);
     }
@@ -689,6 +692,7 @@ var updatePlanPrices = () => {
 }
 var refresh = () => {
     refreshCancled = false;
+    currentPage = 1;
     var downloadPercent = 10;
     fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
         if(refreshCancled) return;
@@ -746,9 +750,11 @@ var refresh = () => {
     });
     document.getElementById('download-bar-handle').style.width = `${0}%`;
     document.getElementById('download-bar-text').textContent = `${0}%`;
+    showFiles();
 }
 var refresh2 = () => {
     var downloadPercent = 10;
+    currentPage = 1;
     fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
         if(rawdata){
             var estate = JSON.parse(rawdata);
@@ -829,6 +835,7 @@ var refresh2 = () => {
     });
     document.getElementById('download-bar-handle').style.width = `${0}%`;
     document.getElementById('download-bar-text').textContent = `${0}%`;
+    showFiles();
 }
 var activePageNumber = (n) => {
     pageNumberButtons[1].classList.remove('active');
@@ -1257,6 +1264,22 @@ $(document).ready(() => {
         $('#next-file-btn').fadeOut(500);
         $('#prev-file-btn').fadeOut(500);
     }
+    var nextImage = () => {
+        var index = parseInt(document.getElementById('images-slider-index').textContent);
+        if(index < activeFile.images.length-1){
+            document.getElementById('images-slider-image').src = api.slice(0, -5) + activeFile.images[index+1].link;
+            document.getElementById('images-slider-index').textContent = index+1;
+        }
+        viewingImages = true;
+    }
+    var prevImage = () => {
+        var index = parseInt(document.getElementById('images-slider-index').textContent);
+        if(index > 0){
+            document.getElementById('images-slider-image').src = api.slice(0, -5) + activeFile.images[index-1].link;
+            document.getElementById('images-slider-index').textContent = index-1;
+        }
+        viewingImages = true;
+    }
     $('#refresh-btn').click(() => {
         refresh2();
     });
@@ -1429,6 +1452,10 @@ $(document).ready(() => {
         if(currentPage < showingFiles.length/numberOfFilesInPage) currentPage++;
         showFiles();
     });
+    $('#filepage-number-0').click(() => {
+        currentPage = 1;
+        showFiles();
+    })
     $('#filepage-number-1').click(() => {
         var maxpage = Math.floor(showingFiles.length/numberOfFilesInPage);
         if(currentPage < 4) currentPage = 1;
@@ -1487,26 +1514,26 @@ $(document).ready(() => {
         if(activeMenu != 'bookmarks'){
             var index = parseInt(document.getElementById('popup-index').textContent);
             loadData(showingFiles[index+1], showingFiles.length, index+1);
-            activeFile = showingFiles[index+1].data;
+            activeFile = showingFiles[index+1];
         }
         else{
             var bookmarks = getBookmarks();
             var index = parseInt(document.getElementById('popup-index').textContent);
             loadData(bookmarks[index+1], bookmarks.length, index+1);
-            activeFile = bookmarks[index+1].data;
+            activeFile = bookmarks[index+1];
         }
     });
     $('#prev-file-btn').click(() => {
         if(activeMenu != 'bookmarks'){
             var index = parseInt(document.getElementById('popup-index').textContent);
             loadData(showingFiles[index-1], showingFiles.length, index-1);
-            activeFile = showingFiles[index-1].data;
+            activeFile = showingFiles[index-1];
         }
         else{
             var bookmarks = getBookmarks();
             var index = parseInt(document.getElementById('popup-index').textContent);
             loadData(bookmarks[index-1], bookmarks.length, index-1);
-            activeFile = bookmarks[index-1].data;
+            activeFile = bookmarks[index-1];
         }
     });
 
@@ -1780,14 +1807,17 @@ $(document).ready(() => {
             $('#next-file-btn').fadeOut(500);
             $('#prev-file-btn').fadeOut(500);
             $('.black-modal').fadeOut(500);
+            $('.images-slider-view').fadeOut(100);
+            viewingImages = false;
             activeFile = null;
         }
-        if (e.keyCode  == 39) { //next
-            if(activeMenu != 'bookmarks'){
+        if (e.keyCode == 39) { //next
+            if(viewingImages) prevImage();
+            else if(activeMenu != 'bookmarks'){
                 var index = parseInt(document.getElementById('popup-index').textContent);
                 if(index < showingFiles.length-1) {
                     loadData(showingFiles[index+1], showingFiles.length, index+1);
-                    activeFile = showingFiles[index+1].data;
+                    activeFile = showingFiles[index+1];
                 }
             }
             else{
@@ -1795,16 +1825,17 @@ $(document).ready(() => {
                 var index = parseInt(document.getElementById('popup-index').textContent);
                 if(index < bookmarks.length-1) {
                     loadData(bookmarks[index+1], bookmarks.length, index+1);
-                    activeFile = bookmarks[index+1].data;
+                    activeFile = bookmarks[index+1];
                 }
             }
         }
-        if (e.keyCode  == 37) { //prev
-            if(activeMenu != 'bookmarks'){
+        if (e.keyCode == 37) { //prev
+            if(viewingImages) nextImage();
+            else if(activeMenu != 'bookmarks'){
                 var index = parseInt(document.getElementById('popup-index').textContent);
                 if(index > 0) {
                     loadData(showingFiles[index-1], showingFiles.length, index-1);
-                    activeFile = showingFiles[index-1].data;
+                    activeFile = showingFiles[index-1];
                 }
             }
             else{
@@ -1812,7 +1843,7 @@ $(document).ready(() => {
                 var index = parseInt(document.getElementById('popup-index').textContent);
                 if(index > 0) {
                     loadData(bookmarks[index-1], bookmarks.length, index-1);
-                    activeFile = bookmarks[index-1].data;
+                    activeFile = bookmarks[index-1];
                 }
             }
         }
@@ -1820,7 +1851,15 @@ $(document).ready(() => {
     numberSelect.addEventListener('change', onChangeNumber);
     $('.close-images-btn').click(() => {
         $('.images-slider-view').fadeOut(100);
+        viewingImages = false;
     });
+    $('.next-image-btn').click(() => {
+        nextImage();
+    });
+    $('.prev-image-btn').click(() => {
+        prevImage();
+    });
+    
 });
 
 
