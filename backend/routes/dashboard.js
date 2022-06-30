@@ -22,7 +22,20 @@ const reader = require('xlsx');
 var excel = require('excel4node');
 var Jimp = require('jimp')
 
-
+var strToArray = (str) => {
+    arr = str.split(',');
+    for(var i=0; i<arr.length; i++)
+        arr[i] = parseInt(arr[i]);
+    return arr;
+}
+var arrToStr = (arr) => {
+    var str = '';
+    for(var i=0; i<arr.length; i++){
+        str += arr[i].toString();
+        if(i<arr.length-1) str += ',';
+    }
+    return str;
+}
 // const excelFile = reader.readFile(__dirname + '/../public/files.xlsx');
 router.use(bodyparser.urlencoded({ extended: true }));
 var storage = multer.diskStorage({
@@ -139,11 +152,37 @@ router.get('/estates', ensureAuthenticated, (req, res, next) => {
 router.get('/files', ensureAuthenticated, (req, res, next) => {
     var page = req.query.page;
     var search = req.query.search;
+    var areas = req.query.areas, areasArr;
+    var removeArea = req.query.removeArea;
+    var addArea = req.query.addArea;
     if(!page) page = 0;
+    if(!areas) areas = 'all';
+    else if(areas == '-1') {areas = ''; areasArr = []}
+    else areasArr = strToArray(areas);
     page = parseInt(page);
     if(req.user.role == 'admin'){
         var numberOfFilesInPage = 30;
         File.find({}, (err, files) => {
+            var allAreas = [];
+            for(var i=0; i<files.length; i++)
+                if(allAreas.indexOf(files[i].area) == -1)
+                    allAreas.push(files[i].area);
+            if(areas == 'all'){
+                areas = arrToStr(allAreas);
+                areasArr = strToArray(areas);
+            }
+            if(removeArea){
+                for(var i=0 ; i< areasArr.length; i++)
+                if(areasArr[i].toString() == removeArea.toString())
+                areasArr.splice(i, 1);
+                if(areasArr.length == 0) areasArr.push(-1);
+                areas = arrToStr(areasArr);
+            }
+            if(addArea){
+                areasArr.push(parseInt(addArea));
+                areas = arrToStr(areasArr);
+            }
+            files = files.filter(e => areasArr.indexOf(parseInt(e.area)) != -1);
             Notif.find({seen: false}, (err, seenNotifs) => {
                 var newFileNumber = 0;
                 for(var i=0; i<files.length; i++){
@@ -176,6 +215,11 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
                     seenNotifs,
                     getAddress,
                     get_year_month_day,
+                    areas,
+                    areasArr,
+                    arrToStr,
+                    strToArray,
+                    allAreas,
                     getCorrectPrice: function(price){
                         if(typeof(price) != 'number') return '';
                         var text = price.toString();

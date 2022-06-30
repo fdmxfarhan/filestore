@@ -888,6 +888,7 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         border: var(--blue) 0.1vw solid;
         border-radius: 0.5vw;
         margin-left: 1vw;
+        text-decoration: none;
     }
     .district-filter-view .district-filter .text{
         font-size: 0.9vw;

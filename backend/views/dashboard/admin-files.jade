@@ -4,8 +4,13 @@ block styles
     link(rel="stylesheet", href="/css/dashboard/files.css")
 
 block content
-    #file-length.hidden= files.length
-    #file-length-max.hidden= files.length-1
+    -if(!search || search == ''){
+        #file-length.hidden= files.length
+        #file-length-max.hidden= files.length-1
+    -}else{
+        #file-length.hidden= result.length
+        #file-length-max.hidden= result.length-1
+    -}
     #file-length-min.hidden= 0
     .title-view 
         h1 فایل ها
@@ -15,6 +20,7 @@ block content
             .control 
                 form.search-view(action="/dashboard/files") 
                     input.hidden(type="text" name="page" value="#{page}")
+                    input.hidden(type="text" name="areas" value="#{areas}")
                     input(type="text" name="search" placeholder="جستجو" id="searchInput" value="#{typeof(search) == 'undefined'? '': search}" onkeyup="searchFile()")
                     button(type="submit")
                         i.fa.fa-search
@@ -54,6 +60,18 @@ block content
                             input(type="number" name="endYear" placeholder="سال" value="#{get_year_month_day(now)[0]}")
                     button(type="submit") دانلود
         .users-view 
+            .district-filter-view
+                -for(var i=0; i<allAreas.length; i++){
+                    -if(areas == 'all' || areasArr.indexOf(parseInt(allAreas[i])) != -1){
+                        a.district-filter.active(href="/dashboard/files?areas=#{areas}&removeArea=#{allAreas[i]}")
+                            .text منطقه #{allAreas[i]}
+                            .district.hidden= allAreas[i]
+                    -}else{
+                        a.district-filter(href="/dashboard/files?areas=#{areas}&addArea=#{allAreas[i]}")
+                            .text منطقه #{allAreas[i]}
+                            .district.hidden= allAreas[i]
+                    -}
+                -}
             table#myTable 
                 tr 
                     th شماره
@@ -124,17 +142,17 @@ block content
             .page-navigator 
                 -page = parseInt(page)
                 -if(page > 0)
-                    a(href="/dashboard/files?page=#{page-1}" disabled)
+                    a(href="/dashboard/files?areas=#{areas}&page=#{page-1}" disabled)
                         i.fa.fa-chevron-right
                         | صفحه قبلی 
                 -if((page+2)*numberOfFilesInPage < fileLength-1)
-                    a(href="/dashboard/files?page=#{page+2}")= page+3
+                    a(href="/dashboard/files?areas=#{areas}&page=#{page+2}")= page+3
                 -if((page+1)*numberOfFilesInPage < fileLength-1)
-                    a(href="/dashboard/files?page=#{page+1}")= page+2
+                    a(href="/dashboard/files?areas=#{areas}&page=#{page+1}")= page+2
                 -if((page)*numberOfFilesInPage < fileLength-1)
-                    a.active(href="/dashboard/files?page=#{page}")= page+1
+                    a.active(href="/dashboard/files?areas=#{areas}&page=#{page}")= page+1
                 -if((page+1)*numberOfFilesInPage < fileLength-1)
-                    a(href="/dashboard/files?page=#{page+1}")
+                    a(href="/dashboard/files?areas=#{areas}&page=#{page+1}")
                         | صفحه بعدی 
                         i.fa.fa-chevron-left
         
