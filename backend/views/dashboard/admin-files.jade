@@ -62,14 +62,16 @@ block content
         .users-view 
             .district-filter-view
                 -for(var i=0; i<allAreas.length; i++){
-                    -if(areas == 'all' || areasArr.indexOf(parseInt(allAreas[i])) != -1){
-                        a.district-filter.active(href="/dashboard/files?areas=#{areas}&removeArea=#{allAreas[i]}")
-                            .text منطقه #{allAreas[i]}
-                            .district.hidden= allAreas[i]
-                    -}else{
-                        a.district-filter(href="/dashboard/files?areas=#{areas}&addArea=#{allAreas[i]}")
-                            .text منطقه #{allAreas[i]}
-                            .district.hidden= allAreas[i]
+                    -if(!isNaN(allAreas[i])){
+                        -if(areas == 'all' || areasArr.indexOf(parseInt(allAreas[i])) != -1){
+                            a.district-filter.active(href="/dashboard/files?areas=#{areas}&removeArea=#{allAreas[i]}")
+                                .text منطقه #{allAreas[i]}
+                                .district.hidden= allAreas[i]
+                        -}else{
+                            a.district-filter(href="/dashboard/files?areas=#{areas}&addArea=#{allAreas[i]}")
+                                .text منطقه #{allAreas[i]}
+                                .district.hidden= allAreas[i]
+                        -}
                     -}
                 -}
             table#myTable 
