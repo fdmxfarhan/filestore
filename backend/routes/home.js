@@ -95,7 +95,7 @@ router.get('/correct-mostaghelat', (req, res, next) => {
     });
 })
 router.get('/test', (req, res, next) => {
-    File.find({state: 'رهن کامل'}, (err, files) => {
+    File.find({state: 'رهن کامل', area: '22'}, (err, files) => {
         res.send(files.length.toString());
     })
 });
