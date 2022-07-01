@@ -94,4 +94,9 @@ router.get('/correct-mostaghelat', (req, res, next) => {
         res.send('done');
     });
 })
+router.get('/test', (req, res, next) => {
+    File.find({state: 'رهن کامل'}, (err, files) => {
+        res.send(files.length);
+    })
+});
 module.exports = router;
