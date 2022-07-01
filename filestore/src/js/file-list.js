@@ -97,8 +97,8 @@ var filter = () => {
             var type = allFiles[i].type;
             var state = allFiles[i].state;
             if((metrage > minMetrage || isNaN(minMetrage) ) && (metrage < maxMetrage || isNaN(maxMetrage)) && !isNaN(metrage)){
-                if((price1 > minPrice1 || isNaN(minPrice1) ) && (price1 < maxPrice1 || isNaN(maxPrice1)) && !isNaN(price1)){
-                    if((price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2)) && !isNaN(price2)){
+                if((price1 > minPrice1 || isNaN(minPrice1) ) && (price1 < maxPrice1 || isNaN(maxPrice1)) || isNaN(price1)){
+                    if((price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2)) || isNaN(price2)){
                         if((minAge == 1 && allFiles[i].buildAge == 'نوساز') || ((maxAge == 100 || age < maxAge) && age > minAge)){
                             if(!apartment         && type == 'آپارتمان');
                             else if(!vilage       && type == 'ویلایی');
