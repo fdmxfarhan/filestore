@@ -89,6 +89,7 @@ var filter = () => {
         maxPrice1 = parseInt(document.getElementById('price1-max-input').value);
         minPrice2 = parseInt(document.getElementById('price2-min-input').value);
         maxPrice2 = parseInt(document.getElementById('price2-max-input').value);
+        var names = ['آپارتمان' ,'ویلایی' ,'کلنگی' ,'تجاری' ,'اداری' ,'موقعیت اداری' ,'زمین' ,'مستغلات' ,'فروش' ,'پیش‌فروش' ,'معاوضه' ,'مشارکت' ,'رهن و اجاره' ,'رهن کامل'];
         for (let i = 0; i < allFiles.length; i++) {
             var metrage = parseInt(allFiles[i].meterage);
             var price1 = parseInt(allFiles[i].price)/1000000;
@@ -99,23 +100,24 @@ var filter = () => {
             if((metrage > minMetrage || isNaN(minMetrage) ) && (metrage < maxMetrage || isNaN(maxMetrage)) && !isNaN(metrage)){
                 if((price1 > minPrice1 || isNaN(minPrice1) ) && (price1 < maxPrice1 || isNaN(maxPrice1)) || isNaN(price1)){
                     if((price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2)) || isNaN(price2)){
-                        if((minAge == 1 && allFiles[i].buildAge == 'نوساز') || ((maxAge == 100 || age < maxAge) && age > minAge)){
-                            if(!apartment         && type == 'آپارتمان');
-                            else if(!vilage       && type == 'ویلایی');
-                            else if(!old          && type == 'کلنگی');
-                            else if(!business     && type == 'تجاری');
-                            else if(!office       && type == 'اداری');
-                            else if(!officeEstate && type == 'موقعیت اداری');
-                            else if(!land         && type == 'زمین');
-                            else if(!mostaghelat  && type == 'مستغلات');
+                        if((typeof(allFiles[i].buildAge) != 'undefined') || (minAge == 1 && allFiles[i].buildAge == 'نوساز') || ((maxAge == 100 || age < maxAge) && age > minAge)){
+                            if     (!apartment    && type  == 'آپارتمان');
+                            else if(!vilage       && type  == 'ویلایی');
+                            else if(!old          && type  == 'کلنگی');
+                            else if(!business     && type  == 'تجاری');
+                            else if(!office       && type  == 'اداری');
+                            else if(!officeEstate && type  == 'موقعیت اداری');
+                            else if(!land         && type  == 'زمین');
+                            else if(!mostaghelat  && type  == 'مستغلات');
                             else if(!sell         && state == 'فروش');
-                            else if(!presell      && state == 'پیش‌فروش');
+                            else if(!presell      && (state == 'پیش‌فروش' || state == 'پیش فروش'));
                             else if(!exchange     && state == 'معاوضه');
                             else if(!cooperate    && state == 'مشارکت');
                             else if(!rent         && state == 'رهن و اجاره');
                             else if(!rent2        && state == 'رهن کامل');
                             else {
-                                showingFiles.push(allFiles[i]);
+                                if(names.indexOf(type) != -1 && names.indexOf(state) != -1)
+                                    showingFiles.push(allFiles[i]);
                             }
                         }
                     }
