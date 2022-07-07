@@ -6,6 +6,7 @@ var File = require('../models/File');
 var Estate = require('../models/Estate');
 var User = require('../models/User');
 var Notif = require('../models/Notif');
+var Settings = require('../models/Settings');
 const sms2 = require('../config/sms2');
 const sms = require('../config/sms');
 router.get('/correctpishforosh', (req, res, next) => {
@@ -20,20 +21,24 @@ router.get('/correctpishforosh', (req, res, next) => {
     });
 })
 router.get('/', (req, res, next) => {
-    File.find({}, (err, files) => {
-        now = new Date();
-        res.render('home', {
-            convertDate,
-            now,
-            numberOfFiles: files.length,
-            numberOfSellings: files.filter(e => e.state == 'فروش').length,
-            numberOfSellings2: files.filter(e => e.state == 'پیش‌فروش').length,
-            numberOfRents: files.filter(e => e.state == 'رهن و اجاره' || e.state == 'رهن کامل').length,
-            numberOfApartments: files.filter(e => e.type == 'آپارتمان').length,
-            numberOfOffices: files.filter(e => e.type == 'اداری' || e.type == 'تجاری').length,
-            numberOfOthers: files.filter(e => e.type == 'مستغلات' || e.type == 'کلنگی').length,
+    Settings.findOne({}, (err, settings) => {
+        File.find({}, (err, files) => {
+            console.log(settings)
+            now = new Date();
+            res.render('home', {
+                convertDate,
+                now,
+                settings,
+                numberOfFiles: files.length,
+                numberOfSellings: files.filter(e => e.state == 'فروش').length,
+                numberOfSellings2: files.filter(e => e.state == 'پیش‌فروش').length,
+                numberOfRents: files.filter(e => e.state == 'رهن و اجاره' || e.state == 'رهن کامل').length,
+                numberOfApartments: files.filter(e => e.type == 'آپارتمان').length,
+                numberOfOffices: files.filter(e => e.type == 'اداری' || e.type == 'تجاری').length,
+                numberOfOthers: files.filter(e => e.type == 'مستغلات' || e.type == 'کلنگی').length,
+            });
         });
-    })
+    });
 });
 router.get('/privacy-policy', (req, res, next) => {
     res.render('privacy-policy');

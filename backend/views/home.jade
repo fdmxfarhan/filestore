@@ -36,7 +36,9 @@ html
                 a.logo(href="/") 
                     img(src="/img/logo.png")
                 a.link(href="/") خانه
+                a.link(href="#") تعرفه‌ها
                 a.link(href="/privacy-policy") شرایط و قوانین
+                a.link(href="#") درباره ما
                 a.link(href="/contactus") تماس با ما
                 //- a.link(href="#") درباره ما
                 //- a.icon(href="#") 
@@ -51,6 +53,7 @@ html
                 h2 سامانه جامع فایلینگ املاک
                 h1 فایل استور
                 h2.border فایلینگ تخصصی املاک در تهران
+                a.start-link(href="#register-form") عضویت در فایل استور
             img.top-logo(src="/img/logo.png")
         section
             .statistics-view
@@ -131,7 +134,7 @@ html
                     //- .icon
                         i.fa.fa-wrench
                     img(src="/img/sale.png", alt="")
-        section 
+        section#register-form 
             .register
                 .part 
                     form(action="/register-estate" method="POST") 
@@ -167,11 +170,144 @@ html
                     //- video(autoplay loop)
                     //-     source(src="/img/mockup-row.mp4", type="video/mp4")
                     img(src="/img/mockup-row.gif")
+        //- section
+            .plan-main-title 
+                h1 تعرفه ها
+                h2 تعرفه اشتراک‌ها جهت استفاده از خدمات فایل استور در اپلیکیشن ویندوز 
+            .plans-view 
+                .plan-card 
+                    img.badge(src="/img/Bronze.png", alt="")
+                    .plan-title یک ماهه
+                    .actual-price= settings.oneMonthText
+                    .price= settings.oneMonthFullText
+                    .ablilities 
+                        .item 
+                            i.fa.fa-check 
+                            | دسترسی به فایل های منطقه
+                        .item 
+                            i.fa.fa-check 
+                            | جستجوی پیشرفته
+                        .item 
+                            i.fa.fa-check 
+                            | ذخیره سازی اطلاعات
+                        .item 
+                            i.fa.fa-check 
+                            | پشتیبانی
+                        .item 
+                            i.fa.fa-check 
+                            | پرینت
+                        .item 
+                            i.fa.fa-check 
+                            | دسته بندی فایل‌ها
+                    a.buy-plan(href="#register-form") خرید اشتراک
+                .plan-card 
+                    img.badge(src="/img/Silver.png", alt="")
+                    .plan-title سه ماهه
+                    .actual-price= settings.threeMonthText
+                    .price= settings.threeMonthFullText
+                    .ablilities 
+                        .item 
+                            i.fa.fa-check 
+                            | دسترسی به فایل های منطقه
+                        .item 
+                            i.fa.fa-check 
+                            | جستجوی پیشرفته
+                        .item 
+                            i.fa.fa-check 
+                            | ذخیره سازی اطلاعات
+                        .item 
+                            i.fa.fa-check 
+                            | پشتیبانی
+                        .item 
+                            i.fa.fa-check 
+                            | پرینت
+                        .item 
+                            i.fa.fa-check 
+                            | دسته بندی فایل‌ها
+                    a.buy-plan(href="#register-form") خرید اشتراک
+                .plan-card 
+                    img.badge(src="/img/Gold.png", alt="")
+                    .plan-title شش ماهه
+                    .actual-price= settings.sixMonthText
+                    .price= settings.sixMonthFullText
+                    .ablilities 
+                        .item 
+                            i.fa.fa-check 
+                            | دسترسی به فایل های منطقه
+                        .item 
+                            i.fa.fa-check 
+                            | جستجوی پیشرفته
+                        .item 
+                            i.fa.fa-check 
+                            | ذخیره سازی اطلاعات
+                        .item 
+                            i.fa.fa-check 
+                            | پشتیبانی
+                        .item 
+                            i.fa.fa-check 
+                            | پرینت
+                        .item 
+                            i.fa.fa-check 
+                            | دسته بندی فایل‌ها
+                    a.buy-plan(href="#register-form") خرید اشتراک
+                .plan-card 
+                    img.badge(src="/img/Diamond.png", alt="")
+                    .plan-title یک ساله
+                    .actual-price= settings.oneYearText
+                    .price= settings.oneYearFullText
+                    .ablilities 
+                        .item 
+                            i.fa.fa-check 
+                            | دسترسی به فایل های منطقه
+                        .item 
+                            i.fa.fa-check 
+                            | جستجوی پیشرفته
+                        .item 
+                            i.fa.fa-check 
+                            | ذخیره سازی اطلاعات
+                        .item 
+                            i.fa.fa-check 
+                            | پشتیبانی
+                        .item 
+                            i.fa.fa-check 
+                            | پرینت
+                        .item 
+                            i.fa.fa-check 
+                            | دسته بندی فایل‌ها
+                    a.buy-plan(href="#register-form") خرید اشتراک
+        //- section.dark 
+            .windows-app-view 
+                .dual-content-view 
+                    .left-side 
+                        h1 اپلیکیشن فایل استور
+                        p اپلیکیشن فایل استور برای مشاورین املاک دارای اشتراک قابل دسترس است. کاربران می‌توانند به جدیدترین فایل‌های ثبت شده در دیتابیس فایل‌استور تنها با یک کلیک دسترسی پیدا کنند. جستجوی پیشرفته با استفاده از فیلتر‌های متراژ، قیمت، سن بنا و ... به مشاورین این امکان را می‌دهد تا به سریع ترین زمان ممکن فایل‌های مورد نیاز خود را پیدا نمایند.
+                        h1 قابلیت های ویژه
+                        ul 
+                            li مشاهده فایل ها بدون نیاز به اینترنت
+                            li جستجو در آدرس، مالک، شماره و  
+                            li نمایش آخرین اخبار فایل‌استور
+                            li نمایش اطلاعات مشاور املاک
+                            li ذخیره فایل‌های مورد علاقه
+                            li دسته بندی با رنگ
+                            li پرینت فایل‌ها
+                    .right-side 
+                        .slide-show#slide-show1 
+                            .image#slide1-img1
+                                img(src="/img/app/scr-01.png")
+                            .image#slide1-img2
+                                img(src="/img/app/scr-02.png")
+                            .image#slide1-img3
+                                img(src="/img/app/scr-03.png")
+                            .image#slide1-img4
+                                img(src="/img/app/scr-04.png")
+                            .image#slide1-img5
+                                img(src="/img/app/scr-05.png")
+                            
         section 
             .map
                 iframe(src="https://www.google.com/maps/d/u/0/embed?mid=1ZA6f8CNze8Xa1yUsLxO4hZFOm7zdTbyN&ehbc=2E312F" width="640" height="480")
                 //- iframe(src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d103610.02393267365!2d51.13413693710939!3d35.755394666785904!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8de5259d9edf69%3A0x7a13e6876f0cd191!2sDistrict%2022%2C%20Tehran%2C%20Tehran%20Province%2C%20Iran!5e0!3m2!1sen!2sro!4v1649162745942!5m2!1sen!2sro" width="640" height="480")
-            a(referrerpolicy="origin" target="_blank" rel="noopener noreferer" href="https://trustseal.enamad.ir/?id=188226&amp;Code=hpnWva29lcClGTdCZAcG")
+            a(referrerpolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=188226&amp;Code=hpnWva29lcClGTdCZAcG")
                 img(referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=188226&amp;Code=hpnWva29lcClGTdCZAcG" alt="" style="cursor:pointer" id="hpnWva29lcClGTdCZAcG" width="100px" height="100px")
 
         include ./components/footer

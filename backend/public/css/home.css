@@ -24,6 +24,7 @@
     --lightgray: rgb(201, 201, 201);
     --lightergray: rgb(211, 221, 223);
 }
+html{scroll-behavior: smooth;}
 body{
     margin: 0;
     padding: 0;
@@ -32,11 +33,13 @@ body{
     font-family: 'iransans';
     direction: rtl;
     background-color: var(--light-background);
+    scroll-behavior: smooth;
 }
 body::-webkit-scrollbar {width: 0.5vw;}
 body::-webkit-scrollbar-track {background: var(--gray);}
 body::-webkit-scrollbar-thumb {background: var(--dark);}
 body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
+body{scroll-behavior: smooth;}
 .black-modal{
     display: none;
     position: fixed;
@@ -203,7 +206,7 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
     header nav a.icon:hover{color: var(--hover);}
     header .title-view {
         position: absolute;
-        top: 17vw;
+        top: 14vw;
         right: 6%;
         z-index: 10;
         color: white;
@@ -247,9 +250,21 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         border-right: var(--yellow) 0.3vw solid;
         padding-right: 0.8vw;
     }
+    header .title-view a.start-link{
+        background-color: var(--yellow);
+        width: fit-content;
+        display: block;
+        font-family: 'iransans';
+        font-size: 1.2vw;
+        padding: 0.5vw 2vw;
+        border-radius: 1vw;
+        color: white;
+        text-decoration: none;
+        margin-top: 2vw;
+    }
     header img.top-logo{
         position: absolute;
-        top: 16vw;
+        top: 13vw;
         left: 6%;
         z-index: 10;
         width: 15vw;
@@ -476,6 +491,10 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         background-color: white;
         overflow: hidden;
     }
+    section.dark{
+        background-color: var(--dark);
+        overflow: hidden;
+    }
     section .register{
         width: 70%;
         margin: 5vw auto;
@@ -554,7 +573,7 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         padding: 2vw 0;
         padding-bottom: 0;
         text-align: center;
-        margin-top: -5vw;
+        margin-top: -8vw;
     }
     section .statistics-view .card{
         /* float: right; */
@@ -635,7 +654,112 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         font-size: 2vw;
     }
     /* ----------------------------------------------flag-------------------------------------------- */
-    
+    section .plan-main-title{
+        text-align: center;
+        padding-top: 3vw;
+    }
+    section .plan-main-title h1{
+        color: var(--blue);
+        font-size: 1.4vw;
+        font-family: 'iransans';
+        padding: 0;
+        margin: 0;
+    }
+    section .plan-main-title h2{
+        color: var(--gray);
+        font-weight: normal;
+        font-size: 1vw;
+        font-family: 'iransans';
+        padding: 0;
+        margin: 0;
+    }
+    section .plans-view{
+        width: 80%;
+        margin: auto;
+        padding: 2vw 0;
+        overflow: hidden;
+    }
+    section .plans-view .plan-card{
+        width: 24%;
+        margin-left: 1%;
+        float: right;
+        text-align: center;
+        background-color: white;
+        border-radius: 0.5vw;
+        position: relative;
+    }
+    section .plans-view .plan-card img.badge{
+        position: absolute;
+        top: 0;
+        left: 1vw;
+        width: 2vw;
+    }
+    section .plans-view .plan-card .plan-title{
+        font-family: 'iransans';
+        font-size: 1.2vw;
+        font-weight: bold;
+        margin-top: 2.5vw;
+    }
+    section .plans-view .plan-card .actual-price{
+        font-family: 'iransans';
+        font-size: 0.9vw;
+        color: var(--gray);
+        text-decoration: line-through;
+    }
+    section .plans-view .plan-card .price{
+        font-family: 'iransans';
+        font-size: 1.1vw;
+        color: var(--green);
+        font-weight: bold;
+    }
+    section .plans-view .plan-card .ablilities{
+        text-align: right;
+        width: 90%;
+        margin: auto;
+        margin-top: 3vw;
+        margin-bottom: 4vw;
+    }
+    section .plans-view .plan-card .ablilities .item i{
+        color: var(--green);
+        padding-left: 1vw;
+    }
+    section .plans-view .plan-card .ablilities .item{
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: var(--text);
+    }
+    section .plans-view .plan-card a.buy-plan{
+        display: block;
+        text-decoration: none;
+        border-radius: 0.5vw;
+        font-family: 'iransans';
+        font-size: 1vw;
+        color: white;
+        background-color: var(--blue);
+        padding: 0.5vw 0;
+        width: 90%;
+        margin: auto;
+        margin-bottom: 1vw;
+    }
+    section .plans-view .plan-card a.buy-plan:hover{
+        background-color: var(--green);
+    }
+    section .windows-app-view{
+        overflow: hidden;
+        width: 80%;
+        margin: 2vw auto;
+    }
+    section .windows-app-view .dual-content-view {
+        overflow: hidden;
+    }
+    section .windows-app-view .dual-content-view .left-side,
+    section .windows-app-view .dual-content-view .right-side{
+        float: right;
+        width: 50%;
+    }
+    section .windows-app-view .dual-content-view{
+
+    }
 }
 @media only screen and (max-width: 800px) {
     header{
