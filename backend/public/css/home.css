@@ -693,6 +693,7 @@ body{scroll-behavior: smooth;}
         top: 0;
         left: 1vw;
         width: 2vw;
+        z-index: 10;
     }
     section .plans-view .plan-card .plan-title{
         font-family: 'iransans';
