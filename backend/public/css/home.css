@@ -798,6 +798,14 @@ body{scroll-behavior: smooth;}
         font-size: 0.9vw;
         padding: 0;
     }
+    section .sponsers{
+        overflow: hidden;
+        text-align: center;
+    }
+    section .sponsers .link{
+        display: inline-block;
+        margin: 1vw 1vw;
+    }
 }
 @media only screen and (max-width: 800px) {
     header{
