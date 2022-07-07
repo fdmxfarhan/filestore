@@ -276,10 +276,10 @@ html
                             i.fa.fa-check 
                             | دسته بندی فایل‌ها
                     a.buy-plan(href="#register-form") خرید اشتراک
-        //- section.dark 
+        section.dark 
             .windows-app-view 
                 .dual-content-view 
-                    .left-side 
+                    .right-side 
                         h1 اپلیکیشن فایل استور
                         p اپلیکیشن فایل استور برای مشاورین املاک دارای اشتراک قابل دسترس است. کاربران می‌توانند به جدیدترین فایل‌های ثبت شده در دیتابیس فایل‌استور تنها با یک کلیک دسترسی پیدا کنند. جستجوی پیشرفته با استفاده از فیلتر‌های متراژ، قیمت، سن بنا و ... به مشاورین این امکان را می‌دهد تا به سریع ترین زمان ممکن فایل‌های مورد نیاز خود را پیدا نمایند.
                         h1 قابلیت های ویژه
@@ -291,28 +291,26 @@ html
                             li ذخیره فایل‌های مورد علاقه
                             li دسته بندی با رنگ
                             li پرینت فایل‌ها
-                    .right-side 
+                    .left-side 
                         .slide-show#slide-show1 
-                            .image#slide1-img1
+                            .image#slide1-img0
                                 img(src="/img/app/scr-01.png")
-                            .image#slide1-img2
+                            .image#slide1-img1
                                 img(src="/img/app/scr-02.png")
-                            .image#slide1-img3
+                            .image#slide1-img2
                                 img(src="/img/app/scr-03.png")
-                            .image#slide1-img4
+                            .image#slide1-img3
                                 img(src="/img/app/scr-04.png")
-                            .image#slide1-img5
+                            .image#slide1-img4
                                 img(src="/img/app/scr-05.png")
-                            
         section 
             .map
                 iframe(src="https://www.google.com/maps/d/u/0/embed?mid=1ZA6f8CNze8Xa1yUsLxO4hZFOm7zdTbyN&ehbc=2E312F" width="640" height="480")
                 //- iframe(src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d103610.02393267365!2d51.13413693710939!3d35.755394666785904!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8de5259d9edf69%3A0x7a13e6876f0cd191!2sDistrict%2022%2C%20Tehran%2C%20Tehran%20Province%2C%20Iran!5e0!3m2!1sen!2sro!4v1649162745942!5m2!1sen!2sro" width="640" height="480")
             a(referrerpolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=188226&amp;Code=hpnWva29lcClGTdCZAcG")
                 img(referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=188226&amp;Code=hpnWva29lcClGTdCZAcG" alt="" style="cursor:pointer" id="hpnWva29lcClGTdCZAcG" width="100px" height="100px")
-
         include ./components/footer
         script.
             document.getElementById('vid').play();
-
+        script(src="/js/slideShow.js") 
 
