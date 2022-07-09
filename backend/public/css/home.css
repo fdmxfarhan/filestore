@@ -498,7 +498,8 @@ body{scroll-behavior: smooth;}
     }
     section .register{
         width: 70%;
-        margin: 5vw auto;
+        margin: 0 auto;
+        padding: 5vw 0;
         margin-bottom: 1vw;
         overflow: hidden;
     }

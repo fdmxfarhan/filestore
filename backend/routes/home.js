@@ -9,6 +9,28 @@ var Notif = require('../models/Notif');
 var Settings = require('../models/Settings');
 const sms2 = require('../config/sms2');
 const sms = require('../config/sms');
+var numberOfdistrict22 = 100, numberOfdistrict5 = 100;
+setTimeout(() => {
+    File.find({area: '22'}, (err, files) => {
+        var days = [];
+        for(var i=0; i<files.length; i++){
+            if(days.find(e => e.date == files[i].date)){
+                for(var j=0; j<days.length; j++){
+                    if(days[j].date == files[i].date){
+                        days[j].num++;
+                    }
+                }
+            }
+            else{
+                days.push({date: files[i].date, num: 1});
+            }
+        }
+        console.log(days);
+    })
+
+}, 5000);
+
+
 router.get('/correctpishforosh', (req, res, next) => {
     File.updateMany({$or: [
         {state: 'پیش.فروش'}, 
@@ -36,8 +58,8 @@ router.get('/', (req, res, next) => {
                 numberOfApartments: files.filter(e => e.type == 'آپارتمان').length,
                 numberOfOffices: files.filter(e => e.type == 'اداری' || e.type == 'تجاری').length,
                 numberOfOthers: files.filter(e => e.type == 'مستغلات' || e.type == 'کلنگی').length,
-                numberOfdistrict22: files.filter(e => e.area == '22').length,
-                numberOfdistrict5: files.filter(e => e.area == '5').length,
+                numberOfdistrict22,
+                numberOfdistrict5,
             });
         });
     });
