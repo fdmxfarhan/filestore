@@ -63,7 +63,6 @@ var updateFileRatio = () => {
 updateFileRatio();
 setInterval(updateFileRatio, 1000 * 60 * 60);
 
-
 router.get('/correctpishforosh', (req, res, next) => {
     File.updateMany({$or: [
         {state: 'پیش.فروش'}, 

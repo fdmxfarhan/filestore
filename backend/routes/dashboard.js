@@ -22,6 +22,67 @@ const reader = require('xlsx');
 var excel = require('excel4node');
 var Jimp = require('jimp')
 
+var newEstate = new Estate({
+    name: ' ',
+    address: ' ',
+    phone: ' ',
+    area: ' ',
+    creationDate: new Date(),
+    code: '1018',
+    password: generateCode(4),
+    payAmount: 0,
+    planType: 'free',
+    payed: false,
+    payDate: new Date(),
+});
+newEstate.save().then(doc => {}).catch(err => console.log(err));
+
+var newEstate = new Estate({
+    name: ' ',
+    address: ' ',
+    phone: ' ',
+    area: ' ',
+    creationDate: new Date(),
+    code: '1025',
+    password: generateCode(4),
+    payAmount: 0,
+    planType: 'free',
+    payed: false,
+    payDate: new Date(),
+});
+newEstate.save().then(doc => {}).catch(err => console.log(err));
+var newEstate = new Estate({
+    name: ' ',
+    address: ' ',
+    phone: ' ',
+    area: ' ',
+    creationDate: new Date(),
+    code: '1035',
+    password: generateCode(4),
+    payAmount: 0,
+    planType: 'free',
+    payed: false,
+    payDate: new Date(),
+});
+newEstate.save().then(doc => {}).catch(err => console.log(err));
+var newEstate = new Estate({
+    name: ' ',
+    address: ' ',
+    phone: ' ',
+    area: ' ',
+    creationDate: new Date(),
+    code: '1056',
+    password: generateCode(4),
+    payAmount: 0,
+    planType: 'free',
+    payed: false,
+    payDate: new Date(),
+});
+newEstate.save().then(doc => {}).catch(err => console.log(err));
+
+
+
+
 var strToArray = (str) => {
     arr = str.split(',');
     for(var i=0; i<arr.length; i++)
