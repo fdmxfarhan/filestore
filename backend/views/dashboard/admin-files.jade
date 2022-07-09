@@ -29,36 +29,39 @@ block content
                         i.fa.fa-plus 
                         | افزودن فایل
                 -}
-            .control.hidden-in-mobile
-                h1.title آپلود فایل اکسل
-                p فرمت فایل اکسل باید xlsx باشد
-                form.upload(action="/dashboard/upload-excel" enctype="multipart/form-data" method="POST")
-                    .check-input.hidden 
-                        input(type="checkbox" name="removeAll" value="true" id="removeAll")
-                        label(for="removeAll") حذف همه فایل‌های قبلی
-                    input(type="file" name="excelFile")
-                    button(type="submit") ارسال
-            .control.hidden-in-mobile
-                h1.title بک‌آپ
-                p فیلتر تاریخ ثبت شده در فایل 
-                form.backup(action="/dashboard/download-excel" method="POST")
-                    .date-input-view
-                        label(for="date") از تاریخ
-                        .date-input
-                            input(type="number" name="startDay" placeholder="روز" value="1")
-                            | /
-                            input(type="number" name="startMonth" placeholder="ماه" value="1")
-                            | /
-                            input(type="number" name="startYear" placeholder="سال" value="1401")
-                    .date-input-view
-                        label(for="date") تا تاریخ
-                        .date-input
-                            input(type="number" name="endDay" placeholder="روز" value="#{get_year_month_day(now)[2]}")
-                            | /
-                            input(type="number" name="endMonth" placeholder="ماه" value="#{get_year_month_day(now)[1]}")
-                            | /
-                            input(type="number" name="endYear" placeholder="سال" value="#{get_year_month_day(now)[0]}")
-                    button(type="submit") دانلود
+            -if(user.role == 'admin'){
+                .control.hidden-in-mobile
+                    h1.title آپلود فایل اکسل
+                    p فرمت فایل اکسل باید xlsx باشد
+                    form.upload(action="/dashboard/upload-excel" enctype="multipart/form-data" method="POST")
+                        .check-input.hidden 
+                            input(type="checkbox" name="removeAll" value="true" id="removeAll")
+                            label(for="removeAll") حذف همه فایل‌های قبلی
+                        input(type="file" name="excelFile")
+                        button(type="submit") ارسال
+                .control.hidden-in-mobile
+                    h1.title بک‌آپ
+                    p فیلتر تاریخ ثبت شده در فایل 
+                    form.backup(action="/dashboard/download-excel" method="POST")
+                        .date-input-view
+                            label(for="date") از تاریخ
+                            .date-input
+                                input(type="number" name="startDay" placeholder="روز" value="1")
+                                | /
+                                input(type="number" name="startMonth" placeholder="ماه" value="1")
+                                | /
+                                input(type="number" name="startYear" placeholder="سال" value="1401")
+                        .date-input-view
+                            label(for="date") تا تاریخ
+                            .date-input
+                                input(type="number" name="endDay" placeholder="روز" value="#{get_year_month_day(now)[2]}")
+                                | /
+                                input(type="number" name="endMonth" placeholder="ماه" value="#{get_year_month_day(now)[1]}")
+                                | /
+                                input(type="number" name="endYear" placeholder="سال" value="#{get_year_month_day(now)[0]}")
+                        button(type="submit") دانلود
+            -}
+
         .users-view 
             .district-filter-view
                 -for(var i=0; i<allAreas.length; i++){
@@ -98,15 +101,17 @@ block content
                                 h2= getAddress(files[i].address)
                             td
                                 //- a.edit(href="/dashboard/pdf-file?fileID=#{files[i]._id}" target="_blank")
-                                a.edit(href="/dashboard/file-view?fileID=#{files[i]._id}" target="_blank")
-                                    i.fa.fa-file-pdf-o
+                                -if(user.role == 'admin'){
+                                    a.edit(href="/dashboard/file-view?fileID=#{files[i]._id}" target="_blank")
+                                        i.fa.fa-file-pdf-o
+                                -}
                             td
                                 -if(user.editFilePermission){
                                     a.edit(id="edit-file-btn#{i}")
                                         i.fa.fa-edit
                                 -}
                             td
-                                -if(user.removeFilePermission){
+                                -if(user.removeFilePermission && user.role == 'admin'){
                                     a.trash(href="/dashboard/delete-file?fileID=#{files[i]._id}" onclick="makeSure(event)") 
                                         i.fa.fa-trash 
                                 -}
@@ -127,15 +132,17 @@ block content
                                 h2= result[i].address
                             td
                                 //- a.edit(href="/dashboard/pdf-file?fileID=#{result[i]._id}" target="_blank")
-                                a.edit(href="/dashboard/file-view?fileID=#{result[i]._id}" target="_blank")
-                                    i.fa.fa-file-pdf-o
+                                -if(user.role == 'admin'){
+                                    a.edit(href="/dashboard/file-view?fileID=#{result[i]._id}" target="_blank")
+                                        i.fa.fa-file-pdf-o
+                                -}
                             td
                                 -if(user.editFilePermission){
                                     a.edit(id="edit-file-btn#{i}")
                                         i.fa.fa-edit
                                 -}
                             td
-                                -if(user.removeFilePermission){
+                                -if(user.removeFilePermission && user.role == 'admin'){
                                     a.trash(href="/dashboard/delete-file?fileID=#{result[i]._id}" onclick="makeSure(event)") 
                                         i.fa.fa-trash 
                                 -}

@@ -105,13 +105,13 @@ router.get('/', ensureAuthenticated, (req, res, next) => {
             login: req.query.login,
         });
     }
-    else if(req.user.role = 'admin')
+    else if(req.user.role == 'admin')
     {
         res.redirect('/dashboard/files');
-        // res.render('./dashboard/admin-dashboard', {
-        //     user: req.user,
-        //     login: req.query.login,
-        // });
+    }
+    else if(req.user.role == 'operator')
+    {
+        res.redirect('/dashboard/files');
     }
 });
 router.get('/users', ensureAuthenticated, (req, res, next) => {
@@ -161,7 +161,7 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
     else if(areas == '-1') {areas = ''; areasArr = []}
     else areasArr = strToArray(areas);
     page = parseInt(page);
-    if(req.user.role == 'admin'){
+    if(req.user.role == 'admin' || req.user.role == 'operator'){
         var numberOfFilesInPage = 30;
         File.find({}, (err, files) => {
             var allAreas = [];
@@ -382,7 +382,7 @@ router.post('/add-file', ensureAuthenticated, upload.fields(uploadFields), (req,
     var files = req.files;
     var numberOfImages = req.body.numberOfImages;
     body.creationDate = new Date();
-    if(req.user.role == 'admin'){
+    if(req.user.role == 'admin' || req.user.role == 'operator'){
         body.images = [];
         if(files) {
             var pathes = [];
@@ -435,7 +435,7 @@ router.post('/edit-file', ensureAuthenticated, upload.fields(uploadFields), (req
     body.creationDate = new Date();
     if(body.price) body.price = parseInt(body.price.replaceAll('.', ''));
     if(body.fullPrice) body.fullPrice = parseInt(body.fullPrice.replaceAll('.', ''));
-    if(req.user.role == 'admin'){
+    if(req.user.role == 'admin' || req.user.role == 'operator'){
         File.findById(fileID, (err, f) => {
             body.images = f.images;
             if(files) {
@@ -658,8 +658,7 @@ router.post('/add-operator', ensureAuthenticated, (req, res, next) => {
                 }).catch(err => console.log(err));
             }));
         }
-    })
-    
+    });
 });
 router.post('/edit-user', ensureAuthenticated, (req, res, next) => {
     var {fullname, idNumber, password, addFilePermission, removeFilePermission, editFilePermission, addEstatePermission, removeEstatePermission, editEstatePermission, notifPermission, settingsPermission} = req.body;

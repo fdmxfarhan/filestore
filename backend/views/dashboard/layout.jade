@@ -41,7 +41,7 @@ html
                         a.sidebar-nav-link#link5(href="#") 
                             i.fa.fa-gears
                             | تنظیمات
-                    -}else{
+                    -}else if(user.role == 'admin'){
                         a.sidebar-nav-link#link3(href="/dashboard/files") 
                             i.fa.fa-history
                             | فایل ها
@@ -74,7 +74,12 @@ html
                         a.sidebar-nav-link#link5(href="/FileStore v1.1.9 x86.exe" download) 
                             i.fa.fa-cloud-download
                             | v1.1.9 x86
+                    -}else if(user.role == 'operator'){
+                        a.sidebar-nav-link#link3(href="/dashboard/files") 
+                            i.fa.fa-history
+                            | فایل ها
                     -}
+
                 a.logout(href="/users/logout") 
                     i.fa.fa-power-off
                     | خروج
