@@ -1378,3 +1378,7 @@ body{scroll-behavior: smooth;}
         font-size: 2vw;
     }
 }
+img.enamad{
+    width: 5vw;
+    height: 5vw;
+}
