@@ -36,6 +36,8 @@ router.get('/', (req, res, next) => {
                 numberOfApartments: files.filter(e => e.type == 'آپارتمان').length,
                 numberOfOffices: files.filter(e => e.type == 'اداری' || e.type == 'تجاری').length,
                 numberOfOthers: files.filter(e => e.type == 'مستغلات' || e.type == 'کلنگی').length,
+                numberOfdistrict22: files.filter(e => e.area == '22').length,
+                numberOfdistrict5: files.filter(e => e.area == '5').length,
             });
         });
     });

@@ -477,12 +477,13 @@ body{scroll-behavior: smooth;}
         text-align: justify;
     }
     section .map{
-        width: 90%;
+        width: 100%;
         margin: 1vw auto;
         overflow: hidden;
+        border-radius: 0.5vw;
     }
     section .map iframe{
-        height: 50vw;
+        height: 35vw;
         width: 100%;
         border: none;
         margin-top: -3.5vw;
@@ -751,20 +752,20 @@ body{scroll-behavior: smooth;}
         width: 80%;
         margin: 2vw auto;
     }
-    section .windows-app-view .dual-content-view {
+    section .dual-content-view {
         overflow: hidden;
         padding: 4vw 0;
     }
-    section .windows-app-view .dual-content-view .left-side{
+    section .dual-content-view .left-side{
         float: right;
         width: 45%;
     }
-    section .windows-app-view .dual-content-view .right-side{
+    section .dual-content-view .right-side{
         float: right;
         margin-left: 4%;
         width: 50%;
     }
-    section .windows-app-view .dual-content-view .slide-show{
+    section .dual-content-view .slide-show{
         width: 100%;
         overflow: hidden;
     }
@@ -805,6 +806,41 @@ body{scroll-behavior: smooth;}
     section .sponsers .link{
         display: inline-block;
         margin: 1vw 1vw;
+    }
+    section .map-section{
+        width: 80%;
+        margin: auto;
+    }
+    section .map-section .tabs-link{
+        overflow: hidden;
+    }
+    section .map-section .tabs-link .link{
+        float: right;
+        padding: 0.4vw 1vw;
+        background-color: var(--lightergray);
+        color: var(--text);
+        cursor: pointer;
+    }
+    section .map-section .tabs-link .link:hover{
+        background-color: var(--lightgray);
+    }
+    section .map-section .tabs-link .link.active{
+        background-color: var(--darkblue);
+        color: white;
+    }
+    section .map-section .tab-content{
+        display: none;
+        padding-top: 2vw;
+    }
+    section .map-section .tab-content ul li{
+        color: var(--text);
+        font-family: 'iransans';
+        font-size: 1.2vw;
+    }
+    section .map-section h1.title{
+        color: var(--darkblue);
+        font-family: 'iransans';
+        font-size: 1.2vw;
     }
 }
 @media only screen and (max-width: 800px) {
