@@ -10,6 +10,7 @@ var Settings = require('../models/Settings');
 const sms2 = require('../config/sms2');
 const sms = require('../config/sms');
 let district22Ratio = 100, district5Ratio = 100;
+let numberOfFiles, numberOfSellings, numberOfSellings2, numberOfRents, numberOfApartments, numberOfOffices, numberOfOthers, numberOfdistrict22, numberOfdistrict5;
 var updateFileRatio = () => {
     File.find({area: '22'}, (err, files) => {
         var days = [], sum = 0;
@@ -47,6 +48,17 @@ var updateFileRatio = () => {
         }
         district5Ratio = sum / days.length; 
     })
+    File.find({}, (err, files) => {
+        numberOfFiles = files.length;
+        numberOfSellings = files.filter(e => e.state == 'فروش').length;
+        numberOfSellings2 = files.filter(e => e.state == 'پیش‌فروش').length;
+        numberOfRents = files.filter(e => e.state == 'رهن و اجاره' || e.state == 'رهن کامل').length;
+        numberOfApartments = files.filter(e => e.type == 'آپارتمان').length;
+        numberOfOffices = files.filter(e => e.type == 'اداری' || e.type == 'تجاری').length;
+        numberOfOthers = files.filter(e => e.type == 'مستغلات' || e.type == 'کلنگی').length;
+        numberOfdistrict22 = files.filter(e => e.area == '22').length;
+        numberOfdistrict5 = files.filter(e => e.area == '5').length;
+    });
 }
 updateFileRatio();
 setInterval(updateFileRatio, 1000 * 60 * 60);
@@ -65,25 +77,23 @@ router.get('/correctpishforosh', (req, res, next) => {
 })
 router.get('/', (req, res, next) => {
     Settings.findOne({}, (err, settings) => {
-        File.find({}, (err, files) => {
-            console.log(settings)
-            now = new Date();
-            res.render('home', {
-                convertDate,
-                now,
-                settings,
-                numberOfFiles: files.length,
-                numberOfSellings: files.filter(e => e.state == 'فروش').length,
-                numberOfSellings2: files.filter(e => e.state == 'پیش‌فروش').length,
-                numberOfRents: files.filter(e => e.state == 'رهن و اجاره' || e.state == 'رهن کامل').length,
-                numberOfApartments: files.filter(e => e.type == 'آپارتمان').length,
-                numberOfOffices: files.filter(e => e.type == 'اداری' || e.type == 'تجاری').length,
-                numberOfOthers: files.filter(e => e.type == 'مستغلات' || e.type == 'کلنگی').length,
-                numberOfdistrict22: files.filter(e => e.area == '22').length,
-                numberOfdistrict5: files.filter(e => e.area == '5').length,
-                district22Ratio,
-                district5Ratio,
-            });
+        console.log(settings)
+        now = new Date();
+        res.render('home', {
+            convertDate,
+            now,
+            settings,
+            numberOfFiles,
+            numberOfSellings,
+            numberOfSellings2,
+            numberOfRents,
+            numberOfApartments,
+            numberOfOffices,
+            numberOfOthers,
+            numberOfdistrict22,
+            numberOfdistrict5,
+            district22Ratio,
+            district5Ratio,
         });
     });
 });
