@@ -9,26 +9,47 @@ var Notif = require('../models/Notif');
 var Settings = require('../models/Settings');
 const sms2 = require('../config/sms2');
 const sms = require('../config/sms');
-var numberOfdistrict22 = 100, numberOfdistrict5 = 100;
-setTimeout(() => {
+let numberOfdistrict22 = 100, numberOfdistrict5 = 100;
+var updateFileRatio = () => {
     File.find({area: '22'}, (err, files) => {
-        var days = [];
+        var days = [], sum = 0;
         for(var i=0; i<files.length; i++){
             if(days.find(e => e.date == files[i].date)){
                 for(var j=0; j<days.length; j++){
                     if(days[j].date == files[i].date){
                         days[j].num++;
+                        sum++;
                     }
                 }
             }
             else{
                 days.push({date: files[i].date, num: 1});
+                sum++;
             }
         }
-        console.log(days);
+        numberOfdistrict22 = sum / days.length; 
     })
-
-}, 5000);
+    File.find({area: '5'}, (err, files) => {
+        var days = [], sum = 0;
+        for(var i=0; i<files.length; i++){
+            if(days.find(e => e.date == files[i].date)){
+                for(var j=0; j<days.length; j++){
+                    if(days[j].date == files[i].date){
+                        days[j].num++;
+                        sum++;
+                    }
+                }
+            }
+            else{
+                days.push({date: files[i].date, num: 1});
+                sum++;
+            }
+        }
+        numberOfdistrict5 = sum / days.length; 
+    })
+}
+updateFileRatio();
+setInterval(updateFileRatio, 1000 * 60 * 60);
 
 
 router.get('/correctpishforosh', (req, res, next) => {
