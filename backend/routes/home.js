@@ -9,7 +9,7 @@ var Notif = require('../models/Notif');
 var Settings = require('../models/Settings');
 const sms2 = require('../config/sms2');
 const sms = require('../config/sms');
-let numberOfdistrict22 = 100, numberOfdistrict5 = 100;
+let district22Ratio = 100, district5Ratio = 100;
 var updateFileRatio = () => {
     File.find({area: '22'}, (err, files) => {
         var days = [], sum = 0;
@@ -27,7 +27,7 @@ var updateFileRatio = () => {
                 sum++;
             }
         }
-        numberOfdistrict22 = sum / days.length; 
+        district22Ratio = sum / days.length; 
     })
     File.find({area: '5'}, (err, files) => {
         var days = [], sum = 0;
@@ -45,7 +45,7 @@ var updateFileRatio = () => {
                 sum++;
             }
         }
-        numberOfdistrict5 = sum / days.length; 
+        district5Ratio = sum / days.length; 
     })
 }
 updateFileRatio();
@@ -79,8 +79,10 @@ router.get('/', (req, res, next) => {
                 numberOfApartments: files.filter(e => e.type == 'آپارتمان').length,
                 numberOfOffices: files.filter(e => e.type == 'اداری' || e.type == 'تجاری').length,
                 numberOfOthers: files.filter(e => e.type == 'مستغلات' || e.type == 'کلنگی').length,
-                numberOfdistrict22,
-                numberOfdistrict5,
+                numberOfdistrict22: files.filter(e => e.area == '22').length,
+                numberOfdistrict5: files.filter(e => e.area == '5').length,
+                district22Ratio,
+                district5Ratio,
             });
         });
     });
