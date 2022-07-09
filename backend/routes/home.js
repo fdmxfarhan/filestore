@@ -104,4 +104,7 @@ router.get('/test', (req, res, next) => {
         res.send(files.length.toString());
     })
 });
+router.get('/enamad', (req, res, next) => {
+    res.render('enamad-test');
+})
 module.exports = router;
