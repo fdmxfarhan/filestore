@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var tabsNum = 7;
+    var tabsNum = 8;
     var tabsView1 = [];
     var currentTab = 0;
     for(var i=0; i<tabsNum; i++){

@@ -135,6 +135,57 @@ html
                     //- .icon
                         i.fa.fa-wrench
                     img(src="/img/sale.png", alt="")
+        section.light 
+            .map-section
+                .dual-content-view
+                    .right-side 
+                        h1.title مناطق تحت پوشش
+                        .info 
+                            .tabs-link 
+                                .link#districts-tab-link0.active منطقه 22
+                                .link#districts-tab-link1 منطقه 5
+                                .link#districts-tab-link2 منطقه 1
+                                .link#districts-tab-link3 منطقه 2
+                                .link#districts-tab-link4 منطقه 3
+                                .link#districts-tab-link5 منطقه 4
+                                .link#districts-tab-link6 منطقه 6
+                                .link#districts-tab-link7 منطقه 7
+                            .tab-content#districts-tab-view0
+                                ul 
+                                    li تعداد فایل‌ها: #{numberOfdistrict22}
+                                    li ثبت فایل در روز: #{Math.floor(numberOfdistrict22/100)}
+                                    li تعداد معاملات روزانه: #{Math.floor(numberOfdistrict22/110)}
+                                    li تعداد کاربران فعال: 135
+                                    li پشتیبانی تلفنی: هر ساعت از شبانه روز
+                            .tab-content#districts-tab-view1
+                                ul 
+                                    li تعداد فایل‌ها: #{numberOfdistrict5}
+                                    li ثبت فایل در روز: #{Math.floor(numberOfdistrict5/10)}
+                                    li تعداد معاملات روزانه: #{Math.floor(numberOfdistrict5/15)}
+                                    li تعداد کاربران فعال: 135
+                                    li پشتیبانی تلفنی: هر ساعت از شبانه روز
+                            .tab-content#districts-tab-view2
+                                ul 
+                                    li در حال آماده سازی
+                            .tab-content#districts-tab-view3
+                                ul 
+                                    li در حال آماده سازی
+                            .tab-content#districts-tab-view4
+                                ul 
+                                    li در حال آماده سازی
+                            .tab-content#districts-tab-view5
+                                ul 
+                                    li در حال آماده سازی
+                            .tab-content#districts-tab-view6
+                                ul 
+                                    li در حال آماده سازی
+                            .tab-content#districts-tab-view7
+                                ul 
+                                    li در حال آماده سازی
+                    .left-side
+                        .map
+                            iframe(src="https://www.google.com/maps/d/u/0/embed?mid=1ZA6f8CNze8Xa1yUsLxO4hZFOm7zdTbyN&ehbc=2E312F" width="640" height="480")
+                            //- iframe(src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d103610.02393267365!2d51.13413693710939!3d35.755394666785904!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8de5259d9edf69%3A0x7a13e6876f0cd191!2sDistrict%2022%2C%20Tehran%2C%20Tehran%20Province%2C%20Iran!5e0!3m2!1sen!2sro!4v1649162745942!5m2!1sen!2sro" width="640" height="480")
         section#register-form 
             .register
                 .part 
@@ -162,17 +213,6 @@ html
                             label(for="phone") شماره تلفن: 
                             input(type="text" name="phone" placeholder="شماره تلفن")
                         button.submit(type="submit") ارسال درخواست
-        section 
-            h1.sponsers-title اعتماد شما اعتبار ماست
-            .sponsers
-                .link
-                    a(referrerpolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=188226&amp;Code=hpnWva29lcClGTdCZAcG")
-                        img(referrerpolicy="origin" src="/img/enamad.png" alt="" style="cursor:pointer" id="hpnWva29lcClGTdCZAcG" width="100px")
-                        //- img.enamad(referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=188226&amp;Code=hpnWva29lcClGTdCZAcG" alt="" style="cursor:pointer" id="hpnWva29lcClGTdCZAcG" width="100px" height="100px")
-                .link
-                    img(referrerpolicy='origin' id = 'rgvjjxlzwlaofukzjzpeoeuk' style = 'cursor:pointer' onclick = 'window.open("https://logo.samandehi.ir/Verify.aspx?id=314678&p=xlaorfthaodsgvkajyoemcsi", "Popup","toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30")' alt = 'logo-samandehi' src = 'https://logo.samandehi.ir/logo.aspx?id=314678&p=qftinbpdshwlwlbqyndtaqgw')
-                .link
-                    script(src="https://www.zarinpal.com/webservice/TrustCode" type="text/javascript")
         section.light#aboutus
             .mockup 
                 .info 
@@ -315,52 +355,16 @@ html
                             .image#slide1-img4
                                 img(src="/img/app/scr-05.png")
         section 
-            .map-section
-                .dual-content-view
-                    .right-side 
-                        h1.title مناطق تحت پوشش
-                        .info 
-                            .tabs-link 
-                                .link#districts-tab-link0.active منطقه 22
-                                .link#districts-tab-link1 منطقه 5
-                                .link#districts-tab-link2 منطقه 1
-                                .link#districts-tab-link3 منطقه 2
-                                .link#districts-tab-link4 منطقه 3
-                                .link#districts-tab-link5 منطقه 6
-                                .link#districts-tab-link6 منطقه 7
-                            .tab-content#districts-tab-view0
-                                ul 
-                                    li تعداد فایل‌ها: #{numberOfdistrict22}
-                                    li ثبت فایل در روز: #{Math.floor(numberOfdistrict22/100)}
-                                    li تعداد معاملات روزانه: #{Math.floor(numberOfdistrict22/110)}
-                                    li تعداد کاربران فعال: 135
-                                    li پشتیبانی تلفنی: هر ساعت از شبانه روز
-                            .tab-content#districts-tab-view1
-                                ul 
-                                    li تعداد فایل‌ها: #{numberOfdistrict5}
-                                    li ثبت فایل در روز: #{Math.floor(numberOfdistrict5/10)}
-                                    li تعداد معاملات روزانه: #{Math.floor(numberOfdistrict5/15)}
-                                    li تعداد کاربران فعال: 135
-                                    li پشتیبانی تلفنی: هر ساعت از شبانه روز
-                            .tab-content#districts-tab-view2
-                                ul 
-                                    li در حال آماده سازی
-                            .tab-content#districts-tab-view3
-                                ul 
-                                    li در حال آماده سازی
-                            .tab-content#districts-tab-view4
-                                ul 
-                                    li در حال آماده سازی
-                            .tab-content#districts-tab-view5
-                                ul 
-                                    li در حال آماده سازی
-                            .tab-content#districts-tab-view6
-                                ul 
-                                    li در حال آماده سازی
-                    .left-side
-                        .map
-                            iframe(src="https://www.google.com/maps/d/u/0/embed?mid=1ZA6f8CNze8Xa1yUsLxO4hZFOm7zdTbyN&ehbc=2E312F" width="640" height="480")
-                            //- iframe(src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d103610.02393267365!2d51.13413693710939!3d35.755394666785904!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8de5259d9edf69%3A0x7a13e6876f0cd191!2sDistrict%2022%2C%20Tehran%2C%20Tehran%20Province%2C%20Iran!5e0!3m2!1sen!2sro!4v1649162745942!5m2!1sen!2sro" width="640" height="480")
+            h1.sponsers-title اعتماد شما اعتبار ماست
+            .sponsers
+                .link
+                    a(referrerpolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=188226&amp;Code=hpnWva29lcClGTdCZAcG")
+                        img(referrerpolicy="origin" src="/img/enamad.png" alt="" style="cursor:pointer" id="hpnWva29lcClGTdCZAcG" width="100px")
+                        //- img.enamad(referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=188226&amp;Code=hpnWva29lcClGTdCZAcG" alt="" style="cursor:pointer" id="hpnWva29lcClGTdCZAcG" width="100px" height="100px")
+                .link
+                    img(referrerpolicy='origin' id = 'rgvjjxlzwlaofukzjzpeoeuk' style = 'cursor:pointer' onclick = 'window.open("https://logo.samandehi.ir/Verify.aspx?id=314678&p=xlaorfthaodsgvkajyoemcsi", "Popup","toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30")' alt = 'logo-samandehi' src = 'https://logo.samandehi.ir/logo.aspx?id=314678&p=qftinbpdshwlwlbqyndtaqgw')
+                .link
+                    script(src="https://www.zarinpal.com/webservice/TrustCode" type="text/javascript")
         
         include ./components/footer
         script.

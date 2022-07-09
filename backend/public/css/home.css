@@ -576,6 +576,8 @@ body{scroll-behavior: smooth;}
         padding-bottom: 0;
         text-align: center;
         margin-top: -8vw;
+        margin-bottom: 5vw;
+
     }
     section .statistics-view .card{
         /* float: right; */
@@ -820,10 +822,11 @@ body{scroll-behavior: smooth;}
     }
     section .map-section .tabs-link .link{
         float: right;
-        padding: 0.4vw 1vw;
+        padding: 0.4vw 0.5vw;
         background-color: var(--lightergray);
         color: var(--text);
         cursor: pointer;
+        font-size: 1vw;
     }
     section .map-section .tabs-link .link:hover{
         background-color: var(--lightgray);
