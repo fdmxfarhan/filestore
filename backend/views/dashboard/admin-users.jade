@@ -20,6 +20,9 @@ block content
                 a.add-user#add-user-btn
                     i.fa.fa-plus 
                     | افزودن کاربر
+                a.add-user#add-operator-btn
+                    i.fa.fa-plus 
+                    | افزودن اپراتور
         .users-view 
             table 
                 tr 
@@ -54,6 +57,7 @@ block content
                                 i.fa.fa-trash 
                 -}
         
+    include ../components/register-operator
     include ../components/register-popup
     include ../components/register-popups
     script(src="/js/users-view.js") 

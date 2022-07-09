@@ -25,7 +25,7 @@ var pageNumberButtons = [
     document.getElementById('filepage-number-8'),
 ];
 var refreshInterval = null;
-var udatePlanTime = 1000;
+var udatePlanTime = 1000 * 30;
 var activeFile = null;
 var activeMenu = 'table';
 var refreshCancled = false;

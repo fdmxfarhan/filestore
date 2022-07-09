@@ -5,13 +5,19 @@ $(document).ready(function(){
         $('#add-user-popup').fadeIn(500);
         $('.black-modal').fadeIn(500);
     });
+    $('#add-operator-btn').click(() => {
+        $('#add-operator-popup').fadeIn(500);
+        $('.black-modal').fadeIn(500);
+    });
     $('.black-modal').click(() => {
         $('#add-user-popup').fadeOut(500);
+        $('#add-operator-popup').fadeOut(500);
         $('.black-modal').fadeOut(500);
         users.forEach(user => user.view.fadeOut(300));
     });
     $('.close-popup').click(() => {
         $('#add-user-popup').fadeOut(500);
+        $('#add-operator-popup').fadeOut(500);
         $('.black-modal').fadeOut(500);
         users.forEach(user => user.view.fadeOut(300));
     });

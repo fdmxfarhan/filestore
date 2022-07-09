@@ -1,0 +1,24 @@
+.popup.w40p#add-operator-popup
+    i.fa.fa-times.close-popup
+    .title-line
+        .popup-title
+            h1 افزودن اپراتور جدید
+    form(action="/dashboard/add-operator" method="POST")
+        .one-side-form
+            .text-input-area
+                label(for="fullname") 
+                    i.fa.fa-user
+                    | نام و نام خانوادگی:
+                input.textinput(type="text" placeholder="نام و نام خانوادگی" name="fullname" value= "#{ typeof fullname != 'undefined' ? fullname: '' }")
+            .text-input-area
+                label(for="idNumber") 
+                    i.fa.fa-phone
+                    | کد پرسنل:
+                input.textinput(type="text" placeholder="شماره تلفن" name="idNumber" value= "#{ typeof idNumber != 'undefined' ? idNumber: '' }")
+            .text-input-area
+                label(for="password") 
+                    i.fa.fa-key
+                    | کلمه عبور:
+                input.textinput(type="password" placeholder="کلمه عبور" name="password" value= "#{ typeof password != 'undefined' ? password: '' }")
+            button.submit(type="submit") ثبت
+

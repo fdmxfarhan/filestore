@@ -637,6 +637,30 @@ router.post('/add-user', ensureAuthenticated, (req, res, next) => {
     })
     
 });
+router.post('/add-operator', ensureAuthenticated, (req, res, next) => {
+    var {fullname, idNumber, password} = req.body;
+    User.findOne({idNumber}, (err, user) => {
+        if(user){
+            req.flash('error_msg', 'شماره تلفن قبلا ثبت شده');
+            res.redirect('/dashboard/users');
+        }else{
+            var newUser = new User({
+                fullname, 
+                idNumber, 
+                password,
+                role: 'operator',
+            });
+            bcrypt.genSalt(10, (err, salt) => bcrypt.hash(newUser.password, salt, (err, hash) => {
+                newUser.password = hash;
+                newUser.save().then(doc => {
+                    req.flash('success_msg', 'کاربر با موفقیت افزوده شد');
+                    res.redirect('/dashboard/users');
+                }).catch(err => console.log(err));
+            }));
+        }
+    })
+    
+});
 router.post('/edit-user', ensureAuthenticated, (req, res, next) => {
     var {fullname, idNumber, password, addFilePermission, removeFilePermission, editFilePermission, addEstatePermission, removeEstatePermission, editEstatePermission, notifPermission, settingsPermission} = req.body;
     if(addFilePermission)      addFilePermission = true;
