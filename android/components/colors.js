@@ -1,0 +1,15 @@
+module.exports = {
+  lightBackground: '#ebf3f2',
+  darkBackground: '#364152',
+  white: '#fff',
+  dark: '#232A3A',
+  text: '#4B4040',
+  hover: '#FF8A47',
+  orange: '#FF8A47',
+  yellow: '#EEAB34',
+  green: '#1ddd3d',
+  red: '#f1683f',
+  button: '#3FAEE0',
+  blue: '#3FAEE0',
+  darkblue: '#050547',
+};
