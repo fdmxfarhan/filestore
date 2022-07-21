@@ -170,4 +170,8 @@ router.get('/test', (req, res, next) => {
 router.get('/enamad', (req, res, next) => {
     res.render('enamad-test');
 })
+router.get('/return-guarantee', (req, res, next) => {
+    res.render('./return-guarantee')
+});
+
 module.exports = router;

@@ -1,0 +1,44 @@
+@media only screen and (min-width: 800px) {
+    .content-view{
+        margin: 3vw auto;
+        width: 70%;
+        background-color: white;
+        padding: 2vw 3vw;
+        border-radius: 0.5vw;
+    }
+    h1.title{
+        columns: var(--darkblue);
+        font-family: 'iransans';
+        font-size: 1.3vw;
+    }
+    ul{
+        font-family: 'iransans';
+        font-size: 0.9vw;
+    }
+    ul li{
+        text-align: justify;
+    }
+}
+@media only screen and (max-width: 800px) {
+    .content-view{
+        margin: 3vw auto;
+        width: 70%;
+        background-color: white;
+        padding: 4vw 6vw;
+        border-radius: 0.5vw;
+    }
+    h1.title{
+        columns: var(--darkblue);
+        font-family: 'iransans';
+        font-size: 3.3vw;
+    }
+    ul{
+        font-family: 'iransans';
+        font-size: 3vw;
+        padding: 0;
+    }
+    ul li{
+        text-align: justify;
+    }
+    
+}
