@@ -293,6 +293,10 @@ var getAddress = (address) => {
     }
     return newAddress;
 }
+var getToday = () => {
+    var today = get_year_month_day(new Date());
+    return(today[0].toString() + '/' + today[1].toString() + '/' + today[2].toString())
+}
 module.exports = {
     JalaliDate,
     j_days_in_month,
@@ -311,5 +315,6 @@ module.exports = {
     convertDateObject, 
     objToString, 
     arrayToObj,
-    getAddress
+    getAddress,
+    getToday
 };

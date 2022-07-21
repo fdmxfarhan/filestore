@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const {ensureAuthenticated} = require('../config/auth');
-var {convertDate, showPrice} = require('../config/dateConvert');
+var {convertDate, showPrice, get_year_month_day, getToday} = require('../config/dateConvert');
 var File = require('../models/File');
 var Estate = require('../models/Estate');
 var User = require('../models/User');
@@ -10,11 +10,14 @@ var Settings = require('../models/Settings');
 const sms2 = require('../config/sms2');
 const sms = require('../config/sms');
 let district22Ratio = 100, district5Ratio = 100;
-let numberOfFiles, numberOfSellings, numberOfSellings2, numberOfRents, numberOfApartments, numberOfOffices, numberOfOthers, numberOfdistrict22, numberOfdistrict5;
+let numberOfFiles, numberOfSellings, numberOfSellings2, numberOfRents, numberOfApartments, numberOfOffices, numberOfOthers, numberOfdistrict22, numberOfdistrict5, numberOfdistrict22Today, numberOfdistrict5Today;
 var updateFileRatio = () => {
+    var today = getToday();
     File.find({area: '22'}, (err, files) => {
         var days = [], sum = 0;
+        numberOfdistrict22Today = 0;
         for(var i=0; i<files.length; i++){
+            if(files[i].date == today) numberOfdistrict22Today++;
             if(days.find(e => e.date == files[i].date)){
                 for(var j=0; j<days.length; j++){
                     if(days[j].date == files[i].date){
@@ -32,7 +35,9 @@ var updateFileRatio = () => {
     })
     File.find({area: '5'}, (err, files) => {
         var days = [], sum = 0;
+        numberOfdistrict5Today = 0;
         for(var i=0; i<files.length; i++){
+            if(files[i].date == today) numberOfdistrict5Today++;
             if(days.find(e => e.date == files[i].date)){
                 for(var j=0; j<days.length; j++){
                     if(days[j].date == files[i].date){
@@ -61,7 +66,7 @@ var updateFileRatio = () => {
     });
 }
 updateFileRatio();
-setInterval(updateFileRatio, 1000 * 60 * 60);
+setInterval(updateFileRatio, 1000 * 60 * 5);
 
 router.get('/correctpishforosh', (req, res, next) => {
     File.updateMany({$or: [
@@ -93,6 +98,8 @@ router.get('/', (req, res, next) => {
             numberOfdistrict5,
             district22Ratio,
             district5Ratio,
+            numberOfdistrict22Today,
+            numberOfdistrict5Today
         });
     });
 });
