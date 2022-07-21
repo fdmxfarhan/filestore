@@ -19,9 +19,9 @@
   --button: #3FAEE0;
   --blue: #3FAEE0;
   --darkblue: #050547;
-  --gray: rgb(156, 156, 156);
-  --lightgray: rgb(233, 233, 233);
-  --lightergray: rgb(201, 201, 201);
+  --gray: #9c9c9c;
+  --lightgray: #e9e9e9;
+  --lightergray: #c9c9c9;
 }
 body::-webkit-scrollbar {width: 0.5vw;}
 body::-webkit-scrollbar-track {background: var(--gray);}

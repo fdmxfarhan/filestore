@@ -12,4 +12,7 @@ module.exports = {
   button: '#3FAEE0',
   blue: '#3FAEE0',
   darkblue: '#050547',
+  gray: '#9c9c9c',
+  lightgray: '#e9e9e9',
+  lightergray: '#c9c9c9',
 };

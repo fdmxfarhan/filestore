@@ -14,13 +14,14 @@ import {
 import colors from '../components/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import FileList from '../components/fileList';
 
 const Tab = createBottomTabNavigator();
 
 const FileScreen = (props) => {
     return (
       <View style={styles.container}>
-        <Text>Files</Text>
+        <FileList />
       </View>
     );
 }
@@ -91,7 +92,6 @@ const Home = (props) => {
         </Tab.Navigator>
     )
 }
-
 
 const styles = StyleSheet.create({
     container: {
