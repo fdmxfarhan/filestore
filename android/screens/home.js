@@ -21,7 +21,7 @@ const Tab = createBottomTabNavigator();
 const FileScreen = (props) => {
     return (
       <View style={styles.container}>
-        <FileList />
+        <FileList navigation={props.navigation}/>
       </View>
     );
 }

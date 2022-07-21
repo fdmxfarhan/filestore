@@ -8,6 +8,7 @@ import colors from './components/colors';
 
 import Splash from './screens/splash';
 import Home from './screens/home';
+import FileView from './screens/fileView';
 
 const App = (props) => {
     return(
@@ -21,6 +22,11 @@ const App = (props) => {
                 <Stack.Screen 
                     name="Home" 
                     component={Home} 
+                    options={({ route }) => ({ headerShown: false })}
+                />
+                <Stack.Screen 
+                    name="FileView" 
+                    component={FileView} 
                     options={({ route }) => ({ headerShown: false })}
                 />
                 

@@ -41,6 +41,7 @@ var FileSchema = new mongoose.Schema({
     floortype2: {type: String, default: ''}, // Kaf
     service2: {type: String, default: ''}, 
     heatingAndCoolingSystem2: {type: String, default: ''}, // systeme garmayesh va sarmayesh
+
     meterage3: {type: String, default: ''},
     bedroom3: {type: String, default: ''},
     floor3: {type: String, default: ''},
@@ -55,6 +56,7 @@ var FileSchema = new mongoose.Schema({
     floortype3: {type: String, default: ''}, // Kaf
     service3: {type: String, default: ''}, 
     heatingAndCoolingSystem3: {type: String, default: ''}, // systeme garmayesh va sarmayesh
+    
     options: String, 
     price: {type: Number, default: 0},
     fullPrice: {type: Number, default: 0},

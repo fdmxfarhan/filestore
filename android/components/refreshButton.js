@@ -19,6 +19,7 @@ const RefreshButton = (props) => {
     return (
       <View style={styles.conainer}>
         <TouchableOpacity style={styles.refreshBtn}>
+            <Text style={styles.refreshText}>بارگیری </Text> 
             <Icon style={styles.refreshIcon} name='refresh'/>
         </TouchableOpacity>
       </View>
@@ -32,15 +33,24 @@ const styles = StyleSheet.create({
     right: 18,
   },
   refreshBtn:{
-    backgroundColor: colors.blue,
+    flexDirection: 'row-reverse',
+    backgroundColor: colors.darkblue,
     borderRadius: 30,
   },
   refreshIcon: {
     color: colors.white,
-    fontSize: 30,
+    fontSize: 25,
     paddingHorizontal: 15,
     paddingVertical: 13,
+    paddingRight: 5,
   },
+  refreshText: {
+    fontFamily: 'iransans',
+    fontSize: 17,
+    color: colors.white,
+    paddingTop: 14,
+    paddingRight: 15,
+  }
 });
 
 export default RefreshButton;

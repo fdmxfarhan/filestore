@@ -15,4 +15,8 @@ module.exports = {
   gray: '#9c9c9c',
   lightgray: '#e9e9e9',
   lightergray: '#c9c9c9',
+  file1: '#e0e7ee',
+  file2: '#bfe2c2',
+  file3: '#e9abab',
+  modal: '#00000099',
 };

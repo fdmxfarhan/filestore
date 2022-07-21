@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         marginHorizontal: '5%',
         backgroundColor: colors.white,
         borderRadius: 20,
-        marginTop: 30,
+        marginTop: 20,
         flexDirection: 'row-reverse',
     },
     textInput:{
