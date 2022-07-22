@@ -15,6 +15,7 @@ import {
 import colors from '../components/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { getFileColor } from '../config/files';
+var { getPrice } = require('../config/dateConvert');
 
 const FileView1 = ({navigation, file}) => {
     return (
@@ -26,11 +27,11 @@ const FileView1 = ({navigation, file}) => {
                 <View style={styles.pricesContainer}>
                     <View style={styles.priceView}>
                         <Text style={styles.priceTitle}>قیمت متری: </Text>
-                        <Text style={styles.priceValue}>{file.price}</Text>
+                        <Text style={styles.priceValue}>{getPrice(file.price)}</Text>
                     </View>
                     <View style={styles.priceView}>
                         <Text style={styles.priceTitle}>قیمت کل: </Text>
-                        <Text style={styles.priceValue}>{file.fullPrice}</Text>
+                        <Text style={styles.priceValue}>{getPrice(file.fullPrice)}</Text>
                     </View>
                 </View>
             </View>

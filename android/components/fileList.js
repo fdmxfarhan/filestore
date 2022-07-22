@@ -18,8 +18,10 @@ import Search from './search';
 import RefreshButton from './refreshButton';
 import FileView1 from './fileView1';
 import api from '../config/api';
+import Loading from './loading';
 
 const FileList = ({navigation}) => {
+  var [loading, setLoading] = useState(false);
   var [files, setFiles] = useState([
     // { _id: 1, fileNumber: '1234', area: '22', ownerName: 'فرحان دائمی', constPhone: '021-55418794', phone: '09336448037', address: 'تهران، خیابان کارگر جنوبی، چهارراه لشگر، غفاری', type: 'آپارتمان', date: '1401/4/30', dateJ: {}, state: 'فروش', fileNumber: '1012', role: 'شمالی', meterage: '120', bedroom: 'سه خوابه', floor: '1', numOfFloors: '5', unit: '1', buildAge: 'نوساز', parking: 'دارد', warehouse: 'دارد', elevator: 'دارد', kitchen: 'MDF', view: '', floortype: 'سرامیک', service: '', heatingAndCoolingSystem: 'شوفاژ', price: 1000, fullPrice: 100000},
     // { _id: 2, fileNumber: '1234', area: '22', ownerName: 'فرحان دائمی', constPhone: '021-55418794', phone: '09336448037', address: 'تهران، خیابان کارگر جنوبی، چهارراه لشگر، غفاری', type: 'آپارتمان', date: '1401/4/30', dateJ: {}, state: 'فروش', fileNumber: '1012', role: 'شمالی', meterage: '120', bedroom: 'سه خوابه', floor: '1', numOfFloors: '5', unit: '1', buildAge: 'نوساز', parking: 'دارد', warehouse: 'دارد', elevator: 'دارد', kitchen: 'MDF', view: '', floortype: 'سرامیک', service: '', heatingAndCoolingSystem: 'شوفاژ', price: 1000, fullPrice: 100000},
@@ -37,10 +39,7 @@ const FileList = ({navigation}) => {
     // { _id: 14, fileNumber: '1234', area: '22', ownerName: 'فرحان دائمی', constPhone: '021-55418794', phone: '09336448037', address: 'تهران، خیابان کارگر جنوبی، چهارراه لشگر، غفاری', type: 'آپارتمان', date: '1401/4/30', dateJ: {}, state: 'فروش', fileNumber: '1012', role: 'شمالی', meterage: '120', bedroom: 'سه خوابه', floor: '1', numOfFloors: '5', unit: '1', buildAge: 'نوساز', parking: 'دارد', warehouse: 'دارد', elevator: 'دارد', kitchen: 'MDF', view: '', floortype: 'سرامیک', service: '', heatingAndCoolingSystem: 'شوفاژ', price: 1000, fullPrice: 100000},
   ]);
   useEffect(() => {
-    api.get('/api-mobile')
-      .then(res => {
-        console.log(res.data);
-      }).catch(err => console.log(err));
+    
   });
   return (
     <View style={styles.container}>
@@ -59,7 +58,8 @@ const FileList = ({navigation}) => {
             )
           }}
           />
-      <RefreshButton />
+      <RefreshButton setFunction={setFiles} setLoading={setLoading} />
+      <Loading visible={loading}/>
     </View>
   );
 }

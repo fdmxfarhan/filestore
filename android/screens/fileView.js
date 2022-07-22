@@ -14,13 +14,15 @@ import {
 } from 'react-native';
 import colors from '../components/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import FileImage from '../components/fileImage';
+var { getPrice, showPrice } = require('../config/dateConvert');
 
 const FileView = (props) => {
   var [file, setFile] = useState(props.route.params.file);
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageContainer}>
-        <Icon style={styles.imageIcon} name="image" />
+        <FileImage file={file}/>
         <TouchableOpacity style={styles.expandBtn}>
           <Icon style={styles.expandIcon} name='expand' />
           <Text style={styles.expandText}>0</Text>
@@ -61,11 +63,11 @@ const FileView = (props) => {
         <View style={styles.priceContainer}>
           <View style={styles.priceItem}>
             <Text style={styles.priceTitle}>قیمت متری: </Text>
-            <Text style={styles.priceValue}>{typeof(file.price) == 'undefined' ? '' : file.meterage}</Text>
+            <Text style={styles.priceValue}>{typeof(file.price) == 'undefined' ? '' : showPrice(file.meterage) + ' تومان'}</Text>
           </View>
           <View style={styles.priceItem}>
             <Text style={styles.priceTitle}>قیمت کل: </Text>
-            <Text style={styles.priceValue}>{typeof(file.fullPrice) == 'undefined' ? '' : file.fullPrice}</Text>
+            <Text style={styles.priceValue}>{typeof(file.fullPrice) == 'undefined' ? '' : showPrice(file.fullPrice) + ' تومان'}</Text>
           </View>
         </View>
         <View style={styles.info2}>
@@ -221,11 +223,6 @@ const styles = StyleSheet.create({
       position: 'relative',
       borderBottomColor: colors.gray,
       borderBottomWidth: 1,
-    },
-    imageIcon: {
-      fontSize: 50,
-      color: colors.gray,
-      paddingVertical: 100,
     },
     infoContainer: {
       backgroundColor: colors.white,

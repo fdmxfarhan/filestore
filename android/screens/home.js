@@ -15,6 +15,7 @@ import colors from '../components/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FileList from '../components/fileList';
+import Search from '../components/search';
 
 const Tab = createBottomTabNavigator();
 
@@ -28,21 +29,21 @@ const FileScreen = (props) => {
 const BookmarkScreen = (props) => {
     return (
       <View style={styles.container}>
-        <Text>Bookmarks</Text>
+        <Search />
       </View>
     );
 }
 const AddScreen = (props) => {
     return (
       <View style={styles.container}>
-        <Text>Add</Text>
+
       </View>
     );
 }
 const ProfileScreen = (props) => {
     return (
       <View style={styles.container}>
-        <Text>Profile</Text>
+          
       </View>
     );
 }

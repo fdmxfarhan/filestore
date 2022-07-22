@@ -14,16 +14,33 @@ import {
 } from 'react-native';
 import colors from '../components/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import api from '../config/api';
+const {saveData, readData} = require('../config/save');
 
-const RefreshButton = (props) => {
-    return (
-      <View style={styles.conainer}>
-        <TouchableOpacity style={styles.refreshBtn}>
-            <Text style={styles.refreshText}>بارگیری </Text> 
-            <Icon style={styles.refreshIcon} name='refresh'/>
-        </TouchableOpacity>
-      </View>
-    );
+const RefreshButton = ({navigation, setFunction, setLoading}) => {
+  var refreshFiles = () => {
+    setLoading(true);
+    readData().then(data => {
+      api.get(`/api-mobile/get-files?username=${data.estate.code}&password=${data.estate.password}`)
+        .then(res => {
+          if(res.data.status == 'ok'){
+            setFunction(res.data.files)
+            setLoading(false);
+          }
+        }).catch(err => {
+          console.log(err);
+          alert('عدم اتصال به اینترنت')
+        })
+    }).catch(err => console.log(err));
+  }
+  return (
+    <View style={styles.conainer}>
+      <TouchableOpacity style={styles.refreshBtn} onPress={refreshFiles}>
+          <Text style={styles.refreshText}>بارگیری </Text> 
+          <Icon style={styles.refreshIcon} name='refresh'/>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

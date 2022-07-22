@@ -20,16 +20,22 @@ const Login = (props) => {
     var [username, setUsername] = useState('');
     var [password, setPassword] = useState('');
     var passwordInput = useRef(null);
-
     useEffect(() => {
         
     })
     var checkLogin = () => {
-        api.post('/api-mobile/login', {username, password})
+        api.get(`/api-mobile/login?username=${username}&password=${password}`)
             .then(res => {
-                console.log(res.data);
+                if(res.data.correct == true){
+                    var estate = res.data.estate;
+                    saveData({estate});
+                    props.navigation.navigate('Home');
+                }
+                else{
+                    alert('کد اشتراک یا کلمه عبور صحیح نیست')
+                }
             }).catch(err => {
-                console.log(err);
+                alert('عدم اتصال به اینترنت')
             })
     }
     return(
@@ -41,7 +47,7 @@ const Login = (props) => {
             <Text style={styles.title}>به فایل استور خوش آمدید</Text>
             <TextInput 
                 style={[styles.textInput]}
-                placeholder={'نام کاربری'}
+                placeholder={'کد اشتراک'}
                 placeholderTextColor={colors.lightgray}
                 onSubmitEditing={()=>passwordInput.current.focus()}
                 returnKeyType={'next'}
