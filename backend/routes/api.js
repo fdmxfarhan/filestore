@@ -10,7 +10,6 @@ const ZarinpalCheckout = require('zarinpal-checkout');
 const zarinpal = ZarinpalCheckout.create('18286cd3-6065-4a7a-ad43-05eaf70f01a6', false);
 const { ensureAuthenticated } = require('../config/auth');
 const sms = require('../config/sms');
-Estate.updateMany({code: 1046}, {$set: {password: '4928'}}, (err, doc) => console.log('pass changed'))
 
 router.get('/', (req, res, next) => {
     res.send('API called successfully');
@@ -33,17 +32,20 @@ router.get('/get-files', (req, res, next) => {
                     var now = new Date();
                     files.reverse();
                     files.filter(e => now - e.creationDate.getTime() < 15 * 24 * 60 * 60 * 1000);
-                    res.send({status: 'ok', files});
-
-                    estate.lastRefreshFiles = [];
-                    for(var i=0; i<files.length; i++){
-                        estate.lastRefreshFiles.push(files[i].fileNumber);
-                        if(noplan){
+                    if(noplan){
+                        for(var i=0; i<files.length; i++){
                             files[i].address = '-';
                             files[i].phone = '-';
                             files[i].constPhone = '-';
                             files[i].images = [];
                         }
+                    }
+                    res.send({status: 'ok', files});
+
+                    estate.lastRefreshFiles = [];
+                    for(var i=0; i<files.length; i++){
+                        estate.lastRefreshFiles.push(files[i].fileNumber);
+                        
                     }
                     Estate.updateMany({_id: estate._id}, {$set: {lastRefreshFiles: estate.lastRefreshFiles}}, err => {
                         if(err) console.log(err);

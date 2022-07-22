@@ -1862,31 +1862,38 @@ $(document).ready(() => {
         prevImage();
     });
     $('#continue-without-plan').click(() => {
-        loadingScreen.classList.remove('hidden');
         $('#plans-popup').fadeOut(500);
         $('.black-modal').fadeOut(500);
-        var res = fetch(api + `get-files?username=${estate.username}&password=${estate.password}&noplan=${true}`)
-            .then(res => res.json())
-            .then(data => {
-                removeAllChildNodes(filesContainer);
-                allFiles = data.files;
-                showingFiles = allFiles;
-                showFiles();
-                // updateHandlers(data.files);
-                downloadBar.classList.add('hidden');
-                loadingScreen.classList.add('hidden');
-                cancleButton.classList.add('hidden');
-                clearInterval(downloadInterval);
-                document.getElementById('refresh-btn').classList.remove('red');
-                document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات جدید';
-                showSuccess('بارگیری با موفقیت انجام شد');
-            }).catch(err => {
-                if(refreshCancled) return;
-                showError('خطای اتصال به اینترنت');
-                loadingScreen.classList.add('hidden');
-                cancleButton.classList.add('hidden');
-                console.log(err);
-            });
+        fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+            if(refreshCancled) return;
+            if(rawdata){
+                var estate = JSON.parse(rawdata);
+                loadingScreen.classList.remove('hidden');
+                cancleButton.classList.remove('hidden');
+                downloadBar.classList.remove('hidden');
+                fetch(api + `get-files?username=${estate.username}&password=${estate.password}&noplan=${true}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        removeAllChildNodes(filesContainer);
+                        allFiles = data.files;
+                        showingFiles = allFiles;
+                        showFiles();
+                        // updateHandlers(data.files);
+                        downloadBar.classList.add('hidden');
+                        loadingScreen.classList.add('hidden');
+                        cancleButton.classList.add('hidden');
+                        document.getElementById('refresh-btn').classList.remove('red');
+                        document.getElementById('refresh-btn').textContent= 'بارگیری اطلاعات جدید';
+                        showSuccess('بارگیری با موفقیت انجام شد');
+                    }).catch(err => {
+                        if(refreshCancled) return;
+                        showError('خطای اتصال به اینترنت');
+                        loadingScreen.classList.add('hidden');
+                        cancleButton.classList.add('hidden');
+                        console.log(err);
+                    });
+            }
+        });
         document.getElementById('download-bar-handle').style.width = `${0}%`;
         document.getElementById('download-bar-text').textContent = `${0}%`;
         showFiles();
