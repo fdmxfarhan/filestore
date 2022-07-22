@@ -56,10 +56,43 @@ var exchange = true;
 var cooperate = true;
 var rent = true;
 var rent2 = true;
+var changable = false;
+var parking = false;
+var warehouse = false;
+var elevator = false;
 var lastSearchText = '';
 // ------------
 
 removeAllChildNodes(filesContainer);
+var isChangable = (file) => {
+    // file = file.changable.replace(' ', '');
+    if(file.state != 'رهن و اجاره' && file.state != 'رهن کامل') return true;
+    if(typeof(file.changable) == 'undefined') return false;
+    if(file.changable == '') return false;
+    if(file.changable == 'ندارد') return false;
+    if(file.changable == 'دارد') return true;
+    if(file.changable == 'جزئی') return true;
+    if(file.changable == 'جزیی') return true;
+    return false;
+}
+var haveParking = (file) => {
+    if(typeof(file.parking) == 'undefined') return false;
+    if(file.parking == '') return false;
+    if(file.parking == 'ندارد') return false;
+    return true;
+}
+var haveWarehouse = (file) => {
+    if(typeof(file.warehouse) == 'undefined') return false;
+    if(file.warehouse == '') return false;
+    if(file.warehouse == 'ندارد') return false;
+    return true;
+}
+var haveElevator = (file) => {
+    if(typeof(file.elevator) == 'undefined') return false;
+    if(file.elevator == '') return false;
+    if(file.elevator == 'ندارد') return false;
+    return true;
+}
 var search = () => {
     var text = document.getElementById('address-search').value;
     if(text == '' || text.length < lastSearchText.length) filter();
@@ -116,7 +149,11 @@ var filter = () => {
                             else if(!rent         && state == 'رهن و اجاره');
                             else if(!rent2        && state == 'رهن کامل');
                             else {
-                                if(names.indexOf(type) != -1 && names.indexOf(state) != -1)
+                                if(parking && !haveParking(allFiles[i]));
+                                else if(warehouse && !haveWarehouse(allFiles[i]));
+                                else if(elevator && !haveElevator(allFiles[i]));
+                                else if((rent || rent2) && changable && !isChangable(allFiles[i]));
+                                else if(names.indexOf(type) != -1 && names.indexOf(state) != -1)
                                     showingFiles.push(allFiles[i]);
                             }
                         }
@@ -133,6 +170,27 @@ var filter = () => {
 }
 var clearFilters = () => {
     showingFiles = allFiles;
+    showFiles();
+}
+var removeAddressAndPhone = () => {
+    fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+        if(rawdata){
+            var estate = JSON.parse(rawdata);
+            for(var i=0; i<allFiles.length; i++){
+                allFiles[i].address = '-';
+                allFiles[i].phone = '-';
+                allFiles[i].constPhone = '-';
+                allFiles[i].images = [];
+            }
+            saveEstate(estate.username, estate.password, estate.estate, allFiles, estate.bookmarks);
+        }
+    });
+    for(var i=0; i<showingFiles.length; i++){
+        showingFiles[i].address = '-';
+        showingFiles[i].phone = '-';
+        showingFiles[i].constPhone = '-';
+        showingFiles[i].images = [];
+    }
     showFiles();
 }
 var updatePlans = () => {
@@ -157,6 +215,7 @@ var updatePlans = () => {
                                 document.getElementById('no-plan-info').classList.remove('hidden');
                                 document.getElementById('refresh-btn').classList.add('red');
                                 document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
+                                removeAddressAndPhone();
                             }
                             else {
                                 document.getElementById('plan-info').classList.remove('hidden');
@@ -172,6 +231,7 @@ var updatePlans = () => {
                             document.getElementById('no-plan-info').classList.remove('hidden');
                             document.getElementById('refresh-btn').classList.add('red');
                             document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
+                            removeAddressAndPhone();
                         }
                     }else console.log('cnnot connect to server!!')
                 }).catch(err => console.log(err));
@@ -1540,6 +1600,13 @@ $(document).ready(() => {
     });
 
     // ---- search:
+    var checkChangable = () => {
+        if(rent || rent2){
+            document.getElementById('changable-btn').style.display = 'inline';
+        }else{
+            document.getElementById('changable-btn').style.display = 'none';
+        }
+    }
     $("#metrage-slider").slider({
         range: true,
         min: 0,
@@ -1762,6 +1829,7 @@ $(document).ready(() => {
             $('#rent-btn').addClass('active');
             rent = true;
         }
+        checkChangable();
         // filter();
     })
     $('#rent2-btn').click(() => {
@@ -1771,6 +1839,47 @@ $(document).ready(() => {
         }else{
             $('#rent2-btn').addClass('active');
             rent2 = true;
+        }
+        checkChangable();
+        // filter();
+    });
+    $('#changable-btn').click(() => {
+        if(document.getElementById('changable-btn').className.split(/\s+/)[1] == 'active'){
+            $('#changable-btn').removeClass('active');
+            changable = false;
+        }else{
+            $('#changable-btn').addClass('active');
+            changable = true;
+        }
+        // filter();
+    });
+    $('#parking-btn').click(() => {
+        if(document.getElementById('parking-btn').className.split(/\s+/)[1] == 'active'){
+            $('#parking-btn').removeClass('active');
+            parking = false;
+        }else{
+            $('#parking-btn').addClass('active');
+            parking = true;
+        }
+        // filter();
+    });
+    $('#warehouse-btn').click(() => {
+        if(document.getElementById('warehouse-btn').className.split(/\s+/)[1] == 'active'){
+            $('#warehouse-btn').removeClass('active');
+            warehouse = false;
+        }else{
+            $('#warehouse-btn').addClass('active');
+            warehouse = true;
+        }
+        // filter();
+    });
+    $('#elevator-btn').click(() => {
+        if(document.getElementById('elevator-btn').className.split(/\s+/)[1] == 'active'){
+            $('#elevator-btn').removeClass('active');
+            elevator = false;
+        }else{
+            $('#elevator-btn').addClass('active');
+            elevator = true;
         }
         // filter();
     });
