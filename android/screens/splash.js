@@ -12,15 +12,24 @@ import {
   View,
 } from 'react-native';
 import colors from '../components/colors';
+const {saveData, readData} = require('../config/save');
 
 const Splash = (props) => {    
     useEffect(() => {
         setTimeout(() => {
-            props.navigation.navigate("Home");
+            readData().then((data) => {
+                if(data != null){
+                    props.navigation.navigate('Home');
+                }
+                else {
+                    props.navigation.navigate('Login');
+                }
+            });
         }, 1000);
     })
     return(
         <View style={styles.container}>
+            <StatusBar backgroundColor={colors.darkBackground}/>
             <Image 
                 source={require('../assets/logo.png')}
                 style={styles.logo}
