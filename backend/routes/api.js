@@ -24,10 +24,10 @@ router.get('/login', (req, res, next) => {
     })
 });
 router.get('/get-files', (req, res, next) => {
-    var {username, password} = req.query;
+    var {username, password, noplan} = req.query;
     Estate.findOne({code: username, password: password}, (err, estate) => {
         if(estate){
-            if(estate.payed && estate.planType != 'free'){
+            if((estate.payed && estate.planType != 'free') || noplan){
                 File.find({area: estate.area}, (err, files) => {
                     var now = new Date();
                     files.reverse();
@@ -37,6 +37,12 @@ router.get('/get-files', (req, res, next) => {
                     estate.lastRefreshFiles = [];
                     for(var i=0; i<files.length; i++){
                         estate.lastRefreshFiles.push(files[i].fileNumber);
+                        if(noplan){
+                            files[i].address = '-';
+                            files[i].phone = '-';
+                            files[i].constPhone = '-';
+                            files[i].images = [];
+                        }
                     }
                     Estate.updateMany({_id: estate._id}, {$set: {lastRefreshFiles: estate.lastRefreshFiles}}, err => {
                         if(err) console.log(err);
