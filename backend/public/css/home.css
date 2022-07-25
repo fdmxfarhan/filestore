@@ -811,6 +811,11 @@ body{scroll-behavior: smooth;}
         margin: 1vw 2vw;
         margin-bottom: 2vw;
     }
+    section .sponsers .link iframe.enamad{
+        overflow: hidden;
+        width: 6vw;
+        height: auto;
+    }
     section .sponsers .link img{
         height: 6vw;
     }
