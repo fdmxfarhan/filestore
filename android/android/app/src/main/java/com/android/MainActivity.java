@@ -1,5 +1,5 @@
 package com.android;
-
+import com.rnfs.RNFSPackage;  // <--- import
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;

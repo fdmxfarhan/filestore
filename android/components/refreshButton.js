@@ -15,7 +15,7 @@ import {
 import colors from '../components/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import api from '../config/api';
-const {saveData, readData} = require('../config/save');
+const {saveData, readData, saveFiles} = require('../config/save');
 
 const RefreshButton = ({navigation, setFunction, setLoading}) => {
   var refreshFiles = () => {
@@ -24,12 +24,13 @@ const RefreshButton = ({navigation, setFunction, setLoading}) => {
       api.get(`/api-mobile/get-files?username=${data.estate.code}&password=${data.estate.password}`)
         .then(res => {
           if(res.data.status == 'ok'){
-            setFunction(res.data.files)
+            setFunction(res.data.files);
+            saveFiles(res.data.files);
             setLoading(false);
           }
         }).catch(err => {
           console.log(err);
-          alert('عدم اتصال به اینترنت')
+          alert('عدم اتصال به اینترنت');
         })
     }).catch(err => console.log(err));
   }

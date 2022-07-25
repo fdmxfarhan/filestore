@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     Image,
+  PermissionsAndroid,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -14,8 +15,37 @@ import {
 import colors from '../components/colors';
 const {saveData, readData} = require('../config/save');
 
+const requestReadStoragePermission = async () => {
+    try {
+        const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            // console.log("You can use the camera");
+        } else {
+            console.log("Read_Storage permission denied");
+        }
+    } catch (err) {
+      console.warn(err);
+    }
+};
+const requestWriteStoragePermission = async () => {
+    try {
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            // console.log("You can use the camera");
+        } else {
+            console.log("Write_Storage permission denied");
+        }
+    } catch (err) {
+      console.warn(err);
+    }
+};
+
+
 const Splash = (props) => {    
     useEffect(() => {
+        requestReadStoragePermission();
+        requestWriteStoragePermission();
         setTimeout(() => {
             readData().then((data) => {
                 if(data != null){

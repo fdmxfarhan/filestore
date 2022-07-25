@@ -1,6 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Storage from 'react-native-storage';
+var RNFS = require('react-native-fs');
 
 const STORAGE_KEY = '@store_file'
+const FILE_STORAGE_KEY = '@files'
+// var path = RNFS.DocumentDirectoryPath + '/files.json';
+var path = RNFS.ExternalDirectoryPath + '/files.json';
+console.log(path)
 var saveData = async (data) => {
   try {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data))
@@ -10,8 +16,6 @@ var saveData = async (data) => {
     console.log(e)
   }
 }
-
-
 const readData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem(STORAGE_KEY)
@@ -21,35 +25,14 @@ const readData = async () => {
     }
 }
 
-const STORAGE_KEY2 = '@store_notif'
-var saveNotif = async (notif) => {
-  try {
-    await AsyncStorage.setItem(STORAGE_KEY2, JSON.stringify({data: notif}))
-    // console.log('Data successfully saved');
-  } catch (e) {
-    // console.log('Failed to save data');
-    console.log(e)
-  }
+var saveFiles = (data) => {
+  RNFS.writeFile(path, JSON.stringify(data), (err) => {
+    if(err) console.log(err);
+  })
 }
-
-var clearNotif = async () => {
-  try {
-    await AsyncStorage.setItem(STORAGE_KEY2, JSON.stringify({data: ''}))
-    // console.log('Data successfully saved');
-  } catch (e) {
-    // console.log('Failed to save data');
-    console.log(e)
-  }
+const readFiles = async () => {
+  console.log('reading')
+  const jsonValue = await RNFS.readFile(path);
+  return jsonValue != null ? JSON.parse(jsonValue) : null;
 }
-
-
-const readNotif = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem(STORAGE_KEY2)
-      return jsonValue != null ? JSON.parse(jsonValue).data : null;
-    } catch (e) {
-      console.log(e)
-    }
-}
-
-module.exports = {saveData, readData, saveNotif, readNotif, clearNotif};
+module.exports = {saveData, readData, saveFiles, readFiles};
