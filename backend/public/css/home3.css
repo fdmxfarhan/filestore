@@ -813,8 +813,8 @@ body{scroll-behavior: smooth;}
     }
     section .sponsers .link iframe.enamad{
         overflow: hidden;
-        width: 10vw;
-        height: 12vw;
+        width: 140px;
+        height: 16px;
     }
     section .sponsers .link img{
         height: 6vw;
