@@ -19,10 +19,17 @@ var { getPrice, showPrice } = require('../config/dateConvert');
 
 const FileView = (props) => {
   var [file, setFile] = useState(props.route.params.file);
+  var getImages = () =>{
+    images = [];
+    for (let i = 0; i < file.images.length; i++) {
+      images.push({image: 'https://fileestore.ir' + file.images[i].link, desc: i.toString()})
+    }
+    return(images)
+  }
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageContainer}>
-        <FileImage file={file}/>
+        <FileImage images={getImages(file)}/>
         <TouchableOpacity style={styles.expandBtn}>
           <Icon style={styles.expandIcon} name='expand' />
           <Text style={styles.expandText}>0</Text>
@@ -34,12 +41,12 @@ const FileView = (props) => {
           <Icon style={styles.bookmarkIcon} name='bookmark-o' />
         </TouchableOpacity>
         <Text style={styles.fileNumberText}>{file.fileNumber}</Text>
-        <View style={styles.circlesView}>
+        {/* <View style={styles.circlesView}>
           <Icon style={styles.circles} name='circle' />
           <Icon style={styles.circles} name='circle-o' />
           <Icon style={styles.circles} name='circle-o' />
           <Icon style={styles.circles} name='circle-o' />
-        </View>
+        </View> */}
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.title}>{file.type}، {file.meterage} متری، {file.buildAge} {file.buildAge == 'نوساز' ? '' : 'سال ساخت'}</Text>
@@ -63,7 +70,7 @@ const FileView = (props) => {
         <View style={styles.priceContainer}>
           <View style={styles.priceItem}>
             <Text style={styles.priceTitle}>قیمت متری: </Text>
-            <Text style={styles.priceValue}>{typeof(file.price) == 'undefined' ? '' : showPrice(file.meterage) + ' تومان'}</Text>
+            <Text style={styles.priceValue}>{typeof(file.price) == 'undefined' ? '' : showPrice(file.price) + ' تومان'}</Text>
           </View>
           <View style={styles.priceItem}>
             <Text style={styles.priceTitle}>قیمت کل: </Text>

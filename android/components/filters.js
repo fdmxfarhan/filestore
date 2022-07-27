@@ -99,6 +99,7 @@ const Filters = ({navigation, files, showingFiles, setShowingFiles, setLoading})
       <View style={styles.container}>
         <ScrollView
             horizontal={true}
+            inverted={true}
             style={styles.scrollview}
             contentContainerStyle={styles.contentContainerStyle}
             >

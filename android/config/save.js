@@ -31,7 +31,7 @@ var saveFiles = (data) => {
   })
 }
 const readFiles = async () => {
-  console.log('reading')
+  // console.log('reading')
   const jsonValue = await RNFS.readFile(path);
   return jsonValue != null ? JSON.parse(jsonValue) : null;
 }
