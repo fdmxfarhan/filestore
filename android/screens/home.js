@@ -16,6 +16,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FileList from '../components/fileList';
 import Search from '../components/search';
+import BookMarks from '../components/bookMarks';
+import Profile from '../components/profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,7 +31,7 @@ const FileScreen = (props) => {
 const BookmarkScreen = (props) => {
     return (
       <View style={styles.container}>
-        <Search />
+        <BookMarks navigation={props.navigation}/>
       </View>
     );
 }
@@ -43,7 +45,7 @@ const AddScreen = (props) => {
 const ProfileScreen = (props) => {
     return (
       <View style={styles.container}>
-          
+          <Profile />
       </View>
     );
 }

@@ -26,11 +26,11 @@ const FileView1 = ({navigation, file}) => {
                 <Text style={styles.address}>آدرس: {file.address}</Text>
                 <View style={styles.pricesContainer}>
                     <View style={styles.priceView}>
-                        <Text style={styles.priceTitle}>قیمت متری: </Text>
+                        <Text style={styles.priceTitle}>قیمت {file.state == 'رهن و اجاره' || file.state == 'رهن کامل' ? 'رهن' : 'متری'}: </Text>
                         <Text style={styles.priceValue}>{getPrice(file.price)}</Text>
                     </View>
                     <View style={styles.priceView}>
-                        <Text style={styles.priceTitle}>قیمت کل: </Text>
+                        <Text style={styles.priceTitle}>قیمت {file.state == 'رهن و اجاره' || file.state == 'رهن کامل' ? 'اجاره' : 'کل'}: </Text>
                         <Text style={styles.priceValue}>{getPrice(file.fullPrice)}</Text>
                     </View>
                 </View>

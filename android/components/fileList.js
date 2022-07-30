@@ -20,12 +20,15 @@ import FileView1 from './fileView1';
 import api from '../config/api';
 import Loading from './loading';
 import Filters from './filters';
+import Plans from './plans';
 const {saveData, readData, readFiles} = require('../config/save');
 
 const FileList = ({navigation}) => {
   var [loading, setLoading] = useState(false);
+  var [plansEnabled, setPlansEnabled] = useState(false);
   var [files, setFiles] = useState([]);
   var [showingFiles, setShowingFiles] = useState([]);
+  var [showingFiles2, setShowingFiles2] = useState([]);
   var [readOnce, setReadOnce] = useState(false);
   useEffect(() => {
     if(!readOnce){
@@ -35,6 +38,7 @@ const FileList = ({navigation}) => {
           setLoading(false);
           setFiles(data);
           setShowingFiles(data);
+          setShowingFiles2(data);
         }
       }).catch(err => setLoading(false));
       setReadOnce(true);
@@ -43,13 +47,13 @@ const FileList = ({navigation}) => {
   });
   return (
     <View style={styles.container}>
-      <Search />
-      <Filters files={files} showingFiles={showingFiles} setShowingFiles={setShowingFiles} setLoading={setLoading} />
+      <Search setFiles={setShowingFiles2} files={showingFiles} />
+      <Filters files={files} showingFiles={showingFiles} setShowingFiles={(files) => {setShowingFiles(files); setShowingFiles2(files)}} setLoading={setLoading} />
       <FlatList
           // inverted={true}
           // horizontal={true}
           style={styles.flatList}
-          data={showingFiles}
+          data={showingFiles2}
           keyExtractor={item => item._id}
           renderItem={({item}) => {
             return(
@@ -59,8 +63,9 @@ const FileList = ({navigation}) => {
             )
           }}
           />
-      <RefreshButton setFunction={(data) => {setFiles(data); setShowingFiles(data);}} setLoading={setLoading} />
+      <RefreshButton setFunction={(data) => {setFiles(data); setShowingFiles(data);}} setLoading={setLoading} setPlansEnabled={setPlansEnabled}/>
       <Loading visible={loading}/>
+      <Plans enabled={plansEnabled} setEnabled={setPlansEnabled}/>
     </View>
   );
 }

@@ -4,35 +4,42 @@ var RNFS = require('react-native-fs');
 
 const STORAGE_KEY = '@store_file'
 const FILE_STORAGE_KEY = '@files'
-// var path = RNFS.DocumentDirectoryPath + '/files.json';
+const BOOKMARK_KEY = '@bookmark'
 var path = RNFS.ExternalDirectoryPath + '/files.json';
-console.log(path)
+
+// Login Data Save and Read
 var saveData = async (data) => {
-  try {
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data))
-    // console.log('Data successfully saved');
-  } catch (e) {
-    // console.log('Failed to save data');
-    console.log(e)
-  }
+  try {await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data))} 
+  catch (e) {console.log(e)}
 }
 const readData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem(STORAGE_KEY)
       return jsonValue != null ? JSON.parse(jsonValue) : null;
-    } catch (e) {
-      console.log(e)
-    }
+    } catch (e) {console.log(e)}
 }
 
+// Book Marks Save and Read
+var saveBookmark = async (data) => {
+  try {
+    await AsyncStorage.setItem(BOOKMARK_KEY, JSON.stringify(data))
+  } catch (e) {console.log(e)}
+}
+const readBookmark = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem(BOOKMARK_KEY)
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {console.log(e)}
+}
+
+// File Data Save and Read
 var saveFiles = (data) => {
   RNFS.writeFile(path, JSON.stringify(data), (err) => {
     if(err) console.log(err);
-  })
+  });
 }
 const readFiles = async () => {
-  // console.log('reading')
   const jsonValue = await RNFS.readFile(path);
   return jsonValue != null ? JSON.parse(jsonValue) : null;
 }
-module.exports = {saveData, readData, saveFiles, readFiles};
+module.exports = {saveData, readData, saveFiles, readFiles, saveBookmark, readBookmark};

@@ -17,7 +17,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import api from '../config/api';
 const {saveData, readData, saveFiles} = require('../config/save');
 
-const RefreshButton = ({navigation, setFunction, setLoading}) => {
+const RefreshButton = ({navigation, setFunction, setLoading, setPlansEnabled}) => {
   var refreshFiles = () => {
     setLoading(true);
     readData().then(data => {
@@ -26,6 +26,9 @@ const RefreshButton = ({navigation, setFunction, setLoading}) => {
           if(res.data.status == 'ok'){
             setFunction(res.data.files);
             saveFiles(res.data.files);
+            setLoading(false);
+          } else{
+            setPlansEnabled(true);
             setLoading(false);
           }
         }).catch(err => {

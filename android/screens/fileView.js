@@ -15,6 +15,7 @@ import {
 import colors from '../components/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FileImage from '../components/fileImage';
+import BookMarkButton from '../components/bookMarkButton';
 var { getPrice, showPrice } = require('../config/dateConvert');
 
 const FileView = (props) => {
@@ -37,9 +38,7 @@ const FileView = (props) => {
         <TouchableOpacity style={styles.backBtn} onPress={() => {props.navigation.navigate('Home')}}>
           <Icon style={styles.backIcon} name='arrow-left' />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bookmarkBtn}>
-          <Icon style={styles.bookmarkIcon} name='bookmark-o' />
-        </TouchableOpacity>
+        <BookMarkButton file={file} />
         <Text style={styles.fileNumberText}>{file.fileNumber}</Text>
         {/* <View style={styles.circlesView}>
           <Icon style={styles.circles} name='circle' />
@@ -69,11 +68,11 @@ const FileView = (props) => {
         </View>
         <View style={styles.priceContainer}>
           <View style={styles.priceItem}>
-            <Text style={styles.priceTitle}>قیمت متری: </Text>
+            <Text style={styles.priceTitle}>قیمت {file.state == 'رهن و اجاره' || file.state == 'رهن کامل' ? 'رهن' : 'متری'}: </Text>
             <Text style={styles.priceValue}>{typeof(file.price) == 'undefined' ? '' : showPrice(file.price) + ' تومان'}</Text>
           </View>
           <View style={styles.priceItem}>
-            <Text style={styles.priceTitle}>قیمت کل: </Text>
+            <Text style={styles.priceTitle}>قیمت {file.state == 'رهن و اجاره' || file.state == 'رهن کامل' ? 'اجاره' : 'کل'}: </Text>
             <Text style={styles.priceValue}>{typeof(file.fullPrice) == 'undefined' ? '' : showPrice(file.fullPrice) + ' تومان'}</Text>
           </View>
         </View>
