@@ -36,6 +36,16 @@ var generateAndSaveKey = () => {
         if(err) console.log(err);
     });
 }
+var readKey = async () => {
+    await fs.readFile(path.join(pathName, 'key.json'), (err, rawdata) => {
+        if(rawdata){
+            var data = JSON.parse(rawdata);
+            console.log(data)
+            return data.key;
+        }
+        else return '';
+    });
+}
 var showError = (text) => {
     errorMsg.classList.remove('hidden');
     errorMsg.textContent = text;
@@ -43,32 +53,44 @@ var showError = (text) => {
         errorMsg.classList.add('hidden');
     }, 3000);
 }
-var checkLogin = async() => {
+var checkLogin = () => {
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
-    await fetch(api + `login?username=${username}&password=${password}`)
-        .then(res => res.json())
-        // .catch(err => {showError('خطای اتصال به اینترنت')})
-        .then(data => {
-            if(data.correct == true){
-                saveEstate(username, password, data.estate);
-                generateAndSaveKey();
-                document.getElementById('login-frame').classList.add('hidden');
-                document.getElementById('home-frame').classList.remove('hidden');
-                successMsg.classList.remove('hidden');
-                successMsg.textContent = 'خوش آمدید';
-                document.getElementById('fullname').textContent = data.estate.name;
-                document.getElementById('address').textContent = data.estate.address;
-                document.getElementById('estate-code').textContent = data.estate.code;
-                document.getElementById('estate-number').textContent = data.estate.area;
-                setTimeout(() => {
-                    successMsg.classList.add('hidden');
-                }, 3000);
-            }
-            else{
-                showError('کد املاک/کلمه عبور یافت نشد');
-            }
-        }).catch(err => {showError('خطای اتصال به اینترنت')});
+    fs.readFile(path.join(pathName, 'key.json'), (err, rawdata) => {
+        var key = '';
+        if(rawdata){
+            var data = JSON.parse(rawdata);
+            key = data.key;
+        }
+        console.log(key)
+        fetch(api + `login?username=${username}&password=${password}&key=${key}`)
+            .then(res => res.json())
+            .then(data => {
+                if(data.correct == true){
+                    if(data.keyQualified == true){
+                        saveEstate(username, password, data.estate);
+                        generateAndSaveKey();
+                        document.getElementById('login-frame').classList.add('hidden');
+                        document.getElementById('home-frame').classList.remove('hidden');
+                        successMsg.classList.remove('hidden');
+                        successMsg.textContent = 'خوش آمدید';
+                        document.getElementById('fullname').textContent = data.estate.name;
+                        document.getElementById('address').textContent = data.estate.address;
+                        document.getElementById('estate-code').textContent = data.estate.code;
+                        document.getElementById('estate-number').textContent = data.estate.area;
+                        setTimeout(() => {
+                            successMsg.classList.add('hidden');
+                        }, 3000);
+                    }
+                    else{
+                        showError('کاربر دیگری قبلا با حساب شما وارد شده.');
+                    }
+                }
+                else{
+                    showError('کد املاک/کلمه عبور یافت نشد');
+                }
+            }).catch(err => {showError('خطای اتصال به اینترنت')});
+    });
 }
 loginButton.addEventListener('click', checkLogin);
 logoutButton.addEventListener('click', () => {

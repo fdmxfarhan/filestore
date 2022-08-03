@@ -15,10 +15,15 @@ router.get('/', (req, res, next) => {
     res.send('API called successfully');
 });
 router.get('/login', (req, res, next) => {
-    var {username, password} = req.query;
+    var {username, password, key} = req.query;
     Estate.findOne({code: username, password: password}, (err, estate) => {
-        if(estate)
-            res.send({correct: true, estate});
+        if(estate){
+            if(estate.windowsKey == '' || key == estate.windowsKey){
+                res.send({correct: true, keyQualified: true, estate});
+            }else{
+                res.send({correct: true, keyQualified: false, estate});
+            }
+        }
         else
             res.send({correct: false});
     })
