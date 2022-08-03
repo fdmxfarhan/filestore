@@ -25,6 +25,7 @@ var EstateSchema = new mongoose.Schema({
   password: String,
   authority: String,
   lastRefreshFiles: {type: [Number], default: []},
+  windowsKey: {type: String, default: ''},
 });
 
 var Estate = mongoose.model('Estate', EstateSchema);
