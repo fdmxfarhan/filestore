@@ -1,4 +1,4 @@
-package com.android;
+package com.filestoreapp;
 
 import android.app.Application;
 import android.content.Context;

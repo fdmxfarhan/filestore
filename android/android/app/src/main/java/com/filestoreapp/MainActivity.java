@@ -1,4 +1,4 @@
-package com.android;
+package com.filestoreapp;
 import com.rnfs.RNFSPackage;  // <--- import
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

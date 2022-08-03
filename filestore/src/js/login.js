@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var api = require('./api');
+var genKey = require('./generateCode');
 var loginButton = document.getElementById('login-button');
 var logoutButton = document.getElementById('logout');
 var successMsg = document.getElementById('success-msg');
@@ -22,6 +23,19 @@ var saveEstate = (username, password, estate) => {
         if(err) console.log(err);
     })
 }
+var generateAndSaveKey = () => {
+    var filePath = path.join(pathName, 'key.json');
+    var keyData = {key: genKey(10)};
+    fs.writeFile(filePath, JSON.stringify(keyData), (err) => {
+        fetch(api + `setLoginKey?key=${keyData.key}&username=${username}&password=${password}`)
+            .then(data => {
+                if(data.status == 'ok') console.log('key is set');
+                else console.log('key was not set');
+            })
+            .catch(err => console.log(err));
+        if(err) console.log(err);
+    });
+}
 var showError = (text) => {
     errorMsg.classList.remove('hidden');
     errorMsg.textContent = text;
@@ -38,6 +52,7 @@ var checkLogin = async() => {
         .then(data => {
             if(data.correct == true){
                 saveEstate(username, password, data.estate);
+                generateAndSaveKey();
                 document.getElementById('login-frame').classList.add('hidden');
                 document.getElementById('home-frame').classList.remove('hidden');
                 successMsg.classList.remove('hidden');
