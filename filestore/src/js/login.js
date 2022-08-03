@@ -25,7 +25,7 @@ var saveEstate = (username, password, estate) => {
 }
 var generateAndSaveKey = () => {
     var filePath = path.join(pathName, 'key.json');
-    var keyData = {key: genKey(10)};
+    var keyData = {key: genKey(10).toString()};
     fs.writeFile(filePath, JSON.stringify(keyData), (err) => {
         fetch(api + `set-login-key?key=${keyData.key}&username=${username}&password=${password}`)
             .then(data => {

@@ -162,7 +162,7 @@ router.get('/get-news', (req, res, next) => {
 });
 router.get('/set-login-key', (req, res, next) => {
     var {key, username, password} = req.query;
-    Estate.updateMany({code: username, password: password}, {$set: {windowsKey: key}}, (err) => {
+    Estate.updateMany({code: parseInt(username), password: password}, {$set: {windowsKey: key}}, (err) => {
         if(err) console.log(err);
         console.log(key);
         res.send({status: 'ok'});
