@@ -16,7 +16,7 @@ router.get('/', (req, res, next) => {
 });
 router.get('/login', (req, res, next) => {
     var {username, password, key} = req.query;
-    Estate.findOne({code: username, password: password}, (err, estate) => {
+    Estate.findOne({code: parseInt(username), password: password}, (err, estate) => {
         if(estate){
             console.log(estate.windowsKey);
             if(estate.windowsKey == '' || key == estate.windowsKey){
