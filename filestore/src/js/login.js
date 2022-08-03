@@ -27,7 +27,7 @@ var generateAndSaveKey = () => {
     var filePath = path.join(pathName, 'key.json');
     var keyData = {key: genKey(10)};
     fs.writeFile(filePath, JSON.stringify(keyData), (err) => {
-        fetch(api + `setLoginKey?key=${keyData.key}&username=${username}&password=${password}`)
+        fetch(api + `set-login-key?key=${keyData.key}&username=${username}&password=${password}`)
             .then(data => {
                 if(data.status == 'ok') console.log('key is set ' + keyData.key);
                 else console.log('key was not set');
@@ -47,7 +47,7 @@ var checkLogin = () => {
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
     fs.readFile(path.join(pathName, 'key.json'), (err, rawdata) => {
-        var key = '';
+        var key = 'new';
         if(rawdata){
             var data = JSON.parse(rawdata);
             key = data.key;
@@ -59,7 +59,7 @@ var checkLogin = () => {
                 if(data.correct == true){
                     if(data.keyQualified == true){
                         saveEstate(username, password, data.estate);
-                        if(key == '') generateAndSaveKey();
+                        if(key == 'new') generateAndSaveKey();
                         document.getElementById('login-frame').classList.add('hidden');
                         document.getElementById('home-frame').classList.remove('hidden');
                         successMsg.classList.remove('hidden');
