@@ -29,21 +29,11 @@ var generateAndSaveKey = () => {
     fs.writeFile(filePath, JSON.stringify(keyData), (err) => {
         fetch(api + `setLoginKey?key=${keyData.key}&username=${username}&password=${password}`)
             .then(data => {
-                if(data.status == 'ok') console.log('key is set');
+                if(data.status == 'ok') console.log('key is set ' + keyData.key);
                 else console.log('key was not set');
             })
             .catch(err => console.log(err));
         if(err) console.log(err);
-    });
-}
-var readKey = async () => {
-    await fs.readFile(path.join(pathName, 'key.json'), (err, rawdata) => {
-        if(rawdata){
-            var data = JSON.parse(rawdata);
-            console.log(data)
-            return data.key;
-        }
-        else return '';
     });
 }
 var showError = (text) => {
@@ -69,7 +59,7 @@ var checkLogin = () => {
                 if(data.correct == true){
                     if(data.keyQualified == true){
                         saveEstate(username, password, data.estate);
-                        generateAndSaveKey();
+                        if(key == '') generateAndSaveKey();
                         document.getElementById('login-frame').classList.add('hidden');
                         document.getElementById('home-frame').classList.remove('hidden');
                         successMsg.classList.remove('hidden');
