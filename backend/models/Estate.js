@@ -26,6 +26,7 @@ var EstateSchema = new mongoose.Schema({
   authority: String,
   lastRefreshFiles: {type: [Number], default: []},
   windowsKey: {type: String, default: ''},
+  role: {type: String, default: 'admin'},
 });
 
 var Estate = mongoose.model('Estate', EstateSchema);

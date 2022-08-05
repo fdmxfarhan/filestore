@@ -23,7 +23,7 @@ var saveEstate = (username, password, estate) => {
         if(err) console.log(err);
     })
 }
-var generateAndSaveKey = () => {
+var generateAndSaveKey = (username, password) => {
     var filePath = path.join(pathName, 'key.json');
     var keyData = {key: genKey(10).toString()};
     fs.writeFile(filePath, JSON.stringify(keyData), (err) => {
@@ -52,14 +52,13 @@ var checkLogin = () => {
             var data = JSON.parse(rawdata);
             key = data.key;
         }
-        console.log(key)
         fetch(api + `login?username=${username}&password=${password}&key=${key}`)
             .then(res => res.json())
             .then(data => {
                 if(data.correct == true){
                     if(data.keyQualified == true){
                         saveEstate(username, password, data.estate);
-                        if(key == 'new') generateAndSaveKey();
+                        if(key == 'new') generateAndSaveKey(username, password);
                         document.getElementById('login-frame').classList.add('hidden');
                         document.getElementById('home-frame').classList.remove('hidden');
                         successMsg.classList.remove('hidden');

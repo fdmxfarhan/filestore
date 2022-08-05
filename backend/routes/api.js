@@ -18,7 +18,6 @@ router.get('/login', (req, res, next) => {
     var {username, password, key} = req.query;
     Estate.findOne({code: parseInt(username), password: password}, (err, estate) => {
         if(estate){
-            console.log(estate.windowsKey);
             if(estate.windowsKey == '' || key == estate.windowsKey){
                 res.send({correct: true, keyQualified: true, estate});
             }else{
@@ -164,7 +163,6 @@ router.get('/set-login-key', (req, res, next) => {
     var {key, username, password} = req.query;
     Estate.updateMany({code: parseInt(username), password: password}, {$set: {windowsKey: key}}, (err) => {
         if(err) console.log(err);
-        console.log(key);
         res.send({status: 'ok'});
     });
 });

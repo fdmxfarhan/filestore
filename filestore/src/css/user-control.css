@@ -1,0 +1,177 @@
+.user-control-popup{
+    position: absolute;
+    top: 5vh;
+    right: 5%;
+    width: 90%;
+    background-color: white;
+    border-radius: 0.5vw;
+    overflow: hidden;
+    z-index: 101;
+    display: none;
+}
+.user-control-popup i.close-popup{
+    position: absolute;
+    top: 1.2vw;
+    right: 2vw;
+    font-size: 1.8vw;
+    cursor: pointer;
+    color: var(--lightgray);
+}
+.user-control-popup i.close-popup:hover{
+    color: var(--red);
+}
+.user-control-popup .user-control-sidebar{
+    float: right;
+    width: 25%;
+    background-color: var(--darkblue);
+    min-height: 80vh;
+}
+.user-control-popup .user-control-container{
+    float: right;
+    width: 75%;
+    /* background-color: var(--light-background); */
+}
+.user-control-popup .user-control-sidebar i.avatar{
+    font-size: 5vw;
+    color: var(--text);
+    background-color: white;
+    width: 10vw;
+    border-radius: 50%;
+    padding-top: 2.3vw;
+    padding-bottom: 2.2vw;
+    text-align: center;
+    margin: 1vw auto;
+    display: block;
+    margin-top: 2vw;
+}
+.user-control-popup .user-control-sidebar h1.title{
+    font-family: 'iransans';
+    font-size: 1vw;
+    color: white;
+    text-align: center;
+    margin-bottom: 2vw;
+}
+.user-control-popup .user-control-tab-link{
+    color: white;
+    text-align: center;
+    font-family: 'iransans';
+    font-size: 1.3vw;
+    border-bottom: var(--gray) 0.1vw solid;
+    width: 80%;
+    margin: auto;
+    /* margin-bottom: 0.5vw; */
+    padding: 0.5vw 0;
+    cursor: pointer;
+}
+.user-control-popup .user-control-tab-link.active,
+.user-control-popup .user-control-tab-link:hover{
+    background-color: #111185;
+}
+
+.user-control-tab-content .user-control-th{
+    overflow: hidden;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 2vw;
+}
+.user-control-tab-content .user-control-th .name{
+    float: right;
+    width: 30%;
+    text-align: right;
+    font-weight: normal;
+    height: auto;
+}
+.user-control-tab-content .user-control-th .permissions{
+    float: right;
+    width: 38%;
+    overflow: hidden;
+    text-align: right;
+    padding: 0 1%;
+}
+.user-control-tab-content .user-control-th .status{
+    float: right;
+    width: 15%;
+    text-align: center;
+}
+.user-control-tab-content .user-control-th .actions{
+    float: right;
+    width: 5%;
+    text-align: center;
+}
+.user-control-tab-content .user-control-td .permissions .item{
+    background-color: var(--green);
+    border-radius: 0.5vw;
+    padding: 0.1vw 0.5vw;
+    float: right;
+    margin-left: 0.5vw;
+    margin-bottom: 0.5vw;
+    color: white;
+    font-family: 'iransans';
+    font-size: 0.8vw;
+}
+.user-control-tab-content .user-control-td{
+    overflow: hidden;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 0.7vw;
+    background-color: white;
+    box-shadow: 0 0 0.9vw 0.2vw rgba(0, 0, 0, 0.15);
+    border: var(--lightgray) 0.1vw solid;
+}
+.user-control-tab-content .user-control-td .name{
+    float: right;
+    width: 28%;
+    text-align: right;
+    font-weight: normal;
+    height: auto;
+    padding: 0.4vw 1%;
+}
+.user-control-tab-content .user-control-td .permissions{
+    float: right;
+    width: 38%;
+    overflow: hidden;
+    text-align: center;
+    padding: 0.4vw 1%;
+}
+.user-control-tab-content .user-control-td .status{
+    float: right;
+    width: 15%;
+    text-align: center;
+    padding: 0.4vw 0;
+    font-family: 'iransans';
+    font-size: 0.9vw;
+    font-weight: bold;
+}
+.user-control-tab-content .user-control-td .actions{
+    float: right;
+    width: 5%;
+    text-align: center;
+    padding-top: 0.5vw;
+    color: var(--red);
+    cursor: pointer;
+}
+.user-control-tab-content .user-control-td .actions:hover{
+    color: red;
+}
+.user-control-tab-content .user-control-td .status.red{color: var(--red);}
+.user-control-tab-content .user-control-td .status.green{color: var(--green);}
+.user-control-tab-content{
+    height: 74vh;
+    /* background-color: #111185; */
+    overflow: hidden;
+    overflow-y: scroll;
+    margin: 3vh 0;
+}
+.user-control-tab-content::-webkit-scrollbar {width: 0.5vw;}
+.user-control-tab-content::-webkit-scrollbar-track {background: var(--gray);}
+.user-control-tab-content::-webkit-scrollbar-thumb {background: var(--dark);}
+.user-control-tab-content::-webkit-scrollbar-thumb:hover{background: var(--blue);}
+.user-control-tab-content h1.title{
+    color: var(--darkblue);
+    font-family: 'iransans';
+    font-size: 1.1vw;
+    font-weight: bold;
+    width: 80%;
+    margin: auto;
+    margin-top: 3vw;
+}

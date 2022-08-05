@@ -1,0 +1,87 @@
+<div class="user-control-popup" id="user-control-popup">
+    <i class="fa fa-times close-popup"></i>
+    <div class="user-control-sidebar">
+        <i class="fa fa-user avatar"></i>
+        <h1 class="title">مدیریت کاربران</h1>
+        <div class="user-control-tab-link active" id="user-control-tab-link1">
+            <i class="fa fa-users"></i>
+            لیست کاربران
+        </div>
+        <div class="user-control-tab-link" id="user-control-tab-link2">
+            <i class="fa fa-plus"></i>
+            افزودن کاربر
+        </div>
+        <div class="user-control-tab-link" id="user-control-tab-link3">
+            <i class="fa fa-dollar"></i>
+            تصویه حساب
+        </div>
+    </div>
+    <div class="user-control-container">
+        <div class="user-control-tab-content" id="user-control-tab-content1">
+            <div class="user-control-th">
+                <div class="name">نام و نام خانوادگی</div>
+                <div class="permissions">دسترسی‌ها</div>
+                <div class="status">وضعیت</div>
+                <div class="actions">عملیات</div>
+            </div>
+            <div class="user-control-td">
+                <div class="name">فرحان دائمی مژدهی</div>
+                <div class="permissions">
+                    <div class="item">فروش</div>
+                    <div class="item">پیش‌فروش</div>
+                    <div class="item">رهن و اجاره</div>
+                    <div class="item">رهن کامل</div>
+                </div>
+                <div class="status red">در انتظار پرداخت</div>
+                <div class="actions red">
+                    <i class="fa fa-trash"></i>
+                </div>
+            </div>
+            <div class="user-control-td">
+                <div class="name">یه کاربر دیگه</div>
+                <div class="permissions">
+                    <div class="item">فروش</div>
+                    <div class="item">پیش‌فروش</div>
+                </div>
+                <div class="status green">فعال</div>
+                <div class="actions red">
+                    <i class="fa fa-trash"></i>
+                </div>
+            </div>
+            <div class="user-control-td">
+                <div class="name">اینم یکی دیگه</div>
+                <div class="permissions">
+                    <div class="item">رهن و اجاره</div>
+                    <div class="item">رهن کامل</div>
+                </div>
+                <div class="status red">در انتظار پرداخت</div>
+                <div class="actions red">
+                    <i class="fa fa-trash"></i>
+                </div>
+            </div>
+            
+        </div>
+        <div class="user-control-tab-content hidden" id="user-control-tab-content2">
+            <h1 class="title">
+                <i class="fa fa-user-plus"></i>
+                افزودن کاربر جدید
+            </h1>
+            <p>هر کاربر می‌تواند با توجه به دسترسی های تایین شده توسط ادمین فایل‌های مربوطه را مشاهده نماید. حساب‌های کاربری اضافه شده پس از تصویه حساب فعال می‌شوند.</p>
+            <div class="two-side-form">
+                <div class="part">
+                    <div class="input-label">نام و نام خانوادگی</div>
+                    <input type="text" id="user-control-fullname">
+                </div>
+                <div class="part">
+                    <div class="input-label">شماره موبایل</div>
+                    <input type="text" id="user-control-phone">
+                </div>
+            </div>
+            <div class="one-side-form">
+                <div class="input-label">آدرس</div>
+                <input type="text" id="user-control-address">
+            </div>
+        </div>
+        <div class="user-control-tab-content hidden" id="user-control-tab-content3"></div>
+    </div>
+</div>
