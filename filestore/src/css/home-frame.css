@@ -649,16 +649,20 @@
    -ms-user-select: none; /* Internet Explorer/Edge */
 }
 .continue-without-plan{
+    border: var(--darkblue) 0.1vw solid;
+    color: var(--darkblue);
     font-family: 'iransans';
     font-size: 0.9vw;
-    color: white;
-    background-color: var(--darkblue);
     border-radius: 0.5vw;
-    padding: 0.4vw 1.2vw;
+    padding: 0.2vw 1vw;
     width: fit-content;
     cursor: pointer;
     margin: 1vw auto;
+    position: absolute;
+    top: 4vw;
+    left: 4vw;
 }
 .continue-without-plan:hover{
-    background-color: var(--green);
+    background-color: var(--darkblue);
+    color: white;
 }

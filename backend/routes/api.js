@@ -6,10 +6,13 @@ var File = require('../models/File');
 var Notif = require('../models/Notif');
 var Settings = require('../models/Settings');
 var News = require('../models/News');
+var Payment = require('../models/Payment');
 const ZarinpalCheckout = require('zarinpal-checkout');
 const zarinpal = ZarinpalCheckout.create('18286cd3-6065-4a7a-ad43-05eaf70f01a6', false);
 const { ensureAuthenticated } = require('../config/auth');
 const sms = require('../config/sms');
+const Payment = require('../models/Payment');
+var {convertDate, get_year_month_day, jalali_to_gregorian} = require('../config/dateConvert');
 
 router.get('/', (req, res, next) => {
     res.send('API called successfully');
@@ -122,6 +125,51 @@ router.get('/pay-estate', (req, res, next) => {
         });
     });
 });
+router.get('/pay-estate2', (req, res, next) => {
+    var {username, password, plan, paymentfullprice, paymentdiscount, paymentpayable, selectedAreas, planUserNum} = req.query;
+    amounts = [170000, 470000, 680000, 1469000];
+    names = ['1 ماهه', '3 ماهه', '6 ماهه', '1 ساله'];
+    Settings.findOne({}, (err, settings) => {
+        amounts = [settings.oneMonth, settings.threeMonth, settings.sixMonth, settings.oneYear];
+        Estate.findOne({code: username, password: password}, (err, estate) => {
+            if(estate){
+                zarinpal.PaymentRequest({
+                    Amount: paymentfullprice.toString(), // In Tomans
+                    // CallbackURL: 'http://185.81.99.34:3000/api/payment-call-back',
+                    CallbackURL: 'http://fileestore.ir/api/payment-call-back2',
+                    Description: `خرید اشتراک ${names[parseInt(plan)]} توسط ${estate.name}`,
+                    Email: '',
+                    Mobile: estate.phone,
+                }).then(response => {
+                    if (response.status === 100) {
+                        Estate.updateMany({code: username, password: password}, {$set: {authority: response.authority, planType: names[parseInt(plan)]}}, (err, doc) => {
+                            var newPayment = new Payment({
+                                username: parseInt(username),
+                                EstateID: estate._id,
+                                paymentfullprice,
+                                paymentdiscount,
+                                paymentpayable,
+                                selectedAreas,
+                                planUserNum,
+                                plan,
+                                planName: names[parseInt(plan)],
+                                date: Date.now(),
+                                jDate: convertDate(Date.now()),
+                                authority: response.authority,
+                            });
+                            newPayment.save().then(doc => {
+                                res.redirect(response.url);
+                            }).catch(err => console.log(err));
+                        });
+                    }
+                }).catch(err => {
+                    console.error(err);
+                });
+            }
+            else res.send({status: 'error'});
+        });
+    });
+});
 router.get('/payment-call-back', (req, res, next) => {
     var {Authority, Status} = req.query;
     if(Status == 'OK'){
@@ -131,6 +179,23 @@ router.get('/payment-call-back', (req, res, next) => {
                 var newNotif = new Notif({type: 'payment', text: `خرید اشتراک ${estate.planType} توسط ${estate.name}`, date: new Date()});
                 newNotif.save().then(doc => {}).catch(err => console.log(err));
                 res.render('./api/success-payment', {estate});
+            });
+        });
+    }
+});
+router.get('/payment-call-back2', (req, res, next) => {
+    var {Authority, Status} = req.query;
+    if(Status == 'OK'){
+        Estate.findOne({authority: Authority}, (err, estate) => {
+            Payment.findOne({authority: Authority}, (err, payment) => {
+                Estate.updateMany({authority: Authority}, {$set: {payed: true, payDate: new Date(), authority: ''}}, (err, doc) => {
+                    Payment.updateMany({authority: Authority}, {$set: {payed: true, authority: ''}}, (err, doc) => {
+                        sms(estate.phone, `اشتراک ${estate.planType} شما فعال شد\n فایل استور`);
+                        var newNotif = new Notif({type: 'payment', text: `خرید اشتراک ${estate.planType} توسط ${estate.name}`, date: new Date()});
+                        newNotif.save().then(doc => {}).catch(err => console.log(err));
+                        res.render('./api/success-payment', {estate});
+                    });
+                });
             });
         });
     }

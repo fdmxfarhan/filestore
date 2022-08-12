@@ -37,6 +37,18 @@ var currentPage = 1;
 var numberOfFilesInPage = 30;
 var currentImage = 0;
 var viewingImages = false;
+var supportedAreas = [];
+var selectedAreas = [];
+var selectedPlan = 'none';
+var planUserNum = 1;
+var oneMonthPrice = 0;
+var threeMonthPrice = 0;
+var sixMonthPrice = 0;
+var oneYearPrice = 0;
+var discountPerUser1 = 0.005;
+var discountPerUser2 = 0.005;
+var discountPerUser3 = 0.005;
+var discountPerUser4 = 0.005;
 // -----search:
 var minMetrage = 0, maxMetrage = 300;
 var minPrice1 = 100, maxPrice1 = 500;
@@ -193,6 +205,13 @@ var removeAddressAndPhone = () => {
     }
     showFiles();
 }
+var logoutUser = () =>{
+    var file = path.join(pathName, 'estate.json');
+    fs.unlink(file, () => {
+        document.getElementById('home-frame').classList.add('hidden');
+        document.getElementById('login-frame').classList.remove('hidden');
+    })
+}
 var updatePlans = () => {
     fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
         if(rawdata){
@@ -233,7 +252,9 @@ var updatePlans = () => {
                             document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
                             removeAddressAndPhone();
                         }
-                    }else console.log('cnnot connect to server!!')
+                    }
+                    else if(data.correct == false) logoutUser();
+                    else console.log('cnnot connect to server!!')
                 }).catch(err => console.log(err));
         }
     });
@@ -736,21 +757,62 @@ var loadPDFData = (file) => {
     }
 }
 var updatePlanPrices = () => {
-    fetch(api + `get-settings`)
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById('onemonthfulltext').textContent = data.settings.oneMonthFullText;
-            document.getElementById('threemonthfulltext').textContent = data.settings.threeMonthFullText;
-            document.getElementById('sixmonthfulltext').textContent = data.settings.sixMonthFullText;
-            document.getElementById('oneyearfulltext').textContent = data.settings.oneYearFullText;
-            document.getElementById('onemonthtext').textContent = data.settings.oneMonthText;
-            document.getElementById('threemonthtext').textContent = data.settings.threeMonthText;
-            document.getElementById('sixmonthtext').textContent = data.settings.sixMonthText;
-            document.getElementById('oneyeartext').textContent = data.settings.oneYearText;
-        }).catch(err => {
-            showError('خطای اتصال به اینترنت');
-            console.log(err);
-        });
+    var selectContainer = document.getElementById('select-district-container');
+    fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+        if(rawdata){
+            var estate = JSON.parse(rawdata).estate;
+            fetch(api + `get-settings`)
+                .then(res => res.json())
+                .then(data => {
+                    // document.getElementById('onemonthfulltext').textContent = data.settings.oneMonthFullText;
+                    // document.getElementById('threemonthfulltext').textContent = data.settings.threeMonthFullText;
+                    // document.getElementById('sixmonthfulltext').textContent = data.settings.sixMonthFullText;
+                    // document.getElementById('oneyearfulltext').textContent = data.settings.oneYearFullText;
+                    document.getElementById('onemonthtext').textContent = data.settings.oneMonthText;
+                    document.getElementById('threemonthtext').textContent = data.settings.threeMonthText;
+                    document.getElementById('sixmonthtext').textContent = data.settings.sixMonthText;
+                    document.getElementById('oneyeartext').textContent = data.settings.oneYearText;
+                    oneMonthPrice = data.settings.oneMonth;
+                    threeMonthPrice = data.settings.threeMonth;
+                    sixMonthPrice = data.settings.sixMonth;
+                    oneYearPrice = data.settings.oneYear;
+                    discountPerUser1 = data.settings.discountPerUser1;
+                    discountPerUser2 = data.settings.discountPerUser2;
+                    discountPerUser3 = data.settings.discountPerUser3;
+                    discountPerUser4 = data.settings.discountPerUser4;
+
+                    supportedAreas = data.settings.areas;
+                    removeAllChildNodes(selectContainer);
+                    selectedAreas = [];
+                    selectedPlan = 'none';
+                    for(var i=0; i<supportedAreas.length; i++){
+                        var newArea = document.createElement('div');
+                        newArea.classList.add('district');
+                        newArea.id = supportedAreas[i].toString();
+                        newArea.textContent = 'منطقه ' + supportedAreas[i].toString();
+                        if(estate.area.toString() == supportedAreas[i]) {
+                            newArea.classList.add('active');
+                            selectedAreas.push(supportedAreas[i].toString());
+                        }
+                        newArea.addEventListener('click', (e) => {
+                            area = e.target.id;
+                            if(selectedAreas.indexOf(area) == -1) {
+                                selectedAreas.push(area);
+                                e.target.classList.add('active');
+                            }else {
+                                selectedAreas.splice(selectedAreas.indexOf(area), 1);
+                                e.target.classList.remove('active');
+                            }
+                            updatePaymentInfo();
+                        })
+                        selectContainer.appendChild(newArea);
+                    }
+                }).catch(err => {
+                    showError('خطای اتصال به اینترنت');
+                    console.log(err);
+                });
+        }
+    });
 }
 var refresh = () => {
     refreshCancled = false;
@@ -799,6 +861,11 @@ var refresh = () => {
                         document.getElementById('refresh-btn').classList.add('red');
                         document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
                         refreshInterval = setInterval(updatePlans, udatePlanTime);
+                    }
+                    else if(data.status == 'error'){
+                        loadingScreen.classList.add('hidden');
+                        cancleButton.classList.add('hidden');
+                        logoutUser();
                     }
                 }).catch(err => {
                     if(refreshCancled) return;
@@ -884,6 +951,11 @@ var refresh2 = () => {
                         document.getElementById('refresh-btn').classList.add('red');
                         document.getElementById('refresh-btn').textContent= 'خرید اشتراک';
                         refreshInterval = setInterval(updatePlans, udatePlanTime);
+                    }
+                    else if(data.status == 'error'){
+                        loadingScreen.classList.add('hidden');
+                        cancleButton.classList.add('hidden');
+                        logoutUser();
                     }
                 }).catch(err => {
                     if(refreshCancled) return;
@@ -1051,6 +1123,16 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
     document.getElementById('loading-screen').classList.add('hidden');
 });
 var payPlan = (plan) => {
+    fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+        if(rawdata){
+            var data = JSON.parse(rawdata);
+            var url = api + `pay-estate2?username=${data.username}&password=${data.password}&plan=${selectedPlan}&paymentfullprice=${paymentFullPrice}&paymentdiscount=${paymentDiscount}&paymentpayable=${paymentPayable}&selectedareas=${selectedAreas}&planusernum=${planUserNum}`;
+            window.open(url, '_blank').focus();
+        }
+        else console.log('file not found');
+    });
+}
+var payPlan2 = (plan) => {
     fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
         if(rawdata){
             var data = JSON.parse(rawdata);
@@ -1314,6 +1396,24 @@ var onChangeNumber = () => {
     currentPage = 1;
     showFiles();
 }
+var updatePaymentInfo = () => {
+    if(selectedPlan == 'none') return;
+    var paymentFullPrice = 0, paymentDiscount = 0, paymentPayable = 0;
+    if(selectedPlan == 0) paymentFullPrice = oneMonthPrice;
+    if(selectedPlan == 1) paymentFullPrice = threeMonthPrice;
+    if(selectedPlan == 2) paymentFullPrice = sixMonthPrice;
+    if(selectedPlan == 3) paymentFullPrice = oneYearPrice;
+    paymentFullPrice += (planUserNum - 1) * 8000;
+    paymentFullPrice *= selectedAreas.length;
+    if(selectedPlan == 0) paymentDiscount = discountPerUser1 * (paymentFullPrice * (planUserNum - 1));
+    if(selectedPlan == 1) paymentDiscount = discountPerUser2 * (paymentFullPrice * (planUserNum - 1));
+    if(selectedPlan == 2) paymentDiscount = discountPerUser3 * (paymentFullPrice * (planUserNum - 1));
+    if(selectedPlan == 3) paymentDiscount = discountPerUser4 * (paymentFullPrice * (planUserNum - 1));
+    paymentPayable = paymentFullPrice - paymentDiscount;
+    document.getElementById('payment-fullprice').textContent = showPrice(paymentFullPrice) + ' تومان';
+    document.getElementById('payment-discount').textContent = showPrice(paymentDiscount) + ' تومان';
+    document.getElementById('payment-payable').textContent = showPrice(paymentPayable) + ' تومان';
+}
 updateNews();
 setInterval(updateNews, 10 * 60 * 1000);
 $(document).ready(() => {
@@ -1355,10 +1455,42 @@ $(document).ready(() => {
     $('.black-modal').click(() =>{
         closeAll();
     });
-    $('#plan0-btn').click(() => {payPlan(0);closeAll();});
-    $('#plan1-btn').click(() => {payPlan(1);closeAll();});
-    $('#plan2-btn').click(() => {payPlan(2);closeAll();});
-    $('#plan3-btn').click(() => {payPlan(3);closeAll();});
+    // $('#plan0-btn').click(() => {payPlan2(0);closeAll();});
+    // $('#plan1-btn').click(() => {payPlan2(1);closeAll();});
+    // $('#plan2-btn').click(() => {payPlan2(2);closeAll();});
+    // $('#plan3-btn').click(() => {payPlan2(3);closeAll();});
+    $('#plan-container-1').click(() => {
+        $('#plan-container-1').addClass('active');
+        $('#plan-container-2').removeClass('active');
+        $('#plan-container-3').removeClass('active');
+        $('#plan-container-4').removeClass('active');
+        selectedPlan = 0;
+        updatePaymentInfo();
+    });
+    $('#plan-container-2').click(() => {
+        $('#plan-container-1').removeClass('active');
+        $('#plan-container-2').addClass('active');
+        $('#plan-container-3').removeClass('active');
+        $('#plan-container-4').removeClass('active');
+        selectedPlan = 1;
+        updatePaymentInfo();
+    });
+    $('#plan-container-3').click(() => {
+        $('#plan-container-1').removeClass('active');
+        $('#plan-container-2').removeClass('active');
+        $('#plan-container-3').addClass('active');
+        $('#plan-container-4').removeClass('active');
+        selectedPlan = 2;
+        updatePaymentInfo();
+    });
+    $('#plan-container-4').click(() => {
+        $('#plan-container-1').removeClass('active');
+        $('#plan-container-2').removeClass('active');
+        $('#plan-container-3').removeClass('active');
+        $('#plan-container-4').addClass('active');
+        selectedPlan = 3;
+        updatePaymentInfo();
+    });
     $('#pro-search-btn').click(() => {
         $('#pro-search-view').slideToggle(500);
     })
@@ -1417,7 +1549,6 @@ $(document).ready(() => {
                 var estate = JSON.parse(rawdata);
                 estate.files = [];
                 saveEstate(estate.username, estate.password, estate.estate, estate.files);
-
             }
         });
     });
@@ -2036,5 +2167,21 @@ $(document).ready(() => {
         $('#user-control-tab-content2').hide();
         $('#user-control-tab-content3').show();
     });
-    
+    $('#user-num-plus').click(() => {
+        var input = document.getElementById('user-num-number');
+        if(parseInt(input.value) < 24){
+            planUserNum = parseInt(input.value) + 1;
+            input.value = parseInt(input.value) + 1;
+        }
+        updatePaymentInfo();
+    });
+    $('#user-num-minus').click(() => {
+        var input = document.getElementById('user-num-number');
+        if(parseInt(input.value) > 1){
+            planUserNum = parseInt(input.value) - 1;
+            input.value = parseInt(input.value) - 1;
+        }
+        updatePaymentInfo();
+    });
+    $('#buyplan-btn').click(() => payPlan);
 });

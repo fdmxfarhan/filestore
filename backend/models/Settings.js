@@ -16,6 +16,12 @@ var SettingsSchema = new mongoose.Schema({
     sixMonthFullText: {type: String, default: '1 میلیون و 20 هزار تومان'},
     oneYearFullText: {type: String, default: '2 میلیون و 40 هزار تومان'},
     
+    areas: {type: [String], default: ['22', '5', '2']},
+
+    discountPerUser1: {type: Number, default: 0.005},
+    discountPerUser2: {type: Number, default: 0.005},
+    discountPerUser3: {type: Number, default: 0.005},
+    discountPerUser4: {type: Number, default: 0.005},
 });
 
 var Settings = mongoose.model('Settings', SettingsSchema);

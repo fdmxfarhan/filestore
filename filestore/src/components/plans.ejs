@@ -6,11 +6,26 @@
         </div>
     </div>
     <div class="description"> جهت به روز رسانی فایل ها ابتدا باید اشتراک فایل استور را خریداری نمایید.</div>
+    <div class="select-district">
+        <div class="district-label">انتخاب مناطق: </div>
+        <div class="select-districts-container" id="select-district-container">
+            <div class="district active">منطقه 22</div>
+            <div class="district">منطقه 5</div>
+            <div class="district">منطقه 2</div>
+        </div>
+        <div class="users-num-container">
+            <div class="user-num-label">تعداد کاربران: </div>
+            <div class="user-num-plus" id="user-num-plus">+</div>
+            <input type="number" id="user-num-number" class="user-num-number" value="1" disabled>
+            <div class="user-num-minus" id="user-num-minus">-</div>
+        </div>
+    </div>
+    <p class="under-box">8.000 تومان به ازای هر کاربر</p>
     <div class="plan-links">
-        <div class="plan">
+        <div class="plan" id="plan-container-1">
             <img src="./img/bronze.png" class="badge">
             <h1>یک ماهه</h1>
-            <h2 class="lined" id="onemonthfulltext">170 هزار تومان</h2>
+            <!-- <h2 class="lined" id="onemonthfulltext">170 هزار تومان</h2> -->
             <h2 id="onemonthtext">170 هزار تومان</h2>
             <div class="item">
                 <i class="fa fa-check check"></i>
@@ -32,12 +47,12 @@
                 <i class="fa fa-check check"></i>
                 پشتیبانی 
             </div>
-            <div class="link" id="plan0-btn">خرید اشتراک</div>
+            <!-- <div class="link" id="plan0-btn">خرید اشتراک</div> -->
         </div>
-        <div class="plan">
+        <div class="plan" id="plan-container-2">
             <img src="./img/silver.png" class="badge">
             <h1>سه ماهه</h1>
-            <h2 class="lined" id="threemonthfulltext">510 هزار تومان</h2>
+            <!-- <h2 class="lined" id="threemonthfulltext">510 هزار تومان</h2> -->
             <h2 id="threemonthtext">470 هزار تومان</h2>
             <div class="item">
                 <i class="fa fa-check check"></i>
@@ -59,12 +74,12 @@
                 <i class="fa fa-check check"></i>
                 پشتیبانی 
             </div>
-            <div class="link" id="plan1-btn">خرید اشتراک</div>
+            <!-- <div class="link" id="plan1-btn">خرید اشتراک</div> -->
         </div>
-        <div class="plan">
+        <div class="plan" id="plan-container-3">
             <img src="./img/gold.png" class="badge">
             <h1>شش ماهه</h1>
-            <h2 class="lined" id="sixmonthfulltext">1 میلیون و 20 هزار تومان</h2>
+            <!-- <h2 class="lined" id="sixmonthfulltext">1 میلیون و 20 هزار تومان</h2> -->
             <h2 id="sixmonthtext">680 هزار تومان</h2>
             <div class="item">
                 <i class="fa fa-check check"></i>
@@ -86,12 +101,12 @@
                 <i class="fa fa-check check"></i>
                 پشتیبانی 
             </div>
-            <div class="link" id="plan2-btn">خرید اشتراک</div>
+            <!-- <div class="link" id="plan2-btn">خرید اشتراک</div> -->
         </div>
-        <div class="plan">
+        <div class="plan" id="plan-container-4">
             <img src="./img/diamond.png" class="badge">
             <h1>یک ساله</h1>
-            <h2 class="lined" id="oneyearfulltext">2 میلیون و 40 هزار تومان</h2>
+            <!-- <h2 class="lined" id="oneyearfulltext">2 میلیون و 40 هزار تومان</h2> -->
             <h2 id="oneyeartext">1 میلیون و 469 هزار تومان</h2>
             <div class="item">
                 <i class="fa fa-check check"></i>
@@ -113,8 +128,24 @@
                 <i class="fa fa-check check"></i>
                 پشتیبانی 
             </div>
-            <div class="link" id="plan3-btn">خرید اشتراک</div>
+            <!-- <div class="link" id="plan3-btn">خرید اشتراک</div> -->
         </div>
+    </div>
+    <div class="payment-info">
+        <h1>مبلغ کل: 
+            <div class="payment-price" id="payment-fullprice">-</div>
+        </h1>
+        <h1>تخفیف: 
+            <div class="payment-price" id="payment-discount">-</div>
+        </h1>
+        <h1>قابل پرداخت: 
+            <div class="payment-price" id="payment-payable">-</div>
+        </h1>
+        
+    </div>
+    <div class="buyplan-btn" id="buyplan-btn">
+        <i class="fa fa-shopping-cart"></i>
+        پرداخت
     </div>
     <div class="continue-without-plan" id="continue-without-plan">
         به روز رسانی بدون اشتراک 

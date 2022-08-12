@@ -3,6 +3,7 @@
     margin-bottom: 1vw;
 }
 .plan-links .plan{
+    cursor: pointer;
     float: right;
     width: 23%;
     margin: 0.5vw 0.5%;
@@ -11,6 +12,8 @@
     transition-duration: 500ms;
     box-shadow: 0 0 0.4vw 0.1vw rgba(0, 0, 0, 0);
     position: relative;
+    padding-bottom: 1vw;
+    user-select: none; 
 }
 .plan-links .plan img.badge{
     position: absolute;
@@ -80,4 +83,162 @@
 .plan-links .plan .link:hover{
     color: white;
     background-color: var(--darkblue);
+}
+p.under-box{
+    /* position: absolute; */
+    /* bottom: -2vw; */
+    /* right: 0; */
+    font-size: 0.8vw;
+    font-family: 'iransans';
+    color: var(--gray);
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    width: 92%;
+    margin: auto;
+}
+.select-district{
+    overflow: hidden;
+    /* margin-bottom: 1vw; */
+    margin-top: 2vw;
+}
+.select-district .district-label{
+    float: right;
+    width: 10%;
+    color: var(--darkblue);
+    font-family: 'iransans';
+    font-size: 1vw;
+    padding-right: 1vw;
+    /* background-color: thistle; */
+}
+.select-district .users-num-container{
+    position: relative;
+
+    float: right;
+    width: 20%;
+    overflow: hidden;
+}
+.select-district .select-districts-container{
+    float: right;
+    /* overflow: hidden; */
+    width: 65%;
+    text-align: right;
+    /* background-color: aquamarine; */
+}
+.select-district .select-districts-container .district{
+    user-select: none; 
+    display: inline-block;
+    width: 5vw;
+    border: var(--gray) 0.1vw solid;
+    border-radius: 0.5vw;
+    padding: 0.2vw 0;
+    text-align: center;
+    font-family: 'iransans';
+    font-size: 0.9vw;
+    cursor: pointer;
+    color: var(--text);
+    margin-left: 1vw;
+    margin-bottom: 0.5vw;
+}
+.select-district .select-districts-container .district.active{
+    border: var(--blue) 0.1vw solid;
+    background-color: var(--blue);
+    color: white;
+}
+.plan-links .plan.active{
+    background-color: var(--darkblue);
+    border: var(--darkblue) 0.1vw solid;
+    color: white;
+}
+.plan-links .plan.active h1{color: white;}
+/* .plan-links .plan.active h2{color: white;} */
+.plan-links .plan.active .item{color: white;}
+
+.select-district .users-num-container .user-num-label{
+    float: right;
+}
+.select-district .users-num-container .user-num-minus{
+    float: left;
+    width: 15%;
+    background-color: var(--darkblue);
+    color: white;
+    text-align: center;
+    font-family: 'iransans';
+    font-size: 1vw;
+    border-top-right-radius: 0.5vw;
+    border-bottom-right-radius: 0.5vw;
+    padding: 0.1vw 0;
+    cursor: pointer;
+    border: var(--darkblue) 0.1vw solid;
+    user-select: none;
+}
+.select-district .users-num-container .user-num-minus:hover{background-color: var(--green);}
+.select-district .users-num-container .user-num-number{
+    float: left;
+    width: 20%;
+    font-family: 'iransans';
+    font-size: 1vw;
+    padding: 0.1vw 0;
+    text-align: center;
+    border-right: none;
+    border-left: none;
+    border-top: var(--darkblue) 0.1vw solid;
+    border-bottom: var(--darkblue) 0.1vw solid;
+}
+.select-district .users-num-container input::-webkit-outer-spin-button,
+.select-district .users-num-container input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.select-district .users-num-container input[type=number] {
+    -moz-appearance: textfield;
+}
+.select-district .users-num-container .user-num-plus{
+    float: left;
+    width: 15%;
+    background-color: var(--darkblue);
+    color: white;
+    text-align: center;
+    font-family: 'iransans';
+    font-size: 1vw;
+    border-top-left-radius: 0.5vw;
+    border-bottom-left-radius: 0.5vw;
+    padding: 0.1vw 0;
+    cursor: pointer;
+    border: var(--darkblue) 0.1vw solid;
+    user-select: none; 
+}
+.select-district .users-num-container .user-num-plus:hover{background-color: var(--green);}
+.payment-info{
+    margin-top: 1vw;
+}
+.payment-info h1{
+    font-family: 'iransans';
+    font-size: 1vw;
+    color: var(--darkblue);
+    padding: 0;
+}
+.payment-info .payment-price{
+    display: inline;
+    font-weight: bold;
+}
+.payment-info .payment-price#payment-fullprice{color: var(--gray);}
+.payment-info .payment-price#payment-discount{color: var(--blue);}
+.payment-info .payment-price#payment-payable{color: var(--green);}
+.buyplan-btn{
+    background-color: var(--darkblue);
+    color: white;
+    font-family: 'iransans';
+    font-size: 1vw;
+    border-radius: 0.5vw;
+    padding: 0.4vw 2vw;
+    width: fit-content;
+    cursor: pointer;
+    position: absolute;
+    bottom: 3vw;
+    left: 4vw;
+    /* font-weight: bold; */
+}
+.buyplan-btn:hover{
+    background-color: var(--green);
 }

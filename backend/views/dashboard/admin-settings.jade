@@ -19,6 +19,7 @@ block content
                             th مبلغ به عدد (تومان)
                             th مبلغ به حروف
                             th مبلغ بدون تخفیف به حروف
+                            th تخفیف به ازای هر کاربر (درصد)
                         tr 
                             td
                                 label(for="oneMonth") اشتراک یک ماهه (تومان): 
@@ -28,6 +29,8 @@ block content
                                 input(type="text" name="oneMonthText" value="#{settings.oneMonthText}")
                             td 
                                 input(type="text" name="oneMonthFullText" value="#{settings.oneMonthFullText}")
+                            td
+                                input(type="number" name="discountPerUser1" value="#{settings.discountPerUser1*100}" step="0.001")
                         tr 
                             td 
                                 label(for="threeMonth") اشتراک سه ماهه (تومان): 
@@ -37,6 +40,8 @@ block content
                                 input(type="text" name="threeMonthText" value="#{settings.threeMonthText}")
                             td
                                 input(type="text" name="threeMonthFullText" value="#{settings.threeMonthFullText}")
+                            td
+                                input(type="number" name="discountPerUser2" value="#{settings.discountPerUser2*100}" step="0.001")
                         tr 
                             td
                                 label(for="sixMonth") اشتراک شش ماهه (تومان): 
@@ -46,6 +51,8 @@ block content
                                 input(type="text" name="sixMonthText" value="#{settings.sixMonthText}")
                             td
                                 input(type="text" name="sixMonthFullText" value="#{settings.sixMonthFullText}")
+                            td
+                                input(type="number" name="discountPerUser3" value="#{settings.discountPerUser3*100}" step="0.001")
                         tr 
                             td
                                 label(for="oneYear") اشتراک یک ساله (تومان): 
@@ -55,6 +62,16 @@ block content
                                 input(type="text" name="oneYearText" value="#{settings.oneYearText}")
                             td
                                 input(type="text" name="oneYearFullText" value="#{settings.oneYearFullText}")
+                            td
+                                input(type="number" name="discountPerUser4" value="#{settings.discountPerUser4*100}" step="0.001")
+                    .areas-view 
+                        -for(var i=0; i<settings.areas.length; i++){
+                            .area 
+                                .num= settings.areas[i]
+                                a.delete(href="/dashboard/settings-delete-area?index=#{i}")
+                                    i.fa.fa-times
+                        -}
+                        input(type="number" name="newarea" placeholder="منطقه جدید")
                     input.submit(type="submit" value="ثبت")
                     
     script.

@@ -7,7 +7,7 @@
     border-radius: 0.5vw;
     margin: 0.5vw 1vw;
     padding: 0.2vw 1vw;
-    width: 10vw;
+    width: 7vw;
 }
 .settings-view form input.submit{
     background-color: var(--blue);
@@ -17,4 +17,26 @@
 }
 .settings-view form input.submit:hover{
     background-color: var(--hover);
+}
+.areas-view{
+    overflow: hidden;
+    width: 90%;
+    margin: auto;
+}
+.areas-view .area{
+    float: right;
+    /* background-color: var(--blue); */
+    width: 3vw;
+    color: var(--text);
+    position: relative;
+    margin-left: 1vw;
+    border: var(--blue) 0.1vw solid;
+    border-radius: 0.5vw;
+    padding: 0.3vw 1vw;
+}
+.areas-view .area a.delete{
+    color: var(--red);
+    position: absolute;
+    top: 0.3vw;
+    left: 0.3vw;
 }

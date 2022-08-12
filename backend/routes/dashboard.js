@@ -252,10 +252,42 @@ router.get('/settings', ensureAuthenticated, (req, res, next) => {
     }
 });
 router.post('/save-settings', ensureAuthenticated, (req, res, next) => {
-    Settings.updateMany({}, {$set: req.body}, (err) => {
-        req.flash('success_msg', 'تغییرات با موفقیت ثبت شد.');
-        res.redirect('/dashboard/settings');
+    var {oneMonth, oneMonthText, oneMonthFullText, threeMonth, threeMonthText, threeMonthFullText, sixMonth, sixMonthText, sixMonthFullText, oneYear, oneYearText, oneYearFullText, newarea, discountPerUser1, discountPerUser2, discountPerUser3, discountPerUser4} = req.body;
+    Settings.findOne({}, (err, settings) => {
+        if(newarea && newarea != '') settings.areas.push(newarea.toString());
+        Settings.updateMany({}, {$set: {
+            oneMonth,
+            oneMonthText,
+            oneMonthFullText,
+            threeMonth,
+            threeMonthText,
+            threeMonthFullText,
+            sixMonth,
+            sixMonthText,
+            sixMonthFullText,
+            oneYear,
+            oneYearText,
+            oneYearFullText,
+            areas: settings.areas,
+            discountPerUser1: discountPerUser1*100,
+            discountPerUser2: discountPerUser2*100,
+            discountPerUser3: discountPerUser3*100,
+            discountPerUser4: discountPerUser4*100,
+        }}, (err) => {
+            req.flash('success_msg', 'تغییرات با موفقیت ثبت شد.');
+            res.redirect('/dashboard/settings');
+        })
     })
+});
+router.get('/settings-delete-area', ensureAuthenticated, (req, res, next) => {
+    var {index} = req.query;
+    Settings.findOne({}, (err, settings) => {
+        settings.areas.splice(index, 1);
+        Settings.updateMany({}, {$set: {areas: settings.areas}}, (err) => {
+            req.flash('success_msg', 'تغییرات با موفقیت ثبت شد.');
+            res.redirect('/dashboard/settings');
+        })
+    });
 });
 router.post('/add-estate', ensureAuthenticated, (req, res, next) => {
     var {name, address, phone, area, trial} = req.body;
