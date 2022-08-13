@@ -28,6 +28,10 @@ var EstateSchema = new mongoose.Schema({
   windowsKey: {type: String, default: ''},
   role: {type: String, default: 'admin'},
   paymentID: String,
+  selectedareas: {type: [String], default: []},
+  planusernum: {type: Number,default: 1},
+  normalUserIDs: {type: [String], default: []},
+  parentEstateID: String,
 });
 
 var Estate = mongoose.model('Estate', EstateSchema);

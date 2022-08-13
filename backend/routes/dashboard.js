@@ -269,10 +269,10 @@ router.post('/save-settings', ensureAuthenticated, (req, res, next) => {
             oneYearText,
             oneYearFullText,
             areas: settings.areas,
-            discountPerUser1: discountPerUser1*100,
-            discountPerUser2: discountPerUser2*100,
-            discountPerUser3: discountPerUser3*100,
-            discountPerUser4: discountPerUser4*100,
+            discountPerUser1: discountPerUser1/100,
+            discountPerUser2: discountPerUser2/100,
+            discountPerUser3: discountPerUser3/100,
+            discountPerUser4: discountPerUser4/100,
         }}, (err) => {
             req.flash('success_msg', 'تغییرات با موفقیت ثبت شد.');
             res.redirect('/dashboard/settings');
@@ -995,4 +995,14 @@ router.get('/notif-seen', ensureAuthenticated, (req, res, next) => {
         res.redirect('/dashboard/notif');
     });
 });
+router.get('/reset-key', ensureAuthenticated, (req, res, next) => {
+    var {estateID} = req.query;
+    Estate.updateMany({_id: estateID}, {$set: {windowsKey: ''}}, (err) => {
+        req.flash('success_msg', 'عملیات با موفقیت انجام شد');
+        res.redirect('/dashboard/estates')
+    })
+})
+
+
 module.exports = router;
+

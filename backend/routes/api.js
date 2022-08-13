@@ -11,7 +11,6 @@ const ZarinpalCheckout = require('zarinpal-checkout');
 const zarinpal = ZarinpalCheckout.create('18286cd3-6065-4a7a-ad43-05eaf70f01a6', false);
 const { ensureAuthenticated } = require('../config/auth');
 const sms = require('../config/sms');
-const Payment = require('../models/Payment');
 var {convertDate, get_year_month_day, jalali_to_gregorian} = require('../config/dateConvert');
 
 router.get('/', (req, res, next) => {
@@ -92,6 +91,69 @@ router.post('/get-files2', (req, res, next) => {
         else res.send({status: 'error'})
     })
 });
+router.get('/get-files-new', (req, res, next) => {
+    var {username, password, noplan} = req.query;
+    Estate.findOne({code: username, password: password}, (err, estate) => {
+        if(estate){
+            if((estate.payed && estate.planType != 'free') || noplan){
+                File.find({}, (err, files) => {
+                    files.filter(e => estate.selectedareas.indexOf(e.area) != -1);
+                    var now = new Date();
+                    files.reverse();
+                    files.filter(e => now - e.creationDate.getTime() < 15 * 24 * 60 * 60 * 1000);
+                    if(noplan){
+                        for(var i=0; i<files.length; i++){
+                            files[i].address = '-';
+                            files[i].phone = '-';
+                            files[i].constPhone = '-';
+                            files[i].images = [];
+                        }
+                    }
+                    res.send({status: 'ok', files});
+
+                    estate.lastRefreshFiles = [];
+                    for(var i=0; i<files.length; i++){
+                        estate.lastRefreshFiles.push(files[i].fileNumber);
+                        
+                    }
+                    Estate.updateMany({_id: estate._id}, {$set: {lastRefreshFiles: estate.lastRefreshFiles}}, err => {
+                        if(err) console.log(err);
+                    })
+                });
+            }
+            else res.send({status: 'not payed'})
+        }
+        else res.send({status: 'error'})
+    })
+});
+router.post('/get-files2-new', (req, res, next) => {
+    var {username, password} = req.body;
+    Estate.findOne({code: username, password: password}, (err, estate) => {
+        if(estate){
+            if(estate.payed && estate.planType != 'free'){
+                File.find({}, (err, files) => {
+                    files.filter(e => estate.selectedareas.indexOf(e.area) != -1);
+                    var now = new Date();
+                    files.reverse();
+                    files.filter(e => now - e.creationDate.getTime() < 15 * 24 * 60 * 60 * 1000);
+                    var newFiles = [];
+                    for (let i = 0; i < files.length; i++) {
+                        if(estate.lastRefreshFiles.indexOf(files[i].fileNumber) == -1){
+                            newFiles.push(files[i]);
+                            estate.lastRefreshFiles.push(files[i].fileNumber);
+                        }
+                    }
+                    res.send({status: 'ok', files: newFiles});
+                    Estate.updateMany({_id: estate._id}, {$set: {lastRefreshFiles: estate.lastRefreshFiles}}, err => {
+                        if(err) console.log(err);
+                    })
+                });
+            }
+            else res.send({status: 'not payed'})
+        }
+        else res.send({status: 'error'})
+    })
+});
 router.get('/pay-estate', (req, res, next) => {
     var {username, password, plan} = req.query;
     amounts = [170000, 470000, 680000, 1469000];
@@ -126,7 +188,7 @@ router.get('/pay-estate', (req, res, next) => {
     });
 });
 router.get('/pay-estate2', (req, res, next) => {
-    var {username, password, plan, paymentfullprice, paymentdiscount, paymentpayable, selectedAreas, planUserNum} = req.query;
+    var {username, password, plan, paymentfullprice, paymentdiscount, paymentpayable, selectedareas, planusernum} = req.query;
     amounts = [170000, 470000, 680000, 1469000];
     names = ['1 ماهه', '3 ماهه', '6 ماهه', '1 ساله'];
     Settings.findOne({}, (err, settings) => {
@@ -135,28 +197,35 @@ router.get('/pay-estate2', (req, res, next) => {
             if(estate){
                 zarinpal.PaymentRequest({
                     Amount: paymentfullprice.toString(), // In Tomans
-                    // CallbackURL: 'http://185.81.99.34:3000/api/payment-call-back',
+                    // CallbackURL: 'http://185.81.99.34:3000/api/payment-call-back2',
                     CallbackURL: 'http://fileestore.ir/api/payment-call-back2',
                     Description: `خرید اشتراک ${names[parseInt(plan)]} توسط ${estate.name}`,
                     Email: '',
                     Mobile: estate.phone,
                 }).then(response => {
                     if (response.status === 100) {
-                        Estate.updateMany({code: username, password: password}, {$set: {authority: response.authority, planType: names[parseInt(plan)]}}, (err, doc) => {
+                        Estate.updateMany({code: username, password: password}, {$set: {
+                            selectedareas, 
+                            planusernum, 
+                            authority: response.authority, 
+                            planType: names[parseInt(plan)],
+                            normalUserIDs: [],
+                        }}, (err, doc) => {
                             var newPayment = new Payment({
                                 username: parseInt(username),
                                 EstateID: estate._id,
                                 paymentfullprice,
                                 paymentdiscount,
                                 paymentpayable,
-                                selectedAreas,
-                                planUserNum,
+                                selectedareas,
+                                planusernum,
                                 plan,
                                 planName: names[parseInt(plan)],
-                                date: Date.now(),
-                                jDate: convertDate(Date.now()),
+                                date: new Date(),
+                                jDate: convertDate(new Date()),
                                 authority: response.authority,
                             });
+                            console.log(response.authority)
                             newPayment.save().then(doc => {
                                 res.redirect(response.url);
                             }).catch(err => console.log(err));
@@ -231,6 +300,85 @@ router.get('/set-login-key', (req, res, next) => {
         res.send({status: 'ok'});
     });
 });
-
+router.get('/get-factors', (req, res, next) => {
+    var {username} = req.query;
+    Payment.find({username, payed: true}, (err, payments) => {
+        res.send({status: 'ok', payments});
+    });
+});
+router.get('/add-normal-user', (req, res, next) => {
+    var {username, fullname, phone, address, password} = req.query;
+    Estate.findOne({code: username}, (err, estate) => {
+        Estate.find({}, (err, estates) => {
+            if(estate.normalUserIDs.length+1 < estate.planusernum){
+                var code = 1000;
+                for(var i=0; i<estates.length; i++){
+                    if(code < estates[i].code)
+                        code = estates[i].code;
+                }
+                var newEstate = new Estate({
+                    name: fullname,
+                    phone,
+                    address,
+                    role: 'user',
+                    selectedareas: estate.selectedareas,
+                    planType: estate.planType,
+                    payDate: estate.payDate,
+                    payed: estate.payed,
+                    code: code+1,
+                    parentEstateID: estate._id,
+                    password,
+                });
+                newEstate.save().then(doc => {
+                    estate.normalUserIDs.push(newEstate._id);
+                    Estate.updateMany({code: username}, {$set: {normalUserIDs: estate.normalUserIDs}}, (err, doc) => {
+                        res.send({status: 'ok', newEstate})
+                    })
+                }).catch(err => console.log(err));
+            }
+            else res.send({status: 'error'})
+        });
+    });
+});
+router.get('/get-normal-user', (req, res, next) => {
+    var {username} = req.query;
+    Estate.findOne({code: username}, (err, estate) => {
+        Estate.find({parentEstateID: estate._id.toString()}, (err, normalUsers) => {
+            res.send({status: 'ok', normalUsers})
+        });
+    });
+});
+router.get('/delete-normal-user', (req, res, next) => {
+    var {userID} = req.query;
+    Estate.findById(userID, (err, estate) => {
+        Estate.findById(estate.parentEstateID, (err, parent) => {
+            for(var i=0; i< parent.normalUserIDs.length; i++){
+                if(parent.normalUserIDs[i] == userID){
+                    parent.normalUserIDs.splice(i, 1);
+                    i -= 1;
+                }
+            }
+            Estate.updateMany({_id: estate.parentEstateID}, {$set: {normalUserIDs: parent.normalUserIDs}}, (err, doc) => {
+                Estate.deleteMany({_id: userID}, (err) => {
+                    res.send({status: 'ok'})
+                });
+            })
+        });
+    });
+});
+router.get('/login-normal-user', (req, res, next) => {
+    var {phone, password, key} = req.query;
+    Estate.findOne({phone, password, role: 'user'}, (err, estate) => {
+        if(estate){
+            if(estate.windowsKey == '' || key == estate.windowsKey){
+                res.send({correct: true, keyQualified: true, estate});
+            }else{
+                res.send({correct: true, keyQualified: false, estate});
+            }
+        }
+        else
+            res.send({correct: false});
+    })
+});
 
 module.exports = router;

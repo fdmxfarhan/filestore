@@ -1,105 +1,71 @@
-@media only screen and (max-width: 800px) {
-    .login-frame img{
-        display: block;
-        margin: auto;
-        width: 20%;
-    }
-    .login-frame h1{
-        color: var(--dark);
-        font-family: 'iransans';
-        font-size: 2vw;
-        text-align: center;
-    }
-    .login-frame .form{
-        width: 40%;
-        margin: auto;
-        margin-top: 3vw;
-    }
-    .login-frame label{
-        font-family: 'iransans';
-        font-size: 1.6vw;
-        color: var(--text);
-        display: block;
-        margin-top: 1vw;
-    }
-    .login-frame input{
-        font-family: 'iransans';
-        font-size: 1.6vw;
-        border: var(--gray) 0.2vw solid;
-        display: block;
-        width: 93%;
-        border-radius: 0.5vw;
-        padding: 0.5vw 1vw;
-    }
-    .login-frame button.submit{
-        font-family: 'iransans';
-        font-size: 1.6vw;
-        border: none;
-        background-color: var(--dark);
-        color: white;
-        display: block;
-        width: 100%;
-        border-radius: 0.5vw;
-        padding: 1.1vw;
-        margin: auto;
-        margin-top: 2vw;
-        cursor: pointer;
-    }
-    .login-frame button.submit:hover{
-        background-color: var(--green);
-    }
+.login-frame img{
+    display: block;
+    margin: auto;
+    width: 15%;
+    margin-top: 5vw;
 }
-
-@media only screen and (min-width: 800px) {
-    .login-frame img{
-        display: block;
-        margin: auto;
-        width: 15%;
-        margin-top: 5vw;
-    }
-    .login-frame h1{
-        color: var(--dark);
-        font-family: 'iransans';
-        font-size: 1.2vw;
-        text-align: center;
-    }
-    .login-frame .form{
-        width: 30%;
-        margin: auto;
-        margin-top: 2vw;
-    }
-    .login-frame label{
-        font-family: 'iransans';
-        font-size: 1vw;
-        color: var(--text);
-        display: block;
-        margin-top: 1vw;
-    }
-    .login-frame input{
-        font-family: 'iransans';
-        font-size: 1vw;
-        border: var(--gray) 0.2vw solid;
-        display: block;
-        width: 92%;
-        border-radius: 0.5vw;
-        padding: 0.3vw 1vw;
-    }
-    .login-frame button.submit{
-        font-family: 'iransans';
-        font-size: 1.1vw;
-        border: none;
-        background-color: var(--dark);
-        color: white;
-        display: block;
-        width: 100%;
-        border-radius: 0.5vw;
-        padding: 0.6vw 1vw;
-        margin: auto;
-        margin-top: 1vw;
-        cursor: pointer;
-    }
-    .login-frame button.submit:hover{
-        background-color: var(--green);
-    }
+.login-frame h1{
+    color: var(--dark);
+    font-family: 'iransans';
+    font-size: 1.2vw;
+    text-align: center;
+}
+.login-frame .form{
+    width: 30%;
+    margin: auto;
+    margin-top: 0.4vw;
+}
+.login-frame label{
+    font-family: 'iransans';
+    font-size: 1vw;
+    color: var(--text);
+    display: block;
+    margin-top: 1vw;
+}
+.login-frame input{
+    font-family: 'iransans';
+    font-size: 1vw;
+    border: var(--gray) 0.15vw solid;
+    display: block;
+    width: 92%;
+    border-radius: 0.5vw;
+    padding: 0.3vw 1vw;
+}
+.login-frame button.submit{
+    font-family: 'iransans';
+    font-size: 1.1vw;
+    border: none;
+    background-color: var(--darkblue);
+    color: white;
+    display: block;
+    width: 100%;
+    border-radius: 0.5vw;
+    padding: 0.6vw 1vw;
+    margin: auto;
+    margin-top: 1vw;
+    cursor: pointer;
+}
+.login-frame button.submit:hover{
+    background-color: var(--green);
+}
+.login-select-buttons-view{
+    width: 30%;
+    margin: auto;
+    overflow: hidden;
+    margin-top: 2vw;
+}
+.login-select-buttons-view .login-select-button{
+    font-family: 'iransans';
+    font-size: 1.3vw;
+    float: right;
+    width: 50%;
+    text-align: center;
+    border-bottom: var(--gray) 0.1vw solid;
+    color: var(--darkblue);
+    cursor: pointer;
+}
+.login-select-buttons-view .login-select-button.active{
+    color: white;
+    background-color: var(--darkblue);
 }
 

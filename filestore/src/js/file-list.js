@@ -49,6 +49,7 @@ var discountPerUser1 = 0.005;
 var discountPerUser2 = 0.005;
 var discountPerUser3 = 0.005;
 var discountPerUser4 = 0.005;
+var paymentFullPrice = 0, paymentDiscount = 0, paymentPayable = 0;
 // -----search:
 var minMetrage = 0, maxMetrage = 300;
 var minPrice1 = 100, maxPrice1 = 500;
@@ -784,7 +785,7 @@ var updatePlanPrices = () => {
                     supportedAreas = data.settings.areas;
                     removeAllChildNodes(selectContainer);
                     selectedAreas = [];
-                    selectedPlan = 'none';
+                    // selectedPlan = 'none';
                     for(var i=0; i<supportedAreas.length; i++){
                         var newArea = document.createElement('div');
                         newArea.classList.add('district');
@@ -832,7 +833,7 @@ var refresh = () => {
                 if(downloadPercent<99) downloadPercent++;
                 else clearInterval(downloadInterval);
             }, 170);
-            var res = fetch(api + `get-files?username=${estate.username}&password=${estate.password}`)
+            var res = fetch(api + `get-files-new?username=${estate.username}&password=${estate.password}`)
                 .then(res => res.json())
                 .then(data => {
                     if(refreshCancled) return;
@@ -903,7 +904,7 @@ var refresh2 = () => {
             //             availableFileNumers.push(estate.files[i].fileNumber);
             //     }
             // }
-            var res = fetch(api + `get-files2`,{
+            var res = fetch(api + `get-files2-new`,{
                     method: 'POST', // *GET, POST, PUT, DELETE, etc.
                     mode: 'cors', // no-cors, *cors, same-origin
                     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -1045,6 +1046,7 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
     document.getElementById('loading-screen').classList.remove('hidden');
     if(rawdata && JSON.parse(rawdata).files){
         var data = JSON.parse(rawdata);
+        if(data.estate.role == 'admin') document.getElementById('user-control-btn').classList.remove('hidden');
         allFiles = data.files;
         showingFiles = allFiles;
         showFiles();
@@ -1086,6 +1088,7 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
     }
     else if(rawdata){
         var data = JSON.parse(rawdata);
+        if(data.estate.role == 'admin') document.getElementById('user-control-btn').classList.remove('hidden');
         document.getElementById('fullname').textContent = data.estate.name;
         document.getElementById('address').textContent = data.estate.address;
         document.getElementById('estate-code').textContent = data.estate.code;
@@ -1398,21 +1401,142 @@ var onChangeNumber = () => {
 }
 var updatePaymentInfo = () => {
     if(selectedPlan == 'none') return;
-    var paymentFullPrice = 0, paymentDiscount = 0, paymentPayable = 0;
+    paymentFullPrice = 0;
+    paymentDiscount = 0; 
+    paymentPayable = 0;
     if(selectedPlan == 0) paymentFullPrice = oneMonthPrice;
     if(selectedPlan == 1) paymentFullPrice = threeMonthPrice;
     if(selectedPlan == 2) paymentFullPrice = sixMonthPrice;
     if(selectedPlan == 3) paymentFullPrice = oneYearPrice;
     paymentFullPrice += (planUserNum - 1) * 8000;
     paymentFullPrice *= selectedAreas.length;
-    if(selectedPlan == 0) paymentDiscount = discountPerUser1 * (paymentFullPrice * (planUserNum - 1));
-    if(selectedPlan == 1) paymentDiscount = discountPerUser2 * (paymentFullPrice * (planUserNum - 1));
-    if(selectedPlan == 2) paymentDiscount = discountPerUser3 * (paymentFullPrice * (planUserNum - 1));
-    if(selectedPlan == 3) paymentDiscount = discountPerUser4 * (paymentFullPrice * (planUserNum - 1));
+    if(selectedPlan == 0) paymentDiscount = discountPerUser1 * paymentFullPrice * (planUserNum - 1);
+    if(selectedPlan == 1) paymentDiscount = discountPerUser2 * paymentFullPrice * (planUserNum - 1);
+    if(selectedPlan == 2) paymentDiscount = discountPerUser3 * paymentFullPrice * (planUserNum - 1);
+    if(selectedPlan == 3) paymentDiscount = discountPerUser4 * paymentFullPrice * (planUserNum - 1);
     paymentPayable = paymentFullPrice - paymentDiscount;
     document.getElementById('payment-fullprice').textContent = showPrice(paymentFullPrice) + ' تومان';
     document.getElementById('payment-discount').textContent = showPrice(paymentDiscount) + ' تومان';
     document.getElementById('payment-payable').textContent = showPrice(paymentPayable) + ' تومان';
+}
+var createPaymentReceipt = (data) => {
+    var table = document.createElement('table');
+    table.classList.add('payment-receipt');
+    var tr1 = document.createElement('tr');
+    var td11 = document.createElement('td');
+    var td12 = document.createElement('td');
+    var td13 = document.createElement('td');
+    td11.textContent = 'تاریخ: ' + data.jDate;
+    td13.textContent = 'پرداخت شده';
+    td13.classList.add('green');
+    tr1.appendChild(td11);
+    tr1.appendChild(td12);
+    tr1.appendChild(td13);
+    var tr2 = document.createElement('tr');
+    var td21 = document.createElement('td');
+    var td22 = document.createElement('td');
+    var td23 = document.createElement('td');
+    td21.textContent = 'نوع اشتراک: ' + data.planName;
+    td22.textContent = 'تعداد کاربر: ' + data.planusernum;
+    td23.textContent = 'مناطق: ';
+    for(var i=0; i<data.selectedareas.length; i++) td23.textContent += data.selectedareas[i] + '، ';
+    tr2.appendChild(td21);
+    tr2.appendChild(td22);
+    tr2.appendChild(td23);
+    var tr3 = document.createElement('tr');
+    var td31 = document.createElement('td');
+    var td32 = document.createElement('td');
+    var td33 = document.createElement('td');
+    td31.textContent = 'مبلغ کل: ' + data.paymentfullprice;
+    td32.textContent = 'تخفیف: ' + data.paymentdiscount;
+    td33.textContent = 'پرداخت شده: ' + data.paymentpayable;
+    tr3.appendChild(td31);
+    tr3.appendChild(td32);
+    tr3.appendChild(td33);
+
+    table.append(tr1);
+    table.append(tr2);
+    table.append(tr3);
+    removeAllChildNodes(document.getElementById('user-control-tab-content3'));
+    document.getElementById('user-control-tab-content3').appendChild(table);
+}
+var updatePaymentReceipts = () => {
+    fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+        if(rawdata){
+            var estate = JSON.parse(rawdata);
+            fetch(api + `get-factors?username=${estate.username}`).then(res => res.json()).then(data => {
+                if(data.status == 'ok'){
+                    for(var i=0; i<data.payments.length; i++){
+                        createPaymentReceipt(data.payments[i]);
+                    }
+                }
+            }).catch(err => console.log(err));
+        }
+    });
+}
+var addNormalUser = () => {
+    fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+        if(rawdata){
+            var estate = JSON.parse(rawdata);
+            var fullname = document.getElementById('user-control-fullname').value;
+            var phone = document.getElementById('user-control-phone').value;
+            var address = document.getElementById('user-control-address').value;
+            var password = document.getElementById('user-control-password').value;
+            fetch(api + `add-normal-user?username=${estate.username}&fullname=${fullname}&phone=${phone}&address=${address}&password=${password}`).then(res => res.json()).then(data => {
+                if(data.status == 'ok'){
+                    showSuccess('کاربر جدید ثبت شد')
+                }
+                else showError('حداکثر تعداد کاربر ایجاد شده')
+            }).catch(err => console.log(err));
+        }
+    });
+}
+var updateNormalUsersList = () => {
+    fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
+        if(rawdata){
+            var estate = JSON.parse(rawdata);
+            fetch(api + `get-normal-user?username=${estate.username}`).then(res => res.json()).then(data => {
+                if(data.status == 'ok'){
+                    var container = document.getElementById('user-control-normal-users-list');
+                    removeAllChildNodes(container);
+                    for(var i=0; i<data.normalUsers.length; i++){
+                        var td = document.createElement('div');
+                        var name = document.createElement('div');
+                        var permissions = document.createElement('div');
+                        var status = document.createElement('div');
+                        var actions = document.createElement('div');
+                        var trash = document.createElement('i');
+                        td.classList.add('user-control-td');
+                        name.classList.add('name');
+                        permissions.classList.add('permissions');
+                        status.classList.add('status');
+                        status.classList.add('green');
+                        actions.classList.add('actions');
+                        actions.classList.add('red');
+                        trash.classList.add('fa');
+                        trash.classList.add('fa-trash');
+                        trash.id = data.normalUsers[i]._id;
+                        trash.addEventListener('click', (e) => {
+                            var id = e.target.id;
+                            fetch(api + `delete-normal-user?userID=${id}`).then(res => res.json()).then(data => {
+                                if(data.status == 'ok'){
+                                    updateNormalUsersList();
+                                }
+                            }).catch(err => console.log(err));
+                        })
+                        name.textContent = data.normalUsers[i].name;
+                        status.textContent = 'فعال';
+                        td.appendChild(name);
+                        td.appendChild(permissions);
+                        td.appendChild(status);
+                        td.appendChild(actions);
+                        actions.appendChild(trash);
+                        container.appendChild(td);
+                    }
+                }
+            }).catch(err => console.log(err));
+        }
+    });
 }
 updateNews();
 setInterval(updateNews, 10 * 60 * 1000);
@@ -2142,6 +2266,8 @@ $(document).ready(() => {
     $('#user-control-btn').click(() => {
         $('#user-control-popup').fadeIn(400);
         $('.black-modal').fadeIn(500);
+        updatePaymentReceipts();
+        updateNormalUsersList();
     });
     $('#user-control-tab-link1').click(() => {
         $('#user-control-tab-link1').addClass('active');
@@ -2150,6 +2276,7 @@ $(document).ready(() => {
         $('#user-control-tab-content1').show();
         $('#user-control-tab-content2').hide();
         $('#user-control-tab-content3').hide();
+        updateNormalUsersList();
     });
     $('#user-control-tab-link2').click(() => {
         $('#user-control-tab-link1').removeClass('active');
@@ -2183,5 +2310,10 @@ $(document).ready(() => {
         }
         updatePaymentInfo();
     });
-    $('#buyplan-btn').click(() => payPlan);
+    $('#buyplan-btn').click(() => {
+        payPlan()
+    });
+    $('#add-user-form-btn').click(() => {
+        addNormalUser()
+    });
 });

@@ -175,3 +175,103 @@
     margin: auto;
     margin-top: 3vw;
 }
+.user-control-tab-content table.payment-receipt{
+    border-collapse: collapse;
+    width: 90%;
+    margin: auto;
+    border-radius: 0.5vw;
+    margin-bottom: 2vw;
+}
+.user-control-tab-content table.payment-receipt, 
+.user-control-tab-content table.payment-receipt th, 
+.user-control-tab-content table.payment-receipt td {
+    border: 1px solid var(--gray);
+    font-family: 'iransans';
+    font-size: 1vw;
+}
+.user-control-tab-content table.payment-receipt td {
+    padding: 0.1vw 1vw;
+}
+.user-control-tab-content table.payment-receipt td.green {
+    color: var(--green);
+    font-weight: bold;
+}
+.user-control-tab-content p{
+    width: 80%;
+    margin: auto;
+    font-family: 'iransans';
+    font-size: 1vw;
+    color: var(--text);
+    margin-top: 1vw;
+}
+.user-control-tab-content .form-data{
+    width: 80%;
+    margin: 1vw auto;
+    overflow: hidden;
+}
+.user-control-tab-content .form-data .input-label{
+    font-family: 'iransans';
+    font-size: 1.1vw;
+    color: var(--text);
+}
+.user-control-tab-content .form-data input{
+    font-family: 'iransans';
+    font-size: 1.1vw;
+    color: var(--text);
+    padding: 0.3vw 1vw;
+    display: block;
+    width: 80%;
+    border: none;
+    margin-bottom: 1vw;
+    background-color: var(--light-background);
+    border-radius: 0.5vw;
+    border: var(--gray) 0.1vw solid;
+}
+.user-control-tab-content .form-data .add-user-btn{
+    background-color: var(--darkblue);
+    font-family: 'iransans';
+    font-size: 1.1vw;
+    color: white;
+    cursor: pointer;
+    border-radius: 0.5vw;
+    width: 20%;
+    padding: 0.5vw 0;
+    text-align: center;
+    margin-top: 2vw;
+}
+.user-control-tab-content .form-data .add-user-btn i{
+    padding-left: 0.5vw;
+}
+.user-control-tab-content .form-data .add-user-btn:hover{
+    background-color: var(--green);
+}
+.user-control-tab-content .form-data .right{
+    float: right;
+    width: 60%;
+}
+.user-control-tab-content .form-data .left{
+    float: right;
+    width: 40%;
+}
+.user-control-tab-content .form-data .left .item{
+    border-bottom: var(--gray) 0.1vw solid;
+    overflow: hidden;
+    padding: 0.5vw 0;
+}
+.user-control-tab-content .form-data .left .item .permission-label{
+    font-family: 'iransans';
+    font-size: 1vw;
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    float: right;
+    /* width: 60%; */
+}
+.user-control-tab-content .form-data .left .item input{
+    margin: 0;
+    padding: 0;
+    font-size: 2vw;
+    margin-top: 0.5vw;
+    float: left;
+    width: 2vw;
+}

@@ -48,6 +48,10 @@
                         i.fa.fa-times
                         a.link(href="/dashboard/remove-plan?estateID=#{estates[i]._id}") 
                             | لغو اشتراک
+                        i.fa.fa-refresh
+                        a.link(href="/dashboard/reset-key?estateID=#{estates[i]._id}") 
+                            | حذف کد نصب قبلی
+                        
                 -}
                 button.submit(type="submit") ثبت
 -}

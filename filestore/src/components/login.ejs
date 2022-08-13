@@ -1,11 +1,23 @@
 <div class="login-frame hidden" id="login-frame">
     <img src="img/logo.png" alt="logo" class="log">
     <h1 class="title">به فایل استور خوش آمدید</h1>
-    <div class="form">
+    
+    <div class="login-select-buttons-view">
+        <div class="login-select-button active" id="login-select-button-1">ادمین</div>
+        <div class="login-select-button" id="login-select-button-2">کاربر</div>
+    </div>
+    <div class="form" id="login-form-1">
         <label for="username">کد مشاور املاک:</label>
         <input type="text" name="username" id="username" placeholder="کد املاک ...">
         <label for="password">کد مشاور املاک:</label>
         <input type="password" name="password" id="password" placeholder="کلمه عبور ...">
         <button class="submit" id="login-button">ورود</button>
+    </div>
+    <div class="form hidden" id="login-form-2">
+        <label for="username">شماره تلفن:</label>
+        <input type="text" name="phone" id="login-phone-input" placeholder="شماره تلفن ...">
+        <label for="password">کد مشاور املاک:</label>
+        <input type="password" name="password" id="login-password-input" placeholder="کلمه عبور ...">
+        <button class="submit" id="login-button2">ارسال رمز یکبار مصرف</button>
     </div>
 </div>

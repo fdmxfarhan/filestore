@@ -12,8 +12,8 @@
             افزودن کاربر
         </div>
         <div class="user-control-tab-link" id="user-control-tab-link3">
-            <i class="fa fa-dollar"></i>
-            تصویه حساب
+            <i class="fa fa-shopping-cart"></i>
+            فاکتور ها
         </div>
     </div>
     <div class="user-control-container">
@@ -24,40 +24,20 @@
                 <div class="status">وضعیت</div>
                 <div class="actions">عملیات</div>
             </div>
-            <div class="user-control-td">
-                <div class="name">فرحان دائمی مژدهی</div>
-                <div class="permissions">
-                    <div class="item">فروش</div>
-                    <div class="item">پیش‌فروش</div>
-                    <div class="item">رهن و اجاره</div>
-                    <div class="item">رهن کامل</div>
-                </div>
-                <div class="status red">در انتظار پرداخت</div>
-                <div class="actions red">
-                    <i class="fa fa-trash"></i>
-                </div>
-            </div>
-            <div class="user-control-td">
-                <div class="name">یه کاربر دیگه</div>
-                <div class="permissions">
-                    <div class="item">فروش</div>
-                    <div class="item">پیش‌فروش</div>
-                </div>
-                <div class="status green">فعال</div>
-                <div class="actions red">
-                    <i class="fa fa-trash"></i>
-                </div>
-            </div>
-            <div class="user-control-td">
-                <div class="name">اینم یکی دیگه</div>
-                <div class="permissions">
-                    <div class="item">رهن و اجاره</div>
-                    <div class="item">رهن کامل</div>
-                </div>
-                <div class="status red">در انتظار پرداخت</div>
-                <div class="actions red">
-                    <i class="fa fa-trash"></i>
-                </div>
+            <div id="user-control-normal-users-list">
+                <!-- <div class="user-control-td">
+                    <div class="name">فرحان دائمی مژدهی</div>
+                    <div class="permissions">
+                        <div class="item">فروش</div>
+                        <div class="item">پیش‌فروش</div>
+                        <div class="item">رهن و اجاره</div>
+                        <div class="item">رهن کامل</div>
+                    </div>
+                    <div class="status red">در انتظار پرداخت</div>
+                    <div class="actions red">
+                        <i class="fa fa-trash"></i>
+                    </div>
+                </div> -->
             </div>
             
         </div>
@@ -66,22 +46,67 @@
                 <i class="fa fa-user-plus"></i>
                 افزودن کاربر جدید
             </h1>
-            <p>هر کاربر می‌تواند با توجه به دسترسی های تایین شده توسط ادمین فایل‌های مربوطه را مشاهده نماید. حساب‌های کاربری اضافه شده پس از تصویه حساب فعال می‌شوند.</p>
-            <div class="two-side-form">
-                <div class="part">
-                    <div class="input-label">نام و نام خانوادگی</div>
+            <p>هر کاربر می‌تواند با توجه به دسترسی های تایین شده توسط ادمین فایل‌های مربوطه را مشاهده نماید. تعداد کاربران هنگام خرید اشتراک مشخص می‌شود و حداکثر 24 کاربر می‌تواند از یک اشتراک استفاده نماید.</p>
+            <div class="form-data">
+                <div class="right">
+                    <div class="input-label">نام و نام خانوادگی: </div>
                     <input type="text" id="user-control-fullname">
-                </div>
-                <div class="part">
-                    <div class="input-label">شماره موبایل</div>
+                    <div class="input-label">شماره موبایل: </div>
                     <input type="text" id="user-control-phone">
+                    <div class="input-label">آدرس: </div>
+                    <input type="text" id="user-control-address">
+                    <div class="input-label">کلمه عبور: </div>
+                    <input type="password" id="user-control-password">
+                    <div class="add-user-btn" id="add-user-form-btn">
+                        <i class="fa fa-plus"></i>ثبت
+                    </div>
                 </div>
-            </div>
-            <div class="one-side-form">
-                <div class="input-label">آدرس</div>
-                <input type="text" id="user-control-address">
+                <div class="left">
+                    <div class="item">
+                        <div class="permission-label">رهن و اجاره، رهن کامل</div>
+                        <input type="checkbox" id="user-control-rent-checkbox" checked>
+                    </div>
+                    <div class="item">
+                        <div class="permission-label">فروش، پیش‌فروش</div>
+                        <input type="checkbox" id="user-control-rent-checkbox" checked>
+                    </div>
+                    <div class="item">
+                        <div class="permission-label">معاوضه، مشارکت</div>
+                        <input type="checkbox" id="user-control-rent-checkbox" checked>
+                    </div>
+                    <div class="item">
+                        <div class="permission-label">آپارتمان، ویلایی</div>
+                        <input type="checkbox" id="user-control-rent-checkbox" checked>
+                    </div>
+                    <div class="item">
+                        <div class="permission-label">اداری، موقعیت اداری، تجاری</div>
+                        <input type="checkbox" id="user-control-rent-checkbox" checked>
+                    </div>
+                    <div class="item">
+                        <div class="permission-label">کلنگی، زمین، مستغلات</div>
+                        <input type="checkbox" id="user-control-rent-checkbox" checked>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="user-control-tab-content hidden" id="user-control-tab-content3"></div>
+        <div class="user-control-tab-content hidden" id="user-control-tab-content3">
+            <!-- <table class="payment-receipt">
+                <tr>
+                    <td>تاریخ: 1/1/1</td>
+                    <td></td>
+                    <td class="green">پرداخت شده</td>
+                </tr>
+                <tr>
+                    <td>نوع اشتراک: یک ماهه</td>
+                    <td>تعداد کاربر: 15</td>
+                    <td>مناطق: 22، 5</td>
+                </tr>
+                <tr>
+                    <td>مبلغ کل: 1.412.000</td>
+                    <td>تخفیف: 1.412.000</td>
+                    <td>پرداخت شده: 1.412.000</td>
+                </tr>
+            </table> -->
+        </div>
     </div>
 </div>
