@@ -114,9 +114,9 @@ var haveElevator = (file) => {
     return true;
 }
 var isFileRent = (file) => {
-    if(!file.type) return false;
-    if(file.type == 'رهن و اجاره') return true;
-    if(file.type == 'رهن کامل') return true;
+    if(!file.state) return false;
+    if(file.state == 'رهن و اجاره') return true;
+    if(file.state == 'رهن کامل') return true;
     return false;
 }
 var search = () => {
@@ -144,10 +144,10 @@ var filter = () => {
     setTimeout(() => {
         maxMetrage = parseInt(document.getElementById('metrage-max-input').value);
         minMetrage = parseInt(document.getElementById('metrage-min-input').value);
-        minPrice1 = parseInt(document.getElementById('price1-min-input').value);
-        maxPrice1 = parseInt(document.getElementById('price1-max-input').value);
-        minPrice2 = parseInt(document.getElementById('price2-min-input').value);
-        maxPrice2 = parseInt(document.getElementById('price2-max-input').value);
+        minPrice1 = parseInt(document.getElementById('price2-min-input').value);
+        maxPrice1 = parseInt(document.getElementById('price2-max-input').value);
+        minPrice2 = parseInt(document.getElementById('price1-min-input').value);
+        maxPrice2 = parseInt(document.getElementById('price1-max-input').value);
         minPrice3 = parseInt(document.getElementById('price3-min-input').value);
         maxPrice3 = parseInt(document.getElementById('price3-max-input').value);
         minPrice4 = parseInt(document.getElementById('price4-min-input').value);
@@ -161,11 +161,10 @@ var filter = () => {
             var type = allFiles[i].type;
             var state = allFiles[i].state;
             if((metrage > minMetrage || isNaN(minMetrage) ) && (metrage < maxMetrage || isNaN(maxMetrage)) && !isNaN(metrage)){
-                console.log(isFileRent(allFiles[i]))
-                if( (!isFileRent(allFiles[i]) && (price1 > minPrice1 || isNaN(minPrice1) ) && (price1 < maxPrice1 || isNaN(maxPrice1)) || isNaN(price1)) ||
-                    ( isFileRent(allFiles[i]) && (price1 > minPrice3 || isNaN(minPrice3) ) && (price1 < maxPrice3 || isNaN(maxPrice3)) || isNaN(price1))){
-                    if( (!isFileRent(allFiles[i]) && (price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2)) || isNaN(price2))
-                        ( isFileRent(allFiles[i]) && (price2 > minPrice4 || isNaN(minPrice4)) && (price2 < maxPrice4 || isNaN(maxPrice4)) || isNaN(price2))){
+                if( (!isFileRent(allFiles[i]) && (price1 > minPrice1 || isNaN(minPrice1) ) && (price1 < maxPrice1 || isNaN(maxPrice1))) ||
+                    ( isFileRent(allFiles[i]) && (price1 > minPrice3 || isNaN(minPrice3) ) && (price1 < maxPrice3 || isNaN(maxPrice3)))){
+                    if( (!isFileRent(allFiles[i]) && (price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2))) ||
+                        ( isFileRent(allFiles[i]) && (price2 > minPrice4 || isNaN(minPrice4)) && (price2 < maxPrice4 || isNaN(maxPrice4)))){
                         if((typeof(allFiles[i].buildAge) != 'undefined') || (minAge == 1 && allFiles[i].buildAge == 'نوساز') || ((maxAge == 100 || age < maxAge) && age > minAge)){
                             if     (!apartment    && type  == 'آپارتمان');
                             else if(!vilage       && type  == 'ویلایی');
