@@ -20,7 +20,7 @@
         <!-- <div class="slider" id="metrage-slider"></div> -->
     </div>
     <div class="range-input">
-        <div class="title with-input">قیمت متری/رهن: 
+        <div class="title with-input">قیمت متری: 
             <!-- <span id="price2-min">1 </span>
             الی 
             <span id="price2-max">50 میلیون</span> -->
@@ -28,12 +28,12 @@
             <input type="number" class="filter-num" name="price2-min-input" id="price2-min-input" placeholder="حداقل" value="0">
             <label for="price2-min-input">تا</label>
             <input type="number" class="filter-num" name="price2-max-input" id="price2-max-input" placeholder="حداکثر" value="">
-            <label for="price2-min-input">میلیون تومان</label>
+            <label for="price2-min-input">تومان</label>
         </div>
         <!-- <div class="slider" id="price2-slider"></div> -->
     </div>
     <div class="range-input">
-        <div class="title with-input">قیمت کل/اجاره: 
+        <div class="title with-input">قیمت کل: 
             <!-- <span id="price1-min">100 </span>
             الی 
             <span id="price1-max">500 میلیون</span> -->
@@ -41,7 +41,33 @@
             <input type="number" class="filter-num" name="price1-min-input" id="price1-min-input" placeholder="حداقل" value="0">
             <label for="price1-min-input">تا</label>
             <input type="number" class="filter-num" name="price1-max-input" id="price1-max-input" placeholder="حداکثر" value="">
-            <label for="price1-min-input">میلیون تومان</label>
+            <label for="price1-min-input">تومان</label>
+        </div>
+        <!-- <div class="slider" id="price1-slider"></div> -->
+    </div>
+    <div class="range-input">
+        <div class="title with-input">قیمت رهن: 
+            <!-- <span id="price2-min">1 </span>
+            الی 
+            <span id="price2-max">50 میلیون</span> -->
+            <label for="price2-min-input">از</label>
+            <input type="number" class="filter-num" name="price3-min-input" id="price3-min-input" placeholder="حداقل" value="0">
+            <label for="price2-min-input">تا</label>
+            <input type="number" class="filter-num" name="price3-max-input" id="price3-max-input" placeholder="حداکثر" value="">
+            <label for="price2-min-input">تومان</label>
+        </div>
+        <!-- <div class="slider" id="price2-slider"></div> -->
+    </div>
+    <div class="range-input">
+        <div class="title with-input">قیمت اجاره: 
+            <!-- <span id="price1-min">100 </span>
+            الی 
+            <span id="price1-max">500 میلیون</span> -->
+            <label for="price1-min-input">از</label>
+            <input type="number" class="filter-num" name="price4-min-input" id="price4-min-input" placeholder="حداقل" value="0">
+            <label for="price1-min-input">تا</label>
+            <input type="number" class="filter-num" name="price4-max-input" id="price4-max-input" placeholder="حداکثر" value="">
+            <label for="price1-min-input">تومان</label>
         </div>
         <!-- <div class="slider" id="price1-slider"></div> -->
     </div>
@@ -56,14 +82,14 @@
     </div>
     <div class="check-input">
         <div class="title">نوع: </div>
-        <div class="item active" id="apartment-btn">آپارتمان</div>
-        <div class="item active" id="vilage-btn">ویلایی</div>
-        <div class="item active" id="old-btn">کلنگی</div>
-        <div class="item active" id="business-btn">تجاری</div>
-        <div class="item active" id="office-btn">اداری</div>
-        <div class="item active" id="office-estate-btn">موقعیت اداری</div>
-        <div class="item active" id="land-btn">زمین</div>
-        <div class="item active" id="mostaghelat-btn">مستغلات</div>
+        <div class="item" id="apartment-btn">آپارتمان</div>
+        <div class="item" id="vilage-btn">ویلایی</div>
+        <div class="item" id="old-btn">کلنگی</div>
+        <div class="item" id="business-btn">تجاری</div>
+        <div class="item" id="office-btn">اداری</div>
+        <div class="item" id="office-estate-btn">موقعیت اداری</div>
+        <div class="item" id="land-btn">زمین</div>
+        <div class="item" id="mostaghelat-btn">مستغلات</div>
         <input type="checkbox" class="check hidden" id="apartment" checked>
         <input type="checkbox" class="check hidden" id="vilage" checked>
         <input type="checkbox" class="check hidden" id="old" checked>
@@ -75,12 +101,12 @@
     </div>
     <div class="check-input">
         <div class="title">وضعیت: </div>
-        <div class="item active" id="sell-btn">فروش</div>
-        <div class="item active" id="presell-btn">پیش‌فروش</div>
-        <div class="item active" id="exchange-btn">معاوضه</div>
-        <div class="item active" id="cooperate-btn">مشارکت</div>
-        <div class="item active" id="rent-btn">رهن و اجاره</div>
-        <div class="item active" id="rent2-btn">رهن کامل</div>
+        <div class="item" id="sell-btn">فروش</div>
+        <div class="item" id="presell-btn">پیش‌فروش</div>
+        <div class="item" id="exchange-btn">معاوضه</div>
+        <div class="item" id="cooperate-btn">مشارکت</div>
+        <div class="item" id="rent-btn">رهن و اجاره</div>
+        <div class="item" id="rent2-btn">رهن کامل</div>
         <div class="item" id="changable-btn">قابل تبدیل</div>
         <input type="checkbox" class="check hidden" id="sell" checked>
         <input type="checkbox" class="check hidden" id="presell" checked>

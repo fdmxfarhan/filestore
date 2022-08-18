@@ -109,6 +109,9 @@ var checkLogin2 = () => {
                         document.getElementById('address').textContent = data.estate.address;
                         document.getElementById('estate-code').textContent = data.estate.code;
                         document.getElementById('estate-number').textContent = data.estate.area;
+                        document.getElementById('user-info-areas').textContent = 'منطقه‌های ';
+                        for(var i=0; i<data.estate.selectedareas.length; i++) 
+                            document.getElementById('user-info-areas').textContent += data.estate.selectedareas[i];
                         setTimeout(() => {
                             successMsg.classList.add('hidden');
                         }, 3000);

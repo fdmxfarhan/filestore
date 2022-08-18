@@ -32,6 +32,12 @@ var EstateSchema = new mongoose.Schema({
   planusernum: {type: Number,default: 1},
   normalUserIDs: {type: [String], default: []},
   parentEstateID: String,
+  userpermissionrent: Boolean,
+  userpermissionsell: Boolean,
+  userpermissionchange: Boolean,
+  userpermissionapartment: Boolean,
+  userpermissionoffice: Boolean,
+  userpermissionfeild: Boolean,
 });
 
 var Estate = mongoose.model('Estate', EstateSchema);

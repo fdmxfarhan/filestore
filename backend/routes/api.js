@@ -18,7 +18,7 @@ router.get('/', (req, res, next) => {
 });
 router.get('/login', (req, res, next) => {
     var {username, password, key} = req.query;
-    Estate.findOne({code: parseInt(username), password: password, role: 'admin'}, (err, estate) => {
+    Estate.findOne({code: parseInt(username), password: password}, (err, estate) => {
         if(estate){
             if(estate.windowsKey == '' || key == estate.windowsKey){
                 res.send({correct: true, keyQualified: true, estate});
@@ -97,7 +97,17 @@ router.get('/get-files-new', (req, res, next) => {
         if(estate){
             if((estate.payed && estate.planType != 'free') || noplan){
                 File.find({}, (err, files) => {
-                    files.filter(e => estate.selectedareas.indexOf(e.area) != -1);
+                    for(var i=0; i<files.length; i++){
+                        if(estate.selectedareas.indexOf(files[i].area) == -1){files.splice(i, 1); i--;}
+                        else if(estate.role == 'user'){
+                            if(!estate.userpermissionrent && (files[i].state == 'رهن و اجاره' || files[i].state == 'رهن کامل')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionsell && (files[i].state == 'فروش' || files[i].state == 'پیش‌فروش')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionchange && (files[i].state == 'معاوضه' || files[i].state == 'مشارکت')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionapartment && (files[i].type == 'آپارتمان' || files[i].type == 'ویلایی')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionoffice && (files[i].type == 'اداری' || files[i].type == 'موقعیت اداری' || files[i].type == 'تجاری')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionfeild && (files[i].type == 'کلنگی' || files[i].type == 'زمین' || files[i].type == 'مستغلات')) {files.splice(i, 1); i--;}
+                        }
+                    }
                     var now = new Date();
                     files.reverse();
                     files.filter(e => now - e.creationDate.getTime() < 15 * 24 * 60 * 60 * 1000);
@@ -132,7 +142,17 @@ router.post('/get-files2-new', (req, res, next) => {
         if(estate){
             if(estate.payed && estate.planType != 'free'){
                 File.find({}, (err, files) => {
-                    files.filter(e => estate.selectedareas.indexOf(e.area) != -1);
+                    for(var i=0; i<files.length; i++){
+                        if(estate.selectedareas.indexOf(files[i].area) == -1){files.splice(i, 1); i--;}
+                        else if(estate.role == 'user'){
+                            if(!estate.userpermissionrent && (files[i].state == 'رهن و اجاره' || files[i].state == 'رهن کامل')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionsell && (files[i].state == 'فروش' || files[i].state == 'پیش‌فروش')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionchange && (files[i].state == 'معاوضه' || files[i].state == 'مشارکت')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionapartment && (files[i].type == 'آپارتمان' || files[i].type == 'ویلایی')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionoffice && (files[i].type == 'اداری' || files[i].type == 'موقعیت اداری' || files[i].type == 'تجاری')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionfeild && (files[i].type == 'کلنگی' || files[i].type == 'زمین' || files[i].type == 'مستغلات')) {files.splice(i, 1); i--;}
+                        }
+                    }
                     var now = new Date();
                     files.reverse();
                     files.filter(e => now - e.creationDate.getTime() < 15 * 24 * 60 * 60 * 1000);
@@ -189,6 +209,7 @@ router.get('/pay-estate', (req, res, next) => {
 });
 router.get('/pay-estate2', (req, res, next) => {
     var {username, password, plan, paymentfullprice, paymentdiscount, paymentpayable, selectedareas, planusernum} = req.query;
+    selectedareas = selectedareas.split(',');
     amounts = [170000, 470000, 680000, 1469000];
     names = ['1 ماهه', '3 ماهه', '6 ماهه', '1 ساله'];
     Settings.findOne({}, (err, settings) => {
@@ -307,7 +328,8 @@ router.get('/get-factors', (req, res, next) => {
     });
 });
 router.get('/add-normal-user', (req, res, next) => {
-    var {username, fullname, phone, address, password} = req.query;
+    var {username, fullname, phone, address, password, userpermissionrent, userpermissionsell, userpermissionchange, userpermissionapartment, userpermissionoffice, userpermissionfeild} = req.query;
+    console.log(req.query);
     Estate.findOne({phone, role: 'user'}, (err, userExist) => {
         if(userExist){
             res.send({status: 'error', msg: 'user-exists'})
@@ -332,6 +354,12 @@ router.get('/add-normal-user', (req, res, next) => {
                             code: code+1,
                             parentEstateID: estate._id,
                             password,
+                            userpermissionrent: userpermissionrent == 'true'? true : false,
+                            userpermissionsell: userpermissionsell == 'true'? true : false,
+                            userpermissionchange: userpermissionchange == 'true'? true : false,
+                            userpermissionapartment: userpermissionapartment == 'true'? true : false,
+                            userpermissionoffice: userpermissionoffice == 'true'? true : false,
+                            userpermissionfeild: userpermissionfeild == 'true'? true : false,
                         });
                         newEstate.save().then(doc => {
                             estate.normalUserIDs.push(newEstate._id);

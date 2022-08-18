@@ -50,25 +50,32 @@ var discountPerUser2 = 0.005;
 var discountPerUser3 = 0.005;
 var discountPerUser4 = 0.005;
 var paymentFullPrice = 0, paymentDiscount = 0, paymentPayable = 0;
+var userpermissionrent = true;
+var userpermissionsell = true;
+var userpermissionchange = true;
+var userpermissionapartment = true;
+var userpermissionoffice = true;
+var userpermissionfeild = true;
+
 // -----search:
 var minMetrage = 0, maxMetrage = 300;
 var minPrice1 = 100, maxPrice1 = 500;
 var minPrice2 = 1, maxPrice2 = 50;
 var minAge = 1, maxAge = 30;
-var apartment = true;
-var vilage = true;
-var old = true;
-var business = true;
-var office = true;
-var officeEstate = true;
-var land = true;
-var mostaghelat = true;
-var sell = true;
-var presell = true;
-var exchange = true;
-var cooperate = true;
-var rent = true;
-var rent2 = true;
+var apartment = false;
+var vilage = false;
+var old = false;
+var business = false;
+var office = false;
+var officeEstate = false;
+var land = false;
+var mostaghelat = false;
+var sell = false;
+var presell = false;
+var exchange = false;
+var cooperate = false;
+var rent = false;
+var rent2 = false;
 var changable = false;
 var parking = false;
 var warehouse = false;
@@ -106,6 +113,12 @@ var haveElevator = (file) => {
     if(file.elevator == 'ندارد') return false;
     return true;
 }
+var isFileRent = (file) => {
+    if(!file.type) return false;
+    if(file.type == 'رهن و اجاره') return true;
+    if(file.type == 'رهن کامل') return true;
+    return false;
+}
 var search = () => {
     var text = document.getElementById('address-search').value;
     if(text == '' || text.length < lastSearchText.length) filter();
@@ -135,17 +148,24 @@ var filter = () => {
         maxPrice1 = parseInt(document.getElementById('price1-max-input').value);
         minPrice2 = parseInt(document.getElementById('price2-min-input').value);
         maxPrice2 = parseInt(document.getElementById('price2-max-input').value);
+        minPrice3 = parseInt(document.getElementById('price3-min-input').value);
+        maxPrice3 = parseInt(document.getElementById('price3-max-input').value);
+        minPrice4 = parseInt(document.getElementById('price4-min-input').value);
+        maxPrice4 = parseInt(document.getElementById('price4-max-input').value);
         var names = ['آپارتمان' ,'ویلایی' ,'کلنگی' ,'تجاری' ,'اداری' ,'موقعیت اداری' ,'زمین' ,'مستغلات' ,'فروش' ,'پیش‌فروش' ,'معاوضه' ,'مشارکت' ,'رهن و اجاره' ,'رهن کامل'];
         for (let i = 0; i < allFiles.length; i++) {
             var metrage = parseInt(allFiles[i].meterage);
-            var price1 = parseInt(allFiles[i].price)/1000000;
-            var price2 = parseInt(allFiles[i].fullPrice)/1000000;
+            var price1 = parseInt(allFiles[i].price);///1000000;
+            var price2 = parseInt(allFiles[i].fullPrice);//1000000;
             var age = parseInt(allFiles[i].buildAge);
             var type = allFiles[i].type;
             var state = allFiles[i].state;
             if((metrage > minMetrage || isNaN(minMetrage) ) && (metrage < maxMetrage || isNaN(maxMetrage)) && !isNaN(metrage)){
-                if((price1 > minPrice1 || isNaN(minPrice1) ) && (price1 < maxPrice1 || isNaN(maxPrice1)) || isNaN(price1)){
-                    if((price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2)) || isNaN(price2)){
+                console.log(isFileRent(allFiles[i]))
+                if( (!isFileRent(allFiles[i]) && (price1 > minPrice1 || isNaN(minPrice1) ) && (price1 < maxPrice1 || isNaN(maxPrice1)) || isNaN(price1)) ||
+                    ( isFileRent(allFiles[i]) && (price1 > minPrice3 || isNaN(minPrice3) ) && (price1 < maxPrice3 || isNaN(maxPrice3)) || isNaN(price1))){
+                    if( (!isFileRent(allFiles[i]) && (price2 > minPrice2 || isNaN(minPrice2)) && (price2 < maxPrice2 || isNaN(maxPrice2)) || isNaN(price2))
+                        ( isFileRent(allFiles[i]) && (price2 > minPrice4 || isNaN(minPrice4)) && (price2 < maxPrice4 || isNaN(maxPrice4)) || isNaN(price2))){
                         if((typeof(allFiles[i].buildAge) != 'undefined') || (minAge == 1 && allFiles[i].buildAge == 'نوساز') || ((maxAge == 100 || age < maxAge) && age > minAge)){
                             if     (!apartment    && type  == 'آپارتمان');
                             else if(!vilage       && type  == 'ویلایی');
@@ -221,6 +241,10 @@ var updatePlans = () => {
                 .then(res => res.json())
                 .then(data => {
                     if(data.correct == true){
+                        saveEstate(estate.username, estate.password, data.estate, estate.files, estate.bookmarks);
+                        document.getElementById('user-info-areas').textContent = 'منطقه‌های ';
+                        for(var i=0; i<data.estate.selectedareas.length; i++) 
+                            document.getElementById('user-info-areas').textContent += data.estate.selectedareas[i] + '، ';
                         if(data.estate.planType != 'free' && data.estate.payed){
                             var payDate = (new Date(data.estate.payDate)).getTime();
                             var now = (new Date()).getTime();
@@ -881,6 +905,7 @@ var refresh = () => {
     document.getElementById('download-bar-handle').style.width = `${0}%`;
     document.getElementById('download-bar-text').textContent = `${0}%`;
     showFiles();
+    updatePlans();
 }
 var refresh2 = () => {
     var downloadPercent = 10;
@@ -971,6 +996,7 @@ var refresh2 = () => {
     document.getElementById('download-bar-handle').style.width = `${0}%`;
     document.getElementById('download-bar-text').textContent = `${0}%`;
     showFiles();
+    updatePlans();
 }
 var activePageNumber = (n) => {
     pageNumberButtons[1].classList.remove('active');
@@ -1056,7 +1082,7 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
         document.getElementById('estate-number').textContent = data.estate.area;
         document.getElementById('user-info-areas').textContent = 'منطقه‌های ';
         for(var i=0; i<data.estate.selectedareas.length; i++) 
-            document.getElementById('user-info-areas').textContent += data.estate.selectedareas[i];
+            document.getElementById('user-info-areas').textContent += data.estate.selectedareas[i] + '، ';
         if(data.estate.planType != 'free' && data.estate.payed){
             var payDate = (new Date(data.estate.payDate)).getTime();
             var now = (new Date()).getTime();
@@ -1097,7 +1123,7 @@ fs.readFile(path.join(pathName, 'estate.json'), (err, rawdata) => {
         document.getElementById('estate-code').textContent = data.estate.code;
         document.getElementById('user-info-areas').textContent = 'منطقه‌های ';
         for(var i=0; i<data.estate.selectedareas.length; i++) 
-            document.getElementById('user-info-areas').textContent += data.estate.selectedareas[i];
+            document.getElementById('user-info-areas').textContent += data.estate.selectedareas[i] + '، ';
         if(data.estate.planType != 'free' && data.estate.payed){
             var payDate = (new Date(data.estate.payDate)).getTime();
             var now = (new Date()).getTime();
@@ -1488,7 +1514,7 @@ var addNormalUser = () => {
             var phone = document.getElementById('user-control-phone').value;
             var address = document.getElementById('user-control-address').value;
             var password = document.getElementById('user-control-password').value;
-            fetch(api + `add-normal-user?username=${estate.username}&fullname=${fullname}&phone=${phone}&address=${address}&password=${password}`).then(res => res.json()).then(data => {
+            fetch(api + `add-normal-user?username=${estate.username}&fullname=${fullname}&phone=${phone}&address=${address}&password=${password}&userpermissionrent=${userpermissionrent}&userpermissionsell=${userpermissionsell}&userpermissionchange=${userpermissionchange}&userpermissionapartment=${userpermissionapartment}&userpermissionoffice=${userpermissionoffice}&userpermissionfeild=${userpermissionfeild}`).then(res => res.json()).then(data => {
                 if(data.status == 'ok'){
                     showSuccess('کاربر جدید ثبت شد')
                 }
@@ -1517,6 +1543,19 @@ var updateNormalUsersList = () => {
                         var status = document.createElement('div');
                         var actions = document.createElement('div');
                         var trash = document.createElement('i');
+                        var permrent = document.createElement('div');
+                        var permsell = document.createElement('div');
+                        var permchange = document.createElement('div');
+                        var permapartment = document.createElement('div');
+                        var permoffice = document.createElement('div');
+                        var permfeild = document.createElement('div');
+
+                        permrent.classList.add('item');
+                        permsell.classList.add('item');
+                        permchange.classList.add('item');
+                        permapartment.classList.add('item');
+                        permoffice.classList.add('item');
+                        permfeild.classList.add('item');
                         td.classList.add('user-control-td');
                         name.classList.add('name');
                         permissions.classList.add('permissions');
@@ -1526,7 +1565,19 @@ var updateNormalUsersList = () => {
                         actions.classList.add('red');
                         trash.classList.add('fa');
                         trash.classList.add('fa-trash');
+                        permrent.textContent = 'رهن و اجاره';
+                        permsell.textContent = 'فروش';
+                        permchange.textContent = 'معاوضه، مشارکت';
+                        permapartment.textContent = 'آپارتمان، ویلایی';
+                        permoffice.textContent = 'اداری، تجاری';
+                        permfeild.textContent = 'کلنگی، زمین، مستغلات';
                         trash.id = data.normalUsers[i]._id;
+                        if(data.normalUsers[i].userpermissionrent) permissions.appendChild(permrent);
+                        if(data.normalUsers[i].userpermissionsell) permissions.appendChild(permsell);
+                        if(data.normalUsers[i].userpermissionchange) permissions.appendChild(permchange);
+                        if(data.normalUsers[i].userpermissionapartment) permissions.appendChild(permapartment);
+                        if(data.normalUsers[i].userpermissionoffice) permissions.appendChild(permoffice);
+                        if(data.normalUsers[i].userpermissionfeild) permissions.appendChild(permfeild);
                         trash.addEventListener('click', (e) => {
                             var id = e.target.id;
                             fetch(api + `delete-normal-user?userID=${id}`).then(res => res.json()).then(data => {
@@ -2327,4 +2378,10 @@ $(document).ready(() => {
     $('#add-user-form-btn').click(() => {
         addNormalUser()
     });
+    $('#user-control-rent-checkbox').click(() => {userpermissionrent = !userpermissionrent})
+    $('#user-control-sell-checkbox').click(() => {userpermissionsell = !userpermissionsell})
+    $('#user-control-change-checkbox').click(() => {userpermissionchange = !userpermissionchange})
+    $('#user-control-apartment-checkbox').click(() => {userpermissionapartment = !userpermissionapartment})
+    $('#user-control-office-checkbox').click(() => {userpermissionoffice = !userpermissionoffice})
+    $('#user-control-feild-checkbox').click(() => {userpermissionfeild = !userpermissionfeild})
 });
