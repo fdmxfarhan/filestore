@@ -52,7 +52,7 @@ block content
                     th 
                 -for(var i=0; i<estates.length; i++){
                     tr 
-                        td.user 
+                        td.user(class="#{estates[i].role != 'admin'? 'user-border' : 'admin-border'}")
                             h1= estates[i].name
                             h2
                                 a(href="tel:#{estates[i].phone}")= estates[i].phone

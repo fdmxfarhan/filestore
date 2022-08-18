@@ -594,6 +594,12 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         margin: 0;
         padding: 0;
     }
+    .content-view .users-view table td.user.user-border{
+        border-right: var(--orange) 0.2vw solid;
+    }
+    .content-view .users-view table td.user.admin-border{
+        border-right: var(--blue) 0.2vw solid;
+    }
     .content-view .users-view table td.user h1{
         margin: 0;
         font-family: 'iransans';
@@ -1508,6 +1514,12 @@ body::-webkit-scrollbar-thumb:hover{background: var(--blue);}
         width: 90%;
         margin: 3vw auto;
         text-align: right;
+    }
+    .content-view .users-view table td.user.user-border{
+        border-right: var(--orange) 0.2vw solid;
+    }
+    .content-view .users-view table td.user.admin-border{
+        border-right: var(--blue) 0.2vw solid;
     }
     .content-view .users-view table tr:hover td{background-color: rgb(241, 241, 241);}
     .content-view .users-view table th{
