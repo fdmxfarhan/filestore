@@ -1486,7 +1486,12 @@ var addNormalUser = () => {
                 if(data.status == 'ok'){
                     showSuccess('کاربر جدید ثبت شد')
                 }
-                else showError('حداکثر تعداد کاربر ایجاد شده')
+                else {
+                    if(data.msg == 'user-exists')
+                        showError('شماره تلفن قبلا ثبت شده')
+                    else 
+                        showError('حداکثر تعداد کاربر ایجاد شده')
+                }
             }).catch(err => console.log(err));
         }
     });

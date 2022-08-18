@@ -18,7 +18,7 @@ router.get('/', (req, res, next) => {
 });
 router.get('/login', (req, res, next) => {
     var {username, password, key} = req.query;
-    Estate.findOne({code: parseInt(username), password: password}, (err, estate) => {
+    Estate.findOne({code: parseInt(username), password: password, role: 'admin'}, (err, estate) => {
         if(estate){
             if(estate.windowsKey == '' || key == estate.windowsKey){
                 res.send({correct: true, keyQualified: true, estate});
@@ -308,36 +308,42 @@ router.get('/get-factors', (req, res, next) => {
 });
 router.get('/add-normal-user', (req, res, next) => {
     var {username, fullname, phone, address, password} = req.query;
-    Estate.findOne({code: username}, (err, estate) => {
-        Estate.find({}, (err, estates) => {
-            if(estate.normalUserIDs.length+1 < estate.planusernum){
-                var code = 1000;
-                for(var i=0; i<estates.length; i++){
-                    if(code < estates[i].code)
-                        code = estates[i].code;
-                }
-                var newEstate = new Estate({
-                    name: fullname,
-                    phone,
-                    address,
-                    role: 'user',
-                    selectedareas: estate.selectedareas,
-                    planType: estate.planType,
-                    payDate: estate.payDate,
-                    payed: estate.payed,
-                    code: code+1,
-                    parentEstateID: estate._id,
-                    password,
+    Estate.findOne({phone, role: 'user'}, (err, userExist) => {
+        if(userExist){
+            res.send({status: 'error', msg: 'user-exists'})
+        }else{
+            Estate.findOne({code: username}, (err, estate) => {
+                Estate.find({}, (err, estates) => {
+                    if(estate.normalUserIDs.length+1 < estate.planusernum){
+                        var code = 1000;
+                        for(var i=0; i<estates.length; i++){
+                            if(code < estates[i].code)
+                                code = estates[i].code;
+                        }
+                        var newEstate = new Estate({
+                            name: fullname,
+                            phone,
+                            address,
+                            role: 'user',
+                            selectedareas: estate.selectedareas,
+                            planType: estate.planType,
+                            payDate: estate.payDate,
+                            payed: estate.payed,
+                            code: code+1,
+                            parentEstateID: estate._id,
+                            password,
+                        });
+                        newEstate.save().then(doc => {
+                            estate.normalUserIDs.push(newEstate._id);
+                            Estate.updateMany({code: username}, {$set: {normalUserIDs: estate.normalUserIDs}}, (err, doc) => {
+                                res.send({status: 'ok', newEstate})
+                            })
+                        }).catch(err => console.log(err));
+                    }
+                    else res.send({status: 'error', msg: 'out-of-range'});
                 });
-                newEstate.save().then(doc => {
-                    estate.normalUserIDs.push(newEstate._id);
-                    Estate.updateMany({code: username}, {$set: {normalUserIDs: estate.normalUserIDs}}, (err, doc) => {
-                        res.send({status: 'ok', newEstate})
-                    })
-                }).catch(err => console.log(err));
-            }
-            else res.send({status: 'error'})
-        });
+            });
+        }
     });
 });
 router.get('/get-normal-user', (req, res, next) => {
