@@ -1001,7 +1001,7 @@ router.get('/reset-key', ensureAuthenticated, (req, res, next) => {
         req.flash('success_msg', 'عملیات با موفقیت انجام شد');
         res.redirect('/dashboard/estates')
     })
-})
+});
 
 
 module.exports = router;

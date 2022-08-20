@@ -35,14 +35,12 @@ const BookMarks = ({navigation}) => {
                 setShowingFiles(data);
                 setShowingFiles2(data);
             }
-        }).catch(err => {
-            console.log(err);
-        });
+        }).catch(err => console.log(err));
     }
     useEffect(() => {
         if(!readOnce){
             updateBookmarks();
-            // setInterval(updateBookmarks, 5000);
+            setInterval(updateBookmarks, 5000);
             setReadOnce(true);
             readOnce = true;
         }

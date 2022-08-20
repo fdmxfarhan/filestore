@@ -12,14 +12,17 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import colors from '../components/colors';
+import Share from 'react-native-share';
+import colors, { white } from '../components/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FileImage from '../components/fileImage';
 import BookMarkButton from '../components/bookMarkButton';
+import OptionsMenu from '../components/optionsMenu';
 var { getPrice, showPrice } = require('../config/dateConvert');
 
 const FileView = (props) => {
   var [file, setFile] = useState(props.route.params.file);
+  var [shareMenuEnable, setShareMenuEnable] = useState(false);
   var getImages = () =>{
     images = [];
     for (let i = 0; i < file.images.length; i++) {
@@ -27,193 +30,297 @@ const FileView = (props) => {
     }
     return(images)
   }
+  var shareWithCostumer = () => {
+    var urls = ['http://fileestore.ir'];
+    var title = "فایل استور";
+    var message = `
+${file.type}، ${file.meterage} متری، ${file.buildAge} ${file.buildAge == 'نوساز' ? '' : 'سال ساخت'}
+قیمت ${file.state == 'رهن و اجاره' || file.state == 'رهن کامل' ? 'رهن' : 'متری'}: ${typeof(file.price) == 'undefined' ? '' : showPrice(file.price) + ' تومان'}
+قیمت ${file.state == 'رهن و اجاره' || file.state == 'رهن کامل' ? 'اجاره' : 'کل'}: ${typeof(file.fullPrice) == 'undefined' ? '' : showPrice(file.fullPrice) + ' تومان'}\n
+متراژ: ${typeof(file.meterage) == 'undefined' ? '' : file.meterage}
+خواب: ${typeof(file.bedroom) == 'undefined' ? '' : file.bedroom}
+طبقه: ${typeof(file.floor) == 'undefined' ? '' : file.floor}
+طبقات: ${typeof(file.numOfFloors) == 'undefined' ? '' : file.numOfFloors}
+واحد: ${typeof(file.unit) == 'undefined' ? '' : file.unit}
+سن بنا: ${typeof(file.buildAge) == 'undefined' ? '' : file.buildAge}
+پارکینگ: ${typeof(file.parking) == 'undefined' ? '' : file.parking}
+انباری: ${typeof(file.warehouse) == 'undefined' ? '' : file.warehouse}
+آسانسور: ${typeof(file.elevator) == 'undefined' ? '' : file.elevator}
+آشپزخانه: ${typeof(file.kitchen) == 'undefined' ? '' : file.kitchen}
+نما: ${typeof(file.view) == 'undefined' ? '' : file.view}
+کف: ${typeof(file.floortype) == 'undefined' ? '' : file.floortype}
+سرویس: ${typeof(file.service) == 'undefined' ? '' : file.service}
+سرمایش و گرمایش: ${typeof(file.heatingAndCoolingSystem) == 'undefined' ? '' : file.heatingAndCoolingSystem}
+منطقه: ${typeof(file.area) == 'undefined' ? '' : file.area}
+وام: ${typeof(file.lone) == 'undefined' ? '' : file.lone}
+قابلیت تبدیل: ${typeof(file.changable) == 'undefined' ? '' : file.changable}
+تخفیف: ${typeof(file.discount) == 'undefined' ? '' : file.discount}
+وضعیت سند: ${typeof(file.documentState) == 'undefined' ? '' : file.documentState}
+تحویل: ${typeof(file.transfer) == 'undefined' ? '' : file.transfer}
+آگهی دهنده: ${typeof(file.advertiser) == 'undefined' ? '' : file.advertiser}
+سمت: ${typeof(file.role) == 'undefined' ? '' : file.role}
+    `;
+    if(images.length > 0) urls = [images[0].image];
+    Share.open(Platform.select({
+      default: {
+        title,
+        subject: title,
+        message,
+        urls,
+      },
+    })).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      err && console.log(err);
+    });
+  }
+  var shareWithCoworker = () => {
+    var urls = [];
+    var title = "فایل استور";
+    var message = `
+${file.type}، ${file.meterage} متری، ${file.buildAge} ${file.buildAge == 'نوساز' ? '' : 'سال ساخت'}
+آدرس: ${file.address}
+تلفن: ${file.phone}
+قیمت ${file.state == 'رهن و اجاره' || file.state == 'رهن کامل' ? 'رهن' : 'متری'}: ${typeof(file.price) == 'undefined' ? '' : showPrice(file.price) + ' تومان'}
+قیمت ${file.state == 'رهن و اجاره' || file.state == 'رهن کامل' ? 'اجاره' : 'کل'}: ${typeof(file.fullPrice) == 'undefined' ? '' : showPrice(file.fullPrice) + ' تومان'}\n
+متراژ: ${typeof(file.meterage) == 'undefined' ? '' : file.meterage}
+خواب: ${typeof(file.bedroom) == 'undefined' ? '' : file.bedroom}
+طبقه: ${typeof(file.floor) == 'undefined' ? '' : file.floor}
+طبقات: ${typeof(file.numOfFloors) == 'undefined' ? '' : file.numOfFloors}
+واحد: ${typeof(file.unit) == 'undefined' ? '' : file.unit}
+سن بنا: ${typeof(file.buildAge) == 'undefined' ? '' : file.buildAge}
+پارکینگ: ${typeof(file.parking) == 'undefined' ? '' : file.parking}
+انباری: ${typeof(file.warehouse) == 'undefined' ? '' : file.warehouse}
+آسانسور: ${typeof(file.elevator) == 'undefined' ? '' : file.elevator}
+آشپزخانه: ${typeof(file.kitchen) == 'undefined' ? '' : file.kitchen}
+نما: ${typeof(file.view) == 'undefined' ? '' : file.view}
+کف: ${typeof(file.floortype) == 'undefined' ? '' : file.floortype}
+سرویس: ${typeof(file.service) == 'undefined' ? '' : file.service}
+سرمایش و گرمایش: ${typeof(file.heatingAndCoolingSystem) == 'undefined' ? '' : file.heatingAndCoolingSystem}
+منطقه: ${typeof(file.area) == 'undefined' ? '' : file.area}
+وام: ${typeof(file.lone) == 'undefined' ? '' : file.lone}
+قابلیت تبدیل: ${typeof(file.changable) == 'undefined' ? '' : file.changable}
+تخفیف: ${typeof(file.discount) == 'undefined' ? '' : file.discount}
+وضعیت سند: ${typeof(file.documentState) == 'undefined' ? '' : file.documentState}
+تحویل: ${typeof(file.transfer) == 'undefined' ? '' : file.transfer}
+آگهی دهنده: ${typeof(file.advertiser) == 'undefined' ? '' : file.advertiser}
+سمت: ${typeof(file.role) == 'undefined' ? '' : file.role}
+    `;
+    if(images.length > 0) urls = [images[0].image];
+    Share.open(Platform.select({
+      default: {
+        title,
+        subject: title,
+        message,
+        urls,
+      },
+    })).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      err && console.log(err);
+    });
+  }
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.imageContainer}>
-        <FileImage images={getImages(file)}/>
-        <TouchableOpacity style={styles.expandBtn}>
-          <Icon style={styles.expandIcon} name='expand' />
-          <Text style={styles.expandText}>0</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.backBtn} onPress={() => {props.navigation.navigate('Home')}}>
-          <Icon style={styles.backIcon} name='arrow-left' />
-        </TouchableOpacity>
-        <BookMarkButton file={file} />
-        <Text style={styles.fileNumberText}>{file.fileNumber}</Text>
-        {/* <View style={styles.circlesView}>
-          <Icon style={styles.circles} name='circle' />
-          <Icon style={styles.circles} name='circle-o' />
-          <Icon style={styles.circles} name='circle-o' />
-          <Icon style={styles.circles} name='circle-o' />
-        </View> */}
-      </View>
-      <View style={styles.infoContainer}>
-        <Text style={styles.title}>{file.type}، {file.meterage} متری، {file.buildAge} {file.buildAge == 'نوساز' ? '' : 'سال ساخت'}</Text>
-        <Text style={styles.address}>آدرس: {file.address}</Text>
-        <View style={styles.info1}>
-          <View style={styles.info1Card}>
-            <Text style={styles.info1Title}>مالک</Text>
-            <Text style={styles.info1Value}>{file.ownerName}</Text>
-          </View>
-          <View style={styles.break}/>
-          <View style={styles.info1Card}>
-            <Text style={styles.info1Title}>تلفن</Text>
-            <Text style={styles.info1Value}>{file.phone}</Text>
-          </View>
-          <View style={styles.break}/>
-          <View style={styles.info1Card}>
-            <Text style={styles.info1Title}>تاریخ</Text>
-            <Text style={styles.info1Value}>{file.date}</Text>
-          </View>
+    <View>
+      <ScrollView style={styles.container}>
+        <View style={styles.imageContainer}>
+          <FileImage images={getImages(file)}/>
+          <TouchableOpacity style={styles.expandBtn}>
+            {/* <Icon style={styles.expandIcon} name='expand' /> */}
+            <Text style={styles.expandText}>{images.length}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.backBtn} onPress={() => {props.navigation.navigate('Home')}}>
+            <Icon style={styles.backIcon} name='arrow-left' />
+          </TouchableOpacity>
+          <BookMarkButton file={file} />
+          <Text style={styles.fileNumberText}>{file.fileNumber}</Text>
+          {/* <View style={styles.circlesView}>
+            <Icon style={styles.circles} name='circle' />
+            <Icon style={styles.circles} name='circle-o' />
+            <Icon style={styles.circles} name='circle-o' />
+            <Icon style={styles.circles} name='circle-o' />
+          </View> */}
         </View>
-        <View style={styles.priceContainer}>
-          <View style={styles.priceItem}>
-            <Text style={styles.priceTitle}>قیمت {file.state == 'رهن و اجاره' || file.state == 'رهن کامل' ? 'رهن' : 'متری'}: </Text>
-            <Text style={styles.priceValue}>{typeof(file.price) == 'undefined' ? '' : showPrice(file.price) + ' تومان'}</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.title}>{file.type}، {file.meterage} متری، {file.buildAge} {file.buildAge == 'نوساز' ? '' : 'سال ساخت'}</Text>
+          <Text style={styles.address}>آدرس: {file.address}</Text>
+          <View style={styles.info1}>
+            <View style={styles.info1Card}>
+              <Text style={styles.info1Title}>مالک</Text>
+              <Text style={styles.info1Value}>{file.ownerName}</Text>
+            </View>
+            <View style={styles.break}/>
+            <View style={styles.info1Card}>
+              <Text style={styles.info1Title}>تلفن</Text>
+              <Text style={styles.info1Value}>{file.phone}</Text>
+            </View>
+            <View style={styles.break}/>
+            <View style={styles.info1Card}>
+              <Text style={styles.info1Title}>تاریخ</Text>
+              <Text style={styles.info1Value}>{file.date}</Text>
+            </View>
           </View>
-          <View style={styles.priceItem}>
-            <Text style={styles.priceTitle}>قیمت {file.state == 'رهن و اجاره' || file.state == 'رهن کامل' ? 'اجاره' : 'کل'}: </Text>
-            <Text style={styles.priceValue}>{typeof(file.fullPrice) == 'undefined' ? '' : showPrice(file.fullPrice) + ' تومان'}</Text>
+          <View style={styles.priceContainer}>
+            <View style={styles.priceItem}>
+              <Text style={styles.priceTitle}>قیمت {file.state == 'رهن و اجاره' || file.state == 'رهن کامل' ? 'رهن' : 'متری'}: </Text>
+              <Text style={styles.priceValue}>{typeof(file.price) == 'undefined' ? '' : showPrice(file.price) + ' تومان'}</Text>
+            </View>
+            <View style={styles.priceItem}>
+              <Text style={styles.priceTitle}>قیمت {file.state == 'رهن و اجاره' || file.state == 'رهن کامل' ? 'اجاره' : 'کل'}: </Text>
+              <Text style={styles.priceValue}>{typeof(file.fullPrice) == 'undefined' ? '' : showPrice(file.fullPrice) + ' تومان'}</Text>
+            </View>
           </View>
+          <View style={styles.info2}>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>متراژ: </Text>
+              <Text style={styles.info2Value}>{typeof(file.meterage) == 'undefined' ? '' : file.meterage}</Text>
+              <Text style={styles.info2Value}>{typeof(file.meterage2) == 'undefined' ? '' : file.meterage2}</Text>
+              <Text style={styles.info2Value}>{typeof(file.meterage3) == 'undefined' ? '' : file.meterage3}</Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>خواب: </Text>
+              <Text style={styles.info2Value}>{typeof(file.bedroom) == 'undefined' ? '' : file.bedroom}</Text>
+              <Text style={styles.info2Value}>{typeof(file.bedroom2) == 'undefined' ? '' : file.bedroom2}</Text>
+              <Text style={styles.info2Value}>{typeof(file.bedroom3) == 'undefined' ? '' : file.bedroom3}</Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>طبقه: </Text>
+              <Text style={styles.info2Value}>{typeof(file.floor) == 'undefined' ? '' : file.floor}</Text>
+              <Text style={styles.info2Value}>{typeof(file.floor2) == 'undefined' ? '' : file.floor2}</Text>
+              <Text style={styles.info2Value}>{typeof(file.floor3) == 'undefined' ? '' : file.floor3}</Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>طبقات: </Text>
+              <Text style={styles.info2Value}>{typeof(file.numOfFloors) == 'undefined' ? '' : file.numOfFloors}</Text>
+              <Text style={styles.info2Value}>{typeof(file.numOfFloors2) == 'undefined' ? '' : file.numOfFloors2}</Text>
+              <Text style={styles.info2Value}>{typeof(file.numOfFloors3) == 'undefined' ? '' : file.numOfFloors3}</Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>واحد: </Text>
+              <Text style={styles.info2Value}>{typeof(file.unit) == 'undefined' ? '' : file.unit}</Text>
+              <Text style={styles.info2Value}>{typeof(file.unit2) == 'undefined' ? '' : file.unit2}</Text>
+              <Text style={styles.info2Value}>{typeof(file.unit3) == 'undefined' ? '' : file.unit3}</Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>سن بنا: </Text>
+              <Text style={styles.info2Value}>{typeof(file.buildAge) == 'undefined' ? '' : file.buildAge}</Text>
+              <Text style={styles.info2Value}>{typeof(file.buildAge2) == 'undefined' ? '' : file.buildAge2}</Text>
+              <Text style={styles.info2Value}>{typeof(file.buildAge3) == 'undefined' ? '' : file.buildAge3}</Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>پارکینگ: </Text>
+              <Text style={styles.info2Value}>{typeof(file.parking) == 'undefined' ? '' : file.parking}</Text>
+              <Text style={styles.info2Value}>{typeof(file.parking2) == 'undefined' ? '' : file.parking2}</Text>
+              <Text style={styles.info2Value}>{typeof(file.parking3) == 'undefined' ? '' : file.parking3}</Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>انباری: </Text>
+              <Text style={styles.info2Value}>{typeof(file.warehouse) == 'undefined' ? '' : file.warehouse}</Text>
+              <Text style={styles.info2Value}>{typeof(file.warehouse2) == 'undefined' ? '' : file.warehouse2}</Text>
+              <Text style={styles.info2Value}>{typeof(file.warehouse3) == 'undefined' ? '' : file.warehouse3}</Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>آسانسور: </Text>
+              <Text style={styles.info2Value}>{typeof(file.elevator) == 'undefined' ? '' : file.elevator}</Text>
+              <Text style={styles.info2Value}>{typeof(file.elevator2) == 'undefined' ? '' : file.elevator2}</Text>
+              <Text style={styles.info2Value}>{typeof(file.elevator3) == 'undefined' ? '' : file.elevator3}</Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>آشپزخانه: </Text>
+              <Text style={styles.info2Value}>{typeof(file.kitchen) == 'undefined' ? '' : file.kitchen}</Text>
+              <Text style={styles.info2Value}>{typeof(file.kitchen2) == 'undefined' ? '' : file.kitchen2}</Text>
+              <Text style={styles.info2Value}>{typeof(file.kitchen3) == 'undefined' ? '' : file.kitchen3}</Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>نما: </Text>
+              <Text style={styles.info2Value}>{typeof(file.view) == 'undefined' ? '' : file.view}</Text>
+              <Text style={styles.info2Value}>{typeof(file.view2) == 'undefined' ? '' : file.view2}</Text>
+              <Text style={styles.info2Value}>{typeof(file.view3) == 'undefined' ? '' : file.view3}</Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>کف: </Text>
+              <Text style={styles.info2Value}>{typeof(file.floortype) == 'undefined' ? '' : file.floortype}</Text>
+              <Text style={styles.info2Value}>{typeof(file.floortype2) == 'undefined' ? '' : file.floortype2}</Text>
+              <Text style={styles.info2Value}>{typeof(file.floortype3) == 'undefined' ? '' : file.floortype3}</Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>سرویس: </Text>
+              <Text style={styles.info2Value}>{typeof(file.service) == 'undefined' ? '' : file.service}</Text>
+              <Text style={styles.info2Value}>{typeof(file.service2) == 'undefined' ? '' : file.service2}</Text>
+              <Text style={styles.info2Value}>{typeof(file.service3) == 'undefined' ? '' : file.service3}</Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>سرمایش و گرمایش: </Text>
+              <Text style={styles.info2Value}>{typeof(file.heatingAndCoolingSystem) == 'undefined' ? '' : file.heatingAndCoolingSystem}</Text>
+              <Text style={styles.info2Value}>{typeof(file.heatingAndCoolingSystem2) == 'undefined' ? '' : file.heatingAndCoolingSystem2}</Text>
+              <Text style={styles.info2Value}>{typeof(file.heatingAndCoolingSystem3) == 'undefined' ? '' : file.heatingAndCoolingSystem3}</Text>
+            </View>
+            {/* ---------------------------------- break ---------------------------------- */}
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>منطقه: </Text>
+              <Text style={styles.info2Value}>{typeof(file.area) == 'undefined' ? '' : file.area}</Text>
+              <Text style={styles.info2Value}></Text>
+              <Text style={styles.info2Value}></Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>وام: </Text>
+              <Text style={styles.info2Value}>{typeof(file.lone) == 'undefined' ? '' : file.lone}</Text>
+              <Text style={styles.info2Value}></Text>
+              <Text style={styles.info2Value}></Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>قابلیت تبدیل: </Text>
+              <Text style={styles.info2Value}>{typeof(file.changable) == 'undefined' ? '' : file.changable}</Text>
+              <Text style={styles.info2Value}></Text>
+              <Text style={styles.info2Value}></Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>تخفیف: </Text>
+              <Text style={styles.info2Value}>{typeof(file.discount) == 'undefined' ? '' : file.discount}</Text>
+              <Text style={styles.info2Value}></Text>
+              <Text style={styles.info2Value}></Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>وضعیت سند: </Text>
+              <Text style={styles.info2Value}>{typeof(file.documentState) == 'undefined' ? '' : file.documentState}</Text>
+              <Text style={styles.info2Value}></Text>
+              <Text style={styles.info2Value}></Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>تحویل: </Text>
+              <Text style={styles.info2Value}>{typeof(file.transfer) == 'undefined' ? '' : file.transfer}</Text>
+              <Text style={styles.info2Value}></Text>
+              <Text style={styles.info2Value}></Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>آگهی دهنده: </Text>
+              <Text style={styles.info2Value}>{typeof(file.advertiser) == 'undefined' ? '' : file.advertiser}</Text>
+              <Text style={styles.info2Value}></Text>
+              <Text style={styles.info2Value}></Text>
+            </View>
+            <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>سمت: </Text>
+              <Text style={styles.info2Value}>{typeof(file.role) == 'undefined' ? '' : file.role}</Text>
+              <Text style={styles.info2Value}></Text>
+              <Text style={styles.info2Value}></Text>
+            </View>
+          </View>
+          <Text style={styles.fileOptions}>امکانات: {typeof(file.options) == 'undefined' ? '' : file.options}</Text>
         </View>
-        <View style={styles.info2}>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>متراژ: </Text>
-            <Text style={styles.info2Value}>{typeof(file.meterage) == 'undefined' ? '' : file.meterage}</Text>
-            <Text style={styles.info2Value}>{typeof(file.meterage2) == 'undefined' ? '' : file.meterage2}</Text>
-            <Text style={styles.info2Value}>{typeof(file.meterage3) == 'undefined' ? '' : file.meterage3}</Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>خواب: </Text>
-            <Text style={styles.info2Value}>{typeof(file.bedroom) == 'undefined' ? '' : file.bedroom}</Text>
-            <Text style={styles.info2Value}>{typeof(file.bedroom2) == 'undefined' ? '' : file.bedroom2}</Text>
-            <Text style={styles.info2Value}>{typeof(file.bedroom3) == 'undefined' ? '' : file.bedroom3}</Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>طبقه: </Text>
-            <Text style={styles.info2Value}>{typeof(file.floor) == 'undefined' ? '' : file.floor}</Text>
-            <Text style={styles.info2Value}>{typeof(file.floor2) == 'undefined' ? '' : file.floor2}</Text>
-            <Text style={styles.info2Value}>{typeof(file.floor3) == 'undefined' ? '' : file.floor3}</Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>طبقات: </Text>
-            <Text style={styles.info2Value}>{typeof(file.numOfFloors) == 'undefined' ? '' : file.numOfFloors}</Text>
-            <Text style={styles.info2Value}>{typeof(file.numOfFloors2) == 'undefined' ? '' : file.numOfFloors2}</Text>
-            <Text style={styles.info2Value}>{typeof(file.numOfFloors3) == 'undefined' ? '' : file.numOfFloors3}</Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>واحد: </Text>
-            <Text style={styles.info2Value}>{typeof(file.unit) == 'undefined' ? '' : file.unit}</Text>
-            <Text style={styles.info2Value}>{typeof(file.unit2) == 'undefined' ? '' : file.unit2}</Text>
-            <Text style={styles.info2Value}>{typeof(file.unit3) == 'undefined' ? '' : file.unit3}</Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>سن بنا: </Text>
-            <Text style={styles.info2Value}>{typeof(file.buildAge) == 'undefined' ? '' : file.buildAge}</Text>
-            <Text style={styles.info2Value}>{typeof(file.buildAge2) == 'undefined' ? '' : file.buildAge2}</Text>
-            <Text style={styles.info2Value}>{typeof(file.buildAge3) == 'undefined' ? '' : file.buildAge3}</Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>پارکینگ: </Text>
-            <Text style={styles.info2Value}>{typeof(file.parking) == 'undefined' ? '' : file.parking}</Text>
-            <Text style={styles.info2Value}>{typeof(file.parking2) == 'undefined' ? '' : file.parking2}</Text>
-            <Text style={styles.info2Value}>{typeof(file.parking3) == 'undefined' ? '' : file.parking3}</Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>انباری: </Text>
-            <Text style={styles.info2Value}>{typeof(file.warehouse) == 'undefined' ? '' : file.warehouse}</Text>
-            <Text style={styles.info2Value}>{typeof(file.warehouse2) == 'undefined' ? '' : file.warehouse2}</Text>
-            <Text style={styles.info2Value}>{typeof(file.warehouse3) == 'undefined' ? '' : file.warehouse3}</Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>آسانسور: </Text>
-            <Text style={styles.info2Value}>{typeof(file.elevator) == 'undefined' ? '' : file.elevator}</Text>
-            <Text style={styles.info2Value}>{typeof(file.elevator2) == 'undefined' ? '' : file.elevator2}</Text>
-            <Text style={styles.info2Value}>{typeof(file.elevator3) == 'undefined' ? '' : file.elevator3}</Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>آشپزخانه: </Text>
-            <Text style={styles.info2Value}>{typeof(file.kitchen) == 'undefined' ? '' : file.kitchen}</Text>
-            <Text style={styles.info2Value}>{typeof(file.kitchen2) == 'undefined' ? '' : file.kitchen2}</Text>
-            <Text style={styles.info2Value}>{typeof(file.kitchen3) == 'undefined' ? '' : file.kitchen3}</Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>نما: </Text>
-            <Text style={styles.info2Value}>{typeof(file.view) == 'undefined' ? '' : file.view}</Text>
-            <Text style={styles.info2Value}>{typeof(file.view2) == 'undefined' ? '' : file.view2}</Text>
-            <Text style={styles.info2Value}>{typeof(file.view3) == 'undefined' ? '' : file.view3}</Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>کف: </Text>
-            <Text style={styles.info2Value}>{typeof(file.floortype) == 'undefined' ? '' : file.floortype}</Text>
-            <Text style={styles.info2Value}>{typeof(file.floortype2) == 'undefined' ? '' : file.floortype2}</Text>
-            <Text style={styles.info2Value}>{typeof(file.floortype3) == 'undefined' ? '' : file.floortype3}</Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>سرویس: </Text>
-            <Text style={styles.info2Value}>{typeof(file.service) == 'undefined' ? '' : file.service}</Text>
-            <Text style={styles.info2Value}>{typeof(file.service2) == 'undefined' ? '' : file.service2}</Text>
-            <Text style={styles.info2Value}>{typeof(file.service3) == 'undefined' ? '' : file.service3}</Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>سرمایش و گرمایش: </Text>
-            <Text style={styles.info2Value}>{typeof(file.heatingAndCoolingSystem) == 'undefined' ? '' : file.heatingAndCoolingSystem}</Text>
-            <Text style={styles.info2Value}>{typeof(file.heatingAndCoolingSystem2) == 'undefined' ? '' : file.heatingAndCoolingSystem2}</Text>
-            <Text style={styles.info2Value}>{typeof(file.heatingAndCoolingSystem3) == 'undefined' ? '' : file.heatingAndCoolingSystem3}</Text>
-          </View>
-          {/* ---------------------------------- break ---------------------------------- */}
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>منطقه: </Text>
-            <Text style={styles.info2Value}>{typeof(file.area) == 'undefined' ? '' : file.area}</Text>
-            <Text style={styles.info2Value}></Text>
-            <Text style={styles.info2Value}></Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>وام: </Text>
-            <Text style={styles.info2Value}>{typeof(file.lone) == 'undefined' ? '' : file.lone}</Text>
-            <Text style={styles.info2Value}></Text>
-            <Text style={styles.info2Value}></Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>قابلیت تبدیل: </Text>
-            <Text style={styles.info2Value}>{typeof(file.changable) == 'undefined' ? '' : file.changable}</Text>
-            <Text style={styles.info2Value}></Text>
-            <Text style={styles.info2Value}></Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>تخفیف: </Text>
-            <Text style={styles.info2Value}>{typeof(file.discount) == 'undefined' ? '' : file.discount}</Text>
-            <Text style={styles.info2Value}></Text>
-            <Text style={styles.info2Value}></Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>وضعیت سند: </Text>
-            <Text style={styles.info2Value}>{typeof(file.documentState) == 'undefined' ? '' : file.documentState}</Text>
-            <Text style={styles.info2Value}></Text>
-            <Text style={styles.info2Value}></Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>تحویل: </Text>
-            <Text style={styles.info2Value}>{typeof(file.transfer) == 'undefined' ? '' : file.transfer}</Text>
-            <Text style={styles.info2Value}></Text>
-            <Text style={styles.info2Value}></Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>آگهی دهنده: </Text>
-            <Text style={styles.info2Value}>{typeof(file.advertiser) == 'undefined' ? '' : file.advertiser}</Text>
-            <Text style={styles.info2Value}></Text>
-            <Text style={styles.info2Value}></Text>
-          </View>
-          <View style={styles.info2Item}>
-            <Text style={styles.info2Title}>سمت: </Text>
-            <Text style={styles.info2Value}>{typeof(file.role) == 'undefined' ? '' : file.role}</Text>
-            <Text style={styles.info2Value}></Text>
-            <Text style={styles.info2Value}></Text>
-          </View>
-        </View>
-        <Text style={styles.fileOptions}>امکانات: {typeof(file.options) == 'undefined' ? '' : file.options}</Text>
-      </View>
-    </ScrollView>
+      </ScrollView>
+      <OptionsMenu 
+        enabled={shareMenuEnable}
+        setEnable={setShareMenuEnable}
+        data={[
+          {title: 'اشتراک گذاری برای مشتری', function: shareWithCostumer, id: 1}, 
+          {title: 'اشتراک گذاری برای همکار', function: shareWithCoworker, id: 2}, 
+      ]}/>
+      <TouchableOpacity style={styles.shareButton} onPress={() => setShareMenuEnable(true)}>
+        <Icon name='share'  style={styles.shareButtonIcon}/>
+        <Text style={styles.shareButtonText}>اشتراک گذاری</Text>
+      </TouchableOpacity>
+      
+    </View>
   );
 }
 
@@ -251,7 +358,7 @@ const styles = StyleSheet.create({
       color: colors.white,
       fontSize: 16,
       paddingTop: 3,
-      paddingHorizontal: 4,
+      paddingHorizontal: 10,
     },
     backBtn: {
       // backgroundColor: colors.modal,
@@ -410,6 +517,28 @@ const styles = StyleSheet.create({
       direction: 'ltr',
       fontWeight: 'bold',
       color: 'green'
+    },
+    shareButton: {
+      position: 'absolute',
+      bottom: 20,
+      left: 20,
+      flexDirection: 'row-reverse',
+      backgroundColor: colors.darkblue,
+      borderRadius: 100,
+      paddingHorizontal: 10,
+    },
+    shareButtonText: {
+      fontFamily: 'iransans',
+      color: white,
+      fontSize: 15,
+      paddingHorizontal: 10,
+      paddingVertical: 10,
+    },
+    shareButtonIcon: {
+      color: white,
+      fontSize: 15,
+      paddingTop: 15,
+      paddingHorizontal: 10,
     },
 });
 
