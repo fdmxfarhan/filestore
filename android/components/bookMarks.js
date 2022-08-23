@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import colors from '../components/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import api from '../config/api';
 import Search from './search';
 import Filters from './filters';
 import Loading from './loading';
@@ -30,17 +31,32 @@ const BookMarks = ({navigation}) => {
     var [readOnce, setReadOnce] = useState(false);
     var updateBookmarks = () => {
         readBookmark().then(data => {
-            if(data != null) {
-                setFiles(data);
-                setShowingFiles(data);
-                setShowingFiles2(data);
-            }
+            readData().then(savedData => {
+                api.post('/api-mobile/get-user-file', {code: savedData.estate.code}).then(res => {
+                    if(data != null) {
+                        setFiles(data);
+                        setShowingFiles(data);
+                        setShowingFiles2(data);
+                        files = data;
+                        showingFiles = data;
+                        showingFiles2 = data;
+                    }
+                    else files = [];
+                    for(var i=0; i<res.data.userFiles.length; i++){
+                        res.data.userFiles[i].isUserFile = true;
+                        files.push(res.data.userFiles[i]);
+                    }
+                    setFiles(files);
+                    setShowingFiles(files);
+                    setShowingFiles2(files);
+                }).catch(err => console.log(err));
+            }).catch(err => console.log(err));
         }).catch(err => console.log(err));
     }
     useEffect(() => {
         if(!readOnce){
             updateBookmarks();
-            setInterval(updateBookmarks, 5000);
+            setInterval(updateBookmarks, 10000);
             setReadOnce(true);
             readOnce = true;
         }
@@ -87,7 +103,6 @@ const styles = StyleSheet.create({
         width: '100%',
         marginTop: 0,
     }
-
 });
 
 export default BookMarks;

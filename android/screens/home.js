@@ -18,6 +18,7 @@ import FileList from '../components/fileList';
 import Search from '../components/search';
 import BookMarks from '../components/bookMarks';
 import Profile from '../components/profile';
+import AddFileView from '../components/addFileView';
 
 const Tab = createBottomTabNavigator();
 
@@ -38,7 +39,7 @@ const BookmarkScreen = (props) => {
 const AddScreen = (props) => {
     return (
       <View style={styles.container}>
-
+          <AddFileView navigation={props.navigation}/>
       </View>
     );
 }
@@ -102,6 +103,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.lightBackground,
         alignContent: 'center',
         alignItems: 'center',
+        width: '100%',
     },
     tabBar:{
         fontFamily: 'iransans',

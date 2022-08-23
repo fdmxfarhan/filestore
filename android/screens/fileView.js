@@ -132,7 +132,7 @@ ${file.type}، ${file.meterage} متری، ${file.buildAge} ${file.buildAge == '
           <TouchableOpacity style={styles.backBtn} onPress={() => {props.navigation.navigate('Home')}}>
             <Icon style={styles.backIcon} name='arrow-left' />
           </TouchableOpacity>
-          <BookMarkButton file={file} />
+          <BookMarkButton file={file} navigation={props.navigation} />
           <Text style={styles.fileNumberText}>{file.fileNumber}</Text>
           {/* <View style={styles.circlesView}>
             <Icon style={styles.circles} name='circle' />

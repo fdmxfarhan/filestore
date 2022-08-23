@@ -20,4 +20,5 @@ module.exports = {
   file2: '#bfe2c2',
   file3: '#e9abab',
   modal: '#00000099',
+  gold: '#FFC700',
 };

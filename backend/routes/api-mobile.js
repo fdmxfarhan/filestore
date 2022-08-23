@@ -6,6 +6,7 @@ var File = require('../models/File');
 var Notif = require('../models/Notif');
 var Settings = require('../models/Settings');
 var News = require('../models/News');
+var UserFile = require('../models/UserFile');
 const ZarinpalCheckout = require('zarinpal-checkout');
 const zarinpal = ZarinpalCheckout.create('18286cd3-6065-4a7a-ad43-05eaf70f01a6', false);
 const { ensureAuthenticated } = require('../config/auth');
@@ -154,5 +155,28 @@ router.get('/get-news', (req, res, next) => {
         }
     });
 });
+router.post('/add-new-file', (req, res, next) => {
+    var {fileData} = req.body;
+    var newUserFile = new UserFile(fileData);
+    Estate.findOne({code: fileData.creatorCode}, (err, estate) => {
+        newUserFile.creatorID = estate._id;
+        newUserFile.save().then(doc => {
+            res.send('ok');
+        }).catch(err => console.log(err));
+    })
+});
+router.post('/get-user-file', (req, res, next) => {
+    var {code} = req.body;
+    UserFile.find({creatorCode: code}, (err, userFiles) => {
+        res.send({userFiles});
+    });
+})
+router.post('/delete-user-file', (req, res, next) => {
+    var {userFielID} = req.body;
+    UserFile.deleteMany({_id: userFielID}, (err, userFiles) => {
+        res.send('ok');
+    });
+})
+
 
 module.exports = router;

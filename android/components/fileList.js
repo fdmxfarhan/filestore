@@ -63,7 +63,7 @@ const FileList = ({navigation}) => {
             )
           }}
           />
-      <RefreshButton setFunction={(data) => {setFiles(data); setShowingFiles(data);}} setLoading={setLoading} setPlansEnabled={setPlansEnabled}/>
+      <RefreshButton setFunction={(data) => {setFiles(data); setShowingFiles(data); setShowingFiles2(data);}} setLoading={setLoading} setPlansEnabled={setPlansEnabled}/>
       <Loading visible={loading}/>
       <Plans enabled={plansEnabled} setEnabled={setPlansEnabled}/>
     </View>

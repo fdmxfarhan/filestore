@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// url = "http://172.26.227.238:3000";
+// url = "http://192.168.177.148:3000";
 url = "https://fileestore.ir";
 
 api = axios.create({

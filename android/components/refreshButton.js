@@ -33,6 +33,7 @@ const RefreshButton = ({navigation, setFunction, setLoading, setPlansEnabled}) =
           }
         }).catch(err => {
           console.log(err);
+          setLoading(false);
           alert('عدم اتصال به اینترنت');
         })
     }).catch(err => console.log(err));

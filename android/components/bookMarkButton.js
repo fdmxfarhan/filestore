@@ -15,6 +15,7 @@ import {
 import colors from '../components/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FileImage from '../components/fileImage';
+import api from '../config/api';
 var { getPrice, showPrice } = require('../config/dateConvert');
 var { saveBookmark, readBookmark } = require('../config/save');
 
@@ -41,7 +42,16 @@ const BookMarkButton = ({navigation, file}) => {
             setReadOnce(true);
         }
     })
-    if(bookmarked){
+    if(file.isUserFile) return(
+        <TouchableOpacity style={styles.bookmarkBtn} onPress={() => {
+            api.post('/api-mobile/delete-user-file', {userFielID: file._id}).then(res => {
+                navigation.navigate('Bookmark');
+            }).catch(err => console.log(err));
+        }}>
+            <Icon style={styles.deleteButton} name='trash' />
+        </TouchableOpacity>
+    )
+    else if(bookmarked){
         return (
             <TouchableOpacity style={styles.bookmarkBtn} onPress={() => {
                 readBookmark().then(bookmarks => {
@@ -98,6 +108,11 @@ const styles = StyleSheet.create({
     },
     bookmarkIconActive: {
         color: colors.yellow,
+        fontSize: 30,
+        padding: 5,
+    },
+    deleteButton: {
+        color: colors.red,
         fontSize: 30,
         padding: 5,
     },
