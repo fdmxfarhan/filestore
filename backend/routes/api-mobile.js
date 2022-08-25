@@ -7,10 +7,12 @@ var Notif = require('../models/Notif');
 var Settings = require('../models/Settings');
 var News = require('../models/News');
 var UserFile = require('../models/UserFile');
+var Payment = require('../models/Payment');
 const ZarinpalCheckout = require('zarinpal-checkout');
 const zarinpal = ZarinpalCheckout.create('18286cd3-6065-4a7a-ad43-05eaf70f01a6', false);
 const { ensureAuthenticated } = require('../config/auth');
 const sms = require('../config/sms');
+var {convertDate, get_year_month_day, jalali_to_gregorian} = require('../config/dateConvert');
 
 router.get('/', (req, res, next) => {
     res.send('API called successfully');
@@ -55,7 +57,7 @@ router.get('/get-files', (req, res, next) => {
             }
             else res.send({status: 'not payed'})
         }
-        else res.send({status: 'error'})
+        else res.send({status: 'login-failed'})
     })
 });
 router.post('/get-files2', (req, res, next) => {
@@ -82,7 +84,7 @@ router.post('/get-files2', (req, res, next) => {
             }
             else res.send({status: 'not payed'})
         }
-        else res.send({status: 'error'})
+        else res.send({status: 'login-failed'})
     })
 });
 router.get('/pay-estate', (req, res, next) => {
@@ -108,6 +110,59 @@ router.get('/pay-estate', (req, res, next) => {
                         }}, (err, doc) => {
                             console.log(response);
                             res.redirect(response.url);
+                        });
+                    }
+                }).catch(err => {
+                    console.error(err);
+                });
+            }
+            else res.send({status: 'error'});
+        });
+    });
+});
+router.get('/pay-estate2', (req, res, next) => {
+    var {username, password, plan, paymentfullprice, paymentdiscount, paymentpayable, selectedareas, planusernum} = req.query;
+    selectedareas = selectedareas.split(',');
+    amounts = [170000, 470000, 680000, 1469000];
+    names = ['1 ماهه', '3 ماهه', '6 ماهه', '1 ساله'];
+    Settings.findOne({}, (err, settings) => {
+        amounts = [settings.oneMonth, settings.threeMonth, settings.sixMonth, settings.oneYear];
+        Estate.findOne({code: username, password: password}, (err, estate) => {
+            if(estate){
+                zarinpal.PaymentRequest({
+                    Amount: paymentfullprice.toString(), // In Tomans
+                    // CallbackURL: 'http://185.81.99.34:3000/api/payment-call-back2',
+                    CallbackURL: 'http://fileestore.ir/api/payment-call-back2',
+                    Description: `خرید اشتراک ${names[parseInt(plan)]} توسط ${estate.name}`,
+                    Email: '',
+                    Mobile: estate.phone,
+                }).then(response => {
+                    if (response.status === 100) {
+                        Estate.updateMany({code: username, password: password}, {$set: {
+                            selectedareas, 
+                            planusernum, 
+                            authority: response.authority, 
+                            planType: names[parseInt(plan)],
+                            normalUserIDs: [],
+                        }}, (err, doc) => {
+                            var newPayment = new Payment({
+                                username: parseInt(username),
+                                EstateID: estate._id,
+                                paymentfullprice,
+                                paymentdiscount,
+                                paymentpayable,
+                                selectedareas,
+                                planusernum,
+                                plan,
+                                planName: names[parseInt(plan)],
+                                date: new Date(),
+                                jDate: convertDate(new Date()),
+                                authority: response.authority,
+                            });
+                            console.log(response.authority)
+                            newPayment.save().then(doc => {
+                                res.redirect(response.url);
+                            }).catch(err => console.log(err));
                         });
                     }
                 }).catch(err => {
@@ -170,13 +225,16 @@ router.post('/get-user-file', (req, res, next) => {
     UserFile.find({creatorCode: code}, (err, userFiles) => {
         res.send({userFiles});
     });
-})
+});
 router.post('/delete-user-file', (req, res, next) => {
     var {userFielID} = req.body;
     UserFile.deleteMany({_id: userFielID}, (err, userFiles) => {
         res.send('ok');
     });
-})
+});
+
+
+
 
 
 module.exports = router;

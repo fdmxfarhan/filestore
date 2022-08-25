@@ -15,7 +15,7 @@ import {
 import colors from '../components/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import api from '../config/api';
-const {saveData, readData, saveFiles} = require('../config/save');
+const {saveData, readData, saveFiles, logoutUser} = require('../config/save');
 
 const RefreshButton = ({navigation, setFunction, setLoading, setPlansEnabled}) => {
   var refreshFiles = () => {
@@ -27,7 +27,12 @@ const RefreshButton = ({navigation, setFunction, setLoading, setPlansEnabled}) =
             setFunction(res.data.files);
             saveFiles(res.data.files);
             setLoading(false);
-          } else{
+          } 
+          else if(res.data.status == 'login-failed'){
+            logoutUser();
+            navigation.navigate('Login');
+          }
+          else if(res.data.status == 'not payed'){
             setPlansEnabled(true);
             setLoading(false);
           }

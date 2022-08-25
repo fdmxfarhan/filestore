@@ -12,20 +12,28 @@ var saveData = async (data) => {
   try {await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data))} 
   catch (e) {console.log(e)}
 }
-const readData = async () => {
+var readData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem(STORAGE_KEY)
       return jsonValue != null ? JSON.parse(jsonValue) : null;
     } catch (e) {console.log(e)}
 }
-
+var logoutUser = async () => {
+  try {
+      await AsyncStorage.removeItem(STORAGE_KEY);
+      return true;
+  }
+  catch(exception) {
+      return false;
+  }
+}
 // Book Marks Save and Read
 var saveBookmark = async (data) => {
   try {
     await AsyncStorage.setItem(BOOKMARK_KEY, JSON.stringify(data))
   } catch (e) {console.log(e)}
 }
-const readBookmark = async () => {
+var readBookmark = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem(BOOKMARK_KEY)
       return jsonValue != null ? JSON.parse(jsonValue) : null;
@@ -38,8 +46,8 @@ var saveFiles = (data) => {
     if(err) console.log(err);
   });
 }
-const readFiles = async () => {
+var readFiles = async () => {
   const jsonValue = await RNFS.readFile(path);
   return jsonValue != null ? JSON.parse(jsonValue) : null;
 }
-module.exports = {saveData, readData, saveFiles, readFiles, saveBookmark, readBookmark};
+module.exports = {saveData, readData, saveFiles, readFiles, saveBookmark, readBookmark, logoutUser};
