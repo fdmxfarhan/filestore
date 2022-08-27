@@ -171,6 +171,10 @@ ${file.type}، ${file.meterage} متری، ${file.buildAge} ${file.buildAge == '
             </View>
           </View>
           <View style={styles.info2}>
+          <View style={styles.info2Item}>
+              <Text style={styles.info2Title}>منطقه: </Text>
+              <Text style={styles.info2Value}>{typeof(file.area) == 'undefined' ? '' : file.area}</Text>
+            </View>
             <View style={styles.info2Item}>
               <Text style={styles.info2Title}>متراژ: </Text>
               <Text style={styles.info2Value}>{typeof(file.meterage) == 'undefined' ? '' : file.meterage}</Text>

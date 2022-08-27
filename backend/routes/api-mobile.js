@@ -13,6 +13,7 @@ const zarinpal = ZarinpalCheckout.create('18286cd3-6065-4a7a-ad43-05eaf70f01a6',
 const { ensureAuthenticated } = require('../config/auth');
 const sms = require('../config/sms');
 var {convertDate, get_year_month_day, jalali_to_gregorian} = require('../config/dateConvert');
+const generateCode = require('../config/generateCode');
 
 router.get('/', (req, res, next) => {
     res.send('API called successfully');
@@ -87,6 +88,87 @@ router.post('/get-files2', (req, res, next) => {
         else res.send({status: 'login-failed'})
     })
 });
+router.get('/get-files-new', (req, res, next) => {
+    var {username, password, noplan} = req.query;
+    Estate.findOne({code: username, password: password}, (err, estate) => {
+        if(estate){
+            if((estate.payed && estate.planType != 'free') || noplan){
+                File.find({}, (err, files) => {
+                    for(var i=0; i<files.length; i++){
+                        if(estate.selectedareas.indexOf(files[i].area) == -1){files.splice(i, 1); i--;}
+                        else if(estate.role == 'user'){
+                            if(!estate.userpermissionrent && (files[i].state == 'رهن و اجاره' || files[i].state == 'رهن کامل')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionsell && (files[i].state == 'فروش' || files[i].state == 'پیش‌فروش')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionchange && (files[i].state == 'معاوضه' || files[i].state == 'مشارکت')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionapartment && (files[i].type == 'آپارتمان' || files[i].type == 'ویلایی')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionoffice && (files[i].type == 'اداری' || files[i].type == 'موقعیت اداری' || files[i].type == 'تجاری')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionfeild && (files[i].type == 'کلنگی' || files[i].type == 'زمین' || files[i].type == 'مستغلات')) {files.splice(i, 1); i--;}
+                        }
+                    }
+                    var now = new Date();
+                    files.reverse();
+                    files.filter(e => now - e.creationDate.getTime() < 15 * 24 * 60 * 60 * 1000);
+                    if(noplan){
+                        for(var i=0; i<files.length; i++){
+                            files[i].address = '-';
+                            files[i].phone = '-';
+                            files[i].constPhone = '-';
+                            files[i].images = [];
+                        }
+                    }
+                    res.send({status: 'ok', files});
+                    estate.lastRefreshFiles = [];
+                    for(var i=0; i<files.length; i++){
+                        estate.lastRefreshFiles.push(files[i].fileNumber);
+                    }
+                    Estate.updateMany({_id: estate._id}, {$set: {lastRefreshFiles: estate.lastRefreshFiles}}, err => {
+                        if(err) console.log(err);
+                    })
+                });
+            }
+            else res.send({status: 'not payed'})
+        }
+        else res.send({status: 'error'})
+    })
+});
+router.post('/get-files2-new', (req, res, next) => {
+    var {username, password} = req.body;
+    Estate.findOne({code: username, password: password}, (err, estate) => {
+        if(estate){
+            if(estate.payed && estate.planType != 'free'){
+                File.find({}, (err, files) => {
+                    for(var i=0; i<files.length; i++){
+                        if(estate.selectedareas.indexOf(files[i].area) == -1){files.splice(i, 1); i--;}
+                        else if(estate.role == 'user'){
+                            if(!estate.userpermissionrent && (files[i].state == 'رهن و اجاره' || files[i].state == 'رهن کامل')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionsell && (files[i].state == 'فروش' || files[i].state == 'پیش‌فروش')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionchange && (files[i].state == 'معاوضه' || files[i].state == 'مشارکت')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionapartment && (files[i].type == 'آپارتمان' || files[i].type == 'ویلایی')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionoffice && (files[i].type == 'اداری' || files[i].type == 'موقعیت اداری' || files[i].type == 'تجاری')) {files.splice(i, 1); i--;}
+                            else if(!estate.userpermissionfeild && (files[i].type == 'کلنگی' || files[i].type == 'زمین' || files[i].type == 'مستغلات')) {files.splice(i, 1); i--;}
+                        }
+                    }
+                    var now = new Date();
+                    files.reverse();
+                    files.filter(e => now - e.creationDate.getTime() < 15 * 24 * 60 * 60 * 1000);
+                    var newFiles = [];
+                    for (let i = 0; i < files.length; i++) {
+                        if(estate.lastRefreshFiles.indexOf(files[i].fileNumber) == -1){
+                            newFiles.push(files[i]);
+                            estate.lastRefreshFiles.push(files[i].fileNumber);
+                        }
+                    }
+                    res.send({status: 'ok', files: newFiles});
+                    Estate.updateMany({_id: estate._id}, {$set: {lastRefreshFiles: estate.lastRefreshFiles}}, err => {
+                        if(err) console.log(err);
+                    })
+                });
+            }
+            else res.send({status: 'not payed'})
+        }
+        else res.send({status: 'error'})
+    })
+});
 router.get('/pay-estate', (req, res, next) => {
     var {username, password, plan} = req.query;
     amounts = [170000, 470000, 680000, 1469000];
@@ -131,7 +213,7 @@ router.get('/pay-estate2', (req, res, next) => {
             if(estate){
                 zarinpal.PaymentRequest({
                     Amount: paymentfullprice.toString(), // In Tomans
-                    // CallbackURL: 'http://185.81.99.34:3000/api/payment-call-back2',
+                    // CallbackURL: 'http://192.168.56.148:3000/api/payment-call-back2',
                     CallbackURL: 'http://fileestore.ir/api/payment-call-back2',
                     Description: `خرید اشتراک ${names[parseInt(plan)]} توسط ${estate.name}`,
                     Email: '',
@@ -232,8 +314,40 @@ router.post('/delete-user-file', (req, res, next) => {
         res.send('ok');
     });
 });
-
-
+router.post('/register-user', (req, res, next) => {
+    var {name, phone, address, password} = req.body;
+    Estate.find({}, (err, estates) => {
+        var code = 1000;
+        for(var i=0; i<estates.length; i++){
+            if(code < estates[i].code)
+            code = estates[i].code;
+        }
+        var newEstate = new Estate({
+            name,
+            phone,
+            address,
+            code: code+1,
+            password: generateCode(4),
+            creationDate: new Date(),
+            payAmount: 0,
+            planType: 'free',
+            payed: false,
+            payDate: new Date(),
+        });
+        newEstate.save().then(doc => {
+            sms(phone, `${name} عزیز\nبه فایل استور خوش آمدید\nاطلاعات ورود شما:\nکد املاک: ${newEstate.code}\nکلمه عبور: ${newEstate.password}\n\nارادتمند شما\nفایل استور`);
+            res.send({status: 'ok', estate: newEstate});
+        }).catch(err => console.log(err));
+    });
+});
+router.get('/get-normal-user', (req, res, next) => {
+    var {username} = req.query;
+    Estate.findOne({code: username}, (err, estate) => {
+        Estate.find({parentEstateID: estate._id.toString()}, (err, normalUsers) => {
+            res.send({status: 'ok', normalUsers})
+        });
+    });
+});
 
 
 

@@ -15,15 +15,57 @@ import {
 import colors from '../components/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 const {saveData, readData, readFiles, readBookmark, saveBookmark} = require('../config/save');
+var { convertDate } = require('../config/dateConvert');
 
 const Profile = (props) => {
     var [estate, setEstate] = useState({});
     var [readOnce, setReadOnce] = useState(false);
+    var [planName, setPlanName] = useState('');
+    var [planImage, setPlanImage] = useState('');
+    var [planAreas, setPlanAreas] = useState('');
+    var [planDate, setPlanDate] = useState('');
+    var [planRemaining, setPlanRemaining] = useState('');
+    var [hasPlan, setHasPlan] = useState(false);
     useEffect(() => {
         if(!readOnce){
             readData().then(data => {
                 if(data != null) {
-                    setEstate(data.estate);
+                    api.get(`/api-mobile/login?username=${data.estate.code}&password=${data.estate.password}`)
+                        .then(res => {
+                            if(res.data.correct == true){
+                                estate = res.data.estate;
+                                setEstate(estate);
+                                console.log(estate);
+                                setPlanName(estate.planType);
+                                if(estate.planType == '1 ماهه') setPlanImage(require('../assets/bronze.png'));
+                                if(estate.planType == '3 ماهه') setPlanImage(require('../assets/silver.png'));
+                                if(estate.planType == '6 ماهه') setPlanImage(require('../assets/gold.png'));
+                                if(estate.planType == '1 ساله') setPlanImage(require('../assets/diamond.png'));
+                                planAreas = '';
+                                for(var i=0; i<estate.selectedareas.length-1; i++){
+                                    planAreas += estate.selectedareas[i] + ', ';
+                                }
+                                planAreas += estate.selectedareas[estate.selectedareas.length-1];
+                                setPlanAreas(planAreas);
+                                var payDate = new Date(estate.payDate).getTime();
+                                var now = (new Date()).getTime();
+                                var endDate = 0;
+                                if(data.estate.planType == 'trial')  endDate = payDate + 3 * 24 * 60 * 60 * 1000;
+                                if(data.estate.planType == '1 ماهه') endDate = payDate + 1 * 30 * 24 * 60 * 60 * 1000;
+                                if(data.estate.planType == '3 ماهه') endDate = payDate + 3 * 30 * 24 * 60 * 60 * 1000;
+                                if(data.estate.planType == '6 ماهه') endDate = payDate + 6 * 30 * 24 * 60 * 60 * 1000;
+                                if(data.estate.planType == '1 ساله') endDate = payDate + 12 * 30 * 24 * 60 * 60 * 1000;
+                                if(endDate > now) setHasPlan(true);
+                                setPlanRemaining(Math.floor((endDate - now)/(1000*60*60*24)));
+                                setPlanDate(convertDate(new Date(endDate)));
+                                saveData({estate});
+                            }
+                            else{
+                                alert('کد اشتراک یا کلمه عبور صحیح نیست')
+                            }
+                        }).catch(err => {
+                            alert('عدم اتصال به اینترنت')
+                        })
                 }
             }).catch(err => console.log(err));
             readOnce = true;
@@ -52,15 +94,18 @@ const Profile = (props) => {
                     <Text style={styles.infoText}>اشتراک‌های فعال:</Text>
                 </View>
             </View>
-            <View style={styles.plansViewContainer}>
+            <View style={[styles.plansViewContainer, {display: hasPlan == true ? 'flex' : 'none'}]}>
                 <View style={styles.planView}>
-                    <Image style={styles.planImage} source={require('../assets/gold.png')} />
-                    <Text style={styles.planTitle} >اشتراک شش ماهه</Text>
-                    <Text style={styles.planItem} >منطقه 22</Text>
-                    <Text style={styles.planItem} >تاریخ انقضا: 1401/7/2</Text>
-                    <Text style={styles.planItem} >3 ماه و 2 روز تا پایان اشتراک</Text>
+                    <Image style={styles.planImage} source={planImage} />
+                    <Text style={styles.planTitle} >اشتراک {planName}</Text>
+                    <Text style={styles.planItem} >منطقه {planAreas}</Text>
+                    <Text style={styles.planItem} >تاریخ انقضا: {planDate}</Text>
+                    <Text style={styles.planItem} >{planRemaining} تا پایان اشتراک</Text>
                 </View>
             </View>
+            <TouchableOpacity style={[styles.controlButton, {display: estate.role == 'admin' ? 'flex' : 'none'}]} onPress={() => {props.navigation.navigate('UserControl')}}>
+                <Text style={[styles.controlButtonText]}>مدیریت کاربران</Text>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -134,6 +179,7 @@ const styles = StyleSheet.create({
         marginHorizontal: '10%',
         position: 'relative',
         paddingBottom: 30,
+        marginBottom: 50,
     },
     planImage: {
         position: 'absolute',
@@ -154,6 +200,20 @@ const styles = StyleSheet.create({
         fontSize: 18,
         paddingHorizontal: 20,
         paddingVertical: 3,
+    },
+    controlButton: {
+        backgroundColor: colors.darkblue,
+        borderRadius: 10,
+        marginTop: 20,
+        width: '80%',
+        marginHorizontal: '10%',
+    },
+    controlButtonText: {
+        color: colors.white,
+        paddingVertical: 10,
+        textAlign: 'center',
+        fontFamily: 'iransans',
+        fontSize: 18,
     },
 });
 

@@ -46,7 +46,7 @@ const AddScreen = (props) => {
 const ProfileScreen = (props) => {
     return (
       <View style={styles.container}>
-          <Profile />
+          <Profile navigation={props.navigation}/>
       </View>
     );
 }

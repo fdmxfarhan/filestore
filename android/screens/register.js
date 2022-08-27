@@ -16,23 +16,22 @@ import colors from '../components/colors';
 import api from '../config/api';
 const {saveData, readData} = require('../config/save');
 
-const Login = (props) => {
-    var [username, setUsername] = useState('');
+const Register = (props) => {
+    var [name, setName] = useState('');
+    var [address, setAddress] = useState('');
+    var [phone, setPhone] = useState('');
     var [password, setPassword] = useState('');
     var passwordInput = useRef(null);
-    useEffect(() => {
-        
-    })
-    var checkLogin = () => {
-        api.get(`/api-mobile/login?username=${username}&password=${password}`)
+    var checkRegister = () => {
+        api.post(`/api-mobile/register-user?`, {name, address, phone, password})
             .then(res => {
-                if(res.data.correct == true){
+                if(res.data.status == 'ok'){
                     var estate = res.data.estate;
                     saveData({estate});
                     props.navigation.navigate('Home');
                 }
                 else{
-                    alert('کد اشتراک یا کلمه عبور صحیح نیست')
+                    // alert('کد اشتراک یا کلمه عبور صحیح نیست')
                 }
             }).catch(err => {
                 alert('عدم اتصال به اینترنت')
@@ -44,18 +43,36 @@ const Login = (props) => {
                 source={require('../assets/logo.png')}
                 style={styles.logo}
             />
-            <Text style={styles.title}>به فایل استور خوش آمدید</Text>
+            <Text style={styles.title}>ثبت نام در فایل استور </Text>
             <TextInput 
                 style={[styles.textInput]}
-                placeholder={'کد اشتراک'}
+                placeholder={'نام مشاور املاک'}
+                placeholderTextColor={colors.lightgray}
+                onSubmitEditing={()=>passwordInput.current.focus()}
+                returnKeyType={'next'}
+                onChange={(text) => {
+                    setName(text.nativeEvent.text)
+                }}/>
+            <TextInput 
+                style={[styles.textInput]}
+                placeholder={'آدرس'}
+                placeholderTextColor={colors.lightgray}
+                onSubmitEditing={()=>passwordInput.current.focus()}
+                returnKeyType={'next'}
+                onChange={(text) => {
+                    setAddress(text.nativeEvent.text)
+                }}/>
+            <TextInput 
+                style={[styles.textInput]}
+                placeholder={'شماره موبایل'}
                 placeholderTextColor={colors.lightgray}
                 onSubmitEditing={()=>passwordInput.current.focus()}
                 returnKeyType={'next'}
                 keyboardType={'number-pad'}
                 onChange={(text) => {
-                    setUsername(text.nativeEvent.text)
+                    setPhone(text.nativeEvent.text)
                 }}/>
-            <TextInput 
+            {/* <TextInput 
                 style={[styles.textInput]}
                 placeholder={'کلمه عبور'}
                 secureTextEntry={true}
@@ -63,14 +80,15 @@ const Login = (props) => {
                 ref={passwordInput}
                 keyboardType={'number-pad'}
                 onSubmitEditing={checkLogin}
+                maxLength={4}
                 onChange={(text) => {
                     setPassword(text.nativeEvent.text)
-                }}/>
-            <TouchableOpacity style={styles.loginBtn} onPress={checkLogin}>
-                <Text style={styles.loginText}>ورود</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.loginBtn} onPress={() => props.navigation.navigate('Register')}>
+                }}/> */}
+            <TouchableOpacity style={[styles.loginBtn, {marginTop: 50}]} onPress={checkRegister}>
                 <Text style={styles.loginText}>ثبت نام</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.loginBtn} onPress={() => props.navigation.navigate('Login')}>
+                <Text style={styles.loginText}>ورود</Text>
             </TouchableOpacity>
         </View>
     )
@@ -95,7 +113,8 @@ const styles = StyleSheet.create({
         color: colors.lightBackground,
         marginTop: 20,
         fontWeight: 'bold',
-        marginBottom: 60,
+        // marginTop: 150,
+        marginBottom: 30,
     },
     textInput:{
         backgroundColor: colors.lightDark,
@@ -134,4 +153,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Login;
+export default Register;

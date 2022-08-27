@@ -66,8 +66,8 @@ const Plans = ({navigation, enabled, setEnabled}) => {
     }
     var payButtonHandler = () => {
         readData().then(data => {
-            Linking.openURL(`https://fileestore.ir/api-mobile/pay-estate2?username=${data.estate.code}&password=${data.estate.password}&plan=${selectedPlan}&paymentfullprice=${paymentInfo.fullprice}&paymentdiscount=${paymentInfo.discount}&paymentpayable=${paymentInfo.payable}&selectedareas=${selectedAreas}&planusernum=${planusernum}`)
-            // Linking.openURL(`http://192.168.56.148:3000/api-mobile/pay-estate2?username=${data.estate.code}&password=${data.estate.password}&plan=${selectedPlan}&paymentfullprice=${paymentInfo.fullprice}&paymentdiscount=${paymentInfo.discount}&paymentpayable=${paymentInfo.payable}&selectedareas=${selectedAreas}&planusernum=${planusernum}`)
+            // Linking.openURL(`https://fileestore.ir/api-mobile/pay-estate2?username=${data.estate.code}&password=${data.estate.password}&plan=${selectedPlan}&paymentfullprice=${paymentInfo.fullprice}&paymentdiscount=${paymentInfo.discount}&paymentpayable=${paymentInfo.payable}&selectedareas=${selectedAreas}&planusernum=${planusernum}`)
+            Linking.openURL(`http://192.168.56.148:3000/api-mobile/pay-estate2?username=${data.estate.code}&password=${data.estate.password}&plan=${selectedPlan}&paymentfullprice=${paymentInfo.fullprice}&paymentdiscount=${paymentInfo.discount}&paymentpayable=${paymentInfo.payable}&selectedareas=${selectedAreas}&planusernum=${planusernum}`)
         }).catch(err => console.log(err));
     }
     useEffect(() => {

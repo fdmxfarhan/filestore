@@ -1664,6 +1664,16 @@ body{scroll-behavior: smooth;}
         font-family: 'iransans';
         font-size: 3.2vw;
     }
+    h1.sponsers-title{
+        color: var(--darkblue);
+        text-align: center;
+        font-family: 'iransans';
+        font-size: 3vw;
+        padding: 0;
+        margin: 0;
+        margin-top: 3vw;
+    }
+    section .sponsers .link img{width: 12vw;}
 }
 img.enamad{
     width: 5vw;

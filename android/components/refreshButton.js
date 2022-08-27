@@ -21,7 +21,7 @@ const RefreshButton = ({navigation, setFunction, setLoading, setPlansEnabled}) =
   var refreshFiles = () => {
     setLoading(true);
     readData().then(data => {
-      api.get(`/api-mobile/get-files?username=${data.estate.code}&password=${data.estate.password}`)
+      api.get(`/api-mobile/get-files-new?username=${data.estate.code}&password=${data.estate.password}`)
         .then(res => {
           if(res.data.status == 'ok'){
             setFunction(res.data.files);

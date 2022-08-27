@@ -82,6 +82,9 @@
         font-size: 1vw;
         color: var(--lightgray);
     }
+    img.bazar{
+        width: 15vw;
+    }
 }
 @media only screen and (max-width: 800px) {
     footer{
@@ -171,5 +174,8 @@
         right: 0;
         font-size: 1vw;
         color: var(--lightgray);
+    }
+    img.bazar{
+        width: 30vw;
     }
 }
