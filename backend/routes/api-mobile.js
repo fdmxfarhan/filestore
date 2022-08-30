@@ -128,7 +128,7 @@ router.get('/get-files-new', (req, res, next) => {
             }
             else res.send({status: 'not payed'})
         }
-        else res.send({status: 'error'})
+        else res.send({status: 'login-failed'})
     })
 });
 router.post('/get-files2-new', (req, res, next) => {
