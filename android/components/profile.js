@@ -35,7 +35,7 @@ const Profile = (props) => {
                             if(res.data.correct == true){
                                 estate = res.data.estate;
                                 setEstate(estate);
-                                console.log(estate);
+                                // console.log(estate);
                                 setPlanName(estate.planType);
                                 if(estate.planType == '1 ماهه') setPlanImage(require('../assets/bronze.png'));
                                 if(estate.planType == '3 ماهه') setPlanImage(require('../assets/silver.png'));

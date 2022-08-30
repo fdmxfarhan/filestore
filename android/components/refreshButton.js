@@ -36,6 +36,10 @@ const RefreshButton = ({navigation, setFunction, setLoading, setPlansEnabled}) =
             setPlansEnabled(true);
             setLoading(false);
           }
+          else{
+            setLoading(false);
+            alert('خطایی رخ داده است');
+          }
         }).catch(err => {
           console.log(err);
           setLoading(false);

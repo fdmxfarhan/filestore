@@ -300,10 +300,18 @@ router.post('/add-new-file', (req, res, next) => {
     var {fileData} = req.body;
     var newUserFile = new UserFile(fileData);
     Estate.findOne({code: fileData.creatorCode}, (err, estate) => {
-        newUserFile.creatorID = estate.parentEstateID;
-        newUserFile.save().then(doc => {
-            res.send('ok');
-        }).catch(err => console.log(err));
+        if(estate.role == 'admin'){
+            newUserFile.creatorID = estate._id;
+            newUserFile.save().then(doc => {
+                res.send('ok');
+            }).catch(err => console.log(err));
+        }
+        else{
+            newUserFile.creatorID = estate.parentEstateID;
+            newUserFile.save().then(doc => {
+                res.send('ok');
+            }).catch(err => console.log(err));
+        }
     })
 });
 router.post('/get-user-file', (req, res, next) => {
