@@ -90,6 +90,10 @@ const Profile = (props) => {
                     <Text style={styles.infoText}>{estate.address}</Text>
                 </View>
                 <View style={styles.infoTextView}>
+                    <Icon style={styles.iconIcon} name="users" />
+                    <Text style={styles.infoText}>تعداد کاربر: {estate.planusernum}</Text>
+                </View>
+                <View style={styles.infoTextView}>
                     <Icon style={styles.iconIcon} name="dollar" />
                     <Text style={styles.infoText}>اشتراک‌های فعال:</Text>
                 </View>

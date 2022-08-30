@@ -21,20 +21,23 @@ const {saveData, readData} = require('../config/save');
 const UserControl = (props) => {    
     var [normalUsers, setNormalUsers] = useState([]);
     var [readOnce, setReadOnce] = useState(false);
+    var updateList = () => {
+        readData().then(data => {
+            if(data != null) {
+                api.get(`/api-mobile/get-normal-user?username=${data.estate.code}`)
+                    .then(res => {
+                        if(res.data.status == 'ok'){
+                            setNormalUsers(res.data.normalUsers);
+                        }
+                    }).catch(err => {
+                        alert('عدم اتصال به اینترنت')
+                    })
+            }
+        }).catch(err => console.log(err));
+    }
     useEffect(() => {
         if(!readOnce){
-            readData().then(data => {
-                if(data != null) {
-                    api.get(`/api-mobile/get-normal-user?username=${data.estate.code}`)
-                        .then(res => {
-                            if(res.data.status == 'ok'){
-                                setNormalUsers(res.data.normalUsers);
-                            }
-                        }).catch(err => {
-                            alert('عدم اتصال به اینترنت')
-                        })
-                }
-            }).catch(err => console.log(err));
+            updateList();
             readOnce = true;
             setReadOnce(true);
         }
@@ -59,14 +62,23 @@ const UserControl = (props) => {
                                 
                             </View>
                             <Text style={styles.itemStatus}>فعال</Text>
-                            <TouchableOpacity style={styles.itemAction}>
+                            <TouchableOpacity style={styles.itemAction} onPress={() => {
+                                api.get(`/api-mobile/delete-normal-user?userID=${item._id}`).then(res => {
+                                    if(res.data.status == 'ok'){
+                                        updateList();
+                                    }
+                                    else alert('خطایی رخ داده است');
+                                }).catch(err => {
+                                    alert('عدم اتصال به اینترنت')
+                                })
+                            }}>
                                 <Icon style={styles.itemActionIcon} name={'trash'} />
                             </TouchableOpacity>
                         </View>
                     )
                 }}
                 />
-            <TouchableOpacity style={styles.addButton}>
+            <TouchableOpacity style={styles.addButton} onPress={() => props.navigation.navigate('AddNormalUser')}>
                 <Text style={styles.addButtonText}>+ افزودن کاربر جدید</Text>
             </TouchableOpacity>
         </View>
@@ -106,6 +118,7 @@ const styles = StyleSheet.create({
         flex: 4,
         fontFamily: 'iransans',
         fontSize: 16,
+        textAlign: 'right',
     },
     itemPermissionsView: {
         flex: 6,

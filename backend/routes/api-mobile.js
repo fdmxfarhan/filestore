@@ -204,7 +204,11 @@ router.get('/pay-estate', (req, res, next) => {
 });
 router.get('/pay-estate2', (req, res, next) => {
     var {username, password, plan, paymentfullprice, paymentdiscount, paymentpayable, selectedareas, planusernum} = req.query;
-    selectedareas = selectedareas.split(',');
+    if(typeof(selectedareas) == 'string')
+        selectedareas = selectedareas.split(',');
+    else if(typeof(selectedareas) == 'object' && selectedareas.length == 1){
+        selectedareas = selectedareas[0].split(',');
+    }
     amounts = [170000, 470000, 680000, 1469000];
     names = ['1 ماهه', '3 ماهه', '6 ماهه', '1 ساله'];
     Settings.findOne({}, (err, settings) => {
@@ -255,19 +259,19 @@ router.get('/pay-estate2', (req, res, next) => {
         });
     });
 });
-router.get('/payment-call-back', (req, res, next) => {
-    var {Authority, Status} = req.query;
-    if(Status == 'OK'){
-        Estate.findOne({authority: Authority}, (err, estate) => {
-            Estate.updateMany({authority: Authority}, {$set: {payed: true, payDate: new Date(), authority: ''}}, (err, doc) => {
-                sms(estate.phone, `اشتراک ${estate.planType} شما فعال شد\n فایل استور`);
-                var newNotif = new Notif({type: 'payment', text: `خرید اشتراک ${estate.planType} توسط ${estate.name}`, date: new Date()});
-                newNotif.save().then(doc => {}).catch(err => console.log(err));
-                res.render('./api/success-payment', {estate});
-            });
-        });
-    }
-});
+// router.get('/payment-call-back', (req, res, next) => {
+//     var {Authority, Status} = req.query;
+//     if(Status == 'OK'){
+//         Estate.findOne({authority: Authority}, (err, estate) => {
+//             Estate.updateMany({authority: Authority}, {$set: {payed: true, payDate: new Date(), authority: ''}}, (err, doc) => {
+//                 sms(estate.phone, `اشتراک ${estate.planType} شما فعال شد\n فایل استور`);
+//                 var newNotif = new Notif({type: 'payment', text: `خرید اشتراک ${estate.planType} توسط ${estate.name}`, date: new Date()});
+//                 newNotif.save().then(doc => {}).catch(err => console.log(err));
+//                 res.render('./api/success-payment', {estate});
+//             });
+//         });
+//     }
+// });
 router.get('/add-notif', (req, res, next) => {
     var newNotif = new Notif({type: 'payment', text: `خرید اشتراک test توسط test`, date: new Date()});
     newNotif.save().then(doc => {}).catch(err => console.log(err));
@@ -296,7 +300,7 @@ router.post('/add-new-file', (req, res, next) => {
     var {fileData} = req.body;
     var newUserFile = new UserFile(fileData);
     Estate.findOne({code: fileData.creatorCode}, (err, estate) => {
-        newUserFile.creatorID = estate._id;
+        newUserFile.creatorID = estate.parentEstateID;
         newUserFile.save().then(doc => {
             res.send('ok');
         }).catch(err => console.log(err));
@@ -304,8 +308,16 @@ router.post('/add-new-file', (req, res, next) => {
 });
 router.post('/get-user-file', (req, res, next) => {
     var {code} = req.body;
-    UserFile.find({creatorCode: code}, (err, userFiles) => {
-        res.send({userFiles});
+    Estate.findOne({code}, (err, estate) => {
+        if(estate.role == 'user'){
+            UserFile.find({creatorID: estate.parentEstateID}, (err, userFiles) => {
+                res.send({userFiles});
+            });
+        }else{
+            UserFile.find({creatorID: estate._id}, (err, userFiles) => {
+                res.send({userFiles});
+            });
+        }
     });
 });
 router.post('/delete-user-file', (req, res, next) => {
@@ -348,7 +360,83 @@ router.get('/get-normal-user', (req, res, next) => {
         });
     });
 });
-
-
+router.post('/add-normal-user', (req, res, next) => {
+    var {username, fullname, phone, address, password, userpermissionrent, userpermissionsell, userpermissionchange, userpermissionapartment, userpermissionoffice, userpermissionfeild} = req.body;
+    console.log(phone)
+    Estate.findOne({phone, role: 'user'}, (err, userExist) => {
+        if(userExist){
+            console.log('user exists:');
+            console.log(userExist)
+            res.send({status: 'error', msg: 'user-exists'})
+        }else{
+            Estate.findOne({code: username}, (err, estate) => {
+                Estate.find({}, (err, estates) => {
+                    console.log(estate.planusernum);
+                    if(estate.normalUserIDs.length+1 < estate.planusernum){
+                        var code = 1000;
+                        for(var i=0; i<estates.length; i++){
+                            if(code < estates[i].code)
+                                code = estates[i].code;
+                        }
+                        var newEstate = new Estate({
+                            name: fullname,
+                            phone,
+                            address,
+                            role: 'user',
+                            selectedareas: estate.selectedareas,
+                            planType: estate.planType,
+                            payDate: estate.payDate,
+                            payed: estate.payed,
+                            code: code+1,
+                            parentEstateID: estate._id,
+                            password,
+                            userpermissionrent,
+                            userpermissionsell,
+                            userpermissionchange,
+                            userpermissionapartment,
+                            userpermissionoffice,
+                            userpermissionfeild,
+                        });
+                        newEstate.save().then(doc => {
+                            estate.normalUserIDs.push(newEstate._id);
+                            Estate.updateMany({code: username}, {$set: {normalUserIDs: estate.normalUserIDs}}, (err, doc) => {
+                                res.send({status: 'ok', newEstate})
+                            })
+                        }).catch(err => console.log(err));
+                    }
+                    else res.send({status: 'error', msg: 'out-of-range'});
+                });
+            });
+        }
+    });
+});
+router.get('/delete-normal-user', (req, res, next) => {
+    var {userID} = req.query;
+    Estate.findById(userID, (err, estate) => {
+        Estate.findById(estate.parentEstateID, (err, parent) => {
+            for(var i=0; i< parent.normalUserIDs.length; i++){
+                if(parent.normalUserIDs[i] == userID){
+                    parent.normalUserIDs.splice(i, 1);
+                    i -= 1;
+                }
+            }
+            Estate.updateMany({_id: estate.parentEstateID}, {$set: {normalUserIDs: parent.normalUserIDs}}, (err, doc) => {
+                Estate.deleteMany({_id: userID}, (err) => {
+                    res.send({status: 'ok'})
+                });
+            })
+        });
+    });
+});
+router.get('/login-normal-user', (req, res, next) => {
+    var {phone, password, key} = req.query;
+    Estate.findOne({phone, password, role: 'user'}, (err, estate) => {
+        if(estate){
+            res.send({correct: true, keyQualified: true, estate});
+        }
+        else
+            res.send({correct: false});
+    })
+});
 
 module.exports = router;
