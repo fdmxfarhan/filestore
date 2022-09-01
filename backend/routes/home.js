@@ -174,4 +174,42 @@ router.get('/return-guarantee', (req, res, next) => {
     res.render('./return-guarantee')
 });
 
+router.post('/register-estate2', (req, res, next) => {
+    var {name, phone, address, password} = req.body;
+    Estate.findOne({phone}, (err, estateExists) => {
+        if(estateExists){
+            sms(phone, `${name} عزیز\nبه فایل استور خوش آمدید\nاطلاعات ورود شما:\nکد املاک: ${estateExists.code}\nکلمه عبور: ${estateExists.password}\n\nارادتمند شما\nفایل استور`);
+            res.redirect('/download');
+        }
+        else{
+            Estate.find({}, (err, estates) => {
+                var code = 1000;
+                for(var i=0; i<estates.length; i++){
+                    if(code < estates[i].code)
+                    code = estates[i].code;
+                }
+                var newEstate = new Estate({
+                    name,
+                    phone,
+                    address,
+                    code: code+1,
+                    password: generateCode(4),
+                    creationDate: new Date(),
+                    payAmount: 0,
+                    planType: 'free',
+                    payed: false,
+                    payDate: new Date(),
+                });
+                newEstate.save().then(doc => {
+                    sms(phone, `${name} عزیز\nبه فایل استور خوش آمدید\nاطلاعات ورود شما:\nکد املاک: ${newEstate.code}\nکلمه عبور: ${newEstate.password}\n\nارادتمند شما\nفایل استور`);
+                    res.redirect('/download')
+                }).catch(err => console.log(err));
+            });
+        }
+    });
+});
+router.get('/download', (req, res, next) => {
+    res.render('./download');
+});
+
 module.exports = router;

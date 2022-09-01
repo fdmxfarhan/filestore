@@ -1,0 +1,26 @@
+extends layout
+
+block styles
+    link(rel="stylesheet", href="/css/download.css")
+block content
+    .download-box 
+        .info 
+            h1.title
+                i.fa.fa-windows
+                | سیستم عامل ویندوز:
+            a(href="/FileStore v1.2.3 x86.exe") 
+                i.fa.fa-cloud-download
+                | دانلود نسخه v1.2.3 x86
+        .cover 
+            img(src="/pc-mockup.png")
+    .download-box 
+        .info 
+            h1.title
+                i.fa.fa-android
+                | سیستم عامل اندروید:
+            a(href="/FileStore v1.0.8.apk") 
+                i.fa.fa-cloud-download
+                | دانلود نسخه v1.0.8
+        .cover 
+            img(src="/phone-mockup.png")
+    script(src="/javascripts/error.js")

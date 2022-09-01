@@ -21,7 +21,9 @@ const Register = (props) => {
     var [address, setAddress] = useState('');
     var [phone, setPhone] = useState('');
     var [password, setPassword] = useState('');
-    var passwordInput = useRef(null);
+    var addressRef = useRef(null);
+    var phoneRef = useRef(null);
+    var passwordRef = useRef(null);
     var checkRegister = () => {
         api.post(`/api-mobile/register-user?`, {name, address, phone, password})
             .then(res => {
@@ -48,7 +50,7 @@ const Register = (props) => {
                 style={[styles.textInput]}
                 placeholder={'نام مشاور املاک'}
                 placeholderTextColor={colors.lightgray}
-                onSubmitEditing={()=>passwordInput.current.focus()}
+                onSubmitEditing={()=>addressRef.current.focus()}
                 returnKeyType={'next'}
                 onChange={(text) => {
                     setName(text.nativeEvent.text)
@@ -57,8 +59,9 @@ const Register = (props) => {
                 style={[styles.textInput]}
                 placeholder={'آدرس'}
                 placeholderTextColor={colors.lightgray}
-                onSubmitEditing={()=>passwordInput.current.focus()}
+                onSubmitEditing={()=>phoneRef.current.focus()}
                 returnKeyType={'next'}
+                ref={addressRef}
                 onChange={(text) => {
                     setAddress(text.nativeEvent.text)
                 }}/>
@@ -66,9 +69,10 @@ const Register = (props) => {
                 style={[styles.textInput]}
                 placeholder={'شماره موبایل'}
                 placeholderTextColor={colors.lightgray}
-                onSubmitEditing={()=>passwordInput.current.focus()}
+                onSubmitEditing={()=> checkRegister}
                 returnKeyType={'next'}
                 keyboardType={'number-pad'}
+                ref={phoneRef}
                 onChange={(text) => {
                     setPhone(text.nativeEvent.text)
                 }}/>

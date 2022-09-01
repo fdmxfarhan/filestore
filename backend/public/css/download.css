@@ -1,0 +1,38 @@
+.download-box{
+    overflow: hidden;
+    width: 60%;
+    margin: 3vw auto;
+}
+.download-box .info{
+    float: right;
+    width: 70%;
+}
+.download-box .cover{
+    float: right;
+    width: 30%;
+}
+.download-box .cover img{
+    width: 100%;
+    display: block;
+}
+.download-box .info h1.title{
+    color: var(--darkblue);
+    font-family: 'iransans';
+    font-size: 1.7vw;
+    margin-top: 4vw;
+}
+.download-box .info h1.title i{
+    padding-left: 0.5vw;
+}
+.download-box .info a{
+    font-family: 'iransans';
+    font-size: 1.2vw;
+    text-decoration: none;
+    color: var(--blue);
+}
+.download-box .info a:hover{
+    color: var(--hover);
+}
+.download-box .info a i{
+    padding-left: 0.5vw;
+}

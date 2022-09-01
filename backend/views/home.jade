@@ -211,16 +211,29 @@ html
         section#register-form 
             .register
                 .part 
-                    form(action="/register-estate" method="POST") 
+                    form(action="/register-estate2" method="POST") 
                         h1 عضویت در فایل استور
                         p اگر مشاور املاک هستید و میخواهید از خدمات فایل استور استفاده نمایید مشخصات خود را در فرم زیر وارد نموده تا همکاران ما با شما تماس بگیرند.
                         .text-input-view 
-                            label(for="name") نام و نام خانوادگی: 
+                            label(for="name") نام مشاور املاک: 
                             input(type="text" name="name" placeholder="نام و نام خانوادگی")
+                        .text-input-view 
+                            label(for="address") آدرس: 
+                            input(type="text" name="address" placeholder="نام و نام خانوادگی")
                         .text-input-view 
                             label(for="phone") شماره تلفن: 
                             input(type="text" name="phone" placeholder="شماره تلفن")
                         button.submit(type="submit") ارسال درخواست
+                    //- form(action="/register-estate" method="POST") 
+                    //-     h1 عضویت در فایل استور
+                    //-     p اگر مشاور املاک هستید و میخواهید از خدمات فایل استور استفاده نمایید مشخصات خود را در فرم زیر وارد نموده تا همکاران ما با شما تماس بگیرند.
+                    //-     .text-input-view 
+                    //-         label(for="name") نام و نام خانوادگی: 
+                    //-         input(type="text" name="name" placeholder="نام و نام خانوادگی")
+                    //-     .text-input-view 
+                    //-         label(for="phone") شماره تلفن: 
+                    //-         input(type="text" name="phone" placeholder="شماره تلفن")
+                    //-     button.submit(type="submit") ارسال درخواست
                 .part 
                     form(action="/register-file" method="POST") 
                         h1 سپردن ملک به ما (رایگان)
