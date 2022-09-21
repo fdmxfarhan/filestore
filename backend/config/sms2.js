@@ -1,5 +1,5 @@
 const request = require('request');
-
+// Faraz SMS
 module.exports = (phone, text) => {
     request.post({
         url: 'http://ippanel.com/api/select',
