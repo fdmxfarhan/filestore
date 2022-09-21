@@ -52,7 +52,8 @@ const Splash = (props) => {
                     props.navigation.navigate('Home');
                 }
                 else {
-                    props.navigation.navigate('Login');
+                    // props.navigation.navigate('Login');
+                    props.navigation.navigate('Intro');
                 }
             });
         }, 1000);

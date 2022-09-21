@@ -13,6 +13,7 @@ import Login from './screens/login';
 import Register from './screens/register';
 import UserControl from './screens/userControl';
 import AddNormalUser from './screens/addNormalUser';
+import Intro from './screens/intro';
 
 const App = (props) => {
     return(
@@ -51,6 +52,11 @@ const App = (props) => {
                 <Stack.Screen 
                     name="AddNormalUser" 
                     component={AddNormalUser} 
+                    options={({ route }) => ({ headerShown: false })}
+                />
+                <Stack.Screen 
+                    name="Intro" 
+                    component={Intro} 
                     options={({ route }) => ({ headerShown: false })}
                 />
             </Stack.Navigator>

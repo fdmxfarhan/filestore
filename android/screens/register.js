@@ -70,7 +70,7 @@ const Register = (props) => {
                 placeholder={'شماره موبایل'}
                 placeholderTextColor={colors.lightgray}
                 onSubmitEditing={()=> checkRegister}
-                returnKeyType={'next'}
+                returnKeyType={'done'}
                 keyboardType={'number-pad'}
                 ref={phoneRef}
                 onChange={(text) => {
