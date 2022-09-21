@@ -179,7 +179,7 @@ router.post('/register-estate2', (req, res, next) => {
     var {name, phone, address, password} = req.body;
     Estate.findOne({phone}, (err, estateExists) => {
         if(estateExists){
-            sms(phone, `${name} عزیز\nبه فایل استور خوش آمدید\nاطلاعات ورود شما:\nکد املاک: ${estateExists.code}\nکلمه عبور: ${estateExists.password}\n\nارادتمند شما\nفایل استور`);
+            sms2(phone, `${name} عزیز\nبه فایل استور خوش آمدید\nاطلاعات ورود شما:\nکد املاک: ${estateExists.code}\nکلمه عبور: ${estateExists.password}\n\nارادتمند شما\nفایل استور`);
             res.redirect('/download');
         }
         else{
@@ -202,7 +202,7 @@ router.post('/register-estate2', (req, res, next) => {
                     payDate: new Date(),
                 });
                 newEstate.save().then(doc => {
-                    sms(phone, `${name} عزیز\nبه فایل استور خوش آمدید\nاطلاعات ورود شما:\nکد املاک: ${newEstate.code}\nکلمه عبور: ${newEstate.password}\n\nارادتمند شما\nفایل استور`);
+                    sms2(phone, `${name} عزیز\nبه فایل استور خوش آمدید\nاطلاعات ورود شما:\nکد املاک: ${newEstate.code}\nکلمه عبور: ${newEstate.password}\n\nارادتمند شما\nفایل استور`);
                     res.redirect('/download')
                 }).catch(err => console.log(err));
             });
