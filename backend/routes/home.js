@@ -9,6 +9,7 @@ var Notif = require('../models/Notif');
 var Settings = require('../models/Settings');
 const sms2 = require('../config/sms2');
 const sms = require('../config/sms');
+const generateCode = require('../config/generateCode');
 let district22Ratio = 100, district5Ratio = 100;
 let numberOfFiles, numberOfSellings, numberOfSellings2, numberOfRents, numberOfApartments, numberOfOffices, numberOfOthers, numberOfdistrict22, numberOfdistrict5, numberOfdistrict22Today, numberOfdistrict5Today;
 var updateFileRatio = () => {

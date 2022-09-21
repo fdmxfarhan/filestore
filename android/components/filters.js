@@ -35,6 +35,11 @@ const Filters = ({navigation, files, showingFiles, setShowingFiles, setLoading})
     var [parking, setparking] = useState(false);
     var [warehouse, setwarehouse] = useState(false);
     var [elevator, setelevator] = useState(false);
+    var [typeView, setTypeView] = useState(false);
+    var [stateView, setStateView] = useState(false);
+    var [areaView, setAreaView] = useState(false);
+    var [area5, setArea5] = useState(true);
+    var [area22, setArea22] = useState(true);
     var isChangable = (file) => {
         // file = file.changable.replace(' ', '');
         if(file.state != 'رهن و اجاره' && file.state != 'رهن کامل') return true;
@@ -83,6 +88,8 @@ const Filters = ({navigation, files, showingFiles, setShowingFiles, setLoading})
             else if(!cooperate    && files[i].state == 'مشارکت');
             else if(!rent         && files[i].state == 'رهن و اجاره');
             else if(!rent2        && files[i].state == 'رهن کامل');
+            else if(!area22       && files[i].area  == '22');
+            else if(!area5        && files[i].area  == '5');
             else {
                 if(parking && !haveParking(files[i]));
                 else if(warehouse && !haveWarehouse(files[i]));
@@ -103,6 +110,31 @@ const Filters = ({navigation, files, showingFiles, setShowingFiles, setLoading})
             style={styles.scrollview}
             contentContainerStyle={styles.contentContainerStyle}
             >
+            <TouchableOpacity onPress={() => {
+                typeView = !typeView;
+                setTypeView(typeView);
+                }}>
+                <Text style={styles.filterButtonDropdown}>نوع</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+                stateView = !stateView;
+                setStateView(stateView);
+                }}>
+                <Text style={styles.filterButtonDropdown}>وضعیت</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+                areaView = !areaView;
+                setAreaView(areaView);
+                }}>
+                <Text style={styles.filterButtonDropdown}>منطقه</Text>
+            </TouchableOpacity>
+            
+            <FilterButton onpress={() => {setchangable(!changable); changable = !changable; filterFiles();}} text={'قابل تبدیل'} enable={changable} />
+            <FilterButton onpress={() => {setparking(!parking); parking = !parking; filterFiles();}} text={'پارکینگ'} enable={parking} />
+            <FilterButton onpress={() => {setwarehouse(!warehouse); warehouse = !warehouse; filterFiles();}} text={'انباری'} enable={warehouse} />
+            <FilterButton onpress={() => {setelevator(!elevator); elevator = !elevator; filterFiles();}} text={'آسانسور'} enable={elevator} />
+        </ScrollView>
+        <View style={[styles.filterOptions, {display: typeView == true ? 'flex' : 'none', right: 0,}]}>
             <FilterButton onpress={() => {setapartment(!apartment); apartment = !apartment; filterFiles();}} text={'آپارتمان'} enable={apartment} />
             <FilterButton onpress={() => {setvilage(!vilage); vilage = !vilage; filterFiles();}} text={'ویلایی'} enable={vilage} />
             <FilterButton onpress={() => {setold(!old); old = !old; filterFiles();}} text={'کلنگی'} enable={old} />
@@ -111,17 +143,21 @@ const Filters = ({navigation, files, showingFiles, setShowingFiles, setLoading})
             <FilterButton onpress={() => {setofficeEstate(!officeEstate); officeEstate = !officeEstate; filterFiles();}} text={'موقعیت اداری'} enable={officeEstate} />
             <FilterButton onpress={() => {setland(!land); land = !land; filterFiles();}} text={'زمین'} enable={land} />
             <FilterButton onpress={() => {setmostaghelat(!mostaghelat); mostaghelat = !mostaghelat; filterFiles();}} text={'مستغلات'} enable={mostaghelat} />
+        </View>
+        
+        <View style={[styles.filterOptions, {display: stateView == true ? 'flex' : 'none', right: 130,}]}>
             <FilterButton onpress={() => {setsell(!sell); sell = !sell; filterFiles();}} text={'فروش'} enable={sell} />
             <FilterButton onpress={() => {setpresell(!presell); presell = !presell; filterFiles();}} text={'پیش‌فروش'} enable={presell} />
             <FilterButton onpress={() => {setexchange(!exchange); exchange = !exchange; filterFiles();}} text={'معاوضه'} enable={exchange} />
             <FilterButton onpress={() => {setcooperate(!cooperate); cooperate = !cooperate; filterFiles();}} text={'مشارکت'} enable={cooperate} />
             <FilterButton onpress={() => {setrent(!rent); rent = !rent; filterFiles();}} text={'رهن و اجاره'} enable={rent} />
             <FilterButton onpress={() => {setrent2(!rent2); rent2 = !rent2; filterFiles();}} text={'رهن کامل'} enable={rent2} />
-            <FilterButton onpress={() => {setchangable(!changable); changable = !changable; filterFiles();}} text={'قابل تبدیل'} enable={changable} />
-            <FilterButton onpress={() => {setparking(!parking); parking = !parking; filterFiles();}} text={'پارکینگ'} enable={parking} />
-            <FilterButton onpress={() => {setwarehouse(!warehouse); warehouse = !warehouse; filterFiles();}} text={'انباری'} enable={warehouse} />
-            <FilterButton onpress={() => {setelevator(!elevator); elevator = !elevator; filterFiles();}} text={'آسانسور'} enable={elevator} />
-        </ScrollView>
+        </View>
+
+        <View style={[styles.filterOptions, {display: areaView == true ? 'flex' : 'none', right: 250,}]}>
+            <FilterButton onpress={() => {setArea22(!area22); area22 = !area22; filterFiles();}} text={'منطقه 22'} enable={area22} />
+            <FilterButton onpress={() => {setArea5(!area5); area5 = !area5; filterFiles();}} text={'منطقه 5'} enable={area5} />
+        </View>
       </View>
     );
 }
@@ -131,12 +167,15 @@ const styles = StyleSheet.create({
         height: 52,
         marginVertical: 10,
         width: '90%',
-        textAlign: 'right'
+        textAlign: 'right',
+        overflow: 'visible',
+        zIndex: 10,
     },
     contentContainerStyle: {
         flexDirection: 'row-reverse'
     },
     scrollview: {
+
     },
     filterItem: {
         fontFamily: 'iransans',
@@ -148,6 +187,27 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: colors.blue,
         borderWidth: 2,
+    },
+    filterButtonDropdown: {
+        fontFamily: 'iransans',
+        fontSize: 18,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        marginHorizontal: 3,
+        marginVertical: 7,
+        borderRadius: 10,
+        borderColor: colors.blue,
+        backgroundColor: colors.white,
+        color: colors.blue,
+        borderWidth: 1,
+    },
+    filterOptions: {
+        position: 'absolute',
+        top: 60,
+        backgroundColor: colors.white,
+        zIndex: 100,
+        borderRadius: 10,
+        paddingHorizontal: 3,
     }
 });
 
