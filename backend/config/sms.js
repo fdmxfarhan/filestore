@@ -1,5 +1,5 @@
 var request = require('request');
-
+// Meli payamak
 module.exports = (phone, text) => {
     var options = {
         method: 'POST',
@@ -24,3 +24,7 @@ module.exports = (phone, text) => {
         console.log(body);
     });
 }
+
+
+
+

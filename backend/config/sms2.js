@@ -11,7 +11,8 @@ module.exports = (phone, text) => {
             "pass":  "faraz2581340517",
             "message" : text,
             // "from": "+98100020400",
-            "from": "+9810002003456789",
+            // "from": "+9810002003456789",
+            "from": "+983000505",
             "to" : [phone],
         },
         json: true,
@@ -25,3 +26,6 @@ module.exports = (phone, text) => {
         }
     });
 }
+
+
+
