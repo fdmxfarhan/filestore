@@ -214,5 +214,4 @@ router.post('/register-estate2', (req, res, next) => {
 router.get('/download', (req, res, next) => {
     res.render('./download');
 });
-
 module.exports = router;
