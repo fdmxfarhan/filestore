@@ -174,7 +174,6 @@ router.get('/enamad', (req, res, next) => {
 router.get('/return-guarantee', (req, res, next) => {
     res.render('./return-guarantee')
 });
-
 router.post('/register-estate2', (req, res, next) => {
     var {name, phone, address, password} = req.body;
     Estate.findOne({phone}, (err, estateExists) => {
