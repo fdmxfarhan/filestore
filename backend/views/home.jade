@@ -135,6 +135,68 @@ html
                     //- .icon
                         i.fa.fa-wrench
                     img(src="/img/sale.png", alt="")
+        section#applications-info 
+            .apps-tab-view 
+                .apps-tab-links 
+                    .tablink#apps-tablink1.active
+                        | ویندوز
+                        i.fa.fa-windows
+                    .tablink#apps-tablink2
+                        | اندروید
+                        i.fa.fa-android
+                    .tablink#apps-tablink3
+                        | MacOS
+                        i.fa.fa-apple
+                    .tablink#apps-tablink4
+                        | IOS
+                        i.fa.fa-apple
+                .apps-tab-conent#apps-tab-content1
+                    .info 
+                        h1
+                            i.fa.fa-windows
+                            | اپلیکیشن ویندوز
+                        p 
+                            | اپلیکیشن فایل استور برای سیستم عامل ویندوز جعت دسترسی به فایل‌های ثبت شده طراحی و قابل دسترس است. آخرین نسخه نرم افزار را می‌توانید از وبسایت رسمی فایل استور دانلود نمایید. 
+                            | جهت ورود به اپلیکیشن ابتدا یک حساب کاربری در وبسایت فایل استور بسازید. سپس اطلاعات ورود به شماره تماس ثبت شده پیامک می‌شود.
+                        a.download(href="") دانلود اپلیکیشن ویندوز
+                    .cover 
+                        img.img1(src="/img/windows-mockup.gif")
+                .apps-tab-conent#apps-tab-content2
+                    .info 
+                        h1
+                            i.fa.fa-android
+                            | اپلیکیشن اندروید
+                        p 
+                            | اپلیکیشن فایل استور برای سیستم عامل اندروید جعت دسترسی به فایل‌های ثبت شده طراحی و قابل دسترس است. آخرین نسخه نرم افزار را می‌توانید از کافه بازار یا وبسایت رسمی فایل استور دانلود نمایید. 
+                            | جهت ورود به اپلیکیشن ابتدا یک حساب کاربری جدید بسازید و پس از ورود بر روی دکمه بارگیری کلیک کنید.
+                        a.download(href="") دانلود اپلیکیشن اندروید
+                        a.bazar(href="https://cafebazaar.ir/app/com.filestoreapp") 
+                            img.bazar(src="/img/bazar2.png")
+                    .cover 
+                        img(src="/img/android-mockup.gif")
+                .apps-tab-conent#apps-tab-content3
+                    .info 
+                        h1
+                            i.fa.fa-apple
+                            | اپلیکیشن مک او اس
+                        p 
+                            | اپلیکیشن فایل استور برای سیستم عامل MacOS جعت دسترسی به فایل‌های ثبت شده طراحی و قابل دسترس است. آخرین نسخه نرم افزار را می‌توانید از وبسایت رسمی فایل استور دانلود نمایید. 
+                            | جهت ورود به اپلیکیشن ابتدا یک حساب کاربری در وبسایت فایل استور بسازید. سپس اطلاعات ورود به شماره تماس ثبت شده پیامک می‌شود.
+                        //- a.download(href="") دانلود اپلیکیشن مک او اس
+                    .cover 
+                        img.img2(src="/img/mockup-row.gif")
+                .apps-tab-conent#apps-tab-content4
+                    .info 
+                        h1
+                            i.fa.fa-apple
+                            | اپلیکیشن IOS
+                        p 
+                            | اپلیکیشن فایل استور برای سیستم عامل IOS جعت دسترسی به فایل‌های ثبت شده طراحی و قابل دسترس است. آخرین نسخه نرم افزار را می‌توانید از کافه بازار یا وبسایت رسمی فایل استور دانلود نمایید. 
+                            | جهت ورود به اپلیکیشن ابتدا یک حساب کاربری جدید بسازید و پس از ورود بر روی دکمه بارگیری کلیک کنید.
+                        //- a.download(href="") دانلود اپلیکیشن IOS
+                    .cover 
+                        img(src="/img/android-mockup.gif")
+                
         section.light 
             .map-section
                 .dual-content-view
@@ -248,6 +310,10 @@ html
                             label(for="phone") شماره تلفن: 
                             input(type="text" name="phone" placeholder="شماره تلفن")
                         button.submit(type="submit") ارسال درخواست
+                
+        section#network-info 
+            .info 
+
         section.light#aboutus
             .mockup 
                 .info 
@@ -409,4 +475,5 @@ html
             document.getElementById('vid').play();
         script(src="/js/slideShow.js") 
         script(src="/js/tabsView.js") 
+        script(src="/js/home.js") 
 

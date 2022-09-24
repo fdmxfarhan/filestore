@@ -8,7 +8,7 @@ module.exports = (phone, text) => {
             // "apikey": "oCKusiGXHrxn09KaLVplYGRwauCAUanMte-eq8qFhfs=",
             "op" : "send",
             "uname" : "09336448037",
-            "pass":  "faraz2581340517",
+            "pass":  "2240fdmxFDMX",
             "message" : text,
             "from": "+98100020400",
             // "from": "+9810002003456789",

@@ -79,7 +79,7 @@ router.get('/correctpishforosh', (req, res, next) => {
     ]}, {$set: {state: 'پیش‌فروش'}}, (err) => {
         res.send('done');
     });
-})
+});
 router.get('/', (req, res, next) => {
     Settings.findOne({}, (err, settings) => {
         console.log(settings)
@@ -162,7 +162,7 @@ router.get('/correct-mostaghelat', (req, res, next) => {
     File.updateMany({type: 'مستقلات'}, {$set: {type: 'مستغلات'}}, (err) => {
         res.send('done');
     });
-})
+});
 router.get('/test', (req, res, next) => {
     File.find({state: 'مشارکت', type: 'زمین', area: '22'}, (err, files) => {
         res.send(files.length.toString());
@@ -170,7 +170,7 @@ router.get('/test', (req, res, next) => {
 });
 router.get('/enamad', (req, res, next) => {
     res.render('enamad-test');
-})
+});
 router.get('/return-guarantee', (req, res, next) => {
     res.render('./return-guarantee')
 });
