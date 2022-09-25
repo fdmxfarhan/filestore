@@ -196,6 +196,26 @@ html
                         //- a.download(href="") دانلود اپلیکیشن IOS
                     .cover 
                         img(src="/img/android-mockup.gif")
+        section#network-info 
+            .network-cards-view
+                .card
+                    .cover
+                        img(src="/img/network1.png")
+                    .info 
+                        h1 راه اندازی شبکه داخلی
+                        p مشاور املاک با خرید اشتراک در اپلیکیشن فایل استور می‌تواند کاربران جدید با دسترسی های متفاوت تعریف نماید. این کاربران می‌توانند اطلاعات ثبت شده توسط ادمین و کاربرهای دیگر ثبت شده را مشاهده نمایند.
+                .card
+                    .cover
+                        img(src="/img/privacy.png")
+                    .info 
+                        h1 حفظ حریم خصوصی
+                        p تمامی اطلاعات شخصی کاربران از جمله اطلاعات حساب تنها توسط خود کاربر قابل دسترس است. فایل‌های شخصی ثبت شده توسط مشاورین املاک یا کاربران فقط و فقط توسط کاربران همان مشاور املاک قابل دسترس است. این فایل‌ها بر روی دستگاه کاربران ذخیرهه شده و وارد پایگاه داده اصلی نخواهند شد.
+                .card
+                    .cover
+                        img(src="/img/filing.png")
+                    .info 
+                        h1 نحوه ارائه فایل‌ها
+                        p اطلاعات فایل‌ها توسط کارشناسان ما از مالکین و فروشندگان به صورت روزانه جمع آوری شده و در اختیار کاربران قرار می‌گیرد. تمام فایل‌ها از پس از ثبت در پابگاه داده فایل استور توسط نرم افزار قابل بارگیری هستند.
                 
         section.light 
             .map-section
@@ -220,12 +240,12 @@ html
                                 .item 
                                     .title فایل‌های ثبت شده امروز: 
                                     .value #{Math.floor(numberOfdistrict22Today)}
-                                .item 
-                                    .title میانگین روزانه ثبت فایل: 
-                                    .value #{Math.floor(district22Ratio)}
-                                .item 
-                                    .title تعداد کاربران فعال:
-                                    .value 135
+                                //- .item 
+                                //-     .title میانگین روزانه ثبت فایل: 
+                                //-     .value #{Math.floor(district22Ratio)}
+                                //- .item 
+                                //-     .title تعداد کاربران فعال:
+                                //-     .value 135
                                 .item 
                                     .title پشتیبانی تلفنی:
                                     .value هر ساعت از شبانه روز
@@ -236,12 +256,12 @@ html
                                 .item 
                                     .title فایل‌های ثبت شده امروز: 
                                     .value #{Math.floor(numberOfdistrict5Today)}
-                                .item 
-                                    .title میانگین روزانه ثبت فایل:
-                                    .value #{Math.floor(district5Ratio)}
-                                .item 
-                                    .title تعداد کاربران فعال:
-                                    .value 135
+                                //- .item 
+                                //-     .title میانگین روزانه ثبت فایل:
+                                //-     .value #{Math.floor(district5Ratio)}
+                                //- .item 
+                                //-     .title تعداد کاربران فعال:
+                                //-     .value 135
                                 .item 
                                     .title پشتیبانی تلفنی:
                                     .value هر ساعت از شبانه روز
@@ -310,10 +330,6 @@ html
                             label(for="phone") شماره تلفن: 
                             input(type="text" name="phone" placeholder="شماره تلفن")
                         button.submit(type="submit") ارسال درخواست
-                
-        section#network-info 
-            .info 
-
         section.light#aboutus
             .mockup 
                 .info 
@@ -470,10 +486,9 @@ html
                 .link
                     script(src="https://www.zarinpal.com/webservice/TrustCode" type="text/javascript")
         include ./components/footer
-
         script.
             document.getElementById('vid').play();
-        script(src="/js/slideShow.js") 
-        script(src="/js/tabsView.js") 
-        script(src="/js/home.js") 
+        script(src="/js/slideShow.js")
+        script(src="/js/tabsView.js")
+        script(src="/js/home.js")
 
