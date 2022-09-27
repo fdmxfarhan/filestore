@@ -8,9 +8,9 @@ const passport = require('passport');
 
 router.get('/register', (req, res, next) => {
     // if(req.user)
-        res.redirect('/dashboard');
+        // res.redirect('/dashboard');
     // else
-        // res.render('register');
+    res.render('register');
 });
 
 router.get('/login', (req, res, next) => {

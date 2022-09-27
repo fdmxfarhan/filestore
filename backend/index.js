@@ -12,7 +12,6 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport'); 
 
-
 // routs requirement
 var homeRoute = require('./routes/home');
 var usersRoute = require('./routes/users');
@@ -21,13 +20,11 @@ var apiRoute = require('./routes/api');
 var paymentRoute = require('./routes/payment');
 var apiMobileRoute = require('./routes/api-mobile');
 
-
 // Mongo DB connect
 mongoose.connect('mongodb://localhost/filestore', {useNewUrlParser: true, useUnifiedTopology: true}, (err) =>{
     if(err) throw err;
     else console.log('Database connected :)');
 });
-
 
 // express session middleware
 const{
@@ -88,16 +85,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-
 // Routes Handlers
 app.use('/', homeRoute);
 app.use('/users', usersRoute);
 app.use('/api', apiRoute);
 app.use('/api-mobile', apiMobileRoute);
 app.use('/payment', paymentRoute);
-
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -126,9 +119,7 @@ app.use(function(err, req, res, next) {
 
 var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
-
 const io = require('socket.io')(httpsServer);
-
 
 httpServer.listen(3000);
 httpsServer.listen(443);
@@ -137,10 +128,7 @@ console.log('server is started :)')
 // app.listen(port, () => {
 //   console.log(`filestore is started at port ${port}`);
 // });
-
-
 var seo = require('express-seo')(app);
- 
 // For internatanalization, set the supported languages
 seo.setConfig({
     langs: ["en", "fa"]
