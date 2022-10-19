@@ -38,6 +38,9 @@ var EstateSchema = new mongoose.Schema({
   userpermissionapartment: Boolean,
   userpermissionoffice: Boolean,
   userpermissionfeild: Boolean,
+  confirmed: {type: Boolean, default: true},
+  confirmationCode: String,
+  confirmationDate: Date,
 });
 
 var Estate = mongoose.model('Estate', EstateSchema);

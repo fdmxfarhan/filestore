@@ -178,9 +178,12 @@ router.post('/register-estate2', (req, res, next) => {
     var {name, phone, address, password} = req.body;
     Estate.findOne({phone}, (err, estateExists) => {
         if(estateExists){
-            sms2(phone, `${name} عزیز\nبه فایل استور خوش آمدید\nاطلاعات ورود شما:\nکد املاک: ${estateExists.code}\nکلمه عبور: ${estateExists.password}\n\nارادتمند شما\nفایل استور`);
-            sms(phone, `${name} عزیز\nبه فایل استور خوش آمدید\nاطلاعات ورود شما:\nکد املاک: ${estateExists.code}\nکلمه عبور: ${estateExists.password}\n\nارادتمند شما\nفایل استور`);
-            res.redirect('/download');
+            estateExists.confirmationCode = generateCode(6);
+            sms2(phone, `کد تایید شما ${estateExists.confirmationCode}`);
+            sms(phone, `کد تایید شما ${estateExists.confirmationCode}`);
+            Estate.updateMany({_id: estateExists._id}, {$set: {confirmationCode: estateExists.confirmationCode}}, (err, doc) => {
+                res.redirect(`/confirm-phone?estateID=${estateExists._id}`);
+            })
         }
         else{
             Estate.find({}, (err, estates) => {
@@ -200,11 +203,13 @@ router.post('/register-estate2', (req, res, next) => {
                     planType: 'free',
                     payed: false,
                     payDate: new Date(),
+                    confirmed: false,
+                    confirmationCode: generateCode(6),
                 });
                 newEstate.save().then(doc => {
-                    sms2(phone, `${name} عزیز\nبه فایل استور خوش آمدید\nاطلاعات ورود شما:\nکد املاک: ${newEstate.code}\nکلمه عبور: ${newEstate.password}\n\nارادتمند شما\nفایل استور`);
-                    sms(phone, `${name} عزیز\nبه فایل استور خوش آمدید\nاطلاعات ورود شما:\nکد املاک: ${newEstate.code}\nکلمه عبور: ${newEstate.password}\n\nارادتمند شما\nفایل استور`);
-                    res.redirect('/download')
+                    sms2(phone, `کد تایید شما ${newEstate.confirmationCode}`);
+                    sms(phone, `کد تایید شما ${newEstate.confirmationCode}`);
+                    res.redirect(`/confirm-phone?estateID=${newEstate._id}`);
                 }).catch(err => console.log(err));
             });
         }
@@ -212,5 +217,35 @@ router.post('/register-estate2', (req, res, next) => {
 });
 router.get('/download', (req, res, next) => {
     res.render('./download');
+});
+router.get('/confirm-phone', (req, res, next) => {
+    var {estateID} = req.query;
+    Estate.findById(estateID, (err, estate) => {
+        res.render('./confirm', {
+            estateID,
+            estate,
+        });
+    });
+});
+router.post('/confirm-phone', (req, res, next) => {
+    var {estateID, confcode} = req.body;
+    Estate.findById(estateID, (err, estate) => {
+        if(estate && estate.confirmationCode == confcode){
+            sms2(estate.phone, `${estate.name} عزیز\nبه فایل استور خوش آمدید\nاطلاعات ورود شما:\nکد املاک: ${estate.code}\nکلمه عبور: ${estate.password}\n\nارادتمند شما\nفایل استور`);
+            sms(estate.phone, `${estate.name} عزیز\nبه فایل استور خوش آمدید\nاطلاعات ورود شما:\nکد املاک: ${estate.code}\nکلمه عبور: ${estate.password}\n\nارادتمند شما\nفایل استور`);
+            Estate.updateMany({_id: estate._id}, {$set: {confirmed: true}}, (err, doc) => {
+                req.flash('success_msg', 'ثبت نام با موفقیت انجام شد.')
+                res.redirect('/');
+                // res.redirect('/download');
+            });
+        }
+        else{
+            res.render('./confirm', {
+                estate,
+                estateID,
+                errors: [{msg: 'کد تایید اشتباه وارد شده.'}],
+            });
+        }
+    });
 });
 module.exports = router;

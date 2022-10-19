@@ -135,7 +135,7 @@ router.get('/delete-user', ensureAuthenticated, (req, res, next) => {
 });
 router.get('/estates', ensureAuthenticated, (req, res, next) => {
     if(req.user.role == 'admin'){
-        Estate.find({}, (err, estates) => {
+        Estate.find({confirmed: true}, (err, estates) => {
             var districts = [];
             for(var i=0; i<estates.length; i++){
                 if(districts.indexOf(estates[i].area) == -1) districts.push(estates[i].area)

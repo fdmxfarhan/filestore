@@ -896,7 +896,6 @@ body{scroll-behavior: smooth;}
         font-family: 'iransans';
         font-size: 1.2vw;
     }
-    /* ----------------------------------------------flag-------------------------------------------- */
     h1.sponsers-title{
         color: var(--darkblue);
         text-align: center;
@@ -1050,6 +1049,8 @@ body{scroll-behavior: smooth;}
         font-size: 1vw;
         text-align: justify;
     }
+    /* ----------------------------------------------flag-------------------------------------------- */
+    
 }
 @media only screen and (max-width: 800px) {
     header{
@@ -1818,8 +1819,165 @@ body{scroll-behavior: smooth;}
         margin-top: 3vw;
     }
     section .sponsers .link img{width: 12vw;}
+
+
+    h1.sponsers-title{
+        color: var(--darkblue);
+        text-align: center;
+        font-family: 'iransans';
+        font-size: 3vw;
+        padding: 0;
+        margin: 0;
+        margin-top: 3vw;
+    }
+    section .apps-tab-view{
+        background-color: white;
+        width: 90%;
+        margin: 2vw auto;
+        border-radius: 3vw;
+        overflow: hidden;
+        border-bottom: var(--darkblue) 1vw solid;
+    }
+    section .apps-tab-view .apps-tab-links{
+        overflow: hidden;
+    }
+    section .apps-tab-view .apps-tab-links .tablink{
+        float: right;
+        width: 25%;
+        text-align: center;
+        padding: 3vw 0;
+        cursor: pointer;
+        color: var(--darkblue);
+        border-bottom: var(--darkblue) 0.3vw solid;
+        font-family: 'iransans';
+        font-size: 3.2vw;
+    }
+    section .apps-tab-view .apps-tab-links .tablink:hover{
+        background-color: var(--lightergray);
+    }
+    section .apps-tab-view .apps-tab-links .tablink.active{
+        background-color: var(--darkblue);
+        color: white;
+    }
+    section .apps-tab-view .apps-tab-links .tablink i{
+        padding-right: 2vw;
+        font-size: 3.8vw;
+    }
+    section .apps-tab-view .apps-tab-conent{
+        overflow: hidden;
+        padding: 4vw 0;
+        display: none;
+    }
+    section .apps-tab-view .apps-tab-conent.active{
+        display: block;
+    }
+    section .apps-tab-view .apps-tab-conent .info{
+        float: right;
+        width: 100%;
+        position: relative;
+    }
+    section .apps-tab-view .apps-tab-conent .cover{
+        float: right;
+        width: 100%;
+        text-align: left;
+        direction: ltr;
+    }
+    section .apps-tab-view .apps-tab-conent .cover img{
+        width: 40%;
+        display: block;
+        margin: 0 5vw;
+    }
+    section .apps-tab-view .apps-tab-conent .cover img.img1{
+        width: 80%;
+        margin: 1vw 2vw;
+    }
+    section .apps-tab-view .apps-tab-conent .cover img.img2{
+        width: 60%;
+        margin: 1vw 4vw;
+    }
+    section .apps-tab-view .apps-tab-conent .info h1{
+        padding: 0 4vw;
+        margin: 0;
+        margin-top: 4vw;
+        font-family: 'iransans';
+        font-size: 3.2vw;
+        color: var(--darkblue);
+    }
+    section .apps-tab-view .apps-tab-conent .info h1 i{
+        padding-left: 3.5vw;
+    }
+    section .apps-tab-view .apps-tab-conent .info p{
+        padding: 0 4vw;
+        margin: 0;
+        margin-top: 2vw;
+        font-family: 'iransans';
+        font-size: 3vw;
+        color: var(--text);
+        text-align: justify;
+    }
+    section .apps-tab-view .apps-tab-conent .info a.download{
+        text-decoration: none;
+        font-family: 'iransans';
+        font-size: 3vw;
+        display: block;
+        width: fit-content;
+        background-color: var(--darkblue);
+        border-radius: 3vw;
+        color: white;
+        margin-right: 4vw;
+        padding: 1vw 3vw;
+        margin-top: 3vw;
+    }
+    section .apps-tab-view .apps-tab-conent .info a.download:hover{
+        background-color: var(--green);
+    }
+    section .apps-tab-view .apps-tab-conent .info a.bazar{
+        margin-top: 1vw;
+        display: block;
+        margin-right: 4vw;
+        /* position: absolute;
+        bottom: -2vw;
+        left: 0; */
+    }
+    .network-cards-view{
+        width: 90%;
+        margin: 6vw auto;
+        overflow: hidden;
+    }
+    .network-cards-view .card{
+        float: right;
+        width: 100%;
+        margin-top: 4vw;
+        background-color: white;
+        border-radius: 3vw;
+        border-bottom: var(--darkblue) 1vw solid;
+        height: 63vh;
+    }
+    .network-cards-view .cover{
+    }
+    .network-cards-view .cover img{
+        width: 100%;
+        display: block;
+    }
+    .network-cards-view .info{
+        width: 90%;
+        margin: 1vw auto;
+    }
+    .network-cards-view .info h1{
+        color: var(--darkblue);
+        font-family: 'iransans';
+        font-size: 3.2vw;
+    }
+    .network-cards-view .info p{
+        color: var(--text);
+        font-family: 'iransans';
+        font-size: 3vw;
+        text-align: justify;
+    }
 }
 img.enamad{
     width: 5vw;
     height: 5vw;
 }
+
+

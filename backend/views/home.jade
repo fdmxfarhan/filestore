@@ -28,10 +28,10 @@ html
                     a.link(href="/users/login")= user.fullname == ''? 'پنل کاربری' : user.fullname
                         i.fa.fa-user
                 -}else{
-                    //- a.link(href="/users/login") ثبت نام
-                    //-     i.fa.fa-user
                     a.link(href="/users/login") ورود
                         i.fa.fa-sign-in
+                    a.link(href="/users/register") عضویت
+                        i.fa.fa-user-plus
                 -}
             nav 
                 a.logo(href="/") 
@@ -170,7 +170,7 @@ html
                             | اپلیکیشن فایل استور برای سیستم عامل اندروید جعت دسترسی به فایل‌های ثبت شده طراحی و قابل دسترس است. آخرین نسخه نرم افزار را می‌توانید از کافه بازار یا وبسایت رسمی فایل استور دانلود نمایید. 
                             | جهت ورود به اپلیکیشن ابتدا یک حساب کاربری جدید بسازید و پس از ورود بر روی دکمه بارگیری کلیک کنید.
                         a.download(href="/FileStore v1.0.8.apk") دانلود اپلیکیشن اندروید
-                        a.bazar(href="https://cafebazaar.ir/app/com.filestoreapp") 
+                        a.bazar(href="https://cafebazaar.ir/app/com.filestoreapp" target="_blank")
                             img.bazar(src="/img/bazar2.png")
                     .cover 
                         img(src="/img/android-mockup.gif")
@@ -183,7 +183,6 @@ html
                             | اپلیکیشن فایل استور برای سیستم عامل MacOS جعت دسترسی به فایل‌های ثبت شده طراحی و قابل دسترس است. آخرین نسخه نرم افزار را می‌توانید از وبسایت رسمی فایل استور دانلود نمایید. 
                             | جهت ورود به اپلیکیشن ابتدا یک حساب کاربری در وبسایت فایل استور بسازید. سپس اطلاعات ورود به شماره تماس ثبت شده پیامک می‌شود.
                         a.download(href="/filestore-darwin-x64.zip") دانلود اپلیکیشن MacOS
-                        //- a.download(href="") دانلود اپلیکیشن مک او اس
                     .cover 
                         img.img2(src="/img/mockup-row.gif")
                 .apps-tab-conent#apps-tab-content4
@@ -194,7 +193,8 @@ html
                         p 
                             | اپلیکیشن فایل استور برای سیستم عامل IOS جعت دسترسی به فایل‌های ثبت شده طراحی و قابل دسترس است. آخرین نسخه نرم افزار را می‌توانید از کافه بازار یا وبسایت رسمی فایل استور دانلود نمایید. 
                             | جهت ورود به اپلیکیشن ابتدا یک حساب کاربری جدید بسازید و پس از ورود بر روی دکمه بارگیری کلیک کنید.
-                        //- a.download(href="") دانلود اپلیکیشن IOS
+                        a.bazar(href="https://www.sibche.com" target="_blank") 
+                            img.bazar(src="/img/sibche.jpg")
                     .cover 
                         img(src="/img/android-mockup.gif")
         section#network-info 
@@ -217,7 +217,6 @@ html
                     .info 
                         h1 نحوه ارائه فایل‌ها
                         p اطلاعات فایل‌ها توسط کارشناسان ما از مالکین و فروشندگان به صورت روزانه جمع آوری شده و در اختیار کاربران قرار می‌گیرد. تمام فایل‌ها از پس از ثبت در پابگاه داده فایل استور توسط نرم افزار قابل بارگیری هستند.
-                
         section.light 
             .map-section
                 .dual-content-view
@@ -487,6 +486,7 @@ html
                 .link
                     script(src="https://www.zarinpal.com/webservice/TrustCode" type="text/javascript")
         include ./components/footer
+        include ./components/messages
         script.
             document.getElementById('vid').play();
         script(src="/js/slideShow.js")
