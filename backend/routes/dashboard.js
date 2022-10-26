@@ -225,10 +225,10 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
                         if(typeof(price) != 'number') return '';
                         var text = price.toString();
                         if(typeof(text) != 'string') return '';
-                        if(typeof(text) == 'string'){
+                        try {
                             text = text.replaceAll('.', '');
-                            text = text.replace(/\D/g,'');
-                        }
+                        } catch (error){}
+                        text = text.replace(/\D/g,'');
                         var newText = '';
                         for(var i=0; i<text.length; i++){
                             var j = text.length - i;
