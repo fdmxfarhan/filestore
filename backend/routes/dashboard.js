@@ -22,6 +22,7 @@ const reader = require('xlsx');
 var excel = require('excel4node');
 var Jimp = require('jimp')
 
+Estate.updateMany({}, {$set: {confirmed: true}}, (err, doc) => console.log('done'));
 
 var strToArray = (str) => {
     arr = str.split(',');
