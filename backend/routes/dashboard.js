@@ -13,7 +13,7 @@ var bodyparser = require('body-parser');
 const multer = require('multer');
 const mkdirp = require('mkdirp');
 var {convertDate, showPrice, showPrice2, get_year_month_day, jalali_to_gregorian, getAddress} = require('../config/dateConvert');
-var phantomjs = require('phantomjs');
+// var phantomjs = require('phantomjs');
 var pdf = require("pdf-creator-node");
 var fs = require('fs');
 var path = require('path');
@@ -522,102 +522,102 @@ router.get('/make-not-payed', ensureAuthenticated, (req, res, next) => {
         res.redirect('/dashboard')
     });
 });
-router.get('/pdf-file', ensureAuthenticated, (req, res, next) => {
-    var {fileID} = req.query;
-    File.findById(fileID, (err, file) => {
-        var options = {
-            phantomPath: path.join(__dirname, '../node_modules/phantomjs/lib/phantom/bin/phantomjs'),
-            // phantomPath: '/usr/local/share/phantomjs-1.9.8-linux-x86_64/bin/phantomjs',
-            format: "A3",
-            orientation: "landscape",
-            border: "5mm",
-            header: {
-                height: "0",
-                contents: ''
-            },
-            footer: {
-                height: "0mm",
-                contents: {}
-            },
-        };
-        fs.readFile('./public/file.html', 'utf8', (err, form1) => {
-            var document1 = {
-                html: form1,
-                data: {
-                    ownerName: file.ownerName == ''? '-' : file.ownerName,
-                    constPhone: file.constPhone == ''? '-' : file.constPhone,
-                    address: file.address == ''? '-' : file.address,
-                    phone: file.phone == ''? '-' : file.phone,
-                    date: file.date == ''? '-' : file.date,
-                    type: file.type == ''? '-' : file.type,
-                    fileNumber: file.fileNumber == ''? '-' : file.fileNumber,
-                    state: file.state == ''? '-' : file.state,
-                    role: file.role == ''? '-' : file.role,
-                    meterage: file.meterage == ''? '-' : file.meterage,
-                    bedroom: file.bedroom == ''? '-' : file.bedroom,
-                    floor: file.floor == ''? '-' : file.floor,
-                    numOfFloors: file.numOfFloors == ''? '-' : file.numOfFloors,
-                    unit: file.unit == ''? '-' : file.unit,
-                    buildAge: file.buildAge == ''? '-' : file.buildAge,
-                    parking: file.parking == ''? '-' : file.parking,
-                    warehouse: file.warehouse == ''? '-' : file.warehouse,
-                    elevator: file.elevator == ''? '-' : file.elevator,
-                    kitchen: file.kitchen == ''? '-' : file.kitchen,
-                    view: file.view == ''? '-' : file.view,
-                    floortype: file.floortype == ''? '-' : file.floortype,
-                    service: file.service == ''? '-' : file.service,
-                    heatingAndCoolingSystem: file.heatingAndCoolingSystem == ''? '-' : file.heatingAndCoolingSystem,
-                    meterage2: file.meterage2 == ''? '-' : file.meterage2,
-                    bedroom2: file.bedroom2 == ''? '-' : file.bedroom2,
-                    floor2: file.floor2 == ''? '-' : file.floor2,
-                    numOfFloors2: file.numOfFloors2 == ''? '-' : file.numOfFloors2,
-                    unit2: file.unit2 == ''? '-' : file.unit2,
-                    buildAge2: file.buildAge2 == ''? '-' : file.buildAge2,
-                    parking2: file.parking2 == ''? '-' : file.parking2,
-                    warehouse2: file.warehouse2 == ''? '-' : file.warehouse2,
-                    elevator2: file.elevator2 == ''? '-' : file.elevator2,
-                    kitchen2: file.kitchen2 == ''? '-' : file.kitchen2,
-                    view2: file.view2 == ''? '-' : file.view2,
-                    floortype2: file.floortype2 == ''? '-' : file.floortype2,
-                    service2: file.service2 == ''? '-' : file.service2,
-                    heatingAndCoolingSystem2: file.heatingAndCoolingSystem2 == ''? '-' : file.heatingAndCoolingSystem2,
-                    meterage3: file.meterage3 == ''? '-' : file.meterage3,
-                    bedroom3: file.bedroom3 == ''? '-' : file.bedroom3,
-                    floor3: file.floor3 == ''? '-' : file.floor3,
-                    numOfFloors3: file.numOfFloors3 == ''? '-' : file.numOfFloors3,
-                    unit3: file.unit3 == ''? '-' : file.unit3,
-                    buildAge3: file.buildAge3 == ''? '-' : file.buildAge3,
-                    parking3: file.parking3 == ''? '-' : file.parking3,
-                    warehouse3: file.warehouse3 == ''? '-' : file.warehouse3,
-                    elevator3: file.elevator3 == ''? '-' : file.elevator3,
-                    kitchen3: file.kitchen3 == ''? '-' : file.kitchen3,
-                    view3: file.view3 == ''? '-' : file.view3,
-                    floortype3: file.floortype3 == ''? '-' : file.floortype3,
-                    service3: file.service3 == ''? '-' : file.service3,
-                    heatingAndCoolingSystem3: file.heatingAndCoolingSystem3 == ''? '-' : file.heatingAndCoolingSystem3,
-                    options: file.options == ''? '-' : file.options,
-                    price: file.price == ''? '-' : file.price,
-                    fullPrice: file.fullPrice == ''? '-' : file.fullPrice,
-                    area: file.area == ''? '-' : file.area,
-                    lone: file.lone == ''? '-' : file.lone,
-                    changable: file.changable == ''? '-' : file.changable,
-                    discount: file.discount == ''? '-' : file.discount,
-                    documentState: file.documentState == ''? '-' : file.documentState,
-                    transfer: file.transfer == ''? '-' : file.transfer,
-                    advertiser: file.advertiser == ''? '-' : file.advertiser,
-                },
-                path: 'public/files/file.pdf',
-                type: "",
-            };
-            pdf.create(document1, options).then((r) => {
-                res.sendFile(path.join(__dirname, '../public/files/file.pdf'));
-                // res.render('pdf-file', {
-                //     user: req.user,
-                // });
-            }).catch((error) => {console.error(error)});
-        });
-    });
-});
+// router.get('/pdf-file', ensureAuthenticated, (req, res, next) => {
+//     var {fileID} = req.query;
+//     File.findById(fileID, (err, file) => {
+//         var options = {
+//             phantomPath: path.join(__dirname, '../node_modules/phantomjs/lib/phantom/bin/phantomjs'),
+//             // phantomPath: '/usr/local/share/phantomjs-1.9.8-linux-x86_64/bin/phantomjs',
+//             format: "A3",
+//             orientation: "landscape",
+//             border: "5mm",
+//             header: {
+//                 height: "0",
+//                 contents: ''
+//             },
+//             footer: {
+//                 height: "0mm",
+//                 contents: {}
+//             },
+//         };
+//         fs.readFile('./public/file.html', 'utf8', (err, form1) => {
+//             var document1 = {
+//                 html: form1,
+//                 data: {
+//                     ownerName: file.ownerName == ''? '-' : file.ownerName,
+//                     constPhone: file.constPhone == ''? '-' : file.constPhone,
+//                     address: file.address == ''? '-' : file.address,
+//                     phone: file.phone == ''? '-' : file.phone,
+//                     date: file.date == ''? '-' : file.date,
+//                     type: file.type == ''? '-' : file.type,
+//                     fileNumber: file.fileNumber == ''? '-' : file.fileNumber,
+//                     state: file.state == ''? '-' : file.state,
+//                     role: file.role == ''? '-' : file.role,
+//                     meterage: file.meterage == ''? '-' : file.meterage,
+//                     bedroom: file.bedroom == ''? '-' : file.bedroom,
+//                     floor: file.floor == ''? '-' : file.floor,
+//                     numOfFloors: file.numOfFloors == ''? '-' : file.numOfFloors,
+//                     unit: file.unit == ''? '-' : file.unit,
+//                     buildAge: file.buildAge == ''? '-' : file.buildAge,
+//                     parking: file.parking == ''? '-' : file.parking,
+//                     warehouse: file.warehouse == ''? '-' : file.warehouse,
+//                     elevator: file.elevator == ''? '-' : file.elevator,
+//                     kitchen: file.kitchen == ''? '-' : file.kitchen,
+//                     view: file.view == ''? '-' : file.view,
+//                     floortype: file.floortype == ''? '-' : file.floortype,
+//                     service: file.service == ''? '-' : file.service,
+//                     heatingAndCoolingSystem: file.heatingAndCoolingSystem == ''? '-' : file.heatingAndCoolingSystem,
+//                     meterage2: file.meterage2 == ''? '-' : file.meterage2,
+//                     bedroom2: file.bedroom2 == ''? '-' : file.bedroom2,
+//                     floor2: file.floor2 == ''? '-' : file.floor2,
+//                     numOfFloors2: file.numOfFloors2 == ''? '-' : file.numOfFloors2,
+//                     unit2: file.unit2 == ''? '-' : file.unit2,
+//                     buildAge2: file.buildAge2 == ''? '-' : file.buildAge2,
+//                     parking2: file.parking2 == ''? '-' : file.parking2,
+//                     warehouse2: file.warehouse2 == ''? '-' : file.warehouse2,
+//                     elevator2: file.elevator2 == ''? '-' : file.elevator2,
+//                     kitchen2: file.kitchen2 == ''? '-' : file.kitchen2,
+//                     view2: file.view2 == ''? '-' : file.view2,
+//                     floortype2: file.floortype2 == ''? '-' : file.floortype2,
+//                     service2: file.service2 == ''? '-' : file.service2,
+//                     heatingAndCoolingSystem2: file.heatingAndCoolingSystem2 == ''? '-' : file.heatingAndCoolingSystem2,
+//                     meterage3: file.meterage3 == ''? '-' : file.meterage3,
+//                     bedroom3: file.bedroom3 == ''? '-' : file.bedroom3,
+//                     floor3: file.floor3 == ''? '-' : file.floor3,
+//                     numOfFloors3: file.numOfFloors3 == ''? '-' : file.numOfFloors3,
+//                     unit3: file.unit3 == ''? '-' : file.unit3,
+//                     buildAge3: file.buildAge3 == ''? '-' : file.buildAge3,
+//                     parking3: file.parking3 == ''? '-' : file.parking3,
+//                     warehouse3: file.warehouse3 == ''? '-' : file.warehouse3,
+//                     elevator3: file.elevator3 == ''? '-' : file.elevator3,
+//                     kitchen3: file.kitchen3 == ''? '-' : file.kitchen3,
+//                     view3: file.view3 == ''? '-' : file.view3,
+//                     floortype3: file.floortype3 == ''? '-' : file.floortype3,
+//                     service3: file.service3 == ''? '-' : file.service3,
+//                     heatingAndCoolingSystem3: file.heatingAndCoolingSystem3 == ''? '-' : file.heatingAndCoolingSystem3,
+//                     options: file.options == ''? '-' : file.options,
+//                     price: file.price == ''? '-' : file.price,
+//                     fullPrice: file.fullPrice == ''? '-' : file.fullPrice,
+//                     area: file.area == ''? '-' : file.area,
+//                     lone: file.lone == ''? '-' : file.lone,
+//                     changable: file.changable == ''? '-' : file.changable,
+//                     discount: file.discount == ''? '-' : file.discount,
+//                     documentState: file.documentState == ''? '-' : file.documentState,
+//                     transfer: file.transfer == ''? '-' : file.transfer,
+//                     advertiser: file.advertiser == ''? '-' : file.advertiser,
+//                 },
+//                 path: 'public/files/file.pdf',
+//                 type: "",
+//             };
+//             pdf.create(document1, options).then((r) => {
+//                 res.sendFile(path.join(__dirname, '../public/files/file.pdf'));
+//                 // res.render('pdf-file', {
+//                 //     user: req.user,
+//                 // });
+//             }).catch((error) => {console.error(error)});
+//         });
+//     });
+// });
 router.post('/add-user', ensureAuthenticated, (req, res, next) => {
     var {fullname, idNumber, password, addFilePermission, removeFilePermission, editFilePermission, 
         addEstatePermission, removeEstatePermission, editEstatePermission,notifPermission,
