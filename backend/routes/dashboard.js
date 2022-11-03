@@ -470,8 +470,10 @@ router.post('/edit-file', ensureAuthenticated, upload.fields(uploadFields), (req
     var body = req.body;
     var files = req.files;
     body.creationDate = new Date();
-    if(body.price) body.price = parseInt(body.price.replaceAll('.', ''));
-    if(body.fullPrice) body.fullPrice = parseInt(body.fullPrice.replaceAll('.', ''));
+    // if(body.price) body.price = parseInt(body.price.replaceAll('.', ''));
+    // if(body.fullPrice) body.fullPrice = parseInt(body.fullPrice.replaceAll('.', ''));
+    if(body.price) body.price = parseInt(body.price);
+    if(body.fullPrice) body.fullPrice = parseInt(body.fullPrice);
     if(req.user.role == 'admin' || req.user.role == 'operator'){
         File.findById(fileID, (err, f) => {
             body.images = f.images;
