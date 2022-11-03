@@ -447,8 +447,8 @@ router.post('/add-file', ensureAuthenticated, upload.fields(uploadFields), (req,
                     })
             });
         }
-        if(body.price) body.price = parseInt(body.price.toString().replaceAll('.', ''));
-        if(body.fullPrice) body.fullPrice = parseInt(body.fullPrice.toString().replaceAll('.', ''));
+        // if(body.price) body.price = parseInt(body.price.toString().replaceAll('.', ''));
+        // if(body.fullPrice) body.fullPrice = parseInt(body.fullPrice.toString().replaceAll('.', ''));
         File.find({}, (err, files) => {
             var newFileNumber = 0;
             for(var i=0; i<files.length; i++){
