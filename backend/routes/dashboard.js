@@ -222,20 +222,21 @@ router.get('/files', ensureAuthenticated, (req, res, next) => {
                     strToArray,
                     allAreas,
                     getCorrectPrice: function(price){
-                        if(typeof(price) != 'number') return '';
-                        var text = price.toString();
-                        if(typeof(text) != 'string') return '';
-                        try {
-                            text = text.replaceAll('.', '');
-                        } catch (error){}
-                        text = text.replace(/\D/g,'');
-                        var newText = '';
-                        for(var i=0; i<text.length; i++){
-                            var j = text.length - i;
-                            if(j%3 == 0 && j>1 && i != 0) newText += '.';
-                            newText += text[i];
-                        }
-                        return newText;
+                        // if(typeof(price) != 'number') return '';
+                        // var text = price.toString();
+                        // if(typeof(text) != 'string') return '';
+                        // try {
+                        //     text = text.replaceAll('.', '');
+                        // } catch (error){}
+                        // text = text.replace(/\D/g,'');
+                        // var newText = '';
+                        // for(var i=0; i<text.length; i++){
+                        //     var j = text.length - i;
+                        //     if(j%3 == 0 && j>1 && i != 0) newText += '.';
+                        //     newText += text[i];
+                        // }
+                        // return newText;
+                        return price;
                     }
                 });
             })
