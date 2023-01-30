@@ -82,7 +82,7 @@ router.get('/correctpishforosh', (req, res, next) => {
 });
 router.get('/', (req, res, next) => {
     Settings.findOne({}, (err, settings) => {
-        console.log(settings)
+        // console.log(settings)
         now = new Date();
         res.render('home', {
             convertDate,
