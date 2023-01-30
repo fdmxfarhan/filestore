@@ -155,7 +155,7 @@ router.post('/get-files2-new', (req, res, next) => {
                     }
                     var now = new Date();
                     files.reverse();
-                    files.filter(e => now - e.creationDate.getTime() < 15 * 24 * 60 * 60 * 1000);
+                    // files.filter(e => now - e.creationDate.getTime() < 15 * 24 * 60 * 60 * 1000);
                     var newFiles = [];
                     for (let i = 0; i < files.length; i++) {
                         if(estate.lastRefreshFiles.indexOf(files[i].fileNumber) == -1){
